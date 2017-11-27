@@ -1,0 +1,188 @@
+% load FRI thesis document class with options: 
+% - english for writing in english
+% - slovene for writing in slovene
+% - BVSRI for a BVSRI thesis - BVSRI diplomska naloga
+% - BUNRI for a BUNRI thesis - BUNRI diplomska naloga
+% - BUNRI for a BUNRM thesis - BUNRM diplomska naloga
+% - BSc for a BSc thesis - diplomska naloga
+% - MSc for a MSc thesis - magisterska naloga
+% - PhD for a PhD thesis - doktorska disertacija
+% - [PhD, funded] for a funded PhD thesis - doktorska disertacija MR iz gospodarstva
+% - Presern for a Presern award - delo namenjeno kandidiranju za Presernovo nagrado
+% - press for print version
+% - online for online version - coloured and active figure/table/... links
+% - notes for displaying author notes (command \note{note}{linkedto}) or
+%   for more capabilities load the todonotes package - http://ctan.org/pkg/todonotes
+\documentclass[english,PhD]{FRIthesis}
+
+% titlepage info
+% - use \title[short title][short other language title]{title}{other language title} to define the title; short title is optional; 
+%       both main and alternate language MUST be supplied for correct PDF generation; 
+%   eg. \title[slo short][eng short]{slo}{eng} when writing in slovene or 
+%       \title[eng short][slo short]{eng}{slo} when writing in english
+% - use \author{Name Surname}{StudentID} to define the author(s); use CSL to supply multiple authors
+% - use \advisor{Name Surname} to define the advisor; 
+% - use \coadvisor{Name Surname} to define coadvisor(s); use CSL to supply multiple coadvisors
+% - use \keywords{CSL keywords}{other language CSL keywords} to supply keywords;
+%   eg. \keywords{slo keyword 1, slo keyword 2}{eng keyword 1, eng keyword 2} when writing in slovene or 
+%       \keywords{eng keyword 1, eng keyword 2}{slo keyword 1, slo keyword 2} when writing in english
+% - use \companyLogo{logo.pdf} for specifying the company logo in case of a funded PhD thesis
+% - use \approvedByA-D[affiliation]{dr. Name Surname}{full title}{role} for specifying the approval commitee members; 
+%       affiliation is optional, but required for external examiners
+% - use \publicationList{\item A} for specifying the previous publication list
+\title[Fuzzy animats]%
+      [Mehki animati]%
+      {Fuzzy model for a computer simulation of bird flocking}%
+      {Mehki model za računalniško simulacijo letenja ptic v jati}
+\author[I. Lebar Bajec]{Iztok Lebar Bajec}{24940006}
+\advisor{Nikolaj Zimic}
+        {Nikolaja Zimica}
+\keywords{bird, flock, boid, animat, fuzzy logic, fuzzy modelling, fuzzy animat, artificial life, behavioural animation}
+         {ptica, jata, boid, animat, mehka logika, mehko modeliranje, mehki animat, umetno življenje, vedenjska animacija}
+\makeatletter
+\if@slovene
+ \companyLogo{cc/company_logo-slo}
+ \approvedByA{dr. Nikolaj Zimic}{izredni profesor za računalništvo in informatiko}{mentor in član ocenjevalne komisije}
+ \approvedByB{dr. Blaž Zupan}{izredni profesor za računalništvo in informatiko}{predsednik ocenjevalne komisije}
+ \approvedByC[University of Rhode Island]{dr. Frank H. Heppner}{Professor Emeritus of Biological Sciences}{zunanji član ocenjevalne komisije}
+\else
+ \companyLogo{cc/company_logo-eng}
+ \approvedByA{dr. Nikolaj Zimic}{Associate Professor of Computer and Information Science}{advisor and examiner}
+ \approvedByB{dr. Blaž Zupan}{Associate Professor of Computer and Information Science}{examiner}
+ \approvedByC[University of Rhode Island]{dr. Frank H. Heppner}{Professor Emeritus of Biological Sciences}{external examiner}
+\fi
+\publicationList{  
+ \item {I. {Lebar Bajec}, N. Zimic, and M. Mraz}. {Fuzzifying the thoughts of animats}. In {T. Bilgiç, B. De Baets, and O. Kaynak}, editors, \emph{Proc. of IFSA 2003}, volume {2715} of \emph{Lecture Notes in Artificial Intelligence}, pages~{195--202}, {Berlin}, 2003. {Springer-Verlag}.
+ \item {I. {Lebar Bajec}, N. Zimic, and M. Mraz}. {Boids with a fuzzy way of thinking}. In {H. Leung}, editor, \emph{Proc. of ASC 2003}, pages~{58--62}, {Anaheim}, {2003}. {ACTA Press}.
+ \item {I. {Lebar Bajec}}. \emph{Fuzzy logic and bird flock simulations}. Invited lecture, University of Rhode Island, Department of Biological Sciences, Kingston, RI, {15/04/2005}.
+ \item {I. {Lebar Bajec}, N. Zimic, and M. Mraz}. {Simulating flocks on the wing: the fuzzy approach}. \emph{Journal of Theoretical Biology}, {233}({2}):{199--220}, {2005}. \doi{10.1016/j.jtbi.2004.10.003}
+}
+\makeatother
+
+\forceDate{6}{2005}
+
+\thesisId{80}
+\thesisPages{134}
+
+\coverImage{cc/coverImage.jpg}
+\coverTitle{Fuzzy model for a\\ computer simulation\\ of bird flocking}
+\coverTitleLoc{NE}
+\coverTitleColour{P1797}
+
+% define common abbreviations
+% define i.e.
+\newcommand{\ie}{i.e.}
+% define e.g.
+\newcommand{\eg}{e.g.}
+% define etc.
+\newcommand{\etc}{etc.}
+% define et al.
+\newcommand{\etal}{et al.}
+% define tab.
+\newcommand{\tab}{Tab.}
+% define eq.
+\newcommand{\eq}{Eq.}
+% define fig.
+\newcommand{\fig}{Fig.}
+% define figs.
+\newcommand{\figs}{Figs.}
+% define QED symbol
+\newcommand{\QED}{\hfill\ensuremath{\Box}}
+
+% define macros for frequently used commands 
+\newcommand{\eng}[1]{angl. #1}
+
+% define custom macros for notation
+%% define real numbers symbol
+\newcommand{\Rset}{\ensuremath{\mathbb{R}}} 
+\newcommand{\R}{\Rset} 
+%% define natural numbers symbol
+\newcommand{\Nset}{\ensuremath{\mathbb{N}}} 
+\newcommand{\N}{\Nset} 
+%% define euclidean vector space symbol
+\newcommand{\Eset}{\ensuremath{\mathbb{E}}} 
+\newcommand{\E}{\Eset} 
+%% define degrees symbol
+\renewcommand{\deg}{°} 
+\newcommand{\degC}{{\deg}\ensuremath{\mathrm{C}}} 
+%
+%% define set style
+\newcommand{\set}[1]{{\ensuremath{\mathbf{#1}}}} 
+% \symbfup resolves issue where \tilde{\mathbf{}} produces an "Internal error: bad native font flag in `map_char_to_glyph'"
+% see https://tex.stackexchange.com/questions/353443/xetex-unicode-math-tilde-on-bold-characters
+%% define power set
+\newcommand{\powset}[1]{{\ensuremath{\mathcal{P}(#1)}}} 
+%% define vector style
+\newcommand{\vect}[1]{{\ensuremath{\mathbf{#1}}}}
+% define automaton style
+\newcommand{\autom}[1]{{\ensuremath{\mathrm{#1}}}} 
+% define fov symbol
+\newcommand{\fov}{fov}
+% define algebraic product symbol
+\newcommand{\aprod}{\ifxetex\ensuremath{\capdot}\else\ensuremath{\mathaccent\cdot\cap}\fi}
+% define equation reference style
+\providecommand{\eqref}[1]{(\ref{#1})} 
+
+% declare signum operator
+\DeclareMathOperator*{\sgn}{sgn}
+% declare centre of gravity operator
+\DeclareMathOperator*{\cog}{cog}
+
+% define fuzzy automaton style
+\newcommand{\fautom}[1]{{\ensuremath{\tilde{\mathrm{#1}}}}} 
+% define fuzzy set style
+\newcommand{\fset}[1]{{\ensuremath{\tilde{\set{#1}}}}} 
+% define fuzzy power set
+\newcommand{\fpowset}[1]{{\ensuremath{\mathcal{F}(#1)}}} 
+% define fuzzy function style
+\newcommand{\ffunc}[1]{{\ensuremath{\tilde{#1}}}}
+% define fuzzy rule style
+\newcommand{\frule}[1]{\textsc{\MakeLowercase{#1}}}
+% define keyword style
+\newcommand{\kwd}[1]{\textsc{#1}}
+% define fuzzy variable style
+\newcommand{\fvar}[1]{\emph{#1}} 
+% define fuzzy value style
+\newcommand{\fval}[1]{\emph{#1}}
+% define logical statement style
+\newcommand{\statement}[1]{\ifxetex{\ensuremath{\mathscr{#1}}}\else{\ensuremath{\mathppl{#1}}}\fi}
+
+
+\begin{document}
+\maketitle
+
+% copyright info
+% - use \makecopyright[FRI|CC|GNU] to define the copyright license; 
+%   eg. \makecopyright[FRI] distributed under FRI license
+%       \makecopyright[CC] distributed under CC-BY-SA license
+%       \makecopyright[GNU] distributed under GNU license
+\makecopyright
+\thesistopic
+%
+\input{thesis-demo_declaration}
+%
+\makepreviouspublication
+
+\input{thesis-demo_dedication}
+
+\frontmatter
+ \input{thesis-demo_abstracts}
+ \input{thesis-demo_acknowledgements}
+ \tableofcontents 
+
+\mainmatter
+ \input{thesis-demo_introduction}
+ \input{thesis-demo_birdflocks}
+ \input{thesis-demo_animat}
+ \input{thesis-demo_fuzzymodelling}
+ \input{thesis-demo_fuzzyanimat}
+ \input{thesis-demo_analysis}
+ \input{thesis-demo_conclusion}
+ \input{thesis-demo_appendix}
+
+\backmatter
+ \input{thesis-demo_bibliography}
+% TODO: add glossary
+% TODO: add index
+
+\end{document}

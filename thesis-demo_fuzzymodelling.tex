@@ -1,0 +1,188 @@
+%signal path for graphics files
+\graphicspath{{img/}}
+
+
+
+
+
+%==============================
+\chapter{Fuzzy Modelling}
+\label{chap:fuzzyModelling}
+
+
+%-----
+\section{Fuzzy Sets}
+\label{sec:fuzzyModelling:fuzzySets}
+Fuzzy sets are a natural outgrowth and generalization of conventional (or crisp) sets. Recall that a \emph{crisp set} in a \emph{universe of discourse} (\ie\ a collection of objects that represents allowable values for a variable) can be defined by stating all of its members or by specifying the \emph{precise properties} required for membership. 
+
+Take for example the set of real numbers `from 3 to 5' and denote it as $\set{C}$. In this case the universe of discourse is the set of real numbers $\R$ and $\set{C}$ is a crisp set. It can be described by writing $\set{C}=\{r \in \R| 3 \leq r \leq 5\}$. 
+
+Equivalently, a crisp set can be described by specifying its \emph{membership function} that maps from the universe of discourse to the set $\{0,1\}$. The membership function returns 1 for all objects from the universe of discourse that satisfy the required properties and 0 for those that do not. 
+
+In the case of the crisp set $\set{C}$ the membership function returns 1 for all real numbers that satisfy the property `from 3 to 5' and 0 for all other (\fig~\ref{fig:fuzzy:set}a). If $\mu_\set{C}$ is used to denote the membership function of crisp set $\set{C}$, then $\forall r \in \R$:
+%
+\begin{equation}
+\mu_\set{C}(r)=\left\{
+ \begin{array}{ll}
+   1, & \mathrm{if\ }3 \leq r \leq 5 \\
+   0, & \mathrm{otherwise}.
+ \end{array}
+\right.
+\end{equation}
+
+\begin{figure}%[b]
+%\makebox[\textwidth]{%
+\includegraphics{fig[fuzzySet]a}\hspace*{2mm}\includegraphics{fig[fuzzySet]b}
+%}
+\caption{Membership functions of a crisp set of real numbers `from 3 to 5' (a) and a fuzzy set of real numbers `close to 4' (b).}
+\label{fig:fuzzy:set}
+\end{figure}
+
+Fuzzy sets, on the contrary, contain elements that satisfy \emph{imprecisely defined properties} \cite{bezdek:1992}. Zadeh \cite{zadeh:1965} proposed describing them by using a generalized membership function that maps from the universe of discourse to the entire unit interval $[0,1]$. This is the basic idea in fuzzy set theory; the membership function provides the degree to which an object from the universe of discourse satisfies the imprecisely defined properties \cite{bezdek:1992}. It provides the object's \emph{degree of membership}. 
+
+Take for example the `set' of real numbers that are `close to 4'. Because the property `close to 4' is imprecise, the `set' of real numbers that are `close to 4' is a fuzzy set. Let it be denoted by $\fset{F}$. Again the universe of discourse is the set of real numbers $\R$, but the membership function $\mu_\fset{F}$ now provides the degree of membership of a real number in the fuzzy set $\fset{F}$; the nearer the value of $\mu_\fset{F}(r)$ to unity, the higher the degree of membership of $r$ in $\fset{F}$. This means that $\mu_\fset{F}(r)$ provides the measure of the degree of consistency between $r$ and the interpretation of `close to 4'. 
+
+However, since the property `close to 4' is imprecise and its interpretation subjective, there is not a unique membership function for $\fset{F}$. Rather, it is left to the modeller to decide what $\mu_\fset{F}$ should be like. In this particular case, with respect to the property `close to 4', it seems plausible that:
+
+\begin{itemize}
+\item the degree of membership of number $4$ is unity, 
+\item the closer a number is to $4$, the closer its degree of membership is to unity,
+\item numbers equally far left and right of $4$ have equal memberships.
+\end{itemize}
+
+Given these intuitive constraints, a useful representation of the fuzzy set of numbers `close to 4' might be the fuzzy set $\fset{F}$ that is presented in \fig~\ref{fig:fuzzy:set}b and described by the membership function
+%
+\begin{equation}
+\mu_\fset{F}(r)=\max(0,1-|r-4|).
+\end{equation} 
+
+Recall that in crisp set theory the family of \emph{all crisp sets} that can be defined in a given universe of discourse $\set{X}$ is called the \emph{power set} of $\set{X}$, and is usually denoted by $\powset{\set{X}}$. Thus, returning to the examples, it can be written that $\set{C} \in \powset{\R}$. 
+
+Similarly, in fuzzy set theory, the family of \emph{all fuzzy sets} that can be defined in a given universe of discourse $\set{X}$ is called the \emph{fuzzy power set} of $\set{X}$, and is usually denoted by $\fpowset{\set{X}}$ \cite{klir:1995}. Therefore, again returning to the examples, it can be written that $\fset{F} \in \fpowset{\R}$.
+
+%--
+\subsection{Set Theoretic Operations for Fuzzy Sets}
+In order to manipulate fuzzy sets, Zadeh \cite{zadeh:1965} generalized the classical set theoretic operations (\ie\ intersection, union and complement) and introduced \emph{fuzzy intersection}, \emph{fuzzy union}, and \emph{fuzzy complement}. 
+
+\begin{defn}
+Let fuzzy sets $\fset{F}_1$ and $\fset{F}_2$, defined on the universe of discourse $\set{X}$, be described by their membership functions $\mu_{\fset{F}_1}$ and $\mu_{\fset{F}_2}$. The fuzzy set theoretic operations are then defined using the following operators:
+
+\begin{itemize}
+\item fuzzy intersection:
+  \begin{itemize}
+    \item \emph{minimum}:  $\mu_{\fset{F}_1 \cap \fset{F}_2}(x)=\min(\mu_{\fset{F}_1}(x),\mu_{\fset{F}_2}(x))$,
+    \item {\em algebraic product\/}:  $\mu_{\fset{F}_1 \aprod \fset{F}_2}(x)=\mu_{\fset{F}_1}(x)\cdot\mu_{\fset{F}_2}(x)$,
+  \end{itemize}
+
+\item fuzzy union:
+  \begin{itemize}
+    \item {\em maximum\/}:  $\mu_{\fset{F}_1 \cup \fset{F}_2}(x)=\max(\mu_{\fset{F}_1}(x),\mu_{\fset{F}_2}(x))$,
+    \item {\em algebraic sum\/}:  $\mu_{\fset{F}_1 \uplus \fset{F}_2}(x)=\mu_{\fset{F}_1}(x)+\mu_{\fset{F}_2}(x)-\mu_{\fset{F}_1}(x)\cdot\mu_{\fset{F}_2}(x)$,
+  \end{itemize}
+
+\item fuzzy complement:  
+  $\mu_{\overline{\fset{F}_1}}(x)=1-\mu_{\fset{F}_1}(x)$.
+
+\end{itemize}
+\end{defn}
+
+The minimum fuzzy intersection, maximum fuzzy union and fuzzy complement are also known under the names standard fuzzy intersection, standard fuzzy union and standard fuzzy complement. Later Klir and Yuan \cite{klir:1995} showed that by using a strong axiomatic basis many more operators can be defined. They even gave an axiomatic definition for the complement of a fuzzy set, but in engineering applications most people prefer to use the standard fuzzy complement defined by Zadeh \cite{zadeh:1965}.  
+
+
+%-----
+\section{Fuzzy Logic}
+\label{sec:fuzzyModelling:fuzzyLogic}
+The membership function of a crisp set maps real numbers to two values (0 or 1). Hence crisp sets correspond to conventional (crisp or two-valued) logic. Logic works with \emph{statements}. Take for example the statement `\fvar{distance} \kwd{is} \fval{from 3 to 5}'. It can be either \emph{true} or \emph{false}; there is no ambiguity in it. Let $d$ denote the value of \fvar{distance} and $\set{C}$ denote the set of numbers `from 3 to 5'. Then the question of this statement's \emph{truth} becomes a question of membership `is $d$ in $\set{C}$?' and the answer is true if $\mu_\set{C}(d)=1$ and false if $\mu_\set{C}(d)=0$. 
+
+On the other hand, the value of $\mu_\fset{F}(r)$ provides the degree of membership of $r$ in fuzzy set $\fset{F}$. Therefore fuzzy sets correspond to continuously valued logic. Take for example the statement `\fvar{distance} \kwd{is} \fval{close to 4}'. Because `close to 4' is an imprecisely defined property, this statement is not crisp at all; it cannot be told if it is true or false. However, a similar approach as in two-valued logic can be used, the value of \fvar{distance} denoted by $d$, but `close to 4' defined as a fuzzy set $\fset{F}$. Then the question of the statement's truth becomes again a question of membership `is $d$ in $\fset{F}$?' but the value $\mu_\fset{F}(d)$ now answers the statement's \emph{degree of truth}. The answer can be true ($\mu_\fset{F}(d)=1$), false ($\mu_\fset{F}(d)=0$) or anywhere in between ($0<\mu_\fset{F}(d)<1$). 
+
+Furthermore, in fuzzy logic the value of \fvar{distance} can be a fuzzy set too. Let it be denoted as $\fset{D}$. The statement's truth now becomes a question of \emph{similarity} `is $\fset{D}$ similar to $\fset{F}?$' and the answer is given by the highest degree of membership of objects that are common to both fuzzy sets (\ie\ $\sup_r\mu_{\fset{D} \cap \fset{F}}(r)$).
+
+Logic allows joining simple statements to form more complex ones. This is achieved through standard logical operators, namely `\kwd{and}', `\kwd{or}', and `\kwd{not}'. An example of a complex crisp statement is `(\fvar{distance} \kwd{is} \fval{from 3 to 5}) \kwd{and} (\fvar{speed difference} \kwd{is} \fvar{20m/s})'. 
+
+Evaluating such statements involves computing the truths of the substatements and applying the logical operators. In two-valued logic the compound statement is true: 
+
+\begin{itemize}
+\item when all of the substatements are true (logical operator `\kwd{and}'), 
+\item when at least one of the substatements is true (logical operator `\kwd{or}'), 
+\item when the substatement is false (logical operator `\kwd{not}').
+\end{itemize}
+
+However, in fuzzy logic the constraint of the absolute truth or falsity of a statement is relaxed and this influences the interpretation of logical operators. Nevertheless, as fuzzy logic is a superset of standard two-valued logic, if the degrees of truth are kept at the extremes of 1 (completely true), and 0 (completely false), standard logical operators will hold. The most common interpretation is to use the operators that Zadeh \cite{zadeh:1965} used to define fuzzy intersection (logical operator `\kwd{and}'), fuzzy union (logical operator `\kwd{or}'), and fuzzy complement (logical operator `\kwd{not}'). In other words this means that to resolve the truth of the statement `$\statement{A}$ \kwd{and} $\statement{B}$', where $\statement{A}$ and $\statement{B}$ are statements and $T(\statement{A})$, $T(\statement{B})$ denote their corresponding degrees of truth, the following function is evaluated
+%
+\begin{itemize}
+ \item $T(\statement{A}\ \kwd{and}\ \statement{B})=\min(T(\statement{A}),T(\statement{B}))$ (\ie\ minimum fuzzy intersection),
+ \item $T(\statement{A}\ \kwd{and}\ \statement{B})=T(\statement{A}) \cdot T(\statement{B})$ (\ie\ algebraic product fuzzy intersection),
+\end{itemize}
+%
+similarly the degree of truth of `$\statement{A}$ \kwd{or} $\statement{B}$' becomes equivalent 
+%
+\begin{itemize}
+\item $T(\statement{A}\ \kwd{or}\ \statement{B})=\max(T(\statement{A}),T(\statement{B}))$ (\ie\ maximum fuzzy union),
+\item $T(\statement{A}\ \kwd{or}\ \statement{B})=T(\statement{A}) + T(\statement{B}) - T(\statement{A}) \cdot T(\statement{B})$ (\ie\ algebraic sum fuzzy union),
+\end{itemize}
+%
+and finally, the degree of truth of `\kwd{not} $\statement{A}$' is computed as 
+%
+\begin{itemize}
+\item $T(\kwd{not}\ \statement{A})=1 - T(\statement{A})$ (\ie\ standard fuzzy complement).
+\end{itemize}
+
+Typically most fuzzy logic applications make use of these operators. But any combination of fuzzy union, fuzzy intersection and fuzzy complement operators can be used as far as it is made sure that either DeMorgan's laws are not used or that fuzzy union and fuzzy intersection are dual with respect to the chosen fuzzy complement \cite{klir:1995}. This means that the different operators that are available in fuzzy set theory provide a plethora of richness, but also some (tough) choices have to be made \cite{mendel:2001}. In this dissertation the logical operator `\kwd{and}' is interpreted as product fuzzy intersection, the logical operator `\kwd{or}' as maximum fuzzy union and `\kwd{not}' as the standard fuzzy complement.
+
+%--
+\subsection{The if-then Rule}
+\label{sec:fuzzyModelling:ifthen}
+Logic makes often use of a special statement known as \emph{if-then} rule, which assumes the form `\kwd{if} $\statement{A}$ \kwd{then} $\statement{C}$', where $\statement{A}$ and $\statement{C}$ are statements. The if-part of the rule (\ie\ statement $\statement{A}$) is called the \emph{antecedent} or premise, while the then-part (\ie\ statement $\statement{C}$) is called the \emph{consequent} or conclusion. The antecedent can always be written as a set of statements connected with the logical operator `\kwd{and}' \cite{mendel:2001}, which means that the rule can be read as a set of \emph{conditions} that must be met for a certain consequence. However, this also means that antecedents of if-then rules that have the same conclusion can be joined using the logical operator `\kwd{or}' and interpreted as a single if-then rule. 
+
+Interpreting an if-then rule involves evaluating the truth of the antecedent and app\-ly\-ing that result to the consequent (known as \emph{implication}). In the case when the antecedent has multiple parts, their degrees of truth are calculated simultaneously and the truth of the antecedent is resolved by applying the logical operators. In two-valued logic the interpretation of the if-then rule is simple. Whenever the premise is true the conclusion is true too. However, if the premise is false nothing can be said about the conclusion. Since in fuzzy logic the truth of the antecedent is a matter of degree, the interpretation of the if-then rule is less restricted. This means that whenever the antecedent is true to some degree, the consequent is also true to that same degree. 
+
+However, because in fuzzy logic the consequent specifies a fuzzy set to be assigned to the output, implication modifies this set to the degree specified by the antecedent. The most common ways to modify the output fuzzy set are chopping it off (\ie\ \emph{minimum fuzzy implication}) or squashing it (\ie\ \emph{product fuzzy implication}). Let $T(\statement{A})$ denote the antecedent's degree of truth and $\fset{F}$ be the output fuzzy set defined on the real numbers domain. Let $\mu_\fset{F}$ denote the membership function of the output fuzzy set and $\mu_{\fset{F}'}$ the membership function of the modified output fuzzy set. Then minimum fuzzy implication is computed as
+%
+\begin{equation} 
+\mu_{\fset{F}'}(r)=\min(T(\statement{A}),\mu_\fset{F}(r))
+\end{equation}
+%
+and product fuzzy implication as
+%
+\begin{equation}
+\mu_{\fset{F}'}(r)=T(\statement{A})\cdot\mu_\fset{F}(r).
+\end{equation}
+
+\begin{figure}%[h]
+%\makebox[\textwidth]{\includegraphics[width=62.5mm]{fig[fuzzyImplication]a}\hspace*{5mm}\includegraphics[width=62.5mm]{fig[fuzzyImplication]b}}
+\includegraphics{fig[fuzzyImplication]a}\\
+\vspace*{2mm}
+\includegraphics{fig[fuzzyImplication]b}
+\caption{Graphical representation of the minimum (a) and product (b) fuzzy implication. The dashed grey line represents the original output fuzzy set while the blue solid line represents the modified output fuzzy set.}
+\label{fig:implication}
+\end{figure}
+
+Take for example the if-then rule whose consequent is `\fvar{direction} \kwd{is} \fvar{turn left}' and let the degree of truth of its antecedent be $T(\statement{A})=0.11$. The minimum fuzzy implication's effect of chopping off the output fuzzy set can be seen in \fig~\ref{fig:implication}a while the squashing effect of the product fuzzy implication can be seen in \fig~\ref{fig:implication}b. 
+
+\subsection{The Fuzzy Rule Base}
+\label{sec:fuzzyModelling:fuzzyRuleBase}
+Rarely the output of a decision process can be described by a single if-then rule. On the contrary; in most cases it is described by a collection of if-then rules, which are in fuzzy logic usually called a \emph{fuzzy rule base}. In addition: in fuzzy logic individual rules from a fuzzy rule base can at times be mutually contradictive. 
+
+In two-valued logic with a given input value usually the antecedent of only one rule is true. This means that the output value is at all times unequivocally known. However, as in fuzzy logic the interpretation of if-then rules is less restricted and mutually contradictive rules are allowed, more than one rule's antecedent can be true to some degree. This means that after applying fuzzy logic on a fuzzy rule base, one ends up with a collection of modified output fuzzy sets which represent only candidates for the final output value. 
+
+Most fuzzy logic applications solve this by \emph{combining} the modified output fuzzy sets into a single fuzzy set, which thereon represents the final output value of the fuzzy rule base. In most cases this combination is done by computing the fuzzy union of the modified output fuzzy sets. 
+
+The final output value of the fuzzy rule base is thus represented by the combined fuzzy set. However, as in most cases the fuzzy rule base is used as a control decision process, and the controlled process usually requires crisp control inputs, the fuzzy rule base's output (\ie\ the combined fuzzy set) needs to be converted to a single (crisp) value \cite{klir:1995,mendel:2001}. This conversion is called \emph{defuzzification}. For a given fuzzy set it returns the single (crisp) value which, in some sense, is the best representative of the fuzzy set.
+
+A number of defuzzification methods leading to distinct results were proposed in literature \cite{dubois:1980,klir:1995,mendel:2001,pedrycz:1993,zimmermann:2001}, but the most commonly used, and also the one used in this dissertation, is called the \emph{centroid} method. In this method, which is sometimes called the \emph{centre of gravity} or \emph{centre of area} method, the defuzzified value is defined as the crisp value, for which the area under the graph of the membership function of the combined fuzzy set is divided into two equal subareas (\fig~\ref{fig:cog}). 
+
+Let $\fset{F} \in \fpowset{\R}$ denote the combined fuzzy set obtained by evaluating a fuzzy rule base and let $\mu_\fset{F}$ represent its membership function. Then the centroid defuzzified value is calculated as
+\begin{equation}
+\cog\fset{F}=\frac{\int r
+%\cdot
+\mu_\fset{F}(r)\mathrm{d}r}{\int\mu_\fset{F}(r)\mathrm{d}r}.
+\end{equation}
+
+%\vspace*{5mm}
+
+\begin{figure}%[h]
+\includegraphics{fig[cog]}
+\caption{Graphical representation of the centroid defuzzification. The blue line represents the membership function of the final output value of a fuzzy rule base computed by combining the output fuzzy sets of individual fuzzy rules. The orange line divides the area under the graph of the membership function (shaded area) into two equal subareas and thus represents the single (crisp) value that is, according to the centroid defuzzification method, the best representative of the combined fuzzy set.}
+\label{fig:cog}
+\end{figure}
