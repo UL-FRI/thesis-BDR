@@ -25,12 +25,15 @@
 %%   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %%   Right brace   \}     Tilde         \~}
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{FRIthesis}[2018/02/13 v1.3 FRIteza LaTeX thesis class]
+\ProvidesClass{FRIthesis}[2018/02/20 v1.3 FRIteza LaTeX thesis class]
 
 %TODO:
 %refactor
 %\textt and \textsf for rm, it, bf, bfit
 %draft with no color and "zoomed-in"
+%
+%!! figure sizes intext, outofbounds - align to fulpage, fullpage, spread!
+%        instructions
 %
 %\RequirePackage{ifluatex}
 %\ifluatex
@@ -93,10 +96,7 @@
 \RequirePackage{ifpdf}
 \RequirePackage{ifxetex}
 \ifxetex
-%  \RequirePackage{MnSymbol}
   \RequirePackage[log-declarations=false]{xparse}
-%  \RequirePackage{fontspec} % loaded by unicode-math later on
-  %\RequirePackage[MnSymbol]{mathspec}
   \RequirePackage{microtype} 
   \RequirePackage{realscripts} % for propper supser/subscripts loaded also by xltxtra
   
@@ -109,93 +109,109 @@
     \setotherlanguage{slovenian}
   \fi
 
-%\RequirePackage{ebgaramond-maths}
+	\RequirePackage{amsmath} % must be loaded before unicode-math to avoid conflicts
+	\RequirePackage[math-style=french,bold-style=upright]{unicode-math}
 
-%\RequirePackage[no-math]{fontspec}
+	\setmathfont{XITS Math} % base font
+	%\setmathfont{Asana Math} % base font until v1.2.20170526
+	%\setmathfont{EB Garamond} % To use in the future?
 
-%\setmainfont[Ligatures=TeX, Numbers={OldStyle}, FakeBold=1.5]{EB Garamond}
-%\setsansfont[Ligatures=TeX, Numbers={OldStyle}, Scale=MatchLowercase]{Source Sans Pro}
-%\setmonofont[Scale=MatchLowercase]{Source Code Pro}
-%\setmathfont[range=\mathup/{num,latin,Latin}, Ligatures=TeX, Numbers={Lining}]{EB Garamond}
-%\setmathfont[range=\mathup/{greek,Greek}, Ligatures=TeX, Numbers={Lining}]{Anaktoria}
-%\setmathfont[range=\mathit/{num,latin,Latin}, Ligatures=TeX, Numbers={Lining}]{EB Garamond}
-%\setmathfont[range=\mathit/{greek,Greek}, Ligatures=TeX, Numbers={Lining}]{Anaktoria}
-%\setmathfont[range=\mathbfup/{greek,Greek}, Ligatures=TeX, Numbers={Lining}, FakeBold=1.5]{Anaktoria}
-%\setmathfont[range=\mathbfup/{num,latin,Latin}, Ligatures=TeX, Numbers={Lining}]{EB Garamond}
-%\setmathfont[range=\mathcal/{latin,Latin}, Ligatures=TeX, Numbers={Lining}, Style=Swash]{EB Garamond}
-
-
-%%%====
-\RequirePackage{amsmath} % must be loaded before unicode-math to avoid conflicts
-\RequirePackage[math-style=french,bold-style=upright]{unicode-math}
-%mathbf=sym
-\setmathfont{XITS Math} % base font
-%\setmathfont{Asana Math} % base font until v1.2.20170526
-%\setmathfont{EB Garamond} % To use in the future?
-
-\setmathfont[
-	range=\mathup/{num,latin,Latin,greek,Greek}, 
-	Ligatures=TeX, 
-	Numbers={Lining}, 
-	SizeFeatures={
-		{Size=-8, OpticalSize=8},
-		{Size= 8-, OpticalSize=12}}]
-	{EB Garamond}
-\setmathfont[
-	range=\mathit/{latin,Latin,greek,Greek},
-	Ligatures=TeX, 
-	Numbers={Lining},
-	SizeFeatures={
-		{Size=-8, Font={EB Garamond 08 Italic}},
-		{Size= 8-, Font=*}}]
-	{EB Garamond 12 Italic}
-\setmathfont[
-	range=\mathbfup/{num,latin,Latin,greek,Greek},
-	Ligatures=TeX, 
-	Numbers={Lining}, 
-	FakeBold=1.5,
-	SizeFeatures={
-		{Size=-8, OpticalSize=8},
-		{Size= 8-, OpticalSize=12}}]
-	{EB Garamond}
-\setmathfont[
-	range=\mathbfit/{latin,Latin,greek,Greek},
-	Ligatures=TeX, Numbers={Lining}, 
-	FakeBold=1.5,
-	SizeFeatures={
-		{Size=-8, Font={EB Garamond 08 Italic}},
-		{Size= 8-, Font=*}}]
-	{EB Garamond 12 Italic}
-
-\setmainfont[
-	Mapping=tex-text,
-	Ligatures={TeX,Contextual},
-	Numbers={OldStyle},
-	AutoFakeBold=1.5,
-	SizeFeatures={
-		{Size=-8, OpticalSize=8},
-		{Size= 8-, OpticalSize=12}}]
-	{EB Garamond}
-\setsansfont[
-	Mapping=tex-text, 
-	Ligatures={TeX,Contextual}, 
-	Numbers={OldStyle}, 
-	BoldFont={* Semibold},
-	Scale=MatchLowercase]
-	{Source Sans Pro}
-\setmonofont[
-	Mapping=tex-text, 
-	Ligatures={TeX,Contextual}, 
-	BoldFont={* Semibold},
-	Numbers={OldStyle}, 
-	Scale=MatchLowercase]
-	{Source Code Pro}
-%%%====
-
+	\setmathfont[
+	    Path=fonts/EBGaramond/,
+		range=\mathup/{num,latin,Latin,greek,Greek}, 
+		Ligatures={TeX},
+		Numbers={Lining}, 
+		SizeFeatures={
+			{Size=-8, Font={EBGaramond08-Regular.otf}},
+			{Size= 8-, Font=*}
+		}
+	]
+	{EBGaramond12-Regular.otf}
+	\setmathfont[
+		Path=fonts/EBGaramond/,
+		range=\mathbfup/{num,latin,Latin,greek,Greek},
+		Ligatures={TeX},
+		Numbers={Lining}, 
+		FakeBold=1.5,
+		SizeFeatures={
+			{Size=-8, Font={EBGaramond08-Regular.otf}},
+			{Size= 8-, Font=*}
+		}
+	]
+	{EBGaramond12-Regular.otf}
+	\setmathfont[
+		Path=fonts/EBGaramond/,
+		range=\mathit/{latin,Latin,greek,Greek},
+		Ligatures={TeX},
+		Numbers={Lining},
+		SizeFeatures={
+			{Size=-8, Font={EBGaramond08-Italic.otf}},
+			{Size= 8-, Font=*}
+		}
+	]
+	{EBGaramond12-Italic.otf}
+	\setmathfont[
+		Path=fonts/EBGaramond/,
+		range=\mathbfit/{latin,Latin,greek,Greek},
+		Ligatures={TeX},
+		Numbers={Lining}, 
+		FakeBold=1.5,
+		SizeFeatures={
+			{Size=-8, Font={EBGaramond08-Italic.otf}},
+			{Size= 8-, Font=*}
+		}
+	]
+	{EBGaramond12-Italic.otf}
+	
+	\setmainfont[
+		Path=fonts/EBGaramond/,
+		Ligatures={TeX,Discretionary},
+		UprightFeatures={
+			SizeFeatures={
+				{Size=-8, Font={EBGaramond08-Regular.otf}},
+				{Size= 8-, Font={EBGaramond12-Regular.otf}}
+			}
+		}, 
+		ItalicFont={EBGaramond12-Italic.otf},
+		ItalicFeatures={
+			SizeFeatures={
+				{Size=-8, Font={EBGaramond08-Italic.otf}},
+				{Size= 8-, Font={EBGaramond12-Italic.otf}}
+			}
+		},
+		Mapping=tex-text,
+		Numbers={OldStyle},
+		AutoFakeBold=1.5
+	]
+	{EBGaramond12-Regular.otf}
+	
+	\setsansfont[
+		Path=fonts/SourceSansPro/,
+		Mapping=tex-text, 
+		Ligatures={TeX}, 
+		Numbers={OldStyle}, 
+		UprightFont={*-Regular.otf},
+		ItalicFont={*-It.otf},
+		BoldFont={*-Semibold.otf},
+		BoldItalicFont={*-SemiboldIt.otf},
+		Scale=MatchLowercase
+	]
+	{SourceSansPro}
+	
+	\setmonofont[
+		Path=fonts/SourceCodePro/,
+		Mapping=tex-text, 
+		Ligatures={TeX}, 
+		UprightFont={*-Regular.otf},
+		ItalicFont={*-It.otf},
+		BoldFont={*-Semibold.otf},
+		BoldItalicFont={*-SemiboldIt.otf},
+		Numbers={OldStyle}, 
+		Scale=MatchLowercase
+	]
+	{SourceCodePro}
+	
 \else
-%TODO: !! figure sizes intext, outofbounds - align to fulpage, fullpage, spread!
-%         instructions
-
   \RequirePackage{ebgaramond}
   \RequirePackage[cmintegrals,cmbraces]{newtxmath} 
   \RequirePackage{ebgaramond-maths} 
