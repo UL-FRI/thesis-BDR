@@ -877,7 +877,6 @@
 \newcounter{subparagraph}[paragraph]
 \renewcommand \thesubparagraph {\theparagraph.\@arabic\c@subparagraph}
 
-\newcommand{\chaptername}{\empty}
 \newcommand{\@chapapp}{\chaptername}
 
 %
@@ -934,7 +933,7 @@
 	\@afterheading
 }
 
-% chapter formatting
+% chapter title formatting
 \newcommand{\chapter}{
 	\cleardoublepage
 	\thispagestyle{chapter}%
@@ -945,7 +944,7 @@
 \def\@chapter[#1]#2{%
 	\ifnum \c@secnumdepth >\m@ne
 		\refstepcounter{chapter}%
-		\typeout{\@chapapp\space\thechapter.}%
+		\typeout{=== \@chapapp\space\thechapter.}%
 		\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}\texorpdfstring{\protect\parbox[t]{0.9\linewidth}{#1}}{#1}}%%
 		%\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}		
 	\else
@@ -997,38 +996,116 @@
 	\vspace*{3\baselineskip}
 }
 
+% section formatting, see also appendix and subappendix environments 
 \newcommand{\section}{%
 	\@startsection {section}{1}{\z@}%
 	{-2.5ex \@plus -1ex \@minus -.2ex}%{\baselineskip}
 	{2.3ex \@plus.2ex}%{0ex}%
-	{\color{P1797}\large\itshape}
+	{\color{P1797}\large\itshape}%
 }
-
-
-\newcommand{\subsection}{
+% subsection formatting, see also appendix and subappendix environments 
+\newcommand{\subsection}{%
 	\@startsection{subsection}{2}{\z@}%
 	{-2.25ex\@plus -1ex \@minus -.2ex}%
 	{1.5ex \@plus .2ex}%
 	{\color{P1797}\itshape}
 }
-\newcommand{\subsubsection}{
+% subsubsection formatting, see also appendix and subappendix environments 
+\newcommand{\subsubsection}{%
 	\@startsection{subsubsection}{3}{\z@}%
 	{-2.25ex\@plus -1ex \@minus -.2ex}%
 	{1.5ex \@plus .2ex}%
 	{\color{P1797}\normalsize\itshape}
 }
-\newcommand\paragraph{
+% paragraph formatting, see also appendix and subappendix environments 
+\newcommand\paragraph{%
 	\@startsection{paragraph}{4}{\z@}%
 	{2.25ex \@plus1ex \@minus.2ex}%
 	{-1em}%
 	{\color{P1797}\normalsize\itshape}
 }
-\newcommand\subparagraph{
+% subparagraph formatting, see also appendix and subappendix environments 
+\newcommand\subparagraph{%
 	\@startsection{subparagraph}{5}{\parindent}%
 	{2.25ex \@plus1ex \@minus .2ex}%
 	{-1em}%
 	{\color{P1797}\normalsize\normalfont}
 }
+
+% TODO: paragraph for long titles like \chapter
+% patch for appendices and subappendices to work as desired 
+% (i.e. not printing numbers for section, subsection and subsubsection
+% and forcing small caps of subappendix sections in TOC)
+% code copied from http://www.tug.org/texlive/Contents/live/texmf-dist/doc/latex/base/source2e.pdf pg. 364
+\def\@sect#1#2#3#4#5#6[#7]#8{%
+	\ifnum #2>\c@secnumdepth 
+		\let \@svsec \@empty 
+	\else 
+		\refstepcounter {#1}%
+		\if@insubappendices
+			\ifnum #2=1
+				\let \@svsec \@empty 
+			\else
+				\protected@edef \@svsec {\@seccntformat {#1}\relax}
+			\fi	   
+		\else
+			\protected@edef \@svsec {\@seccntformat {#1}\relax}
+		\fi
+	\fi 
+	\@tempskipa #5\relax
+	\ifdim \@tempskipa >\z@ 
+		\begingroup 
+			#6{%
+				\@hangfrom {\hskip #3\relax \@svsec}%
+				\interlinepenalty \@M #8\@@par}%
+		\endgroup 
+		\csname #1mark\endcsname {#7}%
+		\if@inappendices
+		\else
+			\addcontentsline {toc}{#1}{%
+				\if@insubappendices
+					\ifnum #2=1
+						\scshape
+					\else 
+						\ifnum #2>\c@secnumdepth 
+						\else 
+							\protect \numberline {\csname the#1\endcsname }
+						\fi
+					\fi
+				\else
+					\ifnum #2>\c@secnumdepth 
+					\else 
+						\protect \numberline {\csname the#1\endcsname }
+					\fi
+				\fi #7}
+		\fi
+	\else 
+		\def \@svsechd {#6{\hskip #3\relax \@svsec #8}%
+		\csname #1mark\endcsname {#7}
+		\if@inappendices
+		\else
+			\addcontentsline {toc}{#1}{%
+				\if@insubappendices
+					\ifnum #2=1
+						\scshape 
+					\else 
+						\ifnum #2>\c@secnumdepth 
+						\else 
+							\protect \numberline {\csname the#1\endcsname }
+						\fi
+					\fi
+				\else
+					\ifnum #2>\c@secnumdepth 
+					\else 
+						\protect \numberline {\csname the#1\endcsname }
+					\fi
+				\fi #7}%
+		\fi
+		}
+	\fi 
+	\@xsect {#5}%
+}
+
 
 % ensure empty odd pages
 \renewcommand{\cleardoublepage}{
@@ -1594,69 +1671,97 @@
 }
 
 
-%%newif inappendices
-%\newif\if@appendices \@appendicesfalse
-%\newif\if@subappendices \@subappendicesfalse
-%\newcounter{subappendices}
-%\newenvironment{appendices}
-%{
-%	\if@subappendices 
-%		\PackageError{FRIteza}{The 'appendices' environment can not be used inside the 'subappendices' environment}
-%		\stop
-%	\fi
-%	\@appendicestrue
-%	\ifnum \c@subappendices > \z@
-%		\gdef\thechapter{\@Roman\c@chapter}
-%	\else
-%		\gdef\thechapter{\@Alph\c@chapter}
-%	\fi
-%%	\setcounter{@ppsavedchapter}{\value{chapter}}
-%	\setcounter{chapter}{0}
-%%	\setcounter{section}{0}
-%%	\gdef\@chapapp{\appendixname}%
-%%	\global\renewcommand\section{
-%%		\@startsection{paragraph}{4}{\z@}%
-%%		{2.25ex \@plus1ex \@minus.2ex}%
-%%		{-1em}%
-%%		{\color{P1797}\normalsize\scshape}
-%%	}
-%}{
-%%	\setcounter{chapter}{\value{@ppsavedsection}}
-%%	\gdef\@chapapp{\chaptername}%
-%	\gdef\thechapter{\@arabic\c@chapter}
-%}
-%
-%\newenvironment{subappendices}
-%{
-%	% start counting from 0 continue throuhh subapendices level section	
-%	\if@appendices 
-%		\PackageError{FRIteza}{The 'subappendices' environment can not be used inside the 'appendices' environment}
-%		\stop
-%	\fi
-%	\@subappendicestrue
-%
-%	% disable numbering for section, but change numbering for subsection
-%    % continue the numbering of subappendices
-%	\setcounter{section}{\c@subappendices}
-%	\renewcommand{\thesection}{\Alph{section}} % remove numbering force to star version
-%	\renewcommand{\theHsection}{\arabic{chapter}.\Alph{section}}
-%	\renewcommand{\theHsubsection}{\theHsection.\arabic{subsection}}
-%	\renewcommand{\thesubsection}{\Alph{section}.\arabic{subsection}}
-%	\setcounter{figure}{0}
-%	\renewcommand{\thefigure}{\Alph{section}.\arabic{figure}}
-%	\renewcommand{\theHfigure}{\theHsection.\arabic{figure}}
-%	\setcounter{table}{0}
-%	\renewcommand{\thetable}{\Alph{section}.\arabic{table}}
-%	\renewcommand{\theHtable}{\theHsection.\arabic{table}}
-%	\setcounter{equation}{0}
-%	\renewcommand{\theequation}{\Alph{section}.\arabic{equation}}
-%	\renewcommand{\theHequation}{\theHsection.\arabic{equation}}
-%	% hack addtoccontents to generate star section
-%%	\section{\textsc{Supplementary material}}
-%}{
-%	% return to old style
-%	\setcounter{subappendices}{\c@section}
-%}
+\newif\if@inappendices \@inappendicesfalse
+\newif\if@insubappendices \@insubappendicesfalse
+\newcounter{savedchapter}
+\newcounter{appendices}
+\newcounter{subappendices}
+\newenvironment{appendices}
+{
+	\if@inappendices 
+		\PackageError{FRIteza}{The 'appendices' environment can not be used inside the 'appendices' environment}
+	\fi
+	\if@insubappendices 
+		\PackageError{FRIteza}{The 'appendices' environment can not be used inside the 'subappendices' environment}
+	\fi
+	\@inappendicestrue
+	
+	% change formatting of section, subsection and subsubsection titles
+	% disable numbering for section, subsection and subsubsection, but change numbering for chapters
+	\ifnum \c@subappendices > \z@
+		\renewcommand{\thechapter}{\Roman{chapter}}
+		\renewcommand{\theHchapter}{\Roman{chapter}}
+	\else
+		\renewcommand{\thechapter}{\Alph{chapter}}
+		\renewcommand{\theHchapter}{\Alph{chapter}}
+	\fi
+	\setcounter{savedchapter}{\c@chapter}
+	\setcounter{chapter}{\c@appendices}
+	\setcounter{secnumdepth}{0}
+	\gdef\@chapapp{\appendixname}%
+	\renewcommand\section{
+		\@startsection{section}{1}{\z@}%
+		{2.25ex \@plus1ex \@minus.2ex}%
+		{-1em}%
+		{\color{P1797}\normalsize\scshape}
+	}
+	\renewcommand\subsection{
+		\@startsection{subsection}{2}{\z@}%
+		{2.25ex \@plus1ex \@minus.2ex}%
+		{-1em}%
+		{\color{P1797}\normalsize\itshape}
+	}
+	\renewcommand\subsubsection{
+		\@startsection{subsubsection}{3}{\z@}%
+		{2.25ex \@plus1ex \@minus.2ex}%
+		{-1em}%
+		{\color{P1797}\normalsize}
+	}
+}{
+	\setcounter{appendices}{\c@chapter}
+	\setcounter{chapter}{\c@savedchapter}
+	\gdef\@chapapp{\chaptername}
+	\gdef\thechapter{\@arabic\c@chapter}
+	\setcounter{secnumdepth}{2}
+}
+
+\newenvironment{subappendices}
+{
+	\if@inappendices 
+		\PackageError{FRIteza}{The 'subappendices' environment can not be used inside the 'appendices' environment}
+	\fi
+	\if@insubappendices 
+		\PackageError{FRIteza}{The 'subappendices' environment can not be used inside the 'subappendices' environment}
+	\fi
+	\@insubappendicestrue
+
+    % continuous numbering of subappendices regardless of chapter
+	% change formatting of section titles
+	% disable numbering for section, but change numbering for subsection
+	\setcounter{section}{\c@subappendices}
+	\renewcommand{\thesection}{\Alph{section}} % remove numbering force to star version
+	\renewcommand{\theHsection}{\arabic{chapter}.\Alph{section}}
+	\renewcommand{\theHsubsection}{\theHsection.\arabic{subsection}}
+	\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+	\setcounter{figure}{0}
+	\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+	\renewcommand{\theHfigure}{\theHsection.\arabic{figure}}
+	\setcounter{table}{0}
+	\renewcommand{\thetable}{\thesection.\arabic{table}}
+	\renewcommand{\theHtable}{\theHsection.\arabic{table}}
+	\setcounter{equation}{0}
+	\renewcommand{\theequation}{\thesection.\arabic{equation}}
+	\renewcommand{\theHequation}{\theHsection.\arabic{equation}}
+	\renewcommand{\section}{%
+		\@startsection {section}{1}{\z@}%
+		{-2.5ex \@plus -1ex \@minus -.2ex}%{\baselineskip}
+		{2.3ex \@plus.2ex}%{0ex}%
+		{\color{P1797}\large\scshape}%
+	}
+}{
+	% remember last subappendice number and return to old style
+	\setcounter{subappendices}{\c@section}
+}
 
 %\newenvironment{description}{}{}
 %\newenvironment{defn}{}{}
@@ -1690,50 +1795,20 @@
 \newmdtheoremenv[style=theoremstyle]{defn}{\definitionname}[chapter]
 
 
-\newcommand\section{\@startsection {section}{1}{\z@}%
-	{-2.5ex \@plus -1ex \@minus -.2ex}%
-	{2.3ex \@plus.2ex}%
-	%{44pt}{18pt}
-	{\color{P1797}\large\if@PhDp\sffamily\bfseries\else
-		%\fontsize{14}{16}\selectfont
-		\itshape\fi}}
-\newcommand\subsection{\@startsection{subsection}{2}{\z@}%
-	{-2.25ex\@plus -1ex \@minus -.2ex}%
-	{1.5ex \@plus .2ex}%
-	%{34pt}{18pt}
-	{\color{P1797}\if@PhDp\sffamily\bfseries\else
-		%\fontsize{10}{13}\selectfont
-		\itshape\fi}}
-\newcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
-	{-2.25ex\@plus -1ex \@minus -.2ex}%
-	{1.5ex \@plus .2ex}%
-	{\color{P1797}\if@PhDp\sffamily\else\itshape\fi\normalsize}}
-\newcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
-	{2.25ex \@plus1ex \@minus.2ex}%
-	{-1em}%
-	{\color{P1797}\if@PhDp\sffamily\else\itshape\fi\normalsize}}
-\newcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
-	{2.25ex \@plus1ex \@minus .2ex}%
-	{-1em}%
-	{\color{P1797}\normalfont\normalsize}}
-
 % hyperref and pdfsupport
 % !!! probably must be loaded last as it hooks on \maketitle \chapter and others
 \thispagestyle{empty}
 \pagenumbering{roman} % must be provided for hyperref: pdfpagelabels to work properly
 \setcounter{page}\@ne 
-%\RequirePackage{hyperxmp}
-%\RequirePackage[xetex,pdfa,pdfdisplaydoctitle=true,colorlinks,citecolor=P1797,linkcolor=P1797,urlcolor=P1797,plainpages=false,linktocpage=true,hyperfigures=true]{hyperref}
+\RequirePackage{hyperxmp}
+\RequirePackage[xetex,pdfa,pdfdisplaydoctitle=true,colorlinks,citecolor=P1797,linkcolor=P1797,urlcolor=P1797,plainpages=false,linktocpage=true,hyperfigures=true]{hyperref}
 % TODO: highlighting
 % \RequirePackage{soul} % higlighting alternative
 % \RequirePackage{pdfcomment}
 % TODO: authorcomments
 \newcommand{\sidenote}[2]{#1}
 
-\show\@ifstar
-\show\@startsection
-\show\@sect
-\show\@ssect
+%\show\@starsection
 \endinput
 
 %%
