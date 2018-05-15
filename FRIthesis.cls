@@ -33,19 +33,19 @@
 %\newwrite\finder
 %\immediate\openout\finder=\jobname.fnd
 %\RequirePackage{filehook,currfile}
-
+%
 %\def\searchmacro#1{
 %	\AtBeginOfEveryFile{%
 %		\ifdefined#1
 %		\expandafter\def\csname \currfilename:found\endcsname{}%
 %		\fi}
 %	\AtEndOfEveryFile{%
-%		\ifdefined#1
+%		\ifdefined#1		
 %		\unless\ifcsname \currfilename:found\endcsname
 %		\immediate\write\finder{found in '\currfilename'}%
 %		\fi\fi}}
-
-%\searchmacro\section
+%
+%\searchmacro\theabspage
 
 %\let\origRP\RequirePackage
 %\def\where#1{
@@ -137,7 +137,7 @@
 %%%%
 %% load typography related packages
 %%%%
-% TODO
+% TODO test with just two font sizes 12 & 8 as optical size
 \input{bk9.clo} % font sizes
 
 %\RequirePackage{ebgaramond}
@@ -147,62 +147,67 @@
 \RequirePackage{xltxtra} % for vulgar fractions and logos
 \RequirePackage{amsmath} % must be loaded before unicode-math to avoid conflicts
 \RequirePackage{amssymb}
-\RequirePackage[math-style=french,bold-style=upright]{unicode-math}
+% TODO: % add note to documentation about mathbf, mathrm, symbf, symrm; 
+% see http://mirrors.rit.edu/CTAN/macros/latex/contrib/unicode-math/unicode-math.pdf pg 5
+\RequirePackage[math-style=french,bold-style=upright,mathrm=sym,mathbf=sym]{unicode-math} 
 \RequirePackage{ragged2e} % for flushleft justification with hyphenation turned on
 
 \setmathfont{XITS Math} % base font
 %\setmathfont{Asana Math} % base font until v1.2.20170526
 %\setmathfont{EB Garamond} % To use in the future?
 % TODO: check printed
-%\setmathfont[Path=fonts/]{Garamond-math.otf}%{texgyretermes-math.otf} % To use in the future? 
-\setmathfont[
- Path=fonts/EBGaramond/,
+\setmathfont[Path=fonts/]{Garamond-math.otf}%{texgyretermes-math.otf} % To use in the future? 
+\setmathfont{EBGaramond12-Regular.otf}[
+	Path=fonts/EBGaramond/,
 	range=\mathup/{num,latin,Latin,greek,Greek}, 
 	Ligatures={TeX},
-	Numbers={Lining}, 
-	SizeFeatures={
-		{Size=-8, Font={EBGaramond08-Regular.otf}},
+	Numbers={Lining}, % force lining numbers for math
+	Script=Latin, % force the use of Latin script (suppresses fontspec warning 'Math'->'Latin' script)
+	SizeFeatures={ % optical sizes, this overrides (s)script-font/-features
+		{Size=-8, Font={EBGaramond08-Regular.otf}, Numbers={Lining}}, % force lining numbers for (s)scripts
 		{Size= 8-, Font=*}
 	}
 ]
-{EBGaramond12-Regular.otf}
-\setmathfont[
+
+\setmathfont{EBGaramond12-Regular.otf}[
 	Path=fonts/EBGaramond/,
 	range=\mathbfup/{num,latin,Latin,greek,Greek},
 	Ligatures={TeX},
 	Numbers={Lining}, 
+	Script=Latin,
 	FakeBold=1.5,
 	SizeFeatures={
-		{Size=-8, Font={EBGaramond08-Regular.otf}},
+		{Size=-8, Font={EBGaramond08-Regular.otf}, Numbers={Lining}},
 		{Size= 8-, Font=*}
 	}
 ]
-{EBGaramond12-Regular.otf}
-\setmathfont[
+
+\setmathfont{EBGaramond12-Italic.otf}[
 	Path=fonts/EBGaramond/,
 	range=\mathit/{latin,Latin,greek,Greek},
 	Ligatures={TeX},
 	Numbers={Lining},
+	Script=Latin,
 	SizeFeatures={
-		{Size=-8, Font={EBGaramond08-Italic.otf}},
+		{Size=-8, Font={EBGaramond08-Italic.otf}, Numbers={Lining}},
 		{Size= 8-, Font=*}
 	}
 ]
-{EBGaramond12-Italic.otf}
-\setmathfont[
+
+\setmathfont{EBGaramond12-Italic.otf}[
 	Path=fonts/EBGaramond/,
 	range=\mathbfit/{latin,Latin,greek,Greek},
 	Ligatures={TeX},
 	Numbers={Lining}, 
+	Script=Latin,
 	FakeBold=1.5,
 	SizeFeatures={
-		{Size=-8, Font={EBGaramond08-Italic.otf}},
+		{Size=-8, Font={EBGaramond08-Italic.otf}, Numbers={Lining}},
 		{Size= 8-, Font=*}
 	}
 ]
-{EBGaramond12-Italic.otf}
 
-\setmainfont[
+\setmainfont{EBGaramond12-Regular.otf}[
 	Path=fonts/EBGaramond/,
 	Ligatures={TeX,Discretionary},
 	UprightFeatures={
@@ -222,9 +227,8 @@
 	Numbers={OldStyle},
 	AutoFakeBold=1.5
 ]
-{EBGaramond12-Regular.otf}
 
-\setsansfont[
+\setsansfont{SourceSansPro}[
 	Path=fonts/SourceSansPro/,
 	Mapping=tex-text, 
 	Ligatures={TeX}, 
@@ -235,9 +239,8 @@
 	BoldItalicFont={*-SemiboldIt.otf},
 	Scale=MatchLowercase
 ]
-{SourceSansPro}
 
-\setmonofont[
+\setmonofont{SourceCodePro}[
 	Path=fonts/SourceCodePro/,
 	Mapping=tex-text, 
 	Ligatures={TeX}, 
@@ -248,7 +251,12 @@
 	Numbers={OldStyle}, 
 	Scale=MatchLowercase
 ]
-{SourceCodePro}
+
+% patch MakeUppercase to use lining numbers as uppercase numbers, 
+% see discussion at https://www.quora.com/Why-don’t-lowercase-and-uppercase-numbers-exist
+\let\@MakeUppercase\MakeUppercase
+\renewcommand{\MakeUppercase}{\addfontfeature{Numbers=Uppercase}\@MakeUppercase}
+
 
 % load language related packages
 \RequirePackage{translator}
@@ -331,6 +339,8 @@
 %\newlength{\tX}\setlength{\tX}{\mW-\trimMark-\bleedW}
 %\newlength{\tY}\setlength{\tY}{\mH-\trimMark-\bleedH}
 
+\setlength{\columnsep}{\gridW/4} % must be declared as floatrow by default sets capbesidesep=columnsep
+\setlength{\columnseprule}{0mm}
 \setlength{\marginparsep}{\gridW/4}
 \setlength{\marginparwidth}{\marginO-3\marginparsep}
 \setlength{\headheight}{\baselineskip}
@@ -423,12 +433,12 @@
 		(\trimMark+\bleedW+\bindingW+\marginI,-\mH+\trimMark+\bleedH+\marginB-\headsep)
 		rectangle
 		(\mW-\trimMark-\bleedW-\marginO+\gridW/2,-\mH+\trimMark+\bleedH+\marginB-\headsep-\headheight);
-		\foreach \n in {1,...,\nRows} {
-			\draw[dashed, red]
-			(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT-\n\gs@bls+\gs@dpth)
-			--
-			(\mW-\trimMark-\bleedW-\marginO,-\trimMark-\bleedH-\marginT-\n\gs@bls+\gs@dpth);
-		}
+%		\foreach \n in {1,...,\nRows} {
+%			\draw[dashed, red]
+%			(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT-\n\gs@bls+\gs@dpth)
+%			--
+%			(\mW-\trimMark-\bleedW-\marginO,-\trimMark-\bleedH-\marginT-\n\gs@bls+\gs@dpth);
+%		}
 	\else
 		\foreach \n in {1,...,8} {
 			\draw[dashed, lightgray]
@@ -460,12 +470,12 @@
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\mH+\marginB+\bleedH+\trimMark-\headsep)
 		rectangle
 		(\trimMark+\bleedW+\marginO-\gridW/2,-\mH+\marginB+\bleedH+\trimMark-\headsep-\headheight);
-		\foreach \n in {1,...,\nRows} {
-			\draw[dashed, red]
-			(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\marginT-\bleedH-\trimMark-\n\gs@bls+\gs@dpth)
-			--
-			(\trimMark+\bleedW+\marginO,-\marginT-\bleedH-\trimMark-\n\gs@bls+\gs@dpth);
-		}
+%		\foreach \n in {1,...,\nRows} {
+%			\draw[dashed, red]
+%			(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\marginT-\bleedH-\trimMark-\n\gs@bls+\gs@dpth)
+%			--
+%			(\trimMark+\bleedW+\marginO,-\marginT-\bleedH-\trimMark-\n\gs@bls+\gs@dpth);
+%		}
 	\fi
 }
 
@@ -1008,28 +1018,28 @@
 	\@startsection{subsection}{2}{\z@}%
 	{-2.25ex\@plus -1ex \@minus -.2ex}%
 	{1.5ex \@plus .2ex}%
-	{\color{P1797}\itshape}
+	{\color{P1797}\itshape}%
 }
 % subsubsection formatting, see also appendix and subappendix environments 
 \newcommand{\subsubsection}{%
 	\@startsection{subsubsection}{3}{\z@}%
 	{-2.25ex\@plus -1ex \@minus -.2ex}%
 	{1.5ex \@plus .2ex}%
-	{\color{P1797}\normalsize\itshape}
+	{\color{P1797}\normalsize\itshape}%
 }
 % paragraph formatting, see also appendix and subappendix environments 
 \newcommand\paragraph{%
 	\@startsection{paragraph}{4}{\z@}%
 	{2.25ex \@plus1ex \@minus.2ex}%
 	{-1em}%
-	{\color{P1797}\normalsize\itshape}
+	{\color{P1797}\normalsize\itshape}%
 }
 % subparagraph formatting, see also appendix and subappendix environments 
 \newcommand\subparagraph{%
 	\@startsection{subparagraph}{5}{\parindent}%
 	{2.25ex \@plus1ex \@minus .2ex}%
 	{-1em}%
-	{\color{P1797}\normalsize\normalfont}
+	{\color{P1797}\normalsize\normalfont}%
 }
 
 % TODO: paragraph for long titles like \chapter
@@ -1231,32 +1241,48 @@
 \newenvironment{table*}
 	{\@dblfloat{table}}
 	{\end@dblfloat}
+\RequirePackage{booktabs} % load to enhance quality of tables
+
+
+% multimedia
+% TODO: video, listings, algorithms!?
 
 % captions
-\newlength\abovecaptionskip\setlength\abovecaptionskip{10\p@}
+% setup dummy caption formatting based on article.sty to suppress unsupported package error issued by the caption package, 
+% see https://tex.stackexchange.com/questions/341680/package-caption-warning-unsupported-document-class
+\newlength\abovecaptionskip\setlength\abovecaptionskip{\f@size\p@}
 \newlength\belowcaptionskip\setlength\belowcaptionskip{0\p@}
 \long\def\@makecaption#1#2{%
 	\vskip\abovecaptionskip
-	{\itshape #1\hskip3.4pt\par\vskip2mm}{\RaggedRight\scriptsize #2\par}
-	%{\scriptsize\sffamily \@hangfrom{{\itshape #1}\hskip3.4pt}#2 \par}
-	\vskip\belowcaptionskip
+	\sbox\@tempboxa{#1: #2}%
+	\ifdim \wd\@tempboxa >\hsize
+		#1: #2\par
+	\else
+		\global \@minipagefalse
+		\hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+	\fi
+	\vskip\belowcaptionskip%
 }
 
-% TODO debug
-%\showthe\marginparsep
-%\showthe\marginparwidth
-%\showthe\leftmargin
-%\showthe\rightmargin
-
 % figure and table caption positioning
-\RequirePackage{floatrow} %solve for subfigures!!!
+\RequirePackage[style=base]{caption}
+\DeclareCaptionLabelSeparator{br}{\par\vspace*{2\p@}}
+\captionsetup{labelsep=br,labelfont=it,textfont={raggedright,scriptsize}}
+
+\RequirePackage{subcaption}
+\captionsetup[sub]{subrefformat=parens}
+\captionsetup[sub]{format=plain,labelformat=parens,labelsep=space,font={normalfont,scriptsize},labelfont=up,hypcap=true}
+
 %\DeclareCaptionSubType[alph]{figure}
 %\captionsetup[subfigure]{labelformat=brace,justification=centerlast}
-%\floatsetup[subfigure]{style=plain,heightadjust=object}
+\RequirePackage{floatrow} %solve for subfigures!!!
 \DeclareColorBox{framedfigure}{\fcolorbox{grey20}{white}}
+\DeclareFloatSeparators{marginparsep}{\hskip\marginparsep}
+
 \floatsetup[figure]{%
 	margins=hangoutside,
 	capposition=beside,
+	capbesidesep=marginparsep,
 	capbesideposition={outside,bottom},
 	facing=yes,
 	floatwidth=\textwidth,
@@ -1268,9 +1294,20 @@
 }
 % TODO add to documentation \includegraphics[width=\figurewidth]
 \newlength{\figurewidth}\setlength{\figurewidth}{\textwidth-7pt} % save the max width of a figure taking into account the encompasing frame
+
 \floatsetup[table]{%
 	capposition=top
 }
+
+% Patch floatrow package so that it works properly even with pagenumbering style changes
+% patch assumes zref-abspage package is loaded and theabspage is defined 
+\RequirePackage{etoolbox}
+\PackageInfo{FRIteza}{Patching floatrow package to support pagenumbering style changes}
+\patchcmd{\flrow@FB}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\flrow@FB\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\flrow@FB}}
+\patchcmd{\flrow@FC}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\flrow@FC\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\flrow@FC}}
+\patchcmd{\@@@floatbox}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\@@@floatbox\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\@@@floatbox}}
+\patchcmd{\FR@floatbox}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\FR@floatbox\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\FR@floatbox}}
+\patchcmd{\FB@writeaux}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\FB@writeaux\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\FB@writeaux}}
 
 % lists
 \RequirePackage{enumerate} % review use of enumerate package
@@ -1287,7 +1324,7 @@
 \@beginparpenalty -\@lowpenalty
 \@endparpenalty   -\@lowpenalty
 \@itempenalty     -\@lowpenalty
-\renewcommand\theenumi{\@arabic\c@enumi}
+\renewcommand\theenumi{\@arabic\c@enumi} % this assumes that when enumeratating items a lowercase initial is used, see https://www.quora.com/Why-don’t-lowercase-and-uppercase-numbers-exist
 \renewcommand\theenumii{\@alph\c@enumii}
 \renewcommand\theenumiii{\@roman\c@enumiii}
 \renewcommand\theenumiv{\@Alph\c@enumiv}
@@ -1481,15 +1518,17 @@
 		% if more than 6 issue error
 		\expandafter\xdef\csname @approvedBy@\Alph{approvedById}\endcsname{
 			#2\par
-			\ifundef{\cmdKV@approvedBy@title}
-				{\relax}
-				{\noexpand\small\noexpand\emph{\cmdKV@approvedBy@title}\par}
-			\ifundef{\cmdKV@approvedBy@role}
-				{\relax}
-				{\noexpand\textsc{\cmdKV@approvedBy@role}\par}
-			\ifundef{\cmdKV@approvedBy@affiliation}
-				{\relax}
-				{{\cmdKV@approvedBy@affiliation}\par}
+			\begingroup
+				\ifundef{\cmdKV@approvedBy@title}
+					{\relax}
+					{\noexpand\small\noexpand\emph{\cmdKV@approvedBy@title}\par}
+				\ifundef{\cmdKV@approvedBy@role}
+					{\relax}
+					{\noexpand\textsc{\cmdKV@approvedBy@role}\par}
+				\ifundef{\cmdKV@approvedBy@affiliation}
+					{\relax}
+					{{\cmdKV@approvedBy@affiliation}\par}
+			\endgroup
 		}
 	\endgroup
 }
@@ -1670,7 +1709,6 @@
 	\addcontentsline{toc}{chapter}{\protect\numberline{}\bibname}
 }
 
-
 \newif\if@inappendices \@inappendicesfalse
 \newif\if@insubappendices \@insubappendicesfalse
 \newcounter{savedchapter}
@@ -1687,7 +1725,7 @@
 	\@inappendicestrue
 	
 	% change formatting of section, subsection and subsubsection titles
-	% disable numbering for section, subsection and subsubsection, but change numbering for chapters
+	% change numbering for chapters and disable numbering for section, subsection and subsubsection,
 	\ifnum \c@subappendices > \z@
 		\renewcommand{\thechapter}{\Roman{chapter}}
 		\renewcommand{\theHchapter}{\Roman{chapter}}
@@ -1737,7 +1775,8 @@
 
     % continuous numbering of subappendices regardless of chapter
 	% change formatting of section titles
-	% disable numbering for section, but change numbering for subsection
+	% disable numbering for section, but change numbering for subsection, figure, table, equation
+	% TODO: video
 	\setcounter{section}{\c@subappendices}
 	\renewcommand{\thesection}{\Alph{section}} % remove numbering force to star version
 	\renewcommand{\theHsection}{\arabic{chapter}.\Alph{section}}
@@ -1752,6 +1791,9 @@
 	\setcounter{equation}{0}
 	\renewcommand{\theequation}{\thesection.\arabic{equation}}
 	\renewcommand{\theHequation}{\theHsection.\arabic{equation}}
+%	\setcounter{video}{0}
+%	\renewcommand{\thevideo}{\thesection.\arabic{video}}
+%	\renewcommand{\theHvideo}{\theHsection.\arabic{video}}
 	\renewcommand{\section}{%
 		\@startsection {section}{1}{\z@}%
 		{-2.5ex \@plus -1ex \@minus -.2ex}%{\baselineskip}
@@ -1807,6 +1849,12 @@
 % \RequirePackage{pdfcomment}
 % TODO: authorcomments
 \newcommand{\sidenote}[2]{#1}
+
+
+%\show\FB@writeaux
+%\show\FB@readaux
+%\show\thepage
+%
 
 %\show\@starsection
 \endinput
