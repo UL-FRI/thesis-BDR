@@ -745,12 +745,12 @@
 			\vspace*{.5\baselineskip}
 			
 			% TODO: check count and make two column if page overflow
-			\newcounter{id}
-			\setcounter{id}{0}
-			\whiledo {\value{id} < \value{approvedById}}
+			\newcounter{aid}
+			\setcounter{aid}{0}
+			\whiledo {\value{aid} < \value{approvedById}}
 			{
-				\stepcounter{id}			
-				\csname @approvedBy@\Alph{id}\endcsname
+				\stepcounter{aid}			
+				\csname @approvedBy@\Alph{aid}\endcsname
 				\vspace*{.5\baselineskip}
 			}			
 		\end{centering}
@@ -758,7 +758,7 @@
 }
 
 \newcommand{\makepreviouspublication}{
-	\ifnumgreater {\value{previousPublicationId}}{1}{
+	\ifnumgreater {\value{previousPublicationId}}{0}{
 		\begingroup
 			\if@slovene
 				\chapter*{Predhodna objava}
@@ -780,15 +780,14 @@
 				\begin{minipage}{\linewidth-1em}
 					{\small \raggedright
 						\begin{enumerate}[{[}1{]}]
-							\newcounter{id}
-							\setcounter{id}{0}
-							\whiledo {\value{id} < \value{previousPublicationId}}
+							\newcounter{pid}
+							\setcounter{pid}{0}
+							\whiledo {\value{pid} < \value{previousPublicationId}}
 							{
-								\stepcounter{id}			
-								\item \csname @previousPublicationId@\Alph{id}\endcsname
+								\stepcounter{pid}			
+								\item \csname @previousPublication@\Alph{pid}\endcsname
 							}			
 						\end{enumerate}
-						\fi
 					}
 				\end{minipage}\par
 			\end{centering}
@@ -1534,14 +1533,14 @@
 }
 
 \newcounter{previousPublicationId}
-%\newcommand{\previousPublication}[1]{
-%	\begingroup
-%		\stepcounter{previousPublicationId}
-%		\expandafter\xdef\csname @previousPublication@\Alph{previousPublicationId}\endcsname{
-%			#1\par
-%		}
-%	\endgroup
-%}
+\newcommand{\previousPublication}[1]{
+	\begingroup
+		\stepcounter{previousPublicationId}
+		\expandafter\gdef\csname @previousPublication@\Alph{previousPublicationId}\endcsname{
+			#1\par
+		}
+	\endgroup
+}
 
 % environments
 \newenvironment{titlepage}{
