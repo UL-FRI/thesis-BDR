@@ -137,7 +137,9 @@
 %%%%
 %% load typography related packages
 %%%%
-% TODO test with just two font sizes 12 & 8 as optical size
+% TODO test with just two font sizes 12 & 8 as optical size, compute best font size based on width of body text; see vaignelli cannon & memoire.pdf
+% https://pearsonified.com/2011/12/golden-ratio-typography.php
+% http://ftp.math.purdue.edu/mirrors/ctan.org/info/memdesign/memdesign.pdf pg 48
 \input{bk9.clo} % font sizes
 
 %\RequirePackage{ebgaramond}
@@ -149,77 +151,22 @@
 \RequirePackage{amssymb}
 % TODO: % add note to documentation about mathbf, mathrm, symbf, symrm; 
 % see http://mirrors.rit.edu/CTAN/macros/latex/contrib/unicode-math/unicode-math.pdf pg 5
-\RequirePackage[math-style=french,bold-style=upright,mathrm=sym,mathbf=sym]{unicode-math} 
+\RequirePackage[math-style=french,bold-style=upright]{unicode-math} % ,mathrm=sym,mathbf=sym ... causes issues with \siunitx [uppercase numerals in text]
 \RequirePackage{ragged2e} % for flushleft justification with hyphenation turned on
-
-\setmathfont{XITS Math} % base font
-%\setmathfont{Asana Math} % base font until v1.2.20170526
-%\setmathfont{EB Garamond} % To use in the future?
-% TODO: check printed
-\setmathfont[Path=fonts/]{Garamond-math.otf}%{texgyretermes-math.otf} % To use in the future? 
-\setmathfont{EBGaramond12-Regular.otf}[
-	Path=fonts/EBGaramond/,
-	range=\mathup/{num,latin,Latin,greek,Greek}, 
-	Ligatures={TeX},
-	Numbers={Lining}, % force lining numbers for math
-	Script=Latin, % force the use of Latin script (suppresses fontspec warning 'Math'->'Latin' script)
-	SizeFeatures={ % optical sizes, this overrides (s)script-font/-features
-		{Size=-8, Font={EBGaramond08-Regular.otf}, Numbers={Lining}}, % force lining numbers for (s)scripts
-		{Size= 8-, Font=*}
-	}
-]
-
-\setmathfont{EBGaramond12-Regular.otf}[
-	Path=fonts/EBGaramond/,
-	range=\mathbfup/{num,latin,Latin,greek,Greek},
-	Ligatures={TeX},
-	Numbers={Lining}, 
-	Script=Latin,
-	FakeBold=1.5,
-	SizeFeatures={
-		{Size=-8, Font={EBGaramond08-Regular.otf}, Numbers={Lining}},
-		{Size= 8-, Font=*}
-	}
-]
-
-\setmathfont{EBGaramond12-Italic.otf}[
-	Path=fonts/EBGaramond/,
-	range=\mathit/{latin,Latin,greek,Greek},
-	Ligatures={TeX},
-	Numbers={Lining},
-	Script=Latin,
-	SizeFeatures={
-		{Size=-8, Font={EBGaramond08-Italic.otf}, Numbers={Lining}},
-		{Size= 8-, Font=*}
-	}
-]
-
-\setmathfont{EBGaramond12-Italic.otf}[
-	Path=fonts/EBGaramond/,
-	range=\mathbfit/{latin,Latin,greek,Greek},
-	Ligatures={TeX},
-	Numbers={Lining}, 
-	Script=Latin,
-	FakeBold=1.5,
-	SizeFeatures={
-		{Size=-8, Font={EBGaramond08-Italic.otf}, Numbers={Lining}},
-		{Size= 8-, Font=*}
-	}
-]
 
 \setmainfont{EBGaramond12-Regular.otf}[
 	Path=fonts/EBGaramond/,
 	Ligatures={TeX,Discretionary},
 	UprightFeatures={
 		SizeFeatures={
-			{Size=-8, Font={EBGaramond08-Regular.otf}},
+			{Size=-8, Font={EBGaramond08-Regular.otf}},% Numbers={Lining}},
 			{Size= 8-, Font={EBGaramond12-Regular.otf}}
 		}
 	}, 
 	ItalicFont={EBGaramond12-Italic.otf},
 	ItalicFeatures={
 		SizeFeatures={
-			{Size=-8, Font={EBGaramond08-Italic.otf}},
+			{Size=-8, Font={EBGaramond08-Italic.otf}},% Numbers={Lining}},
 			{Size= 8-, Font={EBGaramond12-Italic.otf}}
 		}
 	},
@@ -252,11 +199,98 @@
 	Scale=MatchLowercase
 ]
 
+%\setmathfont[Scale=MatchLowercase]{XITS Math} % base math font
+%\setmathfont{Asana Math} % base font until v1.2.20170526
+%\setmathfont{EB Garamond} % To use in the future?
+% TODO: check printed
+\setmathfont[Path=fonts/Garamond-Math/, StylisticSet=1]{Garamond-math.otf} % base math font to use in the future? [override only bold and bolditalic]
+
+%\setmathfont{EBGaramond-Medium.otf}[
+%	Path=fonts/EBGaramond12/,
+%	range=\mathbfup/{num,latin,Latin,greek,Greek},
+%	Numbers={Lining}, 
+%	Script=Latin,
+%	version=bold
+%]
+%
+%\setmathfont{EBGaramond-MediumItalic.otf}[
+%	Path=fonts/EBGaramond12/,
+%	range=\mathbfit/{latin,Latin,greek,Greek},
+%	Numbers={Lining}, 
+%	Script=Latin,
+%	version=bold
+%]
+
+%\setmathfont{EBGaramond12-Regular.otf}[
+%	Path=fonts/EBGaramond/,
+%	range=\mathup/{num,latin,Latin,greek,Greek}, 
+%	Ligatures={TeX},
+%	Numbers={Lining}, % force lining numbers for math
+%	Script=Latin, % force the use of Latin script (suppresses fontspec warning 'Math'->'Latin' script)
+%	SizeFeatures={ % optical sizes, this overrides (s)script-font/-features
+%		{Size=-8, Font={EBGaramond08-Regular.otf}, Numbers={Lining}}, % force lining numbers for (s)scripts
+%		{Size= 8-, Font=*}
+%	}
+%]
+
+\setmathfont{EBGaramond12-Regular.otf}[
+	Path=fonts/EBGaramond/,
+	range=\mathbfup/{num,latin,Latin,greek,Greek},
+	Ligatures={TeX},
+	Numbers={Lining}, 
+	Script=Latin,
+	version=bold,
+	FakeBold=1.5,
+	SizeFeatures={
+		{Size=-8, Font={EBGaramond08-Regular.otf}, Numbers={Lining}},
+		{Size= 8-, Font=*}
+	}
+]
+
+%\setmathfont{EBGaramond12-Italic.otf}[
+%	Path=fonts/EBGaramond/,
+%	range=\mathit/{latin,Latin,greek,Greek},
+%	Ligatures={TeX},
+%	Numbers={Lining},
+%	Script=Latin,
+%	SizeFeatures={
+%		{Size=-8, Font={EBGaramond08-Italic.otf}, Numbers={Lining}},
+%		{Size= 8-, Font=*}
+%	}
+%]
+
+\setmathfont{EBGaramond12-Italic.otf}[
+	Path=fonts/EBGaramond/,
+	range=\mathbfit/{latin,Latin,greek,Greek},
+	Ligatures={TeX},
+	Numbers={Lining}, 
+	Script=Latin,
+	version=bold,
+	FakeBold=1.5,
+	SizeFeatures={
+		{Size=-8, Font={EBGaramond08-Italic.otf}, Numbers={Lining}},
+		{Size= 8-, Font=*}
+	}
+]
+
 % patch MakeUppercase to use lining numbers as uppercase numbers, 
 % see discussion at https://www.quora.com/Why-don’t-lowercase-and-uppercase-numbers-exist
 \let\@MakeUppercase\MakeUppercase
 \renewcommand{\MakeUppercase}{\addfontfeature{Numbers=Uppercase}\@MakeUppercase}
 
+% macro for Historic dropcaps
+\RequirePackage{lettrine}
+\RequirePackage{xstring}
+\newcommand{\EBLettrineBackColor}{P1797}
+\newcommand{\EBLettrineFrontColor}{black}
+\newcommand{\EBLettrineBackFont}{\fontspec{EB Garamond Initials Fill1}}
+\newcommand{\EBLettrineFrontFont}{\fontspec{EB Garamond Initials Fill2}}
+\newcommand{\EBlettrine}[1]{%
+	\renewcommand{\LettrineFontHook}{\EBLettrineBackFont}%
+	\lettrine[lines=4,loversize=-.2,lraise=.25,findent=2pt,nindent=0pt]{%
+		\rlap{\color{\EBLettrineBackColor} \StrLeft{#1}{1}}%
+		{\EBLettrineFrontFont\color{\EBLettrineFrontColor} \StrLeft{#1}{1}}}{\StrGobbleLeft{#1}{1}}%
+}
 
 % load language related packages
 \RequirePackage{translator}
@@ -265,11 +299,49 @@
 	\setmainlanguage{slovenian}
 	\setotherlanguage[variant=uk]{english}
 	\RequirePackage[locale=DE]{siunitx} % load siunitx package for printing numers and units
+	\sisetup{detect-all, math-rm=\symrm} % make siunitx detect mode (math, text, sans, typewriter, bold, and force use of symrm instead of mathrm to get uppercase numerals in math mode)
 \else
 	\setmainlanguage[variant=uk]{english}
 	\setotherlanguage{slovenian}
 	\RequirePackage[locale=UK]{siunitx} % load siunitx package for printing numers and units
+	\sisetup{detect-all, math-rm=\symrm} % make siunitx detect mode (math, text, sans, typewriter, bold, and force use of symrm instead of mathrm to get uppercase numerals in math mode)
 \fi
+
+% enter LaTeX3 code
+\ExplSyntaxOn
+\AtBeginDocument{ % these patch needs to be called last, after preamble finishes, i.e. at begin document 
+	% patch for siunitx package so than the minus sign gets printed in math and text mode
+	\tl_gset:Nn \c__siunitx_minus_tl { \ensuremath{ - } }
+	
+	% patch for realscript package so that proper subscripts get printed with EBGaramond
+	% EBGaramond (+subs) are closer to (+dnom) than typical subscripts, see also https://glyphsapp.com/tutorials/superscript-and-subscript-figures
+	\DeclareDocumentCommand \realsubscript {m} {
+		\fontspec_if_fontspec_font:TF {
+			\fontspec_if_opentype:TF
+			{ \fontspec_if_feature:nTF {+sinf}
+				{ {\addfontfeature{VerticalPosition=ScientificInferior}#1} }
+				{ \fontspec_if_feature:nTF {+subs}
+					{ {\addfontfeature{VerticalPosition=Inferior}#1} }
+					{ \fakesubscript{#1} }
+				}
+			}
+			{ \fontspec_if_aat_feature:nnTF {10} {2}
+				{ {\addfontfeature{VerticalPosition=Inferior}#1} }
+				{ \fakesubscript{#1} }
+			}
+		}
+		{ \fakesubscript{#1} }
+	}
+}
+\ExplSyntaxOff
+% end of LaTeX3 code
+
+% TODO: patch to force superscripts and subscripts to be smaller (closer match to \textsubscript \textsuperscript)
+%\def\defaultscriptratio{.56} ??? necessary
+%\def\defaultscriptscriptratio{.4} ??? necessary
+%\calculate@math@sizes ?? necessary
+%\DeclareMathSizes{9.03}{9.03}{5.09}{4} [for text font size 9.03 choose math 9.03 with subscripts of size 5.09 and subsubscripts of 4]
+%\check@mathfonts
 
 
 % load graphics and color related packages and setup colors
@@ -1524,7 +1596,11 @@
 	{\@dblfloat{table}}
 	{\end@dblfloat}
 \RequirePackage{booktabs} % load to enhance quality of tables
-
+\setlength\tabcolsep{6\p@} % setup tabular, tabbing and array environment parameters
+\setlength\arraycolsep{5\p@}
+\setlength\arrayrulewidth{.4\p@}
+\setlength\doublerulesep{2\p@}
+\setlength\tabbingsep{\labelsep}
 
 % multimedia
 % TODO: video, listings, algorithms!?
@@ -1549,7 +1625,7 @@
 % figure and table caption positioning
 \RequirePackage[style=base]{caption}
 \DeclareCaptionLabelSeparator{br}{\par\vspace*{2\p@}}
-\captionsetup{labelsep=br,labelfont=it,textfont={raggedright,scriptsize}}
+\captionsetup{singlelinecheck=off,labelsep=br,labelfont=it,textfont={raggedright,scriptsize}} % TODO: check support for RaggedRight
 
 \RequirePackage{subcaption}
 \captionsetup[sub]{subrefformat=parens}
@@ -2015,9 +2091,6 @@
 \newcommand\newblock{\hskip .11em\@plus.33em\@minus.07em}
 %\let\@openbib@code\@empty
 
-\providecommand{\url}[1]{\href{#1}{#1}}
-\providecommand{\doi}[1]{doi:~\href{http://dx.doi.org/#1}{#1}}
-
 \RequirePackage[numbers,sort&compress]{natbib}
 \RequirePackage{multicol}
 \renewcommand{\bibpreamble}{
@@ -2159,7 +2232,24 @@
 \pagenumbering{roman} % must be provided for hyperref: pdfpagelabels to work properly
 \setcounter{page}\@ne 
 \RequirePackage{hyperxmp}
-\RequirePackage[xetex,pdfa,pdfdisplaydoctitle=true,colorlinks,citecolor=P1797,linkcolor=P1797,urlcolor=P1797,plainpages=false,linktocpage=true,hyperfigures=true]{hyperref}
+\RequirePackage[xetex,unicode,pdfa,pdfdisplaydoctitle=true,colorlinks,citecolor=P1797,linkcolor=P1797,urlcolor=P1797,plainpages=false,linktocpage=true,hyperfigures=true]{hyperref}
+
+% format hyperlinks
+\urlstyle{same}
+\providecommand{\url}[1]{\href{#1}{\urlstyle{same}\nolinkurl{#1}}}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\urlstyle{same}\nolinkurl{#1}}}
+
+% declare pdf transforms for unsupported commands
+% i.e. commands that issue hyperref warning "Token not allowed in a PDF string (Unicode)"
+% see https://tex.stackexchange.com/questions/10555/hyperref-warning-token-not-allowed-in-a-pdf-string
+\pdfstringdefDisableCommands{%
+	\def\\{}%
+	\def\newline{}%
+%	\def\texttt#1{<#1>}%
+}
+
+
+
 % TODO: highlighting
 % \RequirePackage{soul} % higlighting alternative
 % \RequirePackage{pdfcomment}
