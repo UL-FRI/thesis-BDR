@@ -140,18 +140,18 @@
 % TODO test with just two font sizes 12 & 8 as optical size, compute best font size based on width of body text; see vaignelli cannon & memoire.pdf
 % https://pearsonified.com/2011/12/golden-ratio-typography.php
 % http://ftp.math.purdue.edu/mirrors/ctan.org/info/memdesign/memdesign.pdf pg 48
-\input{bk9.clo} % font sizes
+\input{bk9.clo} % font sizes, convert to bp
 
 %\RequirePackage{ebgaramond}
 %\RequirePackage{ebgaramond-maths} % should this be included for proper microtype? 
 
 \RequirePackage{microtype}
-\RequirePackage{xltxtra} % for vulgar fractions and logos
+\RequirePackage{realscripts} % for textsubscripts and textsuperscripts
 \RequirePackage{amsmath} % must be loaded before unicode-math to avoid conflicts
 \RequirePackage{amssymb}
 % TODO: % add note to documentation about mathbf, mathrm, symbf, symrm; 
 % see http://mirrors.rit.edu/CTAN/macros/latex/contrib/unicode-math/unicode-math.pdf pg 5
-\RequirePackage[math-style=french,bold-style=upright]{unicode-math} % ,mathrm=sym,mathbf=sym ... causes issues with \siunitx [uppercase numerals in text]
+\RequirePackage[math-style=french,bold-style=upright]{unicode-math} % ,mathrm=sym,mathbf=sym ... causes issues with \siunitx [uppercase numerals in text] TODO: sans serif greek!!!
 \RequirePackage{ragged2e} % for flushleft justification with hyphenation turned on
 
 \setmainfont{EBGaramond12-Regular.otf}[
@@ -203,22 +203,75 @@
 %\setmathfont{Asana Math} % base font until v1.2.20170526
 %\setmathfont{EB Garamond} % To use in the future?
 % TODO: check printed
-\setmathfont[Path=fonts/Garamond-Math/, StylisticSet=1]{Garamond-math.otf} % base math font to use in the future? [override only bold and bolditalic]
+\setmathfont{Garamond-math.otf}[ % base math font to use in the future? [override only bold and bolditalic]
+	Path=fonts/Garamond-Math/,
+	StylisticSet=1
+] 
+
+% override math sans serif fonts
+%\setmathfont{SourceSansPro-Regular.otf}[
+%	Path=./fonts/SourceSansPro/,
+%	range=\mathsfup/{num,latin,Latin},
+%	Script=Latin,
+%	Scale=MatchLowercase,
+%]
+%\setmathfont{SourceSansPro-It.otf}[
+%	Path=./fonts/SourceSansPro/,
+%	range=\mathsfit/{latin,Latin,greek,Greek},
+%	Script=Latin,
+%	Scale=MatchLowercase
+%]
+%\setmathfont{SourceSansPro-Semibold.otf}[
+%	Path=./fonts/SourceSansPro/,
+%	range=bfsfup/{num,latin,Latin,greek,Greek},
+%	Script=Latin,
+%	Scale=MatchLowercase
+%]
+%\setmathfont{SourceSansPro-SemiboldIt.otf}[
+%	Path=./fonts/SourceSansPro/,
+%	range=bfsfit/{latin,Latin,greek,Greek},
+%	Script=Latin,
+%	Scale=MatchLowercase
+%]
+%
+%% override math mono fonts
+%\setmathfont{SourceCodePro-Regular.otf}[
+%	Path=./fonts/SourceCodePro/,
+%	range=ttup/{num,latin,Latin,greek,Greek},
+%	Script=Latin,
+%	Scale=MatchLowercase
+%]
+%\setmathfont{SourceCodePro-It.otf}[
+%	Path=./fonts/SourceCodePro/,
+%	range=ttit/{num,latin,Latin,greek,Greek},
+%	Script=Latin,
+%	Scale=MatchLowercase
+%]
+%\setmathfont{SourceCodePro-Semibold.otf}[
+%	Path=./fonts/SourceSansPro/,
+%	range=bfttup/{num,latin,Latin,greek,Greek},
+%	Script=Latin,
+%	Scale=MatchLowercase
+%]
+%\setmathfont{SourceCodePro-SemiboldIt.otf}[
+%	Path=./fonts/SourceCodePro/,
+%	range=bfttit/{num,latin,Latin,greek,Greek},
+%	Script=Latin,
+%	Scale=MatchLowercase
+%]
 
 %\setmathfont{EBGaramond-Medium.otf}[
 %	Path=fonts/EBGaramond12/,
-%	range=\mathbfup/{num,latin,Latin,greek,Greek},
+%	range=\mathup/{num,latin,Latin,greek,Greek},
 %	Numbers={Lining}, 
-%	Script=Latin,
-%	version=bold
+%	Script=Latin
 %]
-%
+
 %\setmathfont{EBGaramond-MediumItalic.otf}[
 %	Path=fonts/EBGaramond12/,
-%	range=\mathbfit/{latin,Latin,greek,Greek},
+%	range=\mathit/{latin,Latin,greek,Greek},
 %	Numbers={Lining}, 
-%	Script=Latin,
-%	version=bold
+%	Script=Latin
 %]
 
 %\setmathfont{EBGaramond12-Regular.otf}[
@@ -233,19 +286,19 @@
 %	}
 %]
 
-\setmathfont{EBGaramond12-Regular.otf}[
-	Path=fonts/EBGaramond/,
-	range=\mathbfup/{num,latin,Latin,greek,Greek},
-	Ligatures={TeX},
-	Numbers={Lining}, 
-	Script=Latin,
-	version=bold,
-	FakeBold=1.5,
-	SizeFeatures={
-		{Size=-8, Font={EBGaramond08-Regular.otf}, Numbers={Lining}},
-		{Size= 8-, Font=*}
-	}
-]
+%\setmathfont{EBGaramond12-Regular.otf}[
+%	Path=fonts/EBGaramond/,
+%	range=\mathbfup/{num,latin,Latin,greek,Greek},
+%	Ligatures={TeX},
+%	Numbers={Lining}, 
+%	Script=Latin,
+%	version=bold,
+%	FakeBold=1.5,
+%	SizeFeatures={
+%		{Size=-8, Font={EBGaramond08-Regular.otf}, Numbers={Lining}},
+%		{Size= 8-, Font=*}
+%	}
+%]
 
 %\setmathfont{EBGaramond12-Italic.otf}[
 %	Path=fonts/EBGaramond/,
@@ -259,19 +312,19 @@
 %	}
 %]
 
-\setmathfont{EBGaramond12-Italic.otf}[
-	Path=fonts/EBGaramond/,
-	range=\mathbfit/{latin,Latin,greek,Greek},
-	Ligatures={TeX},
-	Numbers={Lining}, 
-	Script=Latin,
-	version=bold,
-	FakeBold=1.5,
-	SizeFeatures={
-		{Size=-8, Font={EBGaramond08-Italic.otf}, Numbers={Lining}},
-		{Size= 8-, Font=*}
-	}
-]
+%\setmathfont{EBGaramond12-Italic.otf}[
+%	Path=fonts/EBGaramond/,
+%	range=\mathbfit/{latin,Latin,greek,Greek},
+%	Ligatures={TeX},
+%	Numbers={Lining}, 
+%	Script=Latin,
+%	version=bold,
+%	FakeBold=1.5,
+%	SizeFeatures={
+%		{Size=-8, Font={EBGaramond08-Italic.otf}, Numbers={Lining}},
+%		{Size= 8-, Font=*}
+%	}
+%]
 
 % patch MakeUppercase to use lining numbers as uppercase numbers, 
 % see discussion at https://www.quora.com/Why-don’t-lowercase-and-uppercase-numbers-exist
@@ -298,17 +351,41 @@
 \if@slovene
 	\setmainlanguage{slovenian}
 	\setotherlanguage[variant=uk]{english}
-	\RequirePackage[locale=DE]{siunitx} % load siunitx package for printing numers and units
-	\sisetup{detect-all, math-rm=\symrm} % make siunitx detect mode (math, text, sans, typewriter, bold, and force use of symrm instead of mathrm to get uppercase numerals in math mode)
+	\RequirePackage[locale=DE,abbreviations]{siunitx} % load siunitx package for printing numers and units
 \else
 	\setmainlanguage[variant=uk]{english}
 	\setotherlanguage{slovenian}
-	\RequirePackage[locale=UK]{siunitx} % load siunitx package for printing numers and units
-	\sisetup{detect-all, math-rm=\symrm} % make siunitx detect mode (math, text, sans, typewriter, bold, and force use of symrm instead of mathrm to get uppercase numerals in math mode)
+	\RequirePackage[locale=UK,abbreviations]{siunitx} % load siunitx package for printing numers and units
 \fi
+\sisetup{detect-all, math-rm=\symup, math-sf=\symsf, math-tt=\symtt} % make siunitx detect mode (math, text, sans, typewriter, bold, and force use of symrm instead of mathrm to get uppercase numerals in math mode)
 
 % enter LaTeX3 code
 \ExplSyntaxOn
+
+% declare macro for vulgar fractions that take advantage of OpenType features
+% code copied from xltxtra v0.6, 2016/01/21
+\newcommand*\vfrac[2]{
+	\fontspec_if_fontspec_font:TF
+	{
+		\fontspec_if_opentype:TF
+		{
+			{\addfontfeature{VerticalPosition=Numerator}#1}
+			\textfractionsolidus
+			{\addfontfeature{VerticalPosition=Denominator}#2}
+		}
+		{
+			{\addfontfeature{VerticalPosition=Superior}#1}
+			\textfractionsolidus
+			{\addfontfeature{VerticalPosition=Inferior}#2}
+		}
+	}
+	{
+		\PackageError {FRIthesis}
+		{ \string\vfrac\space~can~only~be~used~with~fontspec~fonts }
+		{ Nothing~more~to~tell. }
+	}
+}
+
 \AtBeginDocument{ % these patch needs to be called last, after preamble finishes, i.e. at begin document 
 	% patch for siunitx package so than the minus sign gets printed in math and text mode
 	\tl_gset:Nn \c__siunitx_minus_tl { \ensuremath{ - } }
@@ -340,9 +417,9 @@
 %\def\defaultscriptratio{.56} ??? necessary
 %\def\defaultscriptscriptratio{.4} ??? necessary
 %\calculate@math@sizes ?? necessary
-%\DeclareMathSizes{9.03}{9.03}{5.09}{4} [for text font size 9.03 choose math 9.03 with subscripts of size 5.09 and subsubscripts of 4]
+%\DeclareMathSizes{9bp}{9bp}{5bp}{4bp} [for text font size 9bp choose math 9bp with subscripts of size 5bp and subsubscripts of 4bp]
+%\DeclareMathSizes{12bp}{12bp}{7bp}{6bp} %[for text font size 12pt choose math 12pt with subscripts of size 7pt and subsubscripts of 6pt; 1pt in tex = 1/72.27", 1bp = 1/72" ]
 %\check@mathfonts
-
 
 % load graphics and color related packages and setup colors
 \RequirePackage{graphicx}
@@ -781,9 +858,9 @@
 	\pgfmathsetlengthmacro{\coverspineW}{(18mm+\spineW+18mm)}
 	\pgfmathsetlengthmacro{\coverfrontW}{((\coverW-\coverspineW)/2)}
 	\if@press
-	\pgfmathsetlengthmacro{\coverbleed}{15mm}
+		\pgfmathsetlengthmacro{\coverbleed}{15mm}
 	\else
-	\pgfmathsetlengthmacro{\coverbleed}{0mm}
+		\pgfmathsetlengthmacro{\coverbleed}{0mm}
 	\fi
 	% setup cover geometry: media size, margins, bleed and slug area
 	\pgfmathsetlength{\mW}{(\coverW+2*(\coverbleed+\trimMark))}
@@ -1382,11 +1459,11 @@
 	{\color{P1797}\normalsize\itshape}%
 }
 % paragraph formatting, see also appendix and subappendix environments 
-\newcommand\paragraph{%
+\newcommand\paragraph{% TODO: decide based on use
 	\@startsection{paragraph}{4}{\z@}%
 	{2.25ex \@plus1ex \@minus.2ex}%
 	{-1em}%
-	{\color{P1797}\normalsize\itshape}%
+	{\color{P1797}\normalsize\scshape}%
 }
 % subparagraph formatting, see also appendix and subappendix environments 
 \newcommand\subparagraph{%
@@ -1522,17 +1599,25 @@
 %   L: Author \hfill Title R: Chapter \hfill section?
 %   perhaps add \iffloatpage{}{} and make float pages have no running heads, see https://www.thebookdesigner.com/2014/03/how-to-design-running-heads-for-your-book/
 \fancypagestyle{FRIteza}{%
-	\fancyhf{}%
+	\fancyhf{} % clear footer and header fields
 	% Note the ## here. It's required because \fancypagestyle is making a macro (\ps@FRIteza).
 	% If we just wrote #1, TeX would think that it's the argument to \ps@FRIteza, but
 	% \ps@FRIteza doesn't take any arguments, so TeX would complain with an error message.
 	% You are not expected to understand this.
-	\renewcommand*{\sectionmark}[1]{ 
-		\markright{\thesection\ ##1}
+	\renewcommand*{\sectionmark}[1]{ % ignore section marks
+			%\PackageInfo{FRIteza}{S LM->\leftmark}
+ 			%\PackageInfo{FRIteza}{S RM->\rightmark}
+			%\markboth{\leftmark}{S ##1} 
 	}
 	\renewcommand*{\chaptermark}[1]{ 
-		\markboth{\thechapter\ ##1}{} 
+		\markboth{\if@slovene\@title@slA\else\@title@enA\fi}{##1} 
 	}
+%	\renewcommand*{\sectionmark}[1]{ 
+%		\markright{\thesection\ ##1}
+%	}
+%	\renewcommand*{\chaptermark}[1]{ 
+%		\markboth{\thechapter\ ##1}{} 
+%	}
 	% Increase the length of the header such that the folios
 	% (typography jargon for page numbers) move into the margin
 	\fancyhfoffset[LE]{\gridW/2}
@@ -1540,11 +1625,15 @@
 	% Put some space and a vertical par between the folio and the rest of the header
 	\renewcommand{\headrulewidth}{0pt}
 	\renewcommand{\footrulewidth}{0pt}
-	% compute length of skip: offset - width of \ssfamily\textbf{\thepage}
-	\fancyhead[LE]{{\itshape\thepage\settowidth{\@tempdima}{\thepage}\addtolength{\@tempdima}{-\gridW/2}\hspace*{-\@tempdima}}%
-     	\small\color{grey65}\leftmark}%
-    \fancyhead[RE]{\color{grey65}\small\@author@A}
-    \fancyhead[LO]{\color{grey65}\small\if@slovene\@title@slA\else\@title@enA\fi}
+	% compute length of skip: offset - width of \itshape{\thepage}
+	\fancyhead[LE]{{\itshape\thepage\settowidth{\@tempdima}{\itshape\thepage}\addtolength{\@tempdima}{-\gridW/2}\hspace*{-\@tempdima}}%
+		\small\color{grey65}\@author@A}%
+	\fancyhead[RE]{\color{grey65}\small\leftmark}
+	\fancyhead[LO]{\color{grey65}\small\rightmark}
+%	\fancyhead[LE]{{\itshape\thepage\settowidth{\@tempdima}{\thepage}\addtolength{\@tempdima}{-\gridW/2}\hspace*{-\@tempdima}}%
+%     	\small\color{grey65}\leftmark}%
+%    \fancyhead[RE]{\color{grey65}\small\@author@A}
+%    \fancyhead[LO]{\color{grey65}\small\if@slovene\@title@slA\else\@title@enA\fi}
 	\fancyhead[RO]{\itshape\thepage}%
 }
 \pagestyle{FRIteza}
@@ -1568,43 +1657,6 @@
 	\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@equation%
 }
 
-% figures
-\newcounter{figure}[chapter]
-\renewcommand{\thefigure}{\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@figure}
-\def\fps@figure{tbp} % set default figure placement to t, b, p
-\def\ftype@figure{1} % see https://tex.stackexchange.com/questions/32359/what-is-the-exact-purpose-of-ftypetype
-\def\ext@figure{lof} % store figure captions in .lof for list of figures (.toc to be part of table of contents)
-\def\fnum@figure{\figurename\nobreakspace\thefigure}
-\newenvironment{figure}
-	{\@float{figure}}
-	{\end@float}
-\newenvironment{figure*}
-	{\@dblfloat{figure}}
-	{\end@dblfloat}
-
-% tables
-\newcounter{table}[chapter]
-\renewcommand{\thetable}{\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@table}
-\def\fps@table{tbp} % set default table placement to t, b, p
-\def\ftype@table{2} % see https://tex.stackexchange.com/questions/32359/what-is-the-exact-purpose-of-ftypetype
-\def\ext@table{lot} % store figure captions in .lot for list of tables (.toc to be part of table of contents)
-\def\fnum@table{\tablename\nobreakspace\thetable}
-\newenvironment{table}
-	{\@float{table}}
-	{\end@float}
-\newenvironment{table*}
-	{\@dblfloat{table}}
-	{\end@dblfloat}
-\RequirePackage{booktabs} % load to enhance quality of tables
-\setlength\tabcolsep{6\p@} % setup tabular, tabbing and array environment parameters
-\setlength\arraycolsep{5\p@}
-\setlength\arrayrulewidth{.4\p@}
-\setlength\doublerulesep{2\p@}
-\setlength\tabbingsep{\labelsep}
-
-% multimedia
-% TODO: video, listings, algorithms!?
-
 % captions
 % setup dummy caption formatting based on article.sty to suppress unsupported package error issued by the caption package, 
 % see https://tex.stackexchange.com/questions/341680/package-caption-warning-unsupported-document-class
@@ -1622,21 +1674,22 @@
 	\vskip\belowcaptionskip%
 }
 
-% figure and table caption positioning
+% caption positioning
 \RequirePackage[style=base]{caption}
 \DeclareCaptionLabelSeparator{br}{\par\vspace*{2\p@}}
 \captionsetup{singlelinecheck=off,labelsep=br,labelfont=it,textfont={raggedright,scriptsize}} % TODO: check support for RaggedRight
-
+% subcaptions
 \RequirePackage{subcaption}
 \captionsetup[sub]{subrefformat=parens}
 \captionsetup[sub]{format=plain,labelformat=parens,labelsep=space,font={normalfont,scriptsize},labelfont=up,hypcap=true}
 
 %\DeclareCaptionSubType[alph]{figure}
 %\captionsetup[subfigure]{labelformat=brace,justification=centerlast}
-\RequirePackage{floatrow} %solve for subfigures!!!
+\RequirePackage{floatrow} % TODO: integrate example with subfigures
 \DeclareColorBox{framedfigure}{\fcolorbox{grey20}{white}}
 \DeclareFloatSeparators{marginparsep}{\hskip\marginparsep}
 
+\DeclareNewFloatType{figure}{fileext=lof,within=chapter} % use fileext=toc to insert into table of contents
 \floatsetup[figure]{%
 	margins=hangoutside,
 	capposition=beside,
@@ -1652,9 +1705,40 @@
 }
 % TODO add to documentation \includegraphics[width=\figurewidth]
 \newlength{\figurewidth}\setlength{\figurewidth}{\textwidth-7pt} % save the max width of a figure taking into account the encompasing frame
+\newcommand{\infigurecaption}[1]{%
+	\vskip3.5pt
+	\begin{minipage}{\figurewidth}
+		\scriptsize 
+		\sffamily
+		#1%\par
+	\end{minipage}%
+}
 
+\DeclareNewFloatType{table}{fileext=lot,within=chapter} % use fileext=toc to insert into table of contents
 \floatsetup[table]{%
 	capposition=top
+}
+\RequirePackage{booktabs} % load to enhance quality of tables
+\setlength\tabcolsep{6\p@} % setup tabular, tabbing and array environment parameters
+\setlength\arraycolsep{5\p@}
+\setlength\arrayrulewidth{.4\p@}
+\setlength\doublerulesep{2\p@}
+\setlength\tabbingsep{\labelsep}
+
+\DeclareNewFloatType{video}{fileext=lov,name=Video,within=chapter} % use fileext=toc to insert into table of contents
+\renewcommand{\videoname}{Video}
+\floatsetup[video]{%
+	margins=hangoutside,
+	capposition=beside,
+	capbesidesep=marginparsep,
+	capbesideposition={outside,bottom},
+	facing=yes,
+	floatwidth=\textwidth,
+	objectset=centering,
+	framefit=yes,
+	colorframeset=framedfigure,
+	framestyle=colorbox,
+	frameset={\fboxrule1pt\fboxsep2.5pt}%
 }
 
 % Patch floatrow package so that it works properly even with pagenumbering style changes
@@ -1704,7 +1788,7 @@
 \newcommand\@dotsep{4.5}
 \setcounter{tocdepth}{2}
 \newcommand\tableofcontents{%
-	\@xp\chapter\@xp*\@xp{\contentsname \@mkboth{\contentsname}{\contentsname}}%
+	\@xp\chapter\@xp*\@xp{\contentsname \chaptermark{\contentsname}}%
 	\@starttoc{toc}%
 }
 %\RequirePackage{titletoc}
@@ -1935,6 +2019,61 @@
 	\endgroup
 }
 
+\define@cmdkey{chapterAbstract}{keywords}[]{}
+\define@cmdkey{chapterAbstract}{published}[]{}
+\newcommand{\chapterAbstract}[2][]{
+	\begingroup
+		\setkeys{chapterAbstract}{#1}
+		\ifundef{\cmdKV@chapterAbstract@published}
+			{\relax}
+			{\fcolorbox{grey20}{white}{\includegraphics[width=\figurewidth]{\cmdKV@chapterAbstract@published}}
+			 \newpage}
+
+		\noindent%
+		\begin{minipage}{\textwidth}
+		 	\small
+		 	\sffamily
+		 	{\color{grey20}\rule{\textwidth}{0.4pt}}
+		 	
+		 	{\textsc{\abstractname.}\quad #2}
+		 	
+			\ifundef{\cmdKV@chapterAbstract@keywords}
+				{\relax}
+		 		{\vspace{.5\baselineskip}
+		 		 {\textsc{Key words.}\quad {\cmdKV@chapterAbstract@keywords}}}
+		 	
+		 	{\color{grey20}\rule{\textwidth}{0.4pt}}
+		\end{minipage}
+		\vspace{\baselineskip}
+		
+	\endgroup
+}
+
+\define@cmdkey{chapterAcknowledgements}{language}[]{}
+\newcommand{\chapterAcknowledgements}[2][]{
+	\begingroup
+		\setkeys{chapterAcknowledgements}{#1}
+		\ifundef{\cmdKV@chapterAcknowledgements@language}
+			{\if@slovene\newcommand{\chackname}{Zahvala}\else\newcommand{\chackname}{Acknowledgements}\fi}
+			{\switchcase{\cmdKV@keywords@language}
+			 {
+				{slovene} {\newcommand{\chackname}{Zahvala}}
+				{english} {\newcommand{\chackname}{Acknowledgements}}
+			 }
+		 	}
+	
+		\vspace*{\baselineskip}
+		\noindent\begin{minipage}{\textwidth}
+			\sffamily
+			\paragraph{\textsc{\chackname}}
+			\footnotesize
+			\emph{#2}\par
+		\end{minipage}
+		\vspace*{\baselineskip}
+	
+	\endgroup
+}
+
 % environments
 \newenvironment{titlepage}{
 	\thispagestyle{empty}%
@@ -1948,7 +2087,7 @@
 		\selectlanguage{english}
 	\fi
 	\chapter*{Abstract}
-	\@mkboth{Abstract}{Abstract}
+	\chaptermark{Abstract}
 	\addcontentsline{toc}{chapter}{\protect\numberline{}Abstract}
 	\metabox{
 		\vspace{-9\baselineskip}%
@@ -1970,7 +2109,7 @@
 	\@afterindentfalse
 }{
 	\par \vspace{10pt}
-	{\noindent\emph{Key words}\quad\@keywords@en\par}
+	{\noindent\emph{Key words}\quad\@keywords@en\par} % text with \textsc{\MakeLowercase{\@keywords@en}}
 %   on exit from environment swap to main language is automatic
 %	\if@slovene
 %		\selectlanguage{slovenian}
@@ -1983,7 +2122,7 @@
 		\selectlanguage{slovenian}
 	\fi
 	\chapter*{Povzetek}
-	\@mkboth{Povzetek}{Povzetek}
+	\chaptermark{Povzetek}
 	\addcontentsline{toc}{chapter}{\protect\numberline{}Povzetek}
 	\metabox{
 		\vspace{-9\baselineskip}%
@@ -2017,11 +2156,11 @@
 {
 	\if@slovene
 		\chapter*{Zahvala}
-		\@mkboth{Zahvala}{Zahvala}
+		\chaptermark{Zahvala}
 		\addcontentsline{toc}{chapter}{\protect\numberline{}Zahvala}
 	\else
 		\chapter*{Acknowledgements}
-		\@mkboth{Acknowledgements}{Acknowledgements}
+		\chaptermark{Acknowledgements}
 		\addcontentsline{toc}{chapter}{\protect\numberline{}Acknowledgements}
 	\fi
 	\begingroup
@@ -2094,7 +2233,7 @@
 \RequirePackage[numbers,sort&compress]{natbib}
 \RequirePackage{multicol}
 \renewcommand{\bibpreamble}{
-	\@mkboth{\bibname}{\bibname}
+	\chaptermark{\bibname}
 	\addcontentsline{toc}{chapter}{\protect\numberline{}\bibname}
 }
 
@@ -2165,24 +2304,23 @@
     % continuous numbering of subappendices regardless of chapter
 	% change formatting of section titles
 	% disable numbering for section, but change numbering for subsection, figure, table, equation
-	% TODO: video
 	\setcounter{section}{\c@subappendices}
-	\renewcommand{\thesection}{\Alph{section}} % remove numbering force to star version
-	\renewcommand{\theHsection}{\arabic{chapter}.\Alph{section}}
+	\renewcommand{\thesection}{\alph{section}} % remove numbering force to star version
+	\renewcommand{\theHsection}{\arabic{chapter}.\alph{section}}
+	\renewcommand{\thesubsection}{\Alph{section}.\arabic{subsection}}
 	\renewcommand{\theHsubsection}{\theHsection.\arabic{subsection}}
-	\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 	\setcounter{figure}{0}
-	\renewcommand{\thefigure}{\thesection.\arabic{figure}}
-	\renewcommand{\theHfigure}{\theHsection.\arabic{figure}}
+	\renewcommand{\thefigure}{\textsc{\thesection}.\arabic{figure}}
+%	\renewcommand{\theHfigure}{\theHsection.\arabic{figure}} TODO: necessary??
 	\setcounter{table}{0}
-	\renewcommand{\thetable}{\thesection.\arabic{table}}
-	\renewcommand{\theHtable}{\theHsection.\arabic{table}}
+	\renewcommand{\thetable}{\textsc{\thesection}.\arabic{table}}
+%	\renewcommand{\theHtable}{\theHsection.\arabic{table}} TODO: necessary??
 	\setcounter{equation}{0}
-	\renewcommand{\theequation}{\thesection.\arabic{equation}}
-	\renewcommand{\theHequation}{\theHsection.\arabic{equation}}
-%	\setcounter{video}{0}
-%	\renewcommand{\thevideo}{\thesection.\arabic{video}}
-%	\renewcommand{\theHvideo}{\theHsection.\arabic{video}}
+	\renewcommand{\theequation}{\textsc{\thesection}.\arabic{equation}}
+%	\renewcommand{\theHequation}{\theHsection.\arabic{equation}} TODO: necessary??
+	\setcounter{video}{0}
+	\renewcommand{\thevideo}{\textsc{\thesection}.\arabic{video}}
+%	\renewcommand{\theHvideo}{\theHsection.\arabic{video}} TODO: necessary??
 	\renewcommand{\section}{%
 		\@startsection {section}{1}{\z@}%
 		{-2.5ex \@plus -1ex \@minus -.2ex}%{\baselineskip}
@@ -2223,7 +2361,7 @@
 \theoremheaderfont{\normalfont\itshape}
 \theorembodyfont{\normalfont}
 \theoremseparator{:}
-\newmdtheoremenv[style=theoremstyle]{defn}{\definitionname}[chapter]
+\newmdtheoremenv[style=theoremstyle]{definition}{\definitionname}[chapter]
 
 
 % hyperref and pdfsupport
