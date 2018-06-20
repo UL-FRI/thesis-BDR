@@ -1,0 +1,175 @@
+% load FRI thesis document class with options: 
+% - english for writing in english
+% - slovene for writing in slovene
+% - [PhD, funded] for a funded PhD thesis - doktorska disertacija MR iz gospodarstva
+% - press for print version
+% - online for online version - coloured and active figure/table/... links
+\documentclass[english,PhD]{FRIthesis}
+
+\author[A={J Demšar}]{Jure Demšar}
+
+\title[language=english]{Evolution of fuzzy animats in a competitive environment}
+\title[language=slovene]{Evolucija mehkih animatov v tekmovalnem okolju}
+
+\keywords[language=english]{artificial life, collective behaviour, fuzzy logic, genetic algorithms, predator-prey interaction}
+\keywords[language=slovene]{umetno življenje, skupinsko vedenje, mehka logika, genetski algoritmi, interakcija plenilec-plen}
+
+\approvedBy[title={Associate Professor of Computer and Information Science}, role={advisor}]{dr. Iztok Lebar Bajec}
+\approvedBy[title={Professor of Computer and Information Science}, role={examiner}]{dr. Miha Mraz}
+\approvedBy[title={Professor of Computer and Information Science}, role={examiner}]{dr. Blaž Zupan}
+\approvedBy[affiliation={University of Konstanz}, title={Director of Max Planck Institute of Ornithology, Chair of Biodiversity and Collective Behaviour}, role={external examiner}]{dr. Iain D. Couzin}
+
+\previousPublication{%
+	{Demšar J, {Lebar Bajec} I} {(2013)}
+	{Family bird: a heterogeneous simulated flock} 
+	in \emph{Advances in Artificial Life, ECAL 2013}, 
+	{Taormina, Italy}, MIT Press, 
+	doi:\,\doi{10.7551/978-0-262-31709-2-ch167}.
+}
+\previousPublication{%
+	{Demšar J, {Lebar Bajec} I} {(2014)} 
+	{Simulated predator attacks on flocks: a comparison of tactics}. 
+	\emph{Artificial life} doi:\,\doi{10.1162/ARTL\_a\_00135}. 
+}
+\previousPublication{%
+	{Demšar J, Hemelrijk C K, Hildenbrandt H, Lebar Bajec I} {(2015)} 
+	{Simulating predator attacks on schools: evolving composite tactics}. 
+	\emph{Ecological modelling} doi:\,\doi{10.1016/j.ecolmodel.2015.02.018}. 
+}
+\previousPublication{%
+	{Demšar J} {(2016)} 
+	{Evolution of collective behaviour under various types of predation} 
+	in \emph{Collective Motion 2016: Math, biology, physics and engineering come together}, {Uppsala, Sweden}. 
+}
+\previousPublication{%
+	{Demšar J, {Lebar Bajec} I} {(2017)} 
+	{Evolution of collective behaviour in an artificial world using linguistic fuzzy rule-based systems}. 
+	\emph{PLoS ONE} doi:\,\doi{10.1371/journal.pone.0168876}.
+}
+\previousPublication{%
+	{Demšar J, Štrumbelj E, {Lebar Bajec} I} {(2016)} 
+	{A balanced mixture of antagonistic pressures promotes the evolution of parallel movement}. 
+	\emph{Scientific Reports} doi:\,\doi{10.1038/srep39428}. 
+}
+\previousPublication{%
+	{Demšar J, {Lebar Bajec} I} {(2017)} 
+	{Studying predation tactics on grouping prey via individual-based computational models} 
+	in \emph{Horizons in Computer Science Research} vol. 13, {Nova Science Publishers}.
+}
+
+% force correct date display
+\forceDate{4}{2017}
+
+\cover[title={Evolution of fuzzy animats\\ in a competitive environment}, loc={SW}, colour={P1797}]{./cc/coverImage.jpg} 
+\spine[title={Evolution of fuzzy animats in a competitive Environment}, pages=190]{177}
+
+\usepackage{xspace} % helper package for automatic spaces after replacement macros, to be used with caution
+%% define common abbreviations
+\newcommand{\ie}{i.e.\xspace} % id est ~ that is
+\newcommand{\eg}{e.g.\xspace} % exempli gratia ~ for example
+\newcommand{\etal}{\xspace et al.\xspace} % et al. ~ and others
+\newcommand{\eq}{eq.\xspace} % define eq. ~ equation
+%
+%% define macros for frequently used commands 
+\newcommand{\angl}[1]{angl. \emph{#1}\xspace} % english translation
+
+%% common notation
+\newcommand{\autom}[1]{{\ensuremath{\symrm{#1}}}} % automaton; intro
+\renewcommand{\vec}[1]{\ensuremath{\symbfup{#1}}} % vector
+\newcommand{\uvec}[1]{\ensuremath{\hat{\vec{#1}}}} % unit vector, ecomod + plos + scirep
+\newcommand{\set}[1]{\ensuremath{\symbfup{#1}}} % set, intro + ecomod + plos + scirep
+\newcommand{\sset}[1]{\ensuremath{\symbb{#1}}} % superset, scirep
+
+% TODO: ?\setkeys{Gin}{width=\figurewidth}
+% TODO if press HQ else LQ
+% load path for graphics files
+\graphicspath{{img_HQ/}} % use high qualty figures - for press
+%\graphicspath{{img_LQ/}} % use low quality figures - reduce file size for email
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+% display all siunitx ranges as numA--numB
+\sisetup{range-phrase = --}
+
+%% alife
+\newcommand{\mps}[1]{\SI[per-mode=symbol,unit-mode=text]{#1}{\metre\per\second}} % m/s, alife + scirep-si
+\newcommand{\SD}[1]{\textsc{sd}\,=\,#1} % std dev
+\newcommand{\ttest}[4][]{%  % t test statistics, alife + ecomod
+	\sisetup{
+		round-mode=figures,
+		round-precision=3,
+	}%
+	$t$\,=\,\num{#2}, df\,=\,\num{#3}, %
+	\sisetup{
+		round-mode=off,
+	}%
+	\ifthenelse{\equal{#1}{}}{$p$\,=\,}{$p$\,#1\,}\num{#4}%
+}
+
+%% ecomod
+\DeclareSIUnit\bodylength{\textsc{bl}} % ecomod + scirep-si
+\DeclareSIUnit\predatorbodylength{\textsc{pbl}} 
+\newcommand{\BL}[1]{\SI{#1}{\bodylength}} % BL, ecomod + scirep-si
+\newcommand{\PBL}[1]{\SI{#1}{\predatorbodylength}} % PBL
+\newcommand{\BLps}[1]{\SI[per-mode=symbol,unit-mode=text]{#1}{\bodylength\per\second}} % BL/s, ecomod + scirep-si
+\newcommand{\BLpss}[1]{\SI[per-mode=symbol,unit-mode=text]{#1}{\bodylength\per\second\squared}} % BL/s^2 
+\newcommand{\CI}{\textsc{ci}\xspace} % confidence interval, ecomod + plos
+\newcommand{\ci}[3][]{%  % condfidence interval statistics, ecomod + plos
+	\ifthenelse{\equal{#1}{}}
+		{\xspace(95\%~\CI, \num{#2}--\num{#3})\xspace}%
+		{\xspace(#1; 95\%~\CI, \num{#2}--\num{#3})\xspace}%
+}
+
+%% plos
+\usepackage{arydshln} % required for dashed lines in tables, plos + scirep-si
+\newcommand{\st}{\textsc{st}\xspace} % single target predator, plos + scirep
+\newcommand{\hda}{\textsc{hda}\xspace} % high density area predator, plos + scirep
+\newcommand{\Mdn}[1]{Mdn\,=\,\num{#1}\xspace} % median
+\newcommand{\Ztest}[3][]{%  % Z test statistics
+	\sisetup{
+		round-mode=figures,
+		round-precision=3,
+	}%
+	$\mathit{Z}$\,=\,\num{#2}, %
+	\sisetup{
+		round-mode=off,
+	}%
+	\ifthenelse{\equal{#1}{}}{$p$\,=\,}{$p$\,#1\,}\num{#3}%
+}
+
+%% scirep
+\newcommand{\hdaa}{\hda} % high density area attacking predator
+\newcommand{\rps}[1]{\SI[per-mode=symbol,unit-mode=text]{#1}{\radian\per\second}} % rad/s 
+\DeclareMathOperator*{\argmin}{arg\,min} % argument min scirep-si
+\DeclareMathOperator*{\argmax}{arg\,max} % argument max scirep-si
+
+% define additional hyphenation patterns
+\sethyphenation{english}{coun-tered} % https://www.hyphenation24.com/
+
+
+\begin{document}
+
+\frontmatter
+	\maketitle
+	\makeapprovedby
+	\makepreviouspublication
+	\input{thesis-dedication}
+	\input{thesis-abstract}
+	\input{thesis-acknowledgements}
+ 	\tableofcontents 
+
+\mainmatter
+	\input{thesis-introduction}
+	\input{thesis-review}
+	\input{thesis-pub1_alife}
+	\input{thesis-pub2_ecomod}
+	\input{thesis-pub3_plos}
+	\input{thesis-pub4_scirep}
+	\input{thesis-conclusion}
+	\begin{appendices}
+		\input{thesis-slo}
+	\end{appendices}
+
+\backmatter
+	\input{thesis-bibliography}
+
+\end{document}
