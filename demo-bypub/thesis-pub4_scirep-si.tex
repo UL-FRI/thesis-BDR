@@ -1,0 +1,288 @@
+% !TeX root = ./thesis.tex
+
+
+
+
+
+
+
+
+
+% this is suplementary information for scirep.tex
+%-----
+\section{\textsc{Supplementary information:} \textnormal{individual based model}}
+
+The behaviour of the artificial animals -- predators and prey -- in our individual based model is governed by fuzzy logic \cite{zadeh1965fuzzy} via fuzzy-rule-based systems \cite{mamdani1974application}. Every fuzzy-rule-based system is specified via a fuzzy knowledge base, which is made from two parts -- a data base and a rule base. The rule base lists if-then rules that describe the behaviour of the artificial animal in question. The rules are assumed to be joined by the connective ``also,'' so multiple rules can fire simultaneously. The antecedent and consequent parts of individual if-then rules use linguistic terms (near, far, left, right, etc.), which are defined in the data base of the fuzzy-rule-based system. In addition the data base includes information necessary for fuzzy reasoning (see Table~\ref{table:fuzzy}), \ie the method for transforming crisp data into fuzzy sets (fuzzification), the interpretation of logical connectives necessary for fuzzy reasoning, and the method for converting the fuzzy result into a real action (defuzzification). For a detailed description of how a fuzzy rule base is evaluated the reader is invited to refer to \cite{lebarbajec2005fuzzy,lebarbajec2005simulating,mendel2001uncertain}.
+
+\begin{table}
+  \caption{Fuzzy data base settings common to predator and prey fuzzy-rule-based systems.}
+  \label{table:fuzzy}
+  \begin{tabular}{l l}
+    \toprule
+    Description & Default value \\ [0.5ex]
+    \midrule 
+    Fuzzification & Singleton \\
+	Fuzzy conjunction & Product \\
+    Fuzzy disjunction & Probabilistic sum \\
+    Fuzzy implication & Product \\
+    Fuzzy aggregation & Probabilistic sum \\
+    Defuzzification & Center of gravity \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+In our model, at every update step the fuzzy-rule-based systems (\ie the pre-set fuzzy knowledge base in the case of predators, and the evolving fuzzy knowledge bases in the case of prey individuals) were used to compute the new heading and position of every artificial animal. \tablename~\ref{table:parameters:SM} shows the values of all our model's parameters, while the following sections provide more details about the implementation of the predator and prey artificial animal.
+
+%-----
+\subsection{Predators}
+The predators in our model were hand-tuned and their behaviour was not subject to evolution. Their fuzzy knowledge base (see \figurename~\ref{figure:predator}) was set as in previous research \cite{demsar2014simulated}, with the only difference being that the predators moved at a constant speed. The fuzzy-rule-based system computed the predator's desired heading direction based on its current target prey individual; it implemented classical pursuit, where the predator moves directly toward the evading target prey individual \cite{kane2014falcons,nahin2012chases}.
+
+\begin{figure}
+  \includegraphics[width=\figurewidth]{scirep/si-predator_db}\\
+  \scriptsize
+  \vspace*{3mm}
+	\begin{minipage}{\figurewidth}
+		\textsc{r}1:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{right}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{right})\\
+		\textsc{r}2:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{left}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{left}) \\
+		\textsc{r}3:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{in front}) \textbf{and} (\textsc{target heading} is \emph{right}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{right})\\
+		\textsc{r}4:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{in front}) \textbf{and} (\textsc{target heading} \textbf{is} \emph{left}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{left})\\
+		\textsc{r}5:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{in front}) \textbf{and} (\textsc{target heading} \textbf{is} \emph{same}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{same})
+	\end{minipage}
+  \caption{The hand-tuned fuzzy knowledge base of the predator fuzzy-rule-based system.}
+  \label{figure:predator}
+\end{figure}
+
+Let $d^{(i,j)}_t=\|\vec{r}^{(j)}_t-\vec{r}^{(i)}_t\|$ denote the distance between artificial animals $i$ and $j$ at time instant $t$ and $\uvec{d}^{(i,j)}_t=(\vec{r}^{(j)}_t-\vec{r}^{(i)}_t)/d^{(i,j)}_t$ the unit vector pointing from $i$ to $j$ at time instant $t$. The angular position of artificial animal $j$ with respect to $i$ is then
+%
+\begin{equation}
+\theta^{(i,j)}_t=\arccos\left(\uvec{v}^{(i)}_t \cdot \uvec{d}^{(i,j)}_t\right)
+\end{equation}
+%
+and the relative orientation of artificial animal $j$ with respect to $i$
+%
+\begin{equation}
+\phi^{(i,j)}_t=\phi^{(j)}_t-\phi^{(i)}_t.
+\end{equation}
+
+Let $\kappa$ be a predator and $\alpha$ its current target. To compute the predator's desired heading its fuzzy-rule-based system input variables \textsc{target position} and \textsc{target heading} were set to $\theta^{(\kappa,\alpha)}_t$ and $\phi^{(\kappa,\alpha)}_t$, respectively.
+
+The principal focus of the study was the analysis of the evolved behaviour when varying exposure to multiple simultaneous predation pressures. We used predators that according to previous research might pressure prey towards a) grouping \cite{biswas2014causes,kunz2006prey,olson2013predator,olson2016evolution} (\ie attack the most peripheral prey individual or attack the nearest prey individual) and b) dispersing \cite{olson2013predator} (\ie attack the most central prey individual or attack high density areas).
+
+Let $\set{N}^{(i)}_t=\{j \in \set{I}|\ j \neq i, d^{(i,j)}_t \leq r^{(i)}_\textnormal{v}\}$ denote the neighbourhood of prey individual $i$. High density area attacking predators ($h$) detected and pursued the prey individual with the highest amount of nearby neighbours;
+%
+\begin{equation}
+\alpha^{(h)}_t = \argmax_{i \in \set{I}} \left|\set{N}^{(i)}_t\right|.
+\end{equation}
+
+Note that in the case of a high density area attacking predator (\hdaa predator) the targeted prey individual constantly changed, so that the \hdaa predator effectively detected and pursued the highest density area. Following Olson\etal \cite{olson2013predator} the \hdaa predators moved at a slower speed than prey and were also less manoeuvrable. If the \hdaa predator was close enough to any of the prey individuals (\ie $d^{(h,i)}_t\leq r^{(h)}_\textnormal{c},\ i \in \set{I}$) they were marked as captured. Note also that the \hdaa predator could consume any prey individual and not only the targeted prey individual, therefore mimicking predators capable of attacking and capturing several prey individuals in a single predation event \cite{goldbogen2011mechanics,nottestad1999herring,nottestad2002whales,mori2006first}.
+
+Predators that attack the nearest, the most peripheral or the most central prey individual detect, pursue, attack and capture a single prey individual \cite{demsar2014simulated}. In this study we label them with the common name single-target attack or \st predators. Note that in contrast to \hdaa predators, in the case of an \st predator the target prey individual was detected only on special occasions and then pursued until captured or until the predator's hunt duration expired. The detection of the target prey individual occurred at the time instant when the \st predator appeared or the currently targeted prey individual died during pursuit. 
+
+Following previous research \cite{demsar2014simulated,hemelrijk2000towards,hemelrijk2005construction,hildenbrandt2010selforganized} 
+%
+\begin{equation}
+P^{(i)}_t = \frac{1}{\left|\set{N}^{(i)}_t\right|}\left\| \sum_{j \in \set{N}^{(i)}_t} \uvec{d}^{(i,j)}_t \right\|
+\label{equation:peripherality}
+\end{equation}
+%
+is the peripherality of prey individual $i$ at time instant $t$. The peripherality of stragglers, prey individuals with no visible neighbour, \ie $\set{N}^{(i)}_t=\emptyset$, was set to $+\infty$. Let $s$ be an \st predator. The nearest, $\alpha^{(s)}_\textnormal{n}$, the most peripheral, $\alpha^{(s)}_\textnormal{p}$, and the most central prey individual, $\alpha^{(s)}_\textnormal{c}$, were defined as
+%
+\begin{equation}
+\alpha^{(s)}_\textnormal{n} = \argmin_{i \in \set{I}} d^{(s,i)}_\sigma,
+\end{equation}
+%
+\begin{equation}
+\alpha^{(s)}_\textnormal{c} = \argmin_{i \in \set{I}} P^{(i)}_\sigma,
+\end{equation}
+%
+\begin{equation}
+\alpha^{(s)}_\textnormal{p} = \argmax_{i \in \set{I}} P^{(i)}_\sigma,
+\end{equation}
+%
+where $\sigma$ is the time instant of target prey individual detection. In view of recent research by Biswas\etal, which suggests that prey clumping emerges regardless of predator confusion\cite{biswas2014causes}, when an \st predator was close enough to its targeted prey individual (\ie $d^{(s,\alpha)}_t\leq r^{(s)}_\textnormal{c}$, where $\alpha$ is the currently targeted prey) the latter was marked as captured. Meaning that in contrast to previous research \cite{demsar2015simulating,kunz2006prey,olson2013predator,olson2016evolution}, the possibility of the predator getting confused was not explicitly modelled. In other words, predators in our model did not change their target and remained focused throughout the whole hunt event. As a contrast to \hdaa predators, \st predators were faster than prey, but were also less manoeuvrable.
+
+%-----
+\subsection{Prey}
+
+Every prey individual's behaviour was governed by its own fuzzy-rule-based system that, by the application of fuzzy reasoning over an evolving set of if-then rules, determined the individual's desired heading in the next time step. Only the fuzzy rule base was evolved; the fuzzy data base was kept constant (see \figurename~\ref{figure:prey}). The input variables can be decomposed into three parts: a) information regarding the living area, b) information regarding the nearest predator, and c) information regarding the interacting neighbour. 
+ 
+\begin{figure}
+  \includegraphics[width=\figurewidth]{scirep/si-prey_db}
+  \caption{The data base for prey individuals. The rule base for prey individuals was generated using genetic fuzzy systems.}
+  \label{figure:prey}
+\end{figure}
+
+At all times prey individuals were aware of the distance and angular position of the nearest point on the border of the living area (\figurename~\ref{figure:preyInput}a), so the input variables \textsc{living area distance} and \textsc{living area position} of prey individual $i$ were set to 
+%
+\begin{equation}
+d^{(i)}_t=\min(0,\ \max(r_\textnormal{LA}-\|\vec{r}^{(i)}_t\|),\ r^{(i)}_\textnormal{v})
+\end{equation} 
+%
+and 
+%
+\begin{equation}
+\theta^{(i)}_t=\arccos\left(\uvec{v}^{(i)}_t \cdot \uvec{r}^{(i)}_t\right),
+\end{equation}
+%
+respectively. 
+
+\begin{figure}
+  \includegraphics[width=\figurewidth]{scirep/si-interaction}
+  \infigurecaption{a) distance, $d^{(i)}_t$, and angular position $\theta^{(i)}_t$ of the nearest point on the border of the living area, b) distance, $d^{(i,\kappa)}_t$, angular position, $\theta^{(i,\kappa)}_t$, and relative orientation, $\phi^{(i,\kappa)}_t$, of the nearest predator, c) distance, $d^{(i,j)}_t$, angular position, $\theta^{(i,j)}_t$, and relative orientation, $\phi^{(i,j)}_t$, of the interacting neighbour.}
+  \caption{Quantities available to prey individuals in order to determine their desired heading.}
+  \label{figure:preyInput}
+\end{figure}
+
+As empirical data suggests that animals in groups usually react to predator attacks\cite{partridge1982structure,pitcher1983predator}, it is safe to assume that in most cases prey individuals can detect the incoming predator attack at some point in time. For this reason, in our model, prey individuals were aware of the nearest visible predator. From the prey individual's point of view this is the predator that poses the highest threat \cite{rieucau2014experimental}. The input variables \textsc{predator distance}, \textsc{predator position}, and \textsc{predator heading} were set to $d^{(i,\kappa)}_t$, $\theta^{(i,\kappa)}_t$, and $\phi^{(i,\kappa)}_t$, respectively (\figurename~\ref{figure:preyInput}b). Here $\kappa$ denotes the nearest currently visible predator of prey individual $i$, computed as
+%
+\begin{equation}
+\kappa = \argmin_{k \in \set{K}} d^{(i,k)}_t,\ \set{K}=\{k \in \set{S} \cup \set{H}|\ d^{(i,k)}_t \leq r^{(i)}_\textnormal{v}\}, 
+\end{equation}
+%
+where $\set{K}$ is the set of predators (\st or \hdaa) currently visible by prey individual $i$. If the prey individual did not see any predators the input variables were marked as \textsc{undefined}. If-then rules with any of their input variables marked as \textsc{undefined} were excluded from fuzzy reasoning.
+
+A large-scale empirical study conducted in Rome \cite{ballerini2008interaction} discovered an anisotropic nature of interactions in starling flocks. This type of interaction became known as topological interaction, where an individual interacts with $\approx$\num{6.5} of its nearest neighbours. Bode\etal \cite{bode2010perceived} proposed a much simpler interaction model capable of replicating the anisotropic nature of the interactions observed in the empirical study. In their model interaction is stochastic in nature and the probability of prey individual $i$ interacting with prey individual $j$ depends on visibility of individual $j$ and is inversely proportional to its distance,
+%
+\begin{equation}
+p(i,j) = 
+	\begin{cases}
+		\frac{1}{d^{(i,j)}_t}, &\text{iff }j \in \set{N}^{(i)}_t\\
+		0, &\text{otherwise}.
+    \end{cases}
+\label{equation:neigbour}
+\end{equation}
+
+Following Bode\etal \cite{bode2010perceived} prey individuals in our model at every time instant interacted with only one other prey individual, as this greatly reduces the number of fuzzy-rules that have to be evaluated per prey individual. The fuzzy-rule-based system input variables \textsc{neighbour distance}, \textsc{neighbour position}, and \textsc{neighbour heading} were set to $d^{(i,j)}_t$, $\theta^{(i,j)}_t$, and $\phi^{(i,j)}_t$, respectively (\figurename~\ref{figure:preyInput}c). Like in the case of the input variables related to the nearest predator, if the prey individual had no visible neighbour, i.e $\set{N}^{(i)}_t = \emptyset$ in \eq \eqref{equation:neigbour}, the input variables were marked as \textsc{undefined}.
+
+Evolution was achieved by the application of genetic algorithms over the fuzzy-rule-based systems, \ie by genetic fuzzy systems. Genetic fuzzy systems have been extensively used for the optimization of hand-crafted fuzzy knowledge bases, and evolution of data bases, rule bases or the whole fuzzy knowledge base \cite{cordon2004ten,fernandez2015revisiting,herrera2008genetic}. In our case we pre-specified the data base and used a genetic fuzzy system to evolve only the rule bases of every prey individual. Our inspiration were messy genetic algorithms \cite{goldberg1989messy} which use the Pittsburgh approach: each individual in the population is a complete rule base \cite{hoffman1997evolutionary,smith1980learning}.
+
+\begin{table}
+  \caption{Parameters of the genetic fuzzy system.}
+  \label{table:ga}
+  \begin{tabular}{l l}
+    \toprule
+    Description & Default (tested) value \\ [0.5ex]
+    \midrule
+    Number of if-then rules per individual & 2--30 (2--50) \\
+    Number of antecedents per rule & 1--2 (1--3) \\
+    Mutation rate & 2\% \\ 
+    Mutation intensity & 3 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The initial population of prey individuals had a randomly generated rule base. The only constraints were the number of if-then rules per individual and the number of antecedents per rule (see \tablename~\ref{table:ga}). The constraints were selected to keep an individual's reasoning as simple as possible. Preliminary tests of the influence of these two constraints on the resulting behaviour by performing evolutions with a higher maximal number of rules (50) and/or antecedents (3) showed results similar to those reported in the main article. 
+
+When a prey individual died a new prey individual (child) was created by merging the rule bases of two prey individuals (parents) that were still alive. Selection of parents was fitness proportionate, where the fitness was based on the prey individual's energy level. The number of rules in the rule base of the child prey individual was a uniformly distributed random number between the number of rules in the parent's rule base, whose rule base had the lowest number of rules, and the number of rules in the other parent's rule base. For example, if the rule base of one parent had 15 rules and the other 18 the child could have anywhere between 15 and 18 rules. 
+
+Rules in the rule bases of the two parents that had the same antecedent part and the same consequent part of the if-then rule were treated as equal. First equal rules were copied to the child's rule base. Following that the remaining slots were filled with random rules from the set of non-equal rules. Once the child's rule base had the required number of rules there was a 2\% chance a mutation could trigger (mutation rate). There were two kinds of mutations in our genetic fuzzy system; the first type inserted new random rules into the child's rule base, the other removed existing rules. The amount of rules inserted or removed was a uniformly distributed random number between 1 and 3 (mutation intensity). Note that each mutation type could trigger independently so every time a new child prey individual was created each mutation type (insert rules, remove rules) had a 2\% chance of triggering.
+
+%-----
+\subsection{Biological relevance of the parameters}
+
+Where possible we attempted to set the model's parameters to biologically relevant values (see \tablename~\ref{table:parameters:SM}). We modelled the prey species after the Pacific Blue-eye (\emph{Pseudomugil signifier}), a fish species that is well known for schooling \cite{herbertread2010sensory,herbertread2015intiation,herbertread2016threedimensional}. In the case of Herbert-Read\etal \cite{herbertread2015intiation} the body lengths (\si{\bodylength}) of captured Pacific Blue-eyes were from \SIrange{2}{3}{\cm}. Other studies \cite{pusey2004freshwater} report an average \si{\bodylength} of approximately \SI{3.5}{\cm}. In our case we used a body length value of \SI{3}{\cm}. The cruising speed of Pacific Blue-eyes is approximately \mps{0.124} $\approx$ \BLps{4} \cite{herbertread2015intiation}. For prey visibility distance we used the equation provided by Tyrell\etal \cite{tyrrell2013looking}. We could not find the exact spatial resolving power of the Pacific Blue-eye so we used the value of a fish of similar size, the zebrafish (\emph{Danio rerio}) \cite{pita2015vision}. This value is relevant since fish of similar size, have similar sized retinas, and thus similar vision capabilities \cite{hairston1982fish}. The zebrafish can spot an object of size \SI{3}{\cm} (the size of a prey individual in our model) at a distance of \SI{330}{\cm}. Because the zebrafish is slightly larger than the Pacific Blue-eye and fish with larger retinas can see farther \cite{hairston1982fish}, we set the visibility distance of prey individuals to \BL{100}. As pointed out by Domenici \cite{domenici2001scaling}, speed changes and body size play a major role in turning rates of fish. Because the speed in our model is constant we could not use the empirical data about fish turning rates. Which is why the maximum manoeuvrability of prey individuals was tuned by hand in such a way that with a hand-tuned fuzzy-rule-based system prey individuals were able to avoid others effectively but without introducing too erratic or jerky movements.
+
+An example of a single-target attack predator that attacks schools of Pacific Blue-eyes is the flathead Gudgeon (\emph{Philypnodon grandiceps}) \cite{herbertread2016threedimensional}. The flathead Gudgeon is usually around \SI{8}{\cm} in length, but it can sometimes grow up to \SI{12}{\cm} in length \cite{pusey2004freshwater}, so we set the size of \st predators in our model to \BL{3} (\SI{9}{\cm}). The linear regression formula provided by Domenici \cite{domenici2001scaling} suggests that a predator that is 3 times larger than the prey is also approximately \num{1.4} times faster than the prey. Based on that we set the speed of \st predators in our model to \BLps{5.6}. The \st predator vision radius calculated using the same approach as for prey individual's \cite{hairston1982fish,pita2015vision,tyrrell2013looking}, would be approximately \BL{300}. However, in mammals \cite{veilleux2014visual}, once the effects of eye size and phylogeny have been statistically controlled, predatory habits are associated with a higher visual acuity. In addition, some aquatic predators, \eg swordfish (\emph{Xiphias gladius}), warm their retina to significantly improve temporal resolution, and hence the detection of rapid motion \cite{fritsches2005warm}. Since the goal of this research is the investigation of behaviour that evolves under various predation pressure mixtures, we wanted to guarantee that the predators can always find and target the most vulnerable prey individual (with respect to the predator's predation tactic). Which is why the vision of predators in our model is not limited. With this we also removed the occurrences when the predator ``did not see a potential prey target.'' To calculate the manoeuvrability of \st predators we used the equation designed on empirical data by McKenzie\etal \cite{mckenzie2007locomotion}. Using this equation, we calculated that a single target predator should be \num{1.7} times less manoeuvrable than prey.
+
+\begin{table}
+  \caption{The individual based model's parameters; \st -- single-target attack, \hdaa -- high density area attack.}
+  \label{table:parameters:SM}
+  \renewcommand*{\arraystretch}{.99} % reduce interline spacing by 1%; resolves "Float too large for page by 1.35126pt"
+  \begin{tabular}{l l l}
+    \toprule
+    Parameter & Description & Default value \\
+    \midrule 
+    $\tau$ & Update step & \SI{1}{\second} \\
+    $\si{\bodylength}$ & Body length & \SI{3}{\cm} \\
+    $r_\textnormal{LA}$ & Living area radius & \BL{350} \\
+    \midrule 
+	$\set{I}$ & Set of prey individuals (size) & 100 \\
+    $b^{(i)}$ & Prey appearance area radius & \BL{325} \\
+    $s^{(i)}$ & Prey size & \BL{1} \\
+    $v^{(i)}$ & Prey speed & \BLps{4} \\
+    $r^{(i)}_\textnormal{v}$ & Prey vision radius & \BL{100} \\
+    $\omega^{(i)}_\textnormal{max}$ & Prey maximum manoeuvrability &  \rps{0.23}\\
+    $\epsilon_0$ & Prey initial energy & \num{1000} \\
+    $\epsilon_\textnormal{l}$ & Prey living energy gain & 1 \\
+    $\epsilon_\textnormal{c}$ & Prey collision penalty & \num{-10} \\
+    $\epsilon_\textnormal{w}$ & Prey wandering penalty & \num{-10} \\
+    \midrule
+    $t_\textnormal{r}$ & Predator re-appearance time & \SIrange{600}{1200}{\second} \\
+    $t_\textnormal{h}$ & Predator hunt duration & \SI{600}{\second} \\
+	\hdashline
+	$\set{S}$ & Set of \st predators (size) & 0--8 \\
+    $b^{(s)}$ & \st predator appearance distance & \BL{400} \\
+    $s^{(s)}$ & \st predator size & \BL{3} \\
+    $v^{(s)}$ & \st predator speed & \BLps{5.6} \\
+    $r^{(s)}_\textnormal{c}$ & \st predator catch distance & \BL{3} \\
+    $\omega^{(s)}_\textnormal{max}$ & \st predator maximum manoeuvrability & \rps{0.16} \\
+    \hdashline
+    $\set{H}$ & Set of \hdaa predators (size) & 0--8 \\
+    $b^{(h)}$ & \hdaa predator appearance distance & \BL{400} \\
+    $s^{(h)}$ & \hdaa predator size & \BL{12} \\
+    $v^{(h)}$ & \hdaa predator speed & \BLps{3} \\
+    $r^{(h)}_\textnormal{c}$ & \hdaa predator catch distance & \BL{12} \\
+    $\omega^{(h)}_\textnormal{max}$ & \hdaa predator maximum manoeuvrability & \rps{0.03} \\
+    \midrule
+    $E$ & Duration of evolution & \SI{10000000}{\second} \\
+    $I$ & Number of iterations & 20 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{largefigure} % float too large for page by 16pt [with largefigure environment the max is 37pt]
+	\includegraphics[width=\figurewidth]{scirep/si-tern}
+	\infigurecaption{P -- attack prey individuals located at the periphery of the prey groups, N -- attack the nearest prey individual, C -- attack the most central prey individual in a prey group, and H -- high density area attacks. The predator pressure combinations and mixtures were ordered so that the top row and left column, represent the highest pressure towards grouping, the right column and bottom row the highest pressure towards dispersing. The middle section represents antagonistic predation pressures. The scales of the ternary plot were arranged so that the top corner indicates low density, the bottom left corner indicates high density and angular momentum, and the bottom right corner indicates high density and polarization. Note that the ternary plot shows the relationship between the three variables (\ie which one dominates, in relative terms). Since the same point can represent completely different behaviours the sum of the three dimensions is used for colour coding.}
+	\caption{Normalized prey density (d), polarization (p) and angular momentum (m) for all predation pressure mixtures, N=\num{5400}.}
+	\label{figure:antagonistic:SM}
+\end{largefigure}
+
+\begin{video}
+	\includegraphics[width=\figurewidth]{scirep/si-V1_1350}
+	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most central prey individual (C), or b) use high density area attacks (H). The specific predation pressure mixture was C:H, 6:2. The conformity in predation pressures leads prey individuals to evolve individual behaviours that result in low density, high momentum, and low polarization, which could be interpreted as milling.}
+	\caption{Conformity in predation pressures.} 
+	\label{video:V1}
+\end{video}
+
+\begin{video}
+	\includegraphics[width=\figurewidth]{scirep/si-V2_1350}
+	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most central prey individual (C), or b) use high density area attacks (H). The specific predation pressure mixture was C:H, 1:7. The conformity in predation pressures leads prey individuals to evolve individual behaviours that result in low density, low momentum, and low polarization, which could be interpreted as swarming.}
+	\caption{Conformity in predation pressures.}
+	\label{video:V2}
+\end{video}
+
+\begin{video}
+	\includegraphics[width=\figurewidth]{scirep/si-V3_1350}
+	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most peripheral prey individual (P), or b) use high density area attacks (H). The specific predation pressure mixture was P:H, 7:1. A low degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in high density, high momentum, and low polarization, which are typically associated with milling.}
+	\caption{Low degree of antagonism in predation pressures.}
+	\label{video:V3}
+\end{video}
+
+\begin{video}
+	\includegraphics[width=\figurewidth]{scirep/si-V4_1350}
+	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most peripheral prey individual (P), or b) use high density area attacks (H). The specific predation pressure mixture was P:H, 7:1. A low degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in high density, low momentum, and low polarization, which are typically associated with swarming.}
+	\caption{Low degree of antagonism in predation pressures.}
+	\label{video:V4}
+\end{video}
+
+\begin{video}
+	\includegraphics[width=\figurewidth]{scirep/si-V5_1350}
+	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most peripheral prey individual (P), or b) attack the most central prey individual (C). The specific predation pressure mixture was P:C, 5:3. A high degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in medium density, low momentum, and high polarization, which are typically associated with dynamic polarized motion.}
+	\caption{High degree of antagonism in predation pressures.}
+	\label{video:V5}
+\end{video}
+
+\begin{video}
+	\includegraphics[width=\figurewidth]{scirep/si-V6_1350}
+	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most peripheral prey individual (P), or b) use high density area attacks (H). The specific predation pressure mixture was P:H, 4:4. A high degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in medium density, low momentum, and high polarization, which are typically associated with dynamic polarized motion.}
+	\caption{High degree of antagonism in predation pressures.}
+	\label{video:V6}
+\end{video}
+
+\begin{video}
+	\includegraphics[width=\figurewidth]{scirep/si-V7_1350}
+	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the nearest prey individual (N), or b) use high density area attacks (H). The specific predation pressure mixture was N:H, 5:3. A high degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in high density, low momentum, and high polarization, which are typically associated with highly polarized motion.}
+	\caption{High degree of antagonism in predation pressures.}
+	\label{video:V7}
+\end{video}
+

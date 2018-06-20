@@ -140,7 +140,7 @@
 % TODO test with just two font sizes 12 & 8 as optical size, compute best font size based on width of body text; see vaignelli cannon & memoire.pdf
 % https://pearsonified.com/2011/12/golden-ratio-typography.php
 % http://ftp.math.purdue.edu/mirrors/ctan.org/info/memdesign/memdesign.pdf pg 48
-\input{bk9.clo} % font sizes, convert to bp
+\input{bk9.clo} % font sizes, convert to bp [check use of all fontsizes and declare appropriately, headers, footnotes, captions, etc.]
 
 %\RequirePackage{ebgaramond}
 %\RequirePackage{ebgaramond-maths} % should this be included for proper microtype? 
@@ -154,7 +154,7 @@
 \RequirePackage[math-style=french,bold-style=upright]{unicode-math} % ,mathrm=sym,mathbf=sym ... causes issues with \siunitx [uppercase numerals in text] TODO: sans serif greek!!!
 \RequirePackage{ragged2e} % for flushleft justification with hyphenation turned on
 
-\setmainfont{EBGaramond12-Regular.otf}[
+\setmainfont{EBGaramond12-Regular.otf}[ % https://github.com/georgd/EB-Garamond
 	Path=fonts/EBGaramond/,
 	Ligatures={TeX,Discretionary},
 	UprightFeatures={
@@ -175,7 +175,7 @@
 	AutoFakeBold=1.5
 ]
 
-\setsansfont{SourceSansPro}[
+\setsansfont{SourceSansPro}[ % https://github.com/adobe-fonts/source-sans-pro, 2.020R-ro/1.075R-it 
 	Path=fonts/SourceSansPro/,
 	Mapping=tex-text, 
 	Ligatures={TeX}, 
@@ -187,7 +187,7 @@
 	Scale=MatchLowercase
 ]
 
-\setmonofont{SourceCodePro}[
+\setmonofont{SourceCodePro}[ % https://github.com/adobe-fonts/source-code-pro, 2.030R-ro/1.050R-it
 	Path=fonts/SourceCodePro/,
 	Mapping=tex-text, 
 	Ligatures={TeX}, 
@@ -203,9 +203,10 @@
 %\setmathfont{Asana Math} % base font until v1.2.20170526
 %\setmathfont{EB Garamond} % To use in the future?
 % TODO: check printed
-\setmathfont{Garamond-math.otf}[ % base math font to use in the future? [override only bold and bolditalic]
+% base math font to use in the future? [override only bold and bolditalic, greek italic!!]
+\setmathfont{Garamond-math.otf}[ % https://github.com/YuanshengZhao/Garamond-Math
 	Path=fonts/Garamond-Math/,
-	StylisticSet=1
+	StylisticSet={1,4} % Garamond based blackboard, Semibold, SemiboldItalic
 ] 
 
 % override math sans serif fonts
@@ -357,6 +358,14 @@
 	\setotherlanguage{slovenian}
 	\RequirePackage[locale=UK,abbreviations]{siunitx} % load siunitx package for printing numers and units
 \fi
+
+% command for introducing hyphenation/syllabization patterns
+\newcommand{\sethyphenation}[2]{%
+	\AtBeginDocument{%
+		\begin{#1}\hyphenation{#2}\end{#1}%
+	}%
+}
+
 \sisetup{detect-all, math-rm=\symup, math-sf=\symsf, math-tt=\symtt} % make siunitx detect mode (math, text, sans, typewriter, bold, and force use of symrm instead of mathrm to get uppercase numerals in math mode)
 
 % enter LaTeX3 code
@@ -423,7 +432,7 @@
 
 % load graphics and color related packages and setup colors
 \RequirePackage{graphicx}
-\RequirePackage{xcolor} % {colortbl} for color tables
+\RequirePackage{xcolor} % TODO {colortbl} for color tables, colorspace for pantone http://ctan.ijs.si/tex-archive/macros/latex/contrib/colorspace/colorspace.pdf
 \RequirePackage{tikz}
 \RequirePackage[all]{background} % required for chaptermarks based on TikZ
 
@@ -479,21 +488,16 @@
 \fi
 \newlength{\mW}\setlength{\mW}{\trimMark+\bleedW+\bindingW+\pageW+\bleedW+\trimMark} % media width
 \newlength{\mH}\setlength{\mH}{\trimMark+\bleedH+\pageH+\bleedH+\trimMark} % media height
-%\newlength{\cx}\setlength{\cx}{\trimMark+\bleedW+\bindingW}
-%\newlength{\cy}\setlength{\cy}{\trimMark+\bleedH}
-%\newlength{\cX}\setlength{\cX}{\mW-\trimMark-\bleedW}
-%\newlength{\cY}\setlength{\cY}{\mH-\trimMark-\bleedH}
-%\newlength{\tx}\setlength{\tx}{\trimMark+\bleedW}
-%\newlength{\ty}\setlength{\ty}{\trimMark+\bleedH}
-%\newlength{\tX}\setlength{\tX}{\mW-\trimMark-\bleedW}
-%\newlength{\tY}\setlength{\tY}{\mH-\trimMark-\bleedH}
 
 \setlength{\columnsep}{\gridW/4} % must be declared as floatrow by default sets capbesidesep=columnsep
 \setlength{\columnseprule}{0mm}
 \setlength{\marginparsep}{\gridW/4}
 \setlength{\marginparwidth}{\marginO-3\marginparsep}
 \setlength{\headheight}{\baselineskip}
-\setlength{\headsep}{\gridH/4-\baselineskip} % to do \gridH/4 - depth for baseline of font!
+\newlength{\gs@dpth}\settodepth{\gs@dpth}{\normalfont\normalsize q} % get font depth (normalsize)
+\newlength{\gs@bls}\normalfont\normalsize\setlength{\gs@bls}{\baselineskip} % get baselineskip (normalsize)
+\setlength{\headsep}{\gridH/4-\baselineskip}
+\setlength{\footskip}{\headsep+\headheight}
 
 \pgfmathsetlengthmacro{\bO}{\bindingW+\bleedW+\trimMark}
 \pgfmathsetlengthmacro{\mI}{\marginI}
@@ -538,98 +542,131 @@
 
 % TODO: use totcount package and
 % \regtotcounter{chapter}\total{chapter}
-% to definethe VOffset @deltay to step chapterMarks so that they are distributed over the whole textheight (if more than the amount that fits in)
+% TODO to definethe VOffset @deltay to step chapterMarks so that they are distributed over the whole textheight (if more than the amount that fits in)
 % current max is 12 chapters ... 6.14in/13mm=11.99
-% remove thmb on schapters (e.g. bibliography)
 \newcommand{\@ULsquare}{13mm}
 \newlength{\VOffset}\setlength{\VOffset}{-\@ULsquare}
 
-\newlength{\gs@dpth}\settodepth{\gs@dpth}{\normalfont\normalsize q}
-\newlength{\gs@bls}\setlength{\gs@bls}{\baselineskip}
-\newcommand{\@drawGridSystem}
-{
+\newcommand{\@drawGridSystem}{
 	% grid system
-	\pgfmathsetmacro{\nRows}{round(6*\gridH/\gs@bls)}
 	\checkoddpage
 	\ifoddpageoroneside
 		\foreach \n in {1,...,8} {
-			\draw[dashed, lightgray]
+			\draw[dashed, color=lightgray]
 			(\trimMark+\bleedW+\bindingW+\n\gridW,-\bleedH-\trimMark)
 			--
 			(\trimMark+\bleedW+\bindingW+\n\gridW,-\mH+\bleedH+\trimMark);
-			\draw[dashed, lightgray]
+			\draw[dashed, color=lightgray]
 			(\trimMark+\bleedW+\bindingW,-\n\gridH-\bleedH-\trimMark)
 			--
 			(\mW-\bleedW-\trimMark,-\n\gridH-\bleedH-\trimMark);
 		}
-		\draw[dashed, black]
+		\draw[dashed, color=black]
 		(\trimMark+\bleedW+\bindingW,-\bleedH-\trimMark)
 		--
 		(\trimMark+\bleedW+\bindingW,-\mH+\bleedH+\trimMark);
-		\draw[green]
-		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT)
-		rectangle
-		(\mW-\trimMark-\bleedW-\marginO,-\mH+\trimMark+\bleedH+\marginB);
-		\draw[green!50]
-		(\mW-\trimMark-\bleedW-\marginO+\marginparsep,-\trimMark-\bleedH-\marginT)
-		rectangle
-		(\mW-\trimMark-\bleedW-\marginO+\marginparsep+\marginparwidth,-\mH+\trimMark+\bleedH+\marginB);
-		\draw[dashed, green]
-		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT+\headsep+\headheight)
-		rectangle
-		(\mW-\trimMark-\bleedW-\marginO+\gridW/2,-\trimMark-\bleedH-\marginT+\headsep);
-		\draw[dashed, green]
-		(\trimMark+\bleedW+\bindingW+\marginI,-\mH+\trimMark+\bleedH+\marginB-\headsep)
-		rectangle
-		(\mW-\trimMark-\bleedW-\marginO+\gridW/2,-\mH+\trimMark+\bleedH+\marginB-\headsep-\headheight);
-%		\foreach \n in {1,...,\nRows} {
-%			\draw[dashed, red]
-%			(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT-\n\gs@bls+\gs@dpth)
-%			--
-%			(\mW-\trimMark-\bleedW-\marginO,-\trimMark-\bleedH-\marginT-\n\gs@bls+\gs@dpth);
-%		}
 	\else
 		\foreach \n in {1,...,8} {
-			\draw[dashed, lightgray]
+			\draw[dashed, color=lightgray]
 			(\mW-\trimMark-\bleedW-\bindingW-\n\gridW,-\trimMark-\bleedH)
 			--
 			(\mW-\trimMark-\bleedW-\bindingW-\n\gridW,-\mH+\trimMark+\bleedH);
-			\draw[dashed, lightgray]
+			\draw[dashed, color=lightgray]
 			(\mW-\trimMark-\bleedW-\bindingW,-\n\gridH-\bleedH-\trimMark)
 			--
 			(\trimMark+\bleedW,-\n\gridH-\bleedH-\trimMark);
 		}
-		\draw[dashed, black]
+		\draw[dashed, color=black]
 		(\mW-\trimMark-\bleedW-\bindingW,-\trimMark-\bleedH)
 		--
 		(\mW-\trimMark-\bleedW-\bindingW,-\mH+\bleedH+\trimMark);
-		\draw[green]
-		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\marginT-\bleedH-\trimMark)
-		rectangle
-		(\trimMark+\bleedW+\marginO,-\mH+\marginB+\bleedH+\trimMark);
-		\draw[green!50]
-		(\trimMark+\bleedW+\marginO-\marginparsep,-\marginT-\bleedH-\trimMark)
-		rectangle
-		(\trimMark+\bleedW+\marginO-\marginparsep-\marginparwidth,-\mH+\marginB+\bleedH+\trimMark);
-		\draw[dashed,green]
-		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\marginT-\bleedH-\trimMark+\headsep+\headheight)
-		rectangle
-		(\trimMark+\bleedW+\marginO-\gridW/2,-\marginT-\bleedH-\trimMark+\headsep);
-		\draw[dashed,green]
-		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\mH+\marginB+\bleedH+\trimMark-\headsep)
-		rectangle
-		(\trimMark+\bleedW+\marginO-\gridW/2,-\mH+\marginB+\bleedH+\trimMark-\headsep-\headheight);
-%		\foreach \n in {1,...,\nRows} {
-%			\draw[dashed, red]
-%			(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\marginT-\bleedH-\trimMark-\n\gs@bls+\gs@dpth)
-%			--
-%			(\trimMark+\bleedW+\marginO,-\marginT-\bleedH-\trimMark-\n\gs@bls+\gs@dpth);
-%		}
 	\fi
 }
 
-\newcommand{\@drawTrimMarks}
-{
+\newcommand{\@drawTextAreas}{
+	\checkoddpage
+	\ifoddpageoroneside
+		\draw[color=orange] % body text area
+		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT)
+		rectangle
+		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth,-\trimMark-\bleedH-\marginT-\textheight);
+		\draw[color=orange] % marginpar text area
+		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth+\marginparsep,-\trimMark-\bleedH-\marginT)
+		rectangle
+		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth+\marginparsep+\marginparwidth,-\trimMark-\bleedH-\marginT-\textheight);
+		\draw[color=orange] % header text area
+		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT+\headsep+\headheight)
+		rectangle
+		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth+\marginparsep+\marginparwidth,-\trimMark-\bleedH-\marginT+\headsep);
+		\draw[color=orange] % footer
+		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip-\gs@dpth+\gs@bls)
+		rectangle
+		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip-\gs@dpth);
+	\else
+		\draw[color=orange] % body text area
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\trimMark-\bleedH-\marginT)
+		rectangle
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth,-\trimMark-\bleedH-\marginT-\textheight);
+		\draw[color=orange] % marginpar text area
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth-\marginparsep,-\trimMark-\bleedH-\marginT)
+		rectangle
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth-\marginparsep-\marginparwidth,-\trimMark-\bleedH-\marginT-\textheight);
+		\draw[color=orange] % header text area
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\trimMark-\bleedH-\marginT+\headsep+\headheight)
+		rectangle
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth-\marginparsep-\marginparwidth,-\trimMark-\bleedH-\marginT+\headsep);
+		\draw[color=orange] % footer text area
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip-\gs@dpth+\gs@bls)
+		rectangle
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip-\gs@dpth);
+	\fi
+}
+
+\newcommand{\@drawTextAreaBaselines}{
+	\pgfmathsetmacro{\nRows}{round(6*\gridH/\gs@bls)}
+	\checkoddpage
+	\ifoddpageoroneside
+		\foreach \n in {1,...,\nRows} { % body text
+			\draw[dashed, color=cyan]
+			(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT-\n\gs@bls+\gs@dpth)
+			--
+			(\trimMark+\bleedW+\bindingW+\marginI+\textwidth,-\trimMark-\bleedH-\marginT-\n\gs@bls+\gs@dpth);
+		}
+		\draw[dashed, color=cyan] % header
+		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT+\headsep+\gs@dpth+1pt)
+		--
+		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth+\marginparsep+\marginparwidth,-\trimMark-\bleedH-\marginT+\headsep+\gs@dpth+1pt);
+		\draw[color=cyan] % header
+		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth+\marginparsep,-\trimMark-\bleedH-\marginT+\headsep)
+		--
+		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth+\marginparsep,-\trimMark-\bleedH-\marginT+\headsep+\headheight);
+		\draw[dashed, color=cyan] % footer
+		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip)
+		--
+		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip);
+	\else
+		\foreach \n in {1,...,\nRows} {
+			\draw[dashed, color=cyan]
+			(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\marginT-\bleedH-\trimMark-\n\gs@bls+\gs@dpth)
+			--
+			(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth,-\marginT-\bleedH-\trimMark-\n\gs@bls+\gs@dpth);
+		}
+		\draw[dashed, color=cyan] % header
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\trimMark-\bleedH-\marginT+\headsep+\gs@dpth+1pt)
+		--
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth-\marginparsep-\marginparwidth,-\trimMark-\bleedH-\marginT+\headsep+\gs@dpth+1pt);
+		\draw[color=cyan] % header
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth-\marginparsep,-\trimMark-\bleedH-\marginT+\headsep)
+		--
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth-\marginparsep,-\trimMark-\bleedH-\marginT+\headsep+\headheight);
+		\draw[dashed, color=cyan] % footer
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip)
+		--
+		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip);
+	\fi
+}
+
+\newcommand{\@drawTrimMarks}{
 	% trimmarks
 	\draw[color=black, line width=0.25pt]
 	(\trimMark+\bleedW,0)
@@ -665,8 +702,7 @@
 	(\mW,-\mH+\trimMark+\bleedH);
 }
 
-\newcommand{\@drawPartMark}[1]
-{
+\newcommand{\@drawPartMark}[1]{
 	\checkoddpage
 	\ifoddpageoroneside
 		\path[fill=#1]
@@ -682,68 +718,65 @@
 }
 
 % TODO: change VOffset to multiples of thechapter counter
-\newcommand{\@drawChapterThumb}[1]
-{
+\newcommand{\@drawChapterThumb}[2]{
 	\checkoddpage
 	\ifoddpageoroneside
-		\path[fill=#1]
-		(\mW-\trimMark-\bleedW-\gridW/4,-\trimMark-\bleedH-\marginT-\VOffset)
-		rectangle
-		(\mW-\trimMark,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare);
+		\if@isChapterPage
+			\path[fill=#1]
+			(\mW-\trimMark-\bleedW-\@ULsquare,-\trimMark-\bleedH-\marginT-\VOffset)
+			rectangle
+			(\mW-\trimMark,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare);
+			\node[#2] at
+			(\mW-\trimMark-\bleedW-\@ULsquare/2,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare/2)
+			{\fontsize{26}{30}\itshape\selectfont\thechapter\normalfont};
+		\else
+			\path[fill=#2]
+			(\mW-\trimMark-\bleedW-\gridW/4,-\trimMark-\bleedH-\marginT-\VOffset)
+			rectangle
+			(\mW-\trimMark,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare);
+		\fi		
 	\else
-		\path[fill=#1]
-		(\trimMark,-\trimMark-\bleedH-\marginT-\VOffset)
-		rectangle
-		(\trimMark+\bleedW+\gridW/4,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare);
+		\if@isChapterPage
+			\path[fill=#1]
+			(\trimMark, -\trimMark-\bleedH-\marginT-\VOffset)
+			rectangle
+			(\trimMark+\bleedW+\@ULsquare,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare);
+			\node[#2] at
+			(\trimMark+\bleedW+\@ULsquare/2,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare/2)
+			{\fontsize{26}{30}\itshape\selectfont\thechapter\normalfont};
+		\else
+			\path[fill=#2]
+			(\trimMark,-\trimMark-\bleedH-\marginT-\VOffset)
+			rectangle
+			(\trimMark+\bleedW+\gridW/4,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare);
+		\fi		
 	\fi
 }
-
-\newcommand{\@drawChapterMark}[2]
-{
-	\checkoddpage
-	\ifoddpageoroneside
-		\path[fill=#1]
-		(\mW-\trimMark-\bleedW-\@ULsquare,-\trimMark-\bleedH-\marginT-\VOffset)
-		rectangle
-		(\mW-\trimMark,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare);
-		\node[#2] at
-		(\mW-\trimMark-\bleedW-\@ULsquare/2,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare/2)
-		{\fontsize{26}{30}\itshape\selectfont\thechapter\normalfont};
-	\else
-		\path[fill=#1]
-		(\trimMark, -\trimMark-\bleedH-\marginT-\VOffset)
-		rectangle
-		(\trimMark+\bleedW+\@ULsquare, -\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare);
-		\node[#2] at
-		(\trimMark+\bleedW+\@ULsquare/2, -\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare/2)
-		{\fontsize{26}{30}\itshape\selectfont\thechapter\normalfont};
-	\fi
-}
-\newcommand{\@stepChapterThumb}
-{
+\newcommand{\@stepChapterThumb}{
 	\addtolength{\VOffset}{\@ULsquare}
+	\global\VOffset=\VOffset % force global update of VOffset, see https://tex.stackexchange.com/questions/119730/global-scope-or-permanent-length-or-savebox
 	\global\@showChapterThumbtrue
 }
-\newcommand{\@hideChapterThumb}
-{
+\newcommand{\@hideChapterThumb}{
 	\global\@showChapterThumbfalse
 }
 
 \newif \if@showGridSystem \@showGridSystemfalse
+\newif \if@showTextAreas \@showTextAreasfalse
+\newif \if@showTextAreaBaselines \@showTextAreaBaselinesfalse
 \newif \if@showChapterThumb \@showChapterThumbfalse
 \newif \if@isChapterPage \@isChapterPagefalse
 \newif \if@isPartPage \@isPartPagefalse
 
-\newcommand{\@drawBkgnd}
-{
+\newcommand{\@drawBkgnd}{
 	% display trimMarks, chapterMarks and the grid system
 	\begin{tikzpicture}[remember picture,overlay]
 		\if@showGridSystem \@drawGridSystem \fi
+		\if@showTextAreas \@drawTextAreas \fi
+		\if@showTextAreaBaselines \@drawTextAreaBaselines \fi
 		\if@press \@drawTrimMarks \fi
 		\if@isPartPage \@drawPartMark{grey65} \fi
-		\if@showChapterThumb
-			\if@isChapterPage \@drawChapterMark{white}{P1797} \else \@drawChapterThumb{P1797} \fi
-		\fi
+		\if@showChapterThumb \@drawChapterThumb{white}{P1797} \fi
 	\end{tikzpicture}
 }
 
@@ -839,9 +872,10 @@
 }
 
 % TODO: autogenerate _cover page when in press mode and build it in a single run
-\RequirePackage{hyphenat} % used to disable hyphenation for the title on the cover page
+%\RequirePackage{hyphenat} % used to disable hyphenation for the title on the cover page
 \newcommand{\makecoverpage}{%
 	\begingroup
+	\disablehyphenation
 	\thispagestyle{empty}
 	% save current geometry: media size, margins, bleed and slug area
 	\savegeometry{G}
@@ -899,13 +933,13 @@
 		\node[\@cover@title@colour, anchor=south east] at
 		([shift={(\TE,\TS)}]current page.south east)
 		{\begin{minipage}{6\gridW}
-			\begin{flushright}\nohyphens{
+			\begin{flushright}
 				\fontsize{18}{19}\selectfont
 				\@author\\
 				\vspace{30bp}
 				\fontsize{24}{24.5}\selectfont
 				\emph{\@cover@title}
-			}\end{flushright}
+			\end{flushright}
 			\end{minipage}
 		};
 	}{}
@@ -913,13 +947,13 @@
 		\node[\@cover@title@colour, anchor=south west] at
 		([shift={(\TW,\TS)}]current page.south)
 		{\begin{minipage}{6\gridW}
-			\begin{FlushLeft}\nohyphens{
+			\begin{flushleft}
 				\fontsize{18}{19}\selectfont
 				\@author\\
 				\vspace{30bp}
 				\fontsize{24}{24.5}\selectfont
 				\emph{\@cover@title}
-			}\end{FlushLeft}
+			\end{flushleft}
 			\end{minipage}
 		};
 	}{}
@@ -927,13 +961,13 @@
 		\node[\@cover@title@colour, anchor=north east] at
 		([shift={(\TE,\TN)}]current page.north east)
 		{\begin{minipage}{6\gridW}
-			\begin{flushright}\nohyphens{
+			\begin{flushright}
 				\fontsize{24}{24.5}\selectfont
 				\emph{\@cover@title}\\
 				\vspace{30bp}
 				\fontsize{18}{19}\selectfont
 				\@author
-			}\end{flushright}
+			\end{flushright}
 			\end{minipage}
 		};
 	}{}
@@ -941,13 +975,13 @@
 		\node[\@cover@title@colour, anchor=north west] at
 		([shift={(\TW,\TN)}]current page.north)
 		{\begin{minipage}{6\gridW}
-			\begin{FlushLeft}\nohyphens{
+			\begin{flushleft}
 				\fontsize{24}{24.5}\selectfont
 				\emph{\@cover@title}\\
 				\vspace{30bp}
 				\fontsize{18}{19}\selectfont
 				\@author
-			}\end{FlushLeft}
+			\end{flushleft}
 			\end{minipage}
 		};
 	}{}
@@ -972,13 +1006,13 @@
 	([shift={(\sW,\trimMark)}]current page.south);
 	\node[white] at
 	([shift={(0,\trimMark+\bleedH+\@ULsquare/2)}]current page.south)
-	{\texttt{\fontsize{10}{11}\selectfont{\textbf{\@spine@id}}}};
+	{\texttt{\fontsize{10}{11}\selectfont{\addfontfeatures{RawFeature=-onum}\textbf{\@spine@id}}}};
 	\node[white] at
 	([shift={(0,\trimMark+\bleedH+1.5*\@ULsquare)}]current page.south)
 	{\begin{minipage}{\textwidth}\fontsize{10.5bp}{11bp}\selectfont\centering\texttt{\textbf{FRI}\\PhD}\end{minipage}};
 	\node[white] at
 	([shift={(0,\trimMark+\bleedH+2.5*\@ULsquare)}]current page.south)
-	{\color{grey20}\fontsize{8bp}{9bp}\selectfont\texttt{\textbf{\number\@year}}};
+	{\color{grey20}\fontsize{8bp}{9bp}\selectfont\texttt{\addfontfeatures{RawFeature=-onum}\textbf{\number\@year}}};
 	\node[white, anchor=west, rotate=270] at
 	([shift={(0,-\trimMark-\bleedH-1.5*\@ULsquare)}]current page.north)
 	{\fontsize{14}{15}\selectfont{\@spine@title}};
@@ -1109,6 +1143,7 @@
 	\pdfpagewidth=\mW \pdfpageheight=\mH
 	\paperwidth=\mW \paperheight=\mH
 	\setPDFBoxes
+	\enablehyphenation
 	\endgroup
 }
 
@@ -1208,21 +1243,17 @@
 			\fi
 			
 			\vspace*{\baselineskip}
-			\begin{centering}
-				\begin{minipage}{\linewidth-1em}
-					{\small \raggedright
-						\begin{enumerate}[{[}1{]}]
-							\newcounter{pid}
-							\setcounter{pid}{0}
-							\whiledo {\value{pid} < \value{previousPublicationId}}
-							{
-								\stepcounter{pid}			
-								\item \csname @previousPublication@\Alph{pid}\endcsname
-							}			
-						\end{enumerate}
-					}
-				\end{minipage}\par
-			\end{centering}
+			{\footnotesize\RaggedRight
+				\begin{enumerate}[{[}1{]}]
+					\newcounter{pid}
+					\setcounter{pid}{0}
+					\whiledo {\value{pid} < \value{previousPublicationId}}
+					{
+						\stepcounter{pid}			
+						\item \csname @previousPublication@\Alph{pid}\endcsname
+					}			
+				\end{enumerate}
+			 \normalsize}
 			
 			\vspace*{\baselineskip}
 			\if@slovene
@@ -1240,25 +1271,30 @@
 
 
 % define chapter\section\figure\page counters and parameters
-\setlength\overfullrule{0pt}
-\setlength\lineskip{1\p@}
-\setlength\normallineskip{1\p@}
-%\renewcommand\baselinestretch{}
-\setlength\parskip{0\p@ \@plus \p@}
+\hfuzz=1.6pt % ignore overfulls up to 1.6pt
+\setlength\overfullrule{\marginparwidth} % TODO: draft mode -> overfullrule{30pt} % show markers for overfull boxes
+%\showthe\lineskiplimit
+\setlength\lineskip{1pt} % spacing between two consecutive lines of text (bottom of last to top of next) -- see https://github.com/Khan/KaTeX/issues/531 If the distance between adjacent rows is less than \lineskiplimit, then instead of using \baselineskip as the distance between baselines, TeX will use \lineskip as the distance between the line boxes.
+%\showthe\normallineskiplimit
+\setlength\normallineskip{1pt} 
+%\renewcommand\baselinestretch{} % https://en.wikibooks.org/wiki/LaTeX/Lengths
+\setlength\parskip{0pt plus 1pt} % paragraph skip 0 + 1pt (if needed) 
 \@lowpenalty   51
 \@medpenalty  151
 \@highpenalty 301
 % control floats
 \setcounter{topnumber}{2}
-\renewcommand\topfraction{.7}
+\renewcommand\topfraction{.8} %.7
 \setcounter{bottomnumber}{1}
-\renewcommand\bottomfraction{.3}
+\renewcommand\bottomfraction{.2} %.3
 \setcounter{totalnumber}{3}
 \renewcommand\textfraction{.2}
-\renewcommand\floatpagefraction{.5} %.5
+\renewcommand\floatpagefraction{.8} %.5
 \setcounter{dbltopnumber}{2}
 \renewcommand\dbltopfraction{.7}
 \renewcommand\dblfloatpagefraction{.5}
+
+%\setlength{\@fptop}{0pt} force floats on float page to appear at top https://tex.stackexchange.com/questions/66252/placing-the-figure-exactly-at-the-top-of-the-page-in-latex
 
 % define chapter\section\figure names
 %\newcommand\chaptername{\empty}
@@ -1377,12 +1413,13 @@
 % chapter title formatting
 \newcommand{\chapter}{
 	\cleardoublepage
-	\thispagestyle{chapter}%
+	\thispagestyle{chapter}
 	\global\@topnum\z@
 	\@afterindentfalse
 	\secdef\@chapter\@schapter}
 % TODO add toc keyword?
 \def\@chapter[#1]#2{%
+	\thispagestyle{empty}
 	\ifnum \c@secnumdepth >\m@ne
 		\refstepcounter{chapter}%
 		\typeout{=== \@chapapp\space\thechapter.}%
@@ -1437,38 +1474,48 @@
 	\vspace*{3\baselineskip}
 }
 
+\newlength{\preskipS}\setlength{\preskipS}{2\baselineskip - 2ex}
+\newlength{\preskipSS}\setlength{\preskipSS}{\baselineskip - 1ex}
 % section formatting, see also appendix and subappendix environments 
 \newcommand{\section}{%
 	\@startsection {section}{1}{\z@}%
-	{-2.5ex \@plus -1ex \@minus -.2ex}%{\baselineskip}
-	{2.3ex \@plus.2ex}%{0ex}%
+	{-\preskipS}%
+	{2ex}%
+	%{-2.5ex \@plus -1ex \@minus -.2ex}%
+	%{2.3ex \@plus.2ex}
 	{\color{P1797}\large\itshape}%
 }
 % subsection formatting, see also appendix and subappendix environments 
 \newcommand{\subsection}{%
 	\@startsection{subsection}{2}{\z@}%
-	{-2.25ex\@plus -1ex \@minus -.2ex}%
-	{1.5ex \@plus .2ex}%
+	{-\preskipSS}%
+	{1ex}%
+	%{-2.25ex\@plus -1ex \@minus -.2ex}%
+	%{1.5ex \@plus .2ex}%
 	{\color{P1797}\itshape}%
 }
 % subsubsection formatting, see also appendix and subappendix environments 
 \newcommand{\subsubsection}{%
 	\@startsection{subsubsection}{3}{\z@}%
-	{-2.25ex\@plus -1ex \@minus -.2ex}%
-	{1.5ex \@plus .2ex}%
+	{\baselineskip}%
+	{-1em}%
+	%{-2.25ex\@plus -1ex \@minus -.2ex}%
+	%{1.5ex \@plus .2ex}%
 	{\color{P1797}\normalsize\itshape}%
 }
 % paragraph formatting, see also appendix and subappendix environments 
 \newcommand\paragraph{% TODO: decide based on use
 	\@startsection{paragraph}{4}{\z@}%
-	{2.25ex \@plus1ex \@minus.2ex}%
+	{\baselineskip}%
+	%{2.25ex \@plus1ex \@minus.2ex}%
 	{-1em}%
 	{\color{P1797}\normalsize\scshape}%
 }
 % subparagraph formatting, see also appendix and subappendix environments 
 \newcommand\subparagraph{%
 	\@startsection{subparagraph}{5}{\parindent}%
-	{2.25ex \@plus1ex \@minus .2ex}%
+	{\baselineskip}%
+	%{2.25ex \@plus1ex \@minus .2ex}%
 	{-1em}%
 	{\color{P1797}\normalsize\normalfont}%
 }
@@ -1552,7 +1599,7 @@
 \renewcommand{\cleardoublepage}{
 	\clearpage
 	\checkoddpage
-	\ifoddpage
+	\ifoddpageoroneside
 	\else
 		{\hbox{}\thispagestyle{empty}\clearpage}
 	\fi
@@ -1561,43 +1608,16 @@
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}  % setup all hooks and declare \chaptermark, \sectionmark; must be called after the definition of \chapter, \section, etc.
 
-%\show\chapter
-%\show\@chapter
-
-% TODO:  remove page number
-%\fancypagestyle{chapter}{%
-%	\ps@empty
-%	\if@forreview
-%		\fancyfoot{\hfil\if@isChapterPage\color{white}\sffamily\textbf{\today}\normalcolor\fi\hfil}
-%	\fi	
-%}
-\def\ps@chapter{% is this required? change to fancypage style
-	\ps@empty
-	\if@forreview
-	\def\@oddfoot{\hfil\normalfont\footnotesize\if@isChapterPage\color{white}\fi\thepage\hfil\sffamily\footnotesize\today\normalcolor}
-	\else
-	\def\@oddfoot{\hfil\normalfont\footnotesize\if@isChapterPage\color{white}\fi\thepage\normalcolor\hfil}
-	\fi
-	\let\@evenfoot\@oddfoot
+\fancypagestyle{chapter}{%
+	\fancyhf{} % clear footer and header fields
+	\fancyhfoffset[LE]{0pt}
+	\fancyhfoffset[RO]{0pt}
+	\fancyheadoffset[LE,RO]{\marginparwidth+\marginparsep}
+	\fancyfootoffset[LE,RO]{0pt}
+	\fancyfoot[C]{\normalfont\footnotesize\if@isChapterPage\color{white}\fi\thepage}%
 }
 
-% TODO: book redesign; change running heads, should probably change color as well (printing issues)
-%	\renewcommand*{\sectionmark}[1]{ 
-%	%		\PackageInfo{FRIteza}{S LM->\leftmark}
-%	%		\PackageInfo{FRIteza}{S RM->\rightmark}
-%	%		\markboth{\leftmark}{S ##1} 
-%	}%\markboth{##1}{\if@slovene\@title@slA\else\@title@enA\fi} }%
-%\renewcommand*{\chaptermark}[1]{ 
-%	%		\PackageInfo{FRIteza}{C LM->\leftmark}
-%	%		\PackageInfo{FRIteza}{C RM->\rightmark}
-%	\markboth{\thechapter\ ##1}{\if@slovene\@title@slA\else\@title@enA\fi} 
-%	}%\if@slovene\@title@slA\else\@title@enA\fi} }% { \markboth{##1}{} }%
-%	\fancyhead[LE]{{\itshape\thepage\settowidth{\@tempdima}{\thepage}\addtolength{\@tempdima}{-\gridW/2}\hspace*{-\@tempdima}}%
-%		\small\color{grey65}\@author@A}%
-%	\fancyhead[RE]{\color{grey65}\small\leftmark}%\@author@A}
-%	\fancyhead[LO]{\color{grey65}\small\rightmark}%\if@slovene\@title@slA\else\@title@enA\fi}
-%   L: Author \hfill Title R: Chapter \hfill section?
-%   perhaps add \iffloatpage{}{} and make float pages have no running heads, see https://www.thebookdesigner.com/2014/03/how-to-design-running-heads-for-your-book/
+% TODO: should probably change color as well (printing issues)
 \fancypagestyle{FRIteza}{%
 	\fancyhf{} % clear footer and header fields
 	% Note the ## here. It's required because \fancypagestyle is making a macro (\ps@FRIteza).
@@ -1605,36 +1625,24 @@
 	% \ps@FRIteza doesn't take any arguments, so TeX would complain with an error message.
 	% You are not expected to understand this.
 	\renewcommand*{\sectionmark}[1]{ % ignore section marks
-			%\PackageInfo{FRIteza}{S LM->\leftmark}
- 			%\PackageInfo{FRIteza}{S RM->\rightmark}
-			%\markboth{\leftmark}{S ##1} 
 	}
 	\renewcommand*{\chaptermark}[1]{ 
-		\markboth{\if@slovene\@title@slA\else\@title@enA\fi}{##1} 
+		\markboth{\iflanguage{slovenian}{\@title@slA}{\@title@enA}}{##1} 
 	}
-%	\renewcommand*{\sectionmark}[1]{ 
-%		\markright{\thesection\ ##1}
-%	}
-%	\renewcommand*{\chaptermark}[1]{ 
-%		\markboth{\thechapter\ ##1}{} 
-%	}
 	% Increase the length of the header such that the folios
 	% (typography jargon for page numbers) move into the margin
-	\fancyhfoffset[LE]{\gridW/2}
-	\fancyhfoffset[RO]{\gridW/2}
+	\fancyheadoffset[LE,RO]{\marginparwidth+\marginparsep}
+	\fancyfootoffset[LE,RO]{0pt}
 	% Put some space and a vertical par between the folio and the rest of the header
 	\renewcommand{\headrulewidth}{0pt}
 	\renewcommand{\footrulewidth}{0pt}
 	% compute length of skip: offset - width of \itshape{\thepage}
-	\fancyhead[LE]{{\itshape\thepage\settowidth{\@tempdima}{\itshape\thepage}\addtolength{\@tempdima}{-\gridW/2}\hspace*{-\@tempdima}}%
+	% use \iffloatpage{}{} for different pagestyle on floatpages
+	\fancyhead[LE]{\begin{minipage}[t]{\marginparwidth}\hfill\itshape\thepage\end{minipage}\hspace*{\marginparsep}
 		\small\color{grey65}\@author@A}%
 	\fancyhead[RE]{\color{grey65}\small\leftmark}
 	\fancyhead[LO]{\color{grey65}\small\rightmark}
-%	\fancyhead[LE]{{\itshape\thepage\settowidth{\@tempdima}{\thepage}\addtolength{\@tempdima}{-\gridW/2}\hspace*{-\@tempdima}}%
-%     	\small\color{grey65}\leftmark}%
-%    \fancyhead[RE]{\color{grey65}\small\@author@A}
-%    \fancyhead[LO]{\color{grey65}\small\if@slovene\@title@slA\else\@title@enA\fi}
-	\fancyhead[RO]{\itshape\thepage}%
+	\fancyhead[RO]{\begin{minipage}[t]{\marginparwidth}\itshape\thepage\hfill\end{minipage}}%
 }
 \pagestyle{FRIteza}
 
@@ -1677,14 +1685,12 @@
 % caption positioning
 \RequirePackage[style=base]{caption}
 \DeclareCaptionLabelSeparator{br}{\par\vspace*{2\p@}}
-\captionsetup{singlelinecheck=off,labelsep=br,labelfont=it,textfont={raggedright,scriptsize}} % TODO: check support for RaggedRight
+\captionsetup{singlelinecheck=off,labelsep=br,labelfont=it,textfont={RaggedRight,scriptsize}}
 % subcaptions
 \RequirePackage{subcaption}
 \captionsetup[sub]{subrefformat=parens}
 \captionsetup[sub]{format=plain,labelformat=parens,labelsep=space,font={normalfont,scriptsize},labelfont=up,hypcap=true}
 
-%\DeclareCaptionSubType[alph]{figure}
-%\captionsetup[subfigure]{labelformat=brace,justification=centerlast}
 \RequirePackage{floatrow} % TODO: integrate example with subfigures
 \DeclareColorBox{framedfigure}{\fcolorbox{grey20}{white}}
 \DeclareFloatSeparators{marginparsep}{\hskip\marginparsep}
@@ -1704,10 +1710,13 @@
 	frameset={\fboxrule1pt\fboxsep2.5pt}%
 }
 % TODO add to documentation \includegraphics[width=\figurewidth]
-\newlength{\figurewidth}\setlength{\figurewidth}{\textwidth-7pt} % save the max width of a figure taking into account the encompasing frame
+% save the max width of a figure that takes into account the encompasing frame 
+% (\linewidth=\textwidth-7pt for figure)
+% (\linewidth=\textwidth+\marginparsep+\marginparwidth-7pt for figure*)
+\newcommand{\figurewidth}{\linewidth} 
 \newcommand{\infigurecaption}[1]{%
 	\vskip3.5pt
-	\begin{minipage}{\figurewidth}
+	\begin{minipage}{\linewidth}
 		\scriptsize 
 		\sffamily
 		#1%\par
@@ -1740,6 +1749,56 @@
 	framestyle=colorbox,
 	frameset={\fboxrule1pt\fboxsep2.5pt}%
 }
+
+% declare starred version of floats
+\captionsetup[widefloat]{
+	%margin={0pt,\marginparwidth+\marginparsep}, % keep caption in text area
+	labelfont=up,
+	textfont={RaggedRight,scriptsize,it}
+}
+\floatsetup[widefloat]{%
+	margins=hangoutside,
+	capposition=bottom
+}
+\floatsetup[widetable]{%
+	capposition=top
+}
+
+% declare large figure extend text area
+% TODO: largetable check package longtable
+\newenvironment{largefigure}[1][\gridH/2]{ % TODO: copy internal commands and move geometry change to atbeginshipout
+	\clearpage % finish last page flush previous floats
+	\newgeometry{bindingoffset=\bO, left=\mI, top=\mT, right=\mO, bottom=\mB-#1}
+	\setlength{\@fptop}{0pt} % force float to top of page
+	\begin{figure}[p]
+}{
+	\end{figure}
+	\clearpage
+	\restoregeometry
+	% these lines reset next page \@floatplacement to normal, i.e. keep floats on next page in appropriate position
+	\global\@colht\textheight % reset \@colht 
+	\global\@colroom\textheight % reset \@colroom
+	\@floatplacement
+	\setlength{\@fptop}{0pt plus 1fill}	
+}
+
+%%%% % debug code
+%%%% \ExplSyntaxOn
+%%%% % https://tex.stackexchange.com/a/123283/5764
+%%%% \DeclareExpandableDocumentCommand { \printlengthas } { m m }
+%%%% { \dim_to_decimal_in_unit:nn {#1} { 1 #2 } #2 }
+%%%% \ExplSyntaxOff 
+%%%% 
+%%%% \let\@xxx\includegraphics
+%%%% \def\includegraphics{\@tempdima=\figurewidth\advance\@tempdima-\textwidth\advance\@tempdima7pt
+%%%% 	\ifdim\@tempdima=0pt
+%%%% 	\else
+%%%% 	\typeout{%		
+%%%% 		***** linewidth =\printlengthas{\linewidth}{mm}^^J%
+%%%% 		***** textwidth =\printlengthas{\textwidth}{mm}^^J%
+%%%% 		***** figurewidth =\printlengthas{\figurewidth}{mm}^^J%
+%%%% 		===== difference =\printlengthas{\@tempdima}{mm}^^J%
+%%%% 	}\fi\@xxx}
 
 % Patch floatrow package so that it works properly even with pagenumbering style changes
 % patch assumes zref-abspage package is loaded and theabspage is defined 
@@ -1787,7 +1846,7 @@
 \newcommand\@tocrmarg{2.55em}
 \newcommand\@dotsep{4.5}
 \setcounter{tocdepth}{2}
-\newcommand\tableofcontents{%
+\newcommand{\tableofcontents}{%
 	\@xp\chapter\@xp*\@xp{\contentsname \chaptermark{\contentsname}}%
 	\@starttoc{toc}%
 }
@@ -1973,7 +2032,10 @@
 \newcommand{\spine}[2][]{
 	\begingroup
 		\setkeys{spine}{#1}
-		\gdef\@spine@id{#2}
+		\gdef\@spine@id{%
+			\pgfmathsetbasenumberlength{3}%
+			\pgfmathdectoBase\mynumber{#2}{16}\mynumber
+		}
 		\ifundef{\cmdKV@spine@title}
 			{\expandafter\gdef\expandafter\@spine@title\expandafter{\if@slovene\@title@slA\else\@title@enA\fi}}
 			{\expandafter\gdef\expandafter\@spine@title\expandafter{\cmdKV@spine@title}}
@@ -2026,7 +2088,7 @@
 		\setkeys{chapterAbstract}{#1}
 		\ifundef{\cmdKV@chapterAbstract@published}
 			{\relax}
-			{\fcolorbox{grey20}{white}{\includegraphics[width=\figurewidth]{\cmdKV@chapterAbstract@published}}
+			{\fcolorbox{grey20}{white}{\includegraphics[width=\textwidth-7pt]{\cmdKV@chapterAbstract@published}}
 			 \newpage}
 
 		\noindent%
@@ -2040,11 +2102,11 @@
 			\ifundef{\cmdKV@chapterAbstract@keywords}
 				{\relax}
 		 		{\vspace{.5\baselineskip}
-		 		 {\textsc{Key words.}\quad {\cmdKV@chapterAbstract@keywords}}}
+		 		 \textsc{Key words.}\quad\cmdKV@chapterAbstract@keywords}
 		 	
 		 	{\color{grey20}\rule{\textwidth}{0.4pt}}
 		\end{minipage}
-		\vspace{\baselineskip}
+		\vspace{.5\baselineskip}
 		
 	\endgroup
 }
@@ -2062,14 +2124,14 @@
 			 }
 		 	}
 	
-		\vspace*{\baselineskip}
+		\vspace{\baselineskip}
 		\noindent\begin{minipage}{\textwidth}
 			\sffamily
 			\paragraph{\textsc{\chackname}}
 			\footnotesize
 			\emph{#2}\par
 		\end{minipage}
-		\vspace*{\baselineskip}
+		\vspace{.5\baselineskip}
 	
 	\endgroup
 }
