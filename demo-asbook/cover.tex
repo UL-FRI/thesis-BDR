@@ -1,0 +1,47 @@
+% load FRI thesis document class with options: 
+% - english for writing in english
+% - slovene for writing in slovene
+% - BVSRI for a BVSRI thesis - BVSRI diplomska naloga
+% - BUNRI for a BUNRI thesis - BUNRI diplomska naloga
+% - BUNRI for a BUNRM thesis - BUNRM diplomska naloga
+% - BSc for a BSc thesis - diplomska naloga
+% - MSc for a MSc thesis - magisterska naloga
+% - PhD for a PhD thesis - doktorska disertacija
+% - [PhD, funded] for a funded PhD thesis - doktorska disertacija MR iz gospodarstva
+% - Presern for a Presern award - delo namenjeno kandidiranju za Presernovo nagrado
+% - press for print version
+% - online for online version - coloured and active figure/table/... links
+% - notes for displaying author notes (command \note{note}{linkedto}) or
+%   for more capabilities load the todonotes package - http://ctan.org/pkg/todonotes
+\documentclass[english,PhD,press]{FRIthesis}
+% titlepage info
+% - use \title[short title][short other language title]{title}{other language title} to define the title; short title is optional; 
+%       both main and alternate language MUST be supplied for correct PDF generation; 
+%   eg. \title[slo short][eng short]{slo}{eng} when writing in slovene or 
+%       \title[eng short][slo short]{eng}{slo} when writing in english
+% - use \author{Name Surname}{StudentID} to define the author(s); use CSL to supply multiple authors
+% - use \forceDate{Month}{Year} to force a specific date
+% - use \thesisID{id} to define the thesis ID; 
+%       the serial number will be provided to you by the student office; 
+%       the serial number will be printed on the cover spine in hexadecimal representation
+% - use \thesisPages{nPages} to define the thesis total number of pages; 
+%       the number is outputted by XeLaTeX when compiling the main body "Output written on <NAME>.pdf (<nPages> pages).";
+%       this number is very imporatnt as it defines the width of the cover spine
+% - use \coverImage{file} to specify front cover image; a large enough figure is expected in a 2:3 w:h ratio
+% - use \coverTitle{Title} for specifying the front page title line breaks [optional]
+% - use \coverTitleLoc{loc}, where loc is one of [NE, SE, NW, SW], to specify title location
+% - use \coverTitleColour{colour}, where colour is one of [white, black, grey65, P1797], to specify title colour
+%       no other colours are allowed
+\author[A={I Lebar Bajec}]{Iztok Lebar Bajec}
+
+\title[language=english, A={Fuzzy animats}]{Fuzzy model for a computer simulation of bird flocking}
+\title[language=slovene, A={Mehki animati}]{Mehki model za računalniško simulacijo letenja ptic v jati}
+
+\forceDate{6}{2005}
+
+\cover[title={Fuzzy model for a computer simulation of bird flocking}, loc={NE}, colour={P1797}]{./cc/coverImage.jpg} 
+\spine[title={Fuzzy model for a computer simulation of bird flocking}, pages=134]{80}
+
+\begin{document}
+\makecoverpage
+\end{document}
