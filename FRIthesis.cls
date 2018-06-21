@@ -329,6 +329,7 @@
 
 % patch MakeUppercase to use lining numbers as uppercase numbers, 
 % see discussion at https://www.quora.com/Why-don’t-lowercase-and-uppercase-numbers-exist
+\PackageInfo{FRIteza}{Patching MakeUppercase to force Uppercase numbers}
 \let\@MakeUppercase\MakeUppercase
 \renewcommand{\MakeUppercase}{\addfontfeature{Numbers=Uppercase}\@MakeUppercase}
 
@@ -396,9 +397,11 @@
 }
 
 \AtBeginDocument{ % these patch needs to be called last, after preamble finishes, i.e. at begin document 
+	\PackageInfo{FRIteza}{Patching siunitx package for correct printing of minus sign}
 	% patch for siunitx package so than the minus sign gets printed in math and text mode
 	\tl_gset:Nn \c__siunitx_minus_tl { \ensuremath{ - } }
 	
+	\PackageInfo{FRIteza}{Patching realscript package for correct subscript font feature +sinf}
 	% patch for realscript package so that proper subscripts get printed with EBGaramond
 	% EBGaramond (+subs) are closer to (+dnom) than typical subscripts, see also https://glyphsapp.com/tutorials/superscript-and-subscript-figures
 	\DeclareDocumentCommand \realsubscript {m} {
@@ -2241,63 +2244,46 @@
 }
 
 % bibliography environment [require pnas2011 style]
-%\newdimen\bibindent
-%\setlength\bibindent{1.5em}
-%\def\bibliographystyle#1{%
-%	\if@filesw\immediate\write\@auxout{\string\bibstyle{#1}}\fi
-%	\def\@tempa{#1}%
-%	\def\@tempb{amsplain}%
-%	\def\@tempc{}%
-%	\ifx\@tempa\@tempb
-%	\def\@biblabel##1{##1.}%
-%	\def\bibsetup{}%
-%	\else
-%	\def\bibsetup{\labelsep6\p@}%
-%	\ifx\@tempa\@tempc
-%	\def\@biblabel##1{}%
-%	\def\bibsetup{\labelwidth\z@ \leftmargin24\p@
-%		\itemindent-24\p@
-%		\labelsep\z@ }%
-%	\fi
-%	\fi}
-%\if@PhDp
-%\def\bib@heading{%
-%	\section{\bibname}%
-%}
-%\fi
-% dummy thebibiliography environment as it is redefined by natbib
+% dummy thebibiliography environment; redefined by natbib
 \newenvironment{thebibliography}[1]{}{}%
-%	\if@PhDp
-%	\section*{\bibname}%
-%	\else
-%	\@xp\chapter\@xp*\@xp{\bibname}%
-%	\fi
-%	\@mkboth{\bibname}{\bibname}
-%	\vspace{18.5pt}
-%	\addcontentsline{toc}{chapter}{\protect\numberline{}\bibname}
-%	\labelsep .5em\relax
-%	\renewcommand\theenumiv{\arabic{enumiv}}\let\p@enumiv\@empty
-%	\list{\@biblabel{\theenumiv}}{\settowidth\labelwidth{\@biblabel{#1}}%
-%		\leftmargin\labelwidth \advance\leftmargin\labelsep
-%		\usecounter{enumiv}}%
-%	\sloppy \clubpenalty\@M \widowpenalty\clubpenalty
-%	\sfcode`\.=\@m
-%	\if@PhD
-%	\normalfont\footnotesize\setsinglelinespacing
-%	\fi
-%}{%
-%	\def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}%
-%	\endlist
-%}
-\newcommand\newblock{\hskip .11em\@plus.33em\@minus.07em}
-%\let\@openbib@code\@empty
+% dummy newblock macro; redefined by natbib
+\newcommand\newblock{}
 
 \RequirePackage[numbers,sort&compress]{natbib}
 \RequirePackage{multicol}
-\renewcommand{\bibpreamble}{
+%\renewcommand{\bibpreamble}{
+%	\chaptermark{\bibname}
+%	\addcontentsline{toc}{chapter}{\protect\numberline{}\bibname}
+%}
+\renewcommand{\bibsection}{
+	\chapter*{\bibname}
 	\chaptermark{\bibname}
 	\addcontentsline{toc}{chapter}{\protect\numberline{}\bibname}
 }
+\renewcommand{\bibpreamble}{
+	\setlength\multicolsep{0pt}
+	\raggedcolumns
+	\setcounter{unbalance}{0}
+	\begin{multicols}{2}
+		\begingroup
+		\scriptsize\RaggedRight
+}
+\renewcommand{\bibpostamble}{
+		\normalsize
+	\endgroup
+	\end{multicols}
+}
+
+% Patch natbib thebibliography environment, to take into account variable width font, which causes issues with item identation (based on cmr10)
+% https://tex.stackexchange.com/questions/304010/how-does-bibtex-know-the-widest-label 
+\PackageInfo{FRIteza}{Patching natbib package to support variable width font in bibitem labels}
+\patchcmd{\flrow@FB}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\flrow@FB\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\flrow@FB}}
+\patchcmd{\thebibliography}{#1}{\arabic{longestlabel}}{\PackageInfo{FRIteza}{\string\thebibliography\ successfully patched, step 1}}{\PackageInfo{FRIteza}{failed to patch \string\thebibliography, step 1}}
+\patchcmd{\thebibliography}{\bibsection}{%
+	\newcounter{longestlabel}
+	\expandafter\setcounter{longestlabel}{#1*10}
+	\bibsection
+}{\PackageInfo{FRIteza}{\string\thebibliography\ successfully patched, step 2}}{\PackageInfo{FRIteza}{failed to patch \string\thebibliography, step 2}}
 
 \newif\if@inappendices \@inappendicesfalse
 \newif\if@insubappendices \@insubappendicesfalse

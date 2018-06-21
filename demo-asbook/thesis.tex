@@ -1,0 +1,237 @@
+% load FRI thesis document class with options: 
+% - english for writing in english
+% - slovene for writing in slovene
+% - [PhD, funded] for a funded PhD thesis - doktorska disertacija MR iz gospodarstva
+% - press for print version
+% - online for online version - coloured and active figure/table/... links
+\documentclass[english,PhD]{FRIthesis}
+
+\author[A={I Lebar Bajec}]{Iztok Lebar Bajec}
+
+\title[language=english]{Fuzzy model for a computer simulation of bird flocking}
+\title[language=slovene]{Mehki model za računalniško simulacijo letenja ptic v jati}
+
+\keywords[language=english]{bird, flock, boid, animat, fuzzy logic, fuzzy modelling, fuzzy animat, artificial life, behavioural animation}
+\keywords[language=slovene]{ptica, jata, boid, animat, mehka logika, mehko modeliranje, mehki animat, umetno življenje, vedenjska animacija}
+
+% primer v slovenskem jeziku
+%\companyLogo{cc/company_logo-slo}
+%\approvedBy[id=1, title={izredni profesor za računalništvo in informatiko}, role={mentor in član ocenjevalne komisije}]{dr. Nikolaj Zimic}
+%\approvedBy[id=2, title={izredni profesor za računalništvo in informatiko}, role={predsednik ocenjevalne komisije}]{dr. Blaž Zupan}
+%\approvedBy[id=2, affiliation={University of Rhode Island}, title={Professor Emeritus of Biological Sciences}, role={zunanji član ocenjevalne komisije}]{dr. Frank H. Heppner}
+%\companyLogo{cc/company_logo-eng}
+\approvedBy[title={Associate Professor of Computer and Information Science}, role={advisor and examiner}]{dr. Nikolaj Zimic}
+\approvedBy[title={Associate Professor of Computer and Information Science}, role={examiner}]{dr. Blaž Zupan}
+\approvedBy[affiliation={University of Rhode Island}, title={Professor Emeritus of Biological Sciences}, role={external examiner}]{dr. Frank H. Heppner}
+
+\previousPublication{%
+	Lebar~Bajec I, Zimic N, Mraz M (2003) 
+	Fuzzifying the thoughts of animats in
+	\emph{Fuzzy Sets and Systems: Proceedings of the 10th International Fuzzy Systems Association World Congress (IFSA 2003)}, 
+	Lecture Notes in Artificial Intelligence, Vol. 2715,
+	eds. Bilgiç T, De~Baets B, Kaynak O. 
+	(Springer-Verlag, Berlin), 
+	doi:\,\doi{10.1007/3-540-44967-1_23}.
+}
+\previousPublication{%
+	Lebar~Bajec I, Zimic N, Mraz M (2003) 
+	Boids with a fuzzy way of thinking, in
+	\emph{Proceedings of Artificial Intelligence and Soft Computing (ASC 2003)},
+	ed. Leung H.
+	(ACTA Press, Anaheim), pp. 58--62.
+}
+\previousPublication{%
+	Lebar~Bajec I (15/04/2005) 
+	\emph{Fuzzy logic and bird flock simulations}. 
+	Invited lecture, University of Rhode Island, Department of Biological Sciences, Kingston, RI.
+}
+\previousPublication{%
+	Lebar~Bajec I, Zimic N, Mraz M (2005) 
+	Simulating flocks on the wing: the fuzzy approach.
+	\emph{Journal of Theoretical Biology}
+	doi:\,\doi{10.1016/j.jtbi.2004.10.003}.
+}
+
+\forceDate{6}{2005}
+
+% define cover 
+% \cover[title=<title to appear on cover page>, loc=<location of the title>, colour=<colour of the title>]{coverImage}
+% defaults: title=\title{#}, loc=NE, colour=P1797
+% notes:
+%  title - use title to insert prefered line breaking with '\\' 
+%  loc - options NE, SE, NW, SW
+%  colour - options P1797, white, black
+\cover[title={Fuzzy model for a computer simulation of bird flocking}, loc={NE}, colour={P1797}]{./cc/coverImage.jpg} 
+% define spine
+% \spine[title=<title to appear on spine>, loc=<location of the title>, colour=<colour of the title>]{thesisId in hexadecimal}
+% defaults: title=\title[A={#}]
+% notes:
+%  title - use title to provide a shortended title for the spine 
+%  pages - privde the total number of pages
+\spine[title={Fuzzy model for a computer simulation of bird flocking}, pages=134]{80}
+
+% define common abbreviations
+% define i.e.
+\newcommand{\ie}{i.e.}
+% define e.g.
+\newcommand{\eg}{e.g.}
+% define etc.
+\newcommand{\etc}{etc.}
+% define et al.
+\newcommand{\etal}{et al.}
+% define tab.
+\newcommand{\tab}{Tab.}
+% define eq.
+\newcommand{\eq}{Eq.}
+% define fig.
+\newcommand{\fig}{Fig.}
+% define figs.
+\newcommand{\figs}{Figs.}
+% define QED symbol
+\newcommand{\QED}{\hfill\ensuremath{\Box}}
+
+% define macros for frequently used commands 
+\newcommand{\eng}[1]{angl. #1}
+
+% define custom macros for notation
+%% define real numbers symbol
+\newcommand{\Rset}{\ensuremath{\mathbb{R}}} 
+\newcommand{\R}{\Rset} 
+%% define natural numbers symbol
+\newcommand{\Nset}{\ensuremath{\mathbb{N}}} 
+\newcommand{\N}{\Nset} 
+%% define euclidean vector space symbol
+\newcommand{\Eset}{\ensuremath{\mathbb{E}}} 
+\newcommand{\E}{\Eset} 
+%% define degrees symbol
+\renewcommand{\deg}{°} 
+\newcommand{\degC}{{\deg}\ensuremath{\textnormal{C}}} 
+%
+%% define set style
+\newcommand{\set}[1]{{\ensuremath{\mathbfup{#1}}}} 
+% \symbfup resolves issue where \tilde{\mathbf{}} produces an "Internal error: bad native font flag in `map_char_to_glyph'"
+% see https://tex.stackexchange.com/questions/353443/xetex-unicode-math-tilde-on-bold-characters
+%% define power set
+\newcommand{\powset}[1]{{\ensuremath{\mathcal{P}(#1)}}} 
+%% define vector style
+\newcommand{\vect}[1]{{\ensuremath{\mathbfup{#1}}}}
+% define automaton style
+\newcommand{\autom}[1]{{\ensuremath{\mathup{#1}}}} 
+% define fov symbol
+\newcommand{\fov}{fov}
+% define algebraic product symbol
+\newcommand{\aprod}{\ifxetex\ensuremath{\capdot}\else\ensuremath{\mathaccent\cdot\cap}\fi}
+% define equation reference style
+\providecommand{\eqref}[1]{(\ref{#1})} 
+
+% declare signum operator
+\DeclareMathOperator*{\sgn}{sgn}
+% declare centre of gravity operator
+\DeclareMathOperator*{\cog}{cog}
+
+% define fuzzy automaton style
+\newcommand{\fautom}[1]{{\ensuremath{\tilde{\mathup{#1}}}}} 
+% define fuzzy set style
+\newcommand{\fset}[1]{{\ensuremath{\tilde{\set{#1}}}}} 
+% define fuzzy power set
+\newcommand{\fpowset}[1]{{\ensuremath{\mathcal{F}(#1)}}} 
+% define fuzzy function style
+\newcommand{\ffunc}[1]{{\ensuremath{\tilde{#1}}}}
+% define fuzzy rule style
+\newcommand{\frule}[1]{\textsc{\MakeLowercase{#1}}}
+% define keyword style
+\newcommand{\kwd}[1]{\textsc{#1}}
+% define fuzzy variable style
+\newcommand{\fvar}[1]{\emph{#1}} 
+% define fuzzy value style
+\newcommand{\fval}[1]{\emph{#1}}
+% define logical statement style
+\newcommand{\statement}[1]{\ifxetex{\ensuremath{\mathscr{#1}}}\else{\ensuremath{\mathppl{#1}}}\fi}
+
+\makeatletter
+
+\show\bibsection
+\show\thebibliography
+\show\endthebibliography
+\show\@bibsetup
+
+%\let\oldbib\
+%\def\thebibliography#1{
+%	\newcounter{longestlabel}
+%	\expandafter\setcounter{longestlabel}{#1*10}
+%	\typeout{\arabic{longestlabel}^^J}
+%	\bibsection 
+%	\parindent \z@ 
+%	\bibpreamble 
+%	\bibfont 
+%	\list {\@biblabel {\the \c@NAT@ctr }}{\@bibsetup {\arabic{longestlabel}}\global \c@NAT@ctr \z@ }
+%	\ifNAT@openbib 
+%		\renewcommand \newblock {\par }
+%	\else 
+%		\renewcommand \newblock {\hskip .11em \@plus .33em \@minus .07em}
+%	\fi 
+%	\sloppy 
+%	\clubpenalty 4000
+%	\widowpenalty 4000 
+%	\sfcode `\.\@m 
+%	\let \NAT@bibitem@first@sw \@firstoftwo 
+%	\let \citeN \cite 
+%	\let \shortcite \cite 
+%	\let \citeasnoun \cite
+%}
+%\def\endthebilbiography{
+%	\bibitem@fin 
+%	\bibpostamble 
+%	\def \@noitemerr {\PackageWarning {natbib}{Empty `thebibliography' environment}}
+%	\endlist
+%	\bibcleanup
+%}
+
+\makeatother
+
+\begin{document}
+
+% TODO: show as an example of subfigure use
+%\begin{figure}%[b]
+%	\begin{subfigure}[b]{.5\figurewidth-3.5pt}
+%		\noindent\hrulefill\par
+%		\includegraphics{img/fig[fuzzySet]a}
+%		\caption{sub A}\label{labA}
+%	\end{subfigure}
+%	\hfill
+%	\begin{subfigure}[b]{.5\figurewidth-3.5pt}
+%		\noindent\hrulefill\par
+%		\includegraphics{img/fig[fuzzySet]b}
+%		\caption{sub B}\label{labB}
+%	\end{subfigure}
+%	\caption{Membership functions of a crisp set of real numbers `from 3 to 5' \subref{labA} and a fuzzy set of real numbers `close to 4' \subref{labB}.}
+%	\label{fig:fuzzy:set0}
+%\end{figure}
+
+%\makecoverpage % auto-generate cover.tex file and build using xelatex
+
+\frontmatter
+ 	\maketitle
+	\makeapprovedby
+	\makepreviouspublication
+ 	\input{thesis-dedication}
+ 	\input{thesis-abstract}
+ 	\input{thesis-acknowledgements}
+ 	\tableofcontents 
+
+\mainmatter
+ 	\input{thesis-chap1_introduction}
+ 	\input{thesis-chap2_birdflocks}
+ 	\input{thesis-chap3_animat}
+ 	\input{thesis-chap4_fuzzymodelling}
+ 	\input{thesis-chap5_fuzzyanimat}
+ 	\input{thesis-chap6_analysis}
+ 	\input{thesis-conclusion}
+ 	\begin{appendices}
+		\input{thesis-slo}
+	\end{appendices}
+
+\backmatter
+ 	\input{thesis-bibliography}
+
+\end{document}
