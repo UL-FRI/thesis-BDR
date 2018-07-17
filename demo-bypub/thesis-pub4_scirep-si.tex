@@ -74,9 +74,9 @@ Let $\set{N}^{(i)}_t=\{j \in \set{I}|\ j \neq i, d^{(i,j)}_t \leq r^{(i)}_\textn
 \alpha^{(h)}_t = \argmax_{i \in \set{I}} \left|\set{N}^{(i)}_t\right|.
 \end{equation}
 
-Note that in the case of a high density area attacking predator (\hdaa predator) the targeted prey individual constantly changed, so that the \hdaa predator effectively detected and pursued the highest density area. Following Olson\etal \cite{olson2013predator} the \hdaa predators moved at a slower speed than prey and were also less manoeuvrable. If the \hdaa predator was close enough to any of the prey individuals (\ie $d^{(h,i)}_t\leq r^{(h)}_\textnormal{c},\ i \in \set{I}$) they were marked as captured. Note also that the \hdaa predator could consume any prey individual and not only the targeted prey individual, therefore mimicking predators capable of attacking and capturing several prey individuals in a single predation event \cite{goldbogen2011mechanics,nottestad1999herring,nottestad2002whales,mori2006first}.
+Note that in the case of a high density area attacking predator (\HDAA predator) the targeted prey individual constantly changed, so that the \HDAA predator effectively detected and pursued the highest density area. Following Olson\etal \cite{olson2013predator} the \HDAA predators moved at a slower speed than prey and were also less manoeuvrable. If the \HDAA predator was close enough to any of the prey individuals (\ie $d^{(h,i)}_t\leq r^{(h)}_\textnormal{c},\ i \in \set{I}$) they were marked as captured. Note also that the \HDAA predator could consume any prey individual and not only the targeted prey individual, therefore mimicking predators capable of attacking and capturing several prey individuals in a single predation event \cite{goldbogen2011mechanics,nottestad1999herring,nottestad2002whales,mori2006first}.
 
-Predators that attack the nearest, the most peripheral or the most central prey individual detect, pursue, attack and capture a single prey individual \cite{demsar2014simulated}. In this study we label them with the common name single-target attack or \st predators. Note that in contrast to \hdaa predators, in the case of an \st predator the target prey individual was detected only on special occasions and then pursued until captured or until the predator's hunt duration expired. The detection of the target prey individual occurred at the time instant when the \st predator appeared or the currently targeted prey individual died during pursuit. 
+Predators that attack the nearest, the most peripheral or the most central prey individual detect, pursue, attack and capture a single prey individual \cite{demsar2014simulated}. In this study we label them with the common name single-target attack or \ST predators. Note that in contrast to \HDAA predators, in the case of an \ST predator the target prey individual was detected only on special occasions and then pursued until captured or until the predator's hunt duration expired. The detection of the target prey individual occurred at the time instant when the \ST predator appeared or the currently targeted prey individual died during pursuit. 
 
 Following previous research \cite{demsar2014simulated,hemelrijk2000towards,hemelrijk2005construction,hildenbrandt2010selforganized} 
 %
@@ -85,7 +85,7 @@ P^{(i)}_t = \frac{1}{\left|\set{N}^{(i)}_t\right|}\left\| \sum_{j \in \set{N}^{(
 \label{equation:peripherality}
 \end{equation}
 %
-is the peripherality of prey individual $i$ at time instant $t$. The peripherality of stragglers, prey individuals with no visible neighbour, \ie $\set{N}^{(i)}_t=\emptyset$, was set to $+\infty$. Let $s$ be an \st predator. The nearest, $\alpha^{(s)}_\textnormal{n}$, the most peripheral, $\alpha^{(s)}_\textnormal{p}$, and the most central prey individual, $\alpha^{(s)}_\textnormal{c}$, were defined as
+is the peripherality of prey individual $i$ at time instant $t$. The peripherality of stragglers, prey individuals with no visible neighbour, \ie $\set{N}^{(i)}_t=\emptyset$, was set to $+\infty$. Let $s$ be an \ST predator. The nearest, $\alpha^{(s)}_\textnormal{n}$, the most peripheral, $\alpha^{(s)}_\textnormal{p}$, and the most central prey individual, $\alpha^{(s)}_\textnormal{c}$, were defined as
 %
 \begin{equation}
 \alpha^{(s)}_\textnormal{n} = \argmin_{i \in \set{I}} d^{(s,i)}_\sigma,
@@ -99,7 +99,7 @@ is the peripherality of prey individual $i$ at time instant $t$. The peripherali
 \alpha^{(s)}_\textnormal{p} = \argmax_{i \in \set{I}} P^{(i)}_\sigma,
 \end{equation}
 %
-where $\sigma$ is the time instant of target prey individual detection. In view of recent research by Biswas\etal, which suggests that prey clumping emerges regardless of predator confusion\cite{biswas2014causes}, when an \st predator was close enough to its targeted prey individual (\ie $d^{(s,\alpha)}_t\leq r^{(s)}_\textnormal{c}$, where $\alpha$ is the currently targeted prey) the latter was marked as captured. Meaning that in contrast to previous research \cite{demsar2015simulating,kunz2006prey,olson2013predator,olson2016evolution}, the possibility of the predator getting confused was not explicitly modelled. In other words, predators in our model did not change their target and remained focused throughout the whole hunt event. As a contrast to \hdaa predators, \st predators were faster than prey, but were also less manoeuvrable.
+where $\sigma$ is the time instant of target prey individual detection. In view of recent research by Biswas\etal, which suggests that prey clumping emerges regardless of predator confusion \cite{biswas2014causes}, when an \ST predator was close enough to its targeted prey individual (\ie $d^{(s,\alpha)}_t\leq r^{(s)}_\textnormal{c}$, where $\alpha$ is the currently targeted prey) the latter was marked as captured. Meaning that in contrast to previous research \cite{demsar2015simulating,kunz2006prey,olson2013predator,olson2016evolution}, the possibility of the predator getting confused was not explicitly modelled. In other words, predators in our model did not change their target and remained focused throughout the whole hunt event. As a contrast to \HDAA predators, \ST predators were faster than prey, but were also less manoeuvrable.
 
 %-----
 \subsection{Prey}
@@ -139,7 +139,7 @@ As empirical data suggests that animals in groups usually react to predator atta
 \kappa = \argmin_{k \in \set{K}} d^{(i,k)}_t,\ \set{K}=\{k \in \set{S} \cup \set{H}|\ d^{(i,k)}_t \leq r^{(i)}_\textnormal{v}\}, 
 \end{equation}
 %
-where $\set{K}$ is the set of predators (\st or \hdaa) currently visible by prey individual $i$. If the prey individual did not see any predators the input variables were marked as \textsc{undefined}. If-then rules with any of their input variables marked as \textsc{undefined} were excluded from fuzzy reasoning.
+where $\set{K}$ is the set of predators (\ST or \HDAA) currently visible by prey individual $i$. If the prey individual did not see any predators the input variables were marked as \textsc{undefined}. If-then rules with any of their input variables marked as \textsc{undefined} were excluded from fuzzy reasoning.
 
 A large-scale empirical study conducted in Rome \cite{ballerini2008interaction} discovered an anisotropic nature of interactions in starling flocks. This type of interaction became known as topological interaction, where an individual interacts with $\approx$\num{6.5} of its nearest neighbours. Bode\etal \cite{bode2010perceived} proposed a much simpler interaction model capable of replicating the anisotropic nature of the interactions observed in the empirical study. In their model interaction is stochastic in nature and the probability of prey individual $i$ interacting with prey individual $j$ depends on visibility of individual $j$ and is inversely proportional to its distance,
 %
@@ -182,10 +182,10 @@ Rules in the rule bases of the two parents that had the same antecedent part and
 
 Where possible we attempted to set the model's parameters to biologically relevant values (see \tablename~\ref{table:parameters:SM}). We modelled the prey species after the Pacific Blue-eye (\emph{Pseudomugil signifier}), a fish species that is well known for schooling \cite{herbertread2010sensory,herbertread2015intiation,herbertread2016threedimensional}. In the case of Herbert-Read\etal \cite{herbertread2015intiation} the body lengths (\si{\bodylength}) of captured Pacific Blue-eyes were from \SIrange{2}{3}{\cm}. Other studies \cite{pusey2004freshwater} report an average \si{\bodylength} of approximately \SI{3.5}{\cm}. In our case we used a body length value of \SI{3}{\cm}. The cruising speed of Pacific Blue-eyes is approximately \mps{0.124} $\approx$ \BLps{4} \cite{herbertread2015intiation}. For prey visibility distance we used the equation provided by Tyrell\etal \cite{tyrrell2013looking}. We could not find the exact spatial resolving power of the Pacific Blue-eye so we used the value of a fish of similar size, the zebrafish (\emph{Danio rerio}) \cite{pita2015vision}. This value is relevant since fish of similar size, have similar sized retinas, and thus similar vision capabilities \cite{hairston1982fish}. The zebrafish can spot an object of size \SI{3}{\cm} (the size of a prey individual in our model) at a distance of \SI{330}{\cm}. Because the zebrafish is slightly larger than the Pacific Blue-eye and fish with larger retinas can see farther \cite{hairston1982fish}, we set the visibility distance of prey individuals to \BL{100}. As pointed out by Domenici \cite{domenici2001scaling}, speed changes and body size play a major role in turning rates of fish. Because the speed in our model is constant we could not use the empirical data about fish turning rates. Which is why the maximum manoeuvrability of prey individuals was tuned by hand in such a way that with a hand-tuned fuzzy-rule-based system prey individuals were able to avoid others effectively but without introducing too erratic or jerky movements.
 
-An example of a single-target attack predator that attacks schools of Pacific Blue-eyes is the flathead Gudgeon (\emph{Philypnodon grandiceps}) \cite{herbertread2016threedimensional}. The flathead Gudgeon is usually around \SI{8}{\cm} in length, but it can sometimes grow up to \SI{12}{\cm} in length \cite{pusey2004freshwater}, so we set the size of \st predators in our model to \BL{3} (\SI{9}{\cm}). The linear regression formula provided by Domenici \cite{domenici2001scaling} suggests that a predator that is 3 times larger than the prey is also approximately \num{1.4} times faster than the prey. Based on that we set the speed of \st predators in our model to \BLps{5.6}. The \st predator vision radius calculated using the same approach as for prey individual's \cite{hairston1982fish,pita2015vision,tyrrell2013looking}, would be approximately \BL{300}. However, in mammals \cite{veilleux2014visual}, once the effects of eye size and phylogeny have been statistically controlled, predatory habits are associated with a higher visual acuity. In addition, some aquatic predators, \eg swordfish (\emph{Xiphias gladius}), warm their retina to significantly improve temporal resolution, and hence the detection of rapid motion \cite{fritsches2005warm}. Since the goal of this research is the investigation of behaviour that evolves under various predation pressure mixtures, we wanted to guarantee that the predators can always find and target the most vulnerable prey individual (with respect to the predator's predation tactic). Which is why the vision of predators in our model is not limited. With this we also removed the occurrences when the predator ``did not see a potential prey target.'' To calculate the manoeuvrability of \st predators we used the equation designed on empirical data by McKenzie\etal \cite{mckenzie2007locomotion}. Using this equation, we calculated that a single target predator should be \num{1.7} times less manoeuvrable than prey.
+An example of a single-target attack predator that attacks schools of Pacific Blue-eyes is the flathead Gudgeon (\emph{Philypnodon grandiceps}) \cite{herbertread2016threedimensional}. The flathead Gudgeon is usually around \SI{8}{\cm} in length, but it can sometimes grow up to \SI{12}{\cm} in length \cite{pusey2004freshwater}, so we set the size of \ST predators in our model to \BL{3} (\SI{9}{\cm}). The linear regression formula provided by Domenici \cite{domenici2001scaling} suggests that a predator that is 3 times larger than the prey is also approximately \num{1.4} times faster than the prey. Based on that we set the speed of \ST predators in our model to \BLps{5.6}. The \ST predator vision radius calculated using the same approach as for prey individual's \cite{hairston1982fish,pita2015vision,tyrrell2013looking}, would be approximately \BL{300}. However, in mammals \cite{veilleux2014visual}, once the effects of eye size and phylogeny have been statistically controlled, predatory habits are associated with a higher visual acuity. In addition, some aquatic predators, \eg swordfish (\emph{Xiphias gladius}), warm their retina to significantly improve temporal resolution, and hence the detection of rapid motion \cite{fritsches2005warm}. Since the goal of this research is the investigation of behaviour that evolves under various predation pressure mixtures, we wanted to guarantee that the predators can always find and target the most vulnerable prey individual (with respect to the predator's predation tactic). Which is why the vision of predators in our model is not limited. With this we also removed the occurrences when the predator ``did not see a potential prey target.'' To calculate the manoeuvrability of \ST predators we used the equation designed on empirical data by McKenzie\etal \cite{mckenzie2007locomotion}. Using this equation, we calculated that a single target predator should be \num{1.7} times less manoeuvrable than prey.
 
 \begin{table}
-  \caption{The individual based model's parameters; \st -- single-target attack, \hdaa -- high density area attack.}
+  \caption{The individual based model's parameters; \ST -- single-target attack, \HDAA -- high density area attack.}
   \label{table:parameters:SM}
   \renewcommand*{\arraystretch}{.99} % reduce interline spacing by 1%; resolves "Float too large for page by 1.35126pt"
   \begin{tabular}{l l l}
@@ -210,19 +210,19 @@ An example of a single-target attack predator that attacks schools of Pacific Bl
     $t_\textnormal{r}$ & Predator re-appearance time & \SIrange{600}{1200}{\second} \\
     $t_\textnormal{h}$ & Predator hunt duration & \SI{600}{\second} \\
 	\hdashline
-	$\set{S}$ & Set of \st predators (size) & 0--8 \\
-    $b^{(s)}$ & \st predator appearance distance & \BL{400} \\
-    $s^{(s)}$ & \st predator size & \BL{3} \\
-    $v^{(s)}$ & \st predator speed & \BLps{5.6} \\
-    $r^{(s)}_\textnormal{c}$ & \st predator catch distance & \BL{3} \\
-    $\omega^{(s)}_\textnormal{max}$ & \st predator maximum manoeuvrability & \rps{0.16} \\
+	$\set{S}$ & Set of \ST predators (size) & 0--8 \\
+    $b^{(s)}$ & \ST predator appearance distance & \BL{400} \\
+    $s^{(s)}$ & \ST predator size & \BL{3} \\
+    $v^{(s)}$ & \ST predator speed & \BLps{5.6} \\
+    $r^{(s)}_\textnormal{c}$ & \ST predator catch distance & \BL{3} \\
+    $\omega^{(s)}_\textnormal{max}$ & \ST predator maximum manoeuvrability & \rps{0.16} \\
     \hdashline
-    $\set{H}$ & Set of \hdaa predators (size) & 0--8 \\
-    $b^{(h)}$ & \hdaa predator appearance distance & \BL{400} \\
-    $s^{(h)}$ & \hdaa predator size & \BL{12} \\
-    $v^{(h)}$ & \hdaa predator speed & \BLps{3} \\
-    $r^{(h)}_\textnormal{c}$ & \hdaa predator catch distance & \BL{12} \\
-    $\omega^{(h)}_\textnormal{max}$ & \hdaa predator maximum manoeuvrability & \rps{0.03} \\
+    $\set{H}$ & Set of \HDAA predators (size) & 0--8 \\
+    $b^{(h)}$ & \HDAA predator appearance distance & \BL{400} \\
+    $s^{(h)}$ & \HDAA predator size & \BL{12} \\
+    $v^{(h)}$ & \HDAA predator speed & \BLps{3} \\
+    $r^{(h)}_\textnormal{c}$ & \HDAA predator catch distance & \BL{12} \\
+    $\omega^{(h)}_\textnormal{max}$ & \HDAA predator maximum manoeuvrability & \rps{0.03} \\
     \midrule
     $E$ & Duration of evolution & \SI{10000000}{\second} \\
     $I$ & Number of iterations & 20 \\
