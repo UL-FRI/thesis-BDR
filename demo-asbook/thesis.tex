@@ -70,124 +70,64 @@
 %  pages - privde the total number of pages
 \spine[title={Fuzzy model for a computer simulation of bird flocking}, pages=134]{80}
 
-% define common abbreviations
-% define i.e.
-\newcommand{\ie}{i.e.}
-% define e.g.
-\newcommand{\eg}{e.g.}
-% define etc.
-\newcommand{\etc}{etc.}
-% define et al.
-\newcommand{\etal}{et al.}
-% define tab.
-\newcommand{\tab}{Tab.}
-% define eq.
-\newcommand{\eq}{Eq.}
-% define fig.
-\newcommand{\fig}{Fig.}
-% define figs.
-\newcommand{\figs}{Figs.}
-% define QED symbol
-\newcommand{\QED}{\hfill\ensuremath{\Box}}
+\usepackage{xspace} % helper package for automatic spaces after replacement macros, to be used with caution
+%% define common abbreviations
+\newcommand{\ie}{i.e.\xspace} % id est ~ that is
+\newcommand{\eg}{e.g.\xspace} % exempli gratia ~ for example
+\newcommand{\etc}{etc.\xspace} % et cetera ~ and so on
+\newcommand{\etal}{\xspace et al.\xspace} % et al. ~ and others
+\newcommand{\fig}{Fig.} % reference a figure
+\newcommand{\figs}{Figs.} % reference multiple figures
+\newcommand{\tab}{Tab.} % reference a table
 
-% define macros for frequently used commands 
-\newcommand{\eng}[1]{angl. #1}
+%% define macros for frequently used commands 
+\newcommand{\eng}[1]{angl. #1} % english original
 
-% define custom macros for notation
-%% define real numbers symbol
-\newcommand{\Rset}{\ensuremath{\mathbb{R}}} 
-\newcommand{\R}{\Rset} 
-%% define natural numbers symbol
-\newcommand{\Nset}{\ensuremath{\mathbb{N}}} 
-\newcommand{\N}{\Nset} 
-%% define euclidean vector space symbol
-\newcommand{\Eset}{\ensuremath{\mathbb{E}}} 
-\newcommand{\E}{\Eset} 
-%% define degrees symbol
-\renewcommand{\deg}{°} 
-\newcommand{\degC}{{\deg}\ensuremath{\textnormal{C}}} 
+%% notation
+\newcommand{\R}{\Rset} \newcommand{\Rset}{\ensuremath{\mathbb{R}}} % real numbers symbol
+\newcommand{\N}{\Nset} \newcommand{\Nset}{\ensuremath{\mathbb{N}}} % natural numbers symbol
+\newcommand{\E}{\Eset} \newcommand{\Eset}{\ensuremath{\mathbb{E}}} % euclidean vector space symbol
+\newcommand{\set}[1]{{\ensuremath{\symbfup{#1}}}} % set; introduction + 
+\newcommand{\powset}[1]{\ensuremath{\mathcal{P}(#1)}} % power set; introduction +  
+\newcommand{\vect}[1]{\ensuremath{\symbfup{#1}}} % vector; introduction + 
+\newcommand{\autom}[1]{{\ensuremath{\symrm{#1}}}} % automaton; animat
 %
-%% define set style
-\newcommand{\set}[1]{{\ensuremath{\mathbfup{#1}}}} 
-% \symbfup resolves issue where \tilde{\mathbf{}} produces an "Internal error: bad native font flag in `map_char_to_glyph'"
-% see https://tex.stackexchange.com/questions/353443/xetex-unicode-math-tilde-on-bold-characters
-%% define power set
-\newcommand{\powset}[1]{{\ensuremath{\mathcal{P}(#1)}}} 
-%% define vector style
-\newcommand{\vect}[1]{{\ensuremath{\mathbfup{#1}}}}
-% define automaton style
-\newcommand{\autom}[1]{{\ensuremath{\mathup{#1}}}} 
-% define fov symbol
-\newcommand{\fov}{fov}
-% define algebraic product symbol
-\newcommand{\aprod}{\ifxetex\ensuremath{\capdot}\else\ensuremath{\mathaccent\cdot\cap}\fi}
-% define equation reference style
-\providecommand{\eqref}[1]{(\ref{#1})} 
+\newcommand{\fset}[1]{{\ensuremath{\tilde{\set{#1}}}}} % fuzzy set; introduction +  
+\newcommand{\fpowset}[1]{\ensuremath{\symcal{F}(#1)}} % fuzzy power set; introduction +  
+\newcommand{\fautom}[1]{\ensuremath\tilde{\symup{#1}}} % fuzzy automaton; fuzzyanimat
+\newcommand{\ffunc}[1]{\ensuremath\tilde{#1}} % fuzzy function; fuzzyanimat
+%
+\newcommand{\fvar}[1]{\emph{#1}} % fuzzy variable; fuzzymodelling
+\newcommand{\kwd}[1]{\textsc{#1}} % keyword; fuzzymodelling
+\newcommand{\fval}[1]{\emph{#1}} % fuzzy value; fuzzymodelling
+\newcommand{\frule}[1]{\textsc{\MakeLowercase{#1}}} % fuzzy rule; fuzzymodelling
+\newcommand{\statement}[1]{\ensuremath\mathscr{#1}} % logical statement; fuzzymodelling
+%
+\DeclareMathOperator*{\sgn}{sgn} % sign operator; fuzzyanimat
+\DeclareMathOperator*{\cog}{cog} % centre of gravity operator; fuzzymodelling
+%
+\newcommand{\aprod}{\ensuremath\capdot} % algebraic product symbol
+%
+\newcommand{\fov}{\ensuremath\mathit{fov}} % field of view; \mathit ensures proper kerning between f and o, a common issue for multichar variables
 
-% declare signum operator
-\DeclareMathOperator*{\sgn}{sgn}
-% declare centre of gravity operator
-\DeclareMathOperator*{\cog}{cog}
+% load path for graphics files
+\graphicspath{{img/}} % search path for graphics files
+\DeclareGraphicsExtensions{.pdf,.jpg,.png} % graphics file extensions listed in order of prefference
 
-% define fuzzy automaton style
-\newcommand{\fautom}[1]{{\ensuremath{\tilde{\mathup{#1}}}}} 
-% define fuzzy set style
-\newcommand{\fset}[1]{{\ensuremath{\tilde{\set{#1}}}}} 
-% define fuzzy power set
-\newcommand{\fpowset}[1]{{\ensuremath{\mathcal{F}(#1)}}} 
-% define fuzzy function style
-\newcommand{\ffunc}[1]{{\ensuremath{\tilde{#1}}}}
-% define fuzzy rule style
-\newcommand{\frule}[1]{\textsc{\MakeLowercase{#1}}}
-% define keyword style
-\newcommand{\kwd}[1]{\textsc{#1}}
-% define fuzzy variable style
-\newcommand{\fvar}[1]{\emph{#1}} 
-% define fuzzy value style
-\newcommand{\fval}[1]{\emph{#1}}
-% define logical statement style
-\newcommand{\statement}[1]{\ifxetex{\ensuremath{\mathscr{#1}}}\else{\ensuremath{\mathppl{#1}}}\fi}
+% define additional hyphenation patterns
+\sethyphenation{english}{pri-mar-i-ly} % https://www.hyphenation24.com/
+
+
+% TODO resolve todos!
+
 
 \makeatletter
-
-\show\bibsection
-\show\thebibliography
-\show\endthebibliography
-\show\@bibsetup
-
-%\let\oldbib\
-%\def\thebibliography#1{
-%	\newcounter{longestlabel}
-%	\expandafter\setcounter{longestlabel}{#1*10}
-%	\typeout{\arabic{longestlabel}^^J}
-%	\bibsection 
-%	\parindent \z@ 
-%	\bibpreamble 
-%	\bibfont 
-%	\list {\@biblabel {\the \c@NAT@ctr }}{\@bibsetup {\arabic{longestlabel}}\global \c@NAT@ctr \z@ }
-%	\ifNAT@openbib 
-%		\renewcommand \newblock {\par }
-%	\else 
-%		\renewcommand \newblock {\hskip .11em \@plus .33em \@minus .07em}
-%	\fi 
-%	\sloppy 
-%	\clubpenalty 4000
-%	\widowpenalty 4000 
-%	\sfcode `\.\@m 
-%	\let \NAT@bibitem@first@sw \@firstoftwo 
-%	\let \citeN \cite 
-%	\let \shortcite \cite 
-%	\let \citeasnoun \cite
-%}
-%\def\endthebilbiography{
-%	\bibitem@fin 
-%	\bibpostamble 
-%	\def \@noitemerr {\PackageWarning {natbib}{Empty `thebibliography' environment}}
-%	\endlist
-%	\bibcleanup
-%}
-
+%\@showGridSystemtrue
+%\@showTextAreastrue
+%\@showTextAreaBaselinestrue
 \makeatother
+
+% TODO cleveref, varioref packages and \cref
 
 \begin{document}
 
@@ -220,12 +160,12 @@
  	\tableofcontents 
 
 \mainmatter
- 	\input{thesis-chap1_introduction}
- 	\input{thesis-chap2_birdflocks}
- 	\input{thesis-chap3_animat}
- 	\input{thesis-chap4_fuzzymodelling}
- 	\input{thesis-chap5_fuzzyanimat}
- 	\input{thesis-chap6_analysis}
+ 	\input{thesis-ch1_introduction}
+ 	\input{thesis-ch2_birdflocks}
+ 	\input{thesis-ch3_animat}
+ 	\input{thesis-ch4_fuzzymodelling}
+	\input{thesis-ch5_fuzzyanimat}
+ 	\input{thesis-ch6_analysis}
  	\input{thesis-conclusion}
  	\begin{appendices}
 		\input{thesis-slo}

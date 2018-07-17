@@ -121,8 +121,9 @@
 
 %% plos
 \usepackage{arydshln} % required for dashed lines in tables, plos + scirep-si
-\newcommand{\st}{\textsc{st}\xspace} % single target predator, plos + scirep
-\newcommand{\hda}{\textsc{hda}\xspace} % high density area predator, plos + scirep
+
+\newcommand{\ST}{\textsc{st}\xspace} % single target predator, plos + scirep
+\newcommand{\HDA}{\textsc{hda}\xspace} % high density area predator, plos + scirep
 \newcommand{\Mdn}[1]{Mdn\,=\,\num{#1}\xspace} % median
 \newcommand{\Ztest}[3][]{%  % Z test statistics
 	\sisetup{
@@ -137,7 +138,7 @@
 }
 
 %% scirep
-\newcommand{\hdaa}{\hda} % high density area attacking predator
+\newcommand{\HDAA}{\HDA} % high density area attacking predator
 \newcommand{\rps}[1]{\SI[per-mode=symbol,unit-mode=text]{#1}{\radian\per\second}} % rad/s 
 \DeclareMathOperator*{\argmin}{arg\,min} % argument min scirep-si
 \DeclareMathOperator*{\argmax}{arg\,max} % argument max scirep-si

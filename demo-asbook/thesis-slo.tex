@@ -20,7 +20,7 @@
 \begin{slovenian}
 
 \chapter{Razširjeni povzetek}
-\label{chap:a}
+\label{ch:povzetek}
 
 
 %-----
@@ -60,9 +60,9 @@ Poleg teh treh teženj pa sta Heppner in Grenander v svoji želji po čimvečji 
 Gledano splošneje segajo prvi poskusi modeliranja umetnega življenja nazaj vse do leta 1940. Tedaj je namreč John von Neumann postavil osnove definicije strukture, imenovane \emph{celularni avtomat} (\eng{cellular automaton}), na kateri temelji večina obstoječih modelov umetnega življenja \cite{adami:1998,bonabeau:1999,emmenche:1994,gardner:1970,langton:1984,rucker:1993}. 
 
 Celularni avtomat je definiran kot prostor celic, katerih osnovna značilnost je notranje stanje. Skozi diskretne časovne korake lahko posamezna celica stanje spreminja, in sicer na osnovi lastnega stanja v predhodnem koraku ter stanj, ki so jih v predhodnem koraku imele njej sosednje celice. V večini primerov se kot model celice uporablja \emph{Moorov avtomat} (\eng{Moore automaton}) \cite{mraz:2000}. žal zahteva po nespremenljivi razporeditvi celic vpliva na uporabnost celularnega avtomata kot pristopa k modeliranju dinamike gibanja organiziranih skupin. 
-\subsection{subsect}
+
 V disertaciji smo se zato osredotočili na Moorov avtomat ter ga nadgradili tako, da lahko z množico avtomatov predstavimo digitalni svet, sestavljen tako iz živih bitij kot tudi neživih predmetov in katerega predstavitev ni pogojena z njihovo prostorsko razporeditvijo. Ker osnovna vodila pri nadgradnji vsebinsko sovpadajo s pojmom \emph{animat} (\eng{animat}), ki ga je brez formalizacije vpeljal Wilson \cite{wilson:1985}, a se dandanes kljub temu uporablja za poimenovanje razreda računalniško simuliranih živih bitij in robotov \cite{cliff:1993,watts:1998}, smo naš razširjeni Moorov avtomat poimenovali animat. 
-\subsubsection{Level 3}
+
 Razširitev se pri tem nanaša predvsem na funkcijo prehajanja stanj, ki je v razširjeni obliki predstavljena kot trinivojska funkcija. Prvi nivo je namenjen modeliranju zaznavanja okolja, drugi nivo modeliranju teženj, ki vplivajo na obnašanje modeliranega bitja, tretji pa modeliranju razvrščanja in združevanja akcij, ki uresničujejo težnje modeliranega bitja. Trinivojska funkcija prehajanja stanj nam tako omogoča modeliranje na osnovi enega izmed osnovnih mišljenj o načinu delovanja živih bitij, kjer je končna akcija posledica procesa zaznavanja prisotnosti impulzov iz okolja ter uresničevanja lastnih ciljev.
 
 Kot prikaz uporabnosti animata smo slednjega uporabili za postavitev obeh najodmevnejših računalniških modelov za simulacijo letenja ptic v jati ter pri tem opazili, da imata modela precej skupnih točk. Oba namreč temeljita na zakonitostih privlačnosti in odbojnosti, katerih pomembnost za notranjo strukturo in dinamiko organizirane skupine je predstavil že Okubo \cite{okubo:1980}. Kljub temu pa sta modela zaradi uporabe matematičnih postopkov (geometrijski izračuni, diferencialne enačbe itd.) težko obvladljiva avditoriju, ki sta mu pravzaprav namenjena (biologi, etologi, behavioristi itd.).

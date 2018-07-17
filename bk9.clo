@@ -84,7 +84,8 @@
                \itemsep \parsep}%
    \belowdisplayskip \abovedisplayskip
 }
-\newcommand\scriptsize{\@setfontsize\scriptsize{6.75bp}{8.1bp}} 	% infigure captions, captions
+% TODO test with 8.667bp
+\newcommand\scriptsize{\@setfontsize\scriptsize{6.75bp}{8.1bp}} 	% infigure captions, captions, bibliography
 \newcommand\tiny{\@setfontsize\tiny\@vpt\@vipt}
 \newcommand\large{\@setfontsize\large\@xiipt{13bp}}%{14}}
 \newcommand\Large{\@setfontsize\Large\@xivpt{13bp}}%{18}}

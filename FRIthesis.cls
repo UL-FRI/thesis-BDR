@@ -470,6 +470,13 @@
 \RequirePackage{ifoddpage} % TODO: check if required
 \RequirePackage{ifthen} % required for whiledo loops
 
+% Patch ifoddpage package so that it works properly even with pagenumbering style changes
+% patch assumes zref-abspage package is loaded and theabspage is defined 
+\RequirePackage{etoolbox}
+\PackageInfo{FRIteza}{Patching ifoddpage package to support pagenumbering style changes}
+\patchcmd{\oddpage@checkpage}{\the\c@page}{\theabspage}{\PackageInfo{FRIteza}{\string\oddpage@checkpage\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\oddpage@checkpage}}
+\patchcmd{\oddpage@page}{\the\c@page}{\theabspage}{\PackageInfo{FRIteza}{\string\oddpage@page\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\oddpage@page}}
+
 \newlength{\pageW}\setlength{\pageW}{6.14in}
 \newlength{\pageH}\setlength{\pageH}{9.21in}
 \newlength{\gridW}\setlength{\gridW}{\pageW/9}
@@ -495,7 +502,7 @@
 \setlength{\columnsep}{\gridW/4} % must be declared as floatrow by default sets capbesidesep=columnsep
 \setlength{\columnseprule}{0mm}
 \setlength{\marginparsep}{\gridW/4}
-\setlength{\marginparwidth}{\marginO-3\marginparsep}
+\setlength{\marginparwidth}{\marginO-3\marginparsep} % TODO 5/4\gridW
 \setlength{\headheight}{\baselineskip}
 \newlength{\gs@dpth}\settodepth{\gs@dpth}{\normalfont\normalsize q} % get font depth (normalsize)
 \newlength{\gs@bls}\normalfont\normalsize\setlength{\gs@bls}{\baselineskip} % get baselineskip (normalsize)
@@ -508,6 +515,7 @@
 \pgfmathsetlengthmacro{\mT}{\marginT+\trimMark+\bleedH}
 \pgfmathsetlengthmacro{\mB}{\marginB+\trimMark+\bleedH}
 
+% NOTE: intersting layout with mB=gH, mO=3gW+gW/8, mpw=2gW-gW/8 and raggedright typesetting
 \RequirePackage[driver=xetex, papersize={\mW, \mH}, bindingoffset=\bO, left=\mI, top=\mT, right=\mO, bottom=\mB]{geometry}
 
 % configures PDF trim, crop, bleed, media boxes
@@ -1247,7 +1255,7 @@
 			
 			\vspace*{\baselineskip}
 			{\footnotesize\RaggedRight
-				\begin{enumerate}[{[}1{]}]
+				\begin{enumerate}[label={[}\arabic*{]}]
 					\newcounter{pid}
 					\setcounter{pid}{0}
 					\whiledo {\value{pid} < \value{previousPublicationId}}
@@ -1277,9 +1285,9 @@
 \hfuzz=1.6pt % ignore overfulls up to 1.6pt
 \setlength\overfullrule{\marginparwidth} % TODO: draft mode -> overfullrule{30pt} % show markers for overfull boxes
 %\showthe\lineskiplimit
-\setlength\lineskip{1pt} % spacing between two consecutive lines of text (bottom of last to top of next) -- see https://github.com/Khan/KaTeX/issues/531 If the distance between adjacent rows is less than \lineskiplimit, then instead of using \baselineskip as the distance between baselines, TeX will use \lineskip as the distance between the line boxes.
+\setlength\lineskip{0pt} % spacing between two consecutive lines of text (bottom of last to top of next) -- see https://github.com/Khan/KaTeX/issues/531 If the distance between adjacent rows is less than \lineskiplimit, then instead of using \baselineskip as the distance between baselines, TeX will use \lineskip as the distance between the line boxes.
 %\showthe\normallineskiplimit
-\setlength\normallineskip{1pt} 
+\setlength\normallineskip{0pt} 
 %\renewcommand\baselinestretch{} % https://en.wikibooks.org/wiki/LaTeX/Lengths
 \setlength\parskip{0pt plus 1pt} % paragraph skip 0 + 1pt (if needed) 
 \@lowpenalty   51
@@ -1420,23 +1428,22 @@
 	\global\@topnum\z@
 	\@afterindentfalse
 	\secdef\@chapter\@schapter}
-% TODO add toc keyword?
+% TODO add toc keyword to chapter macro?
 \def\@chapter[#1]#2{%
 	\thispagestyle{empty}
 	\ifnum \c@secnumdepth >\m@ne
 		\refstepcounter{chapter}%
 		\typeout{=== \@chapapp\space\thechapter.}%
-		\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}\texorpdfstring{\protect\parbox[t]{0.9\linewidth}{#1}}{#1}}%%
-		%\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}		
+		\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}%
 	\else
-		\addcontentsline{toc}{chapter}{\texorpdfstring{\protect\parbox[t]{0.9\linewidth}{#1}}{#1}}%
-		%\addcontentsline{toc}{chapter}{#1}
+		\addcontentsline{toc}{chapter}{#1}%
 	\fi
 	\chaptermark{#1}
 	\@makechapterhead{#2}%
 	\@afterheading
 }
 
+% TODO test
 %{\protect\numberline{\thechapter}\texorpdfstring{\protect\parbox[t]{0.9\linewidth}{#2}}{#2}}%  
 %\else  
 %\addcontentsline{toc}{chapter}{\texorpdfstring{\protect\parbox[t]{0.9\linewidth}{#2}}{#2}}%  
@@ -1753,14 +1760,19 @@
 	frameset={\fboxrule1pt\fboxsep2.5pt}%
 }
 
+\DeclareMarginSet{widehang}{\setfloatmargins*
+	{\hskip\leftskip}{\hskip-\gridW\hskip\rightskip}%
+}
 % declare starred version of floats
-\captionsetup[widefloat]{
-	%margin={0pt,\marginparwidth+\marginparsep}, % keep caption in text area
+\captionsetup[widefloat]{%
+	%margin={0pt,\marginparwidth+\marginparsep}, % keep caption in text area for hangoutside
+	%margin={0pt,\gridW}, % keep caption in text area for widehang
 	labelfont=up,
 	textfont={RaggedRight,scriptsize,it}
 }
 \floatsetup[widefloat]{%
-	margins=hangoutside,
+	facing=yes,
+	margins=widehang,
 	capposition=bottom
 }
 \floatsetup[widetable]{%
@@ -1769,7 +1781,7 @@
 
 % declare large figure extend text area
 % TODO: largetable check package longtable
-\newenvironment{largefigure}[1][\gridH/2]{ % TODO: copy internal commands and move geometry change to atbeginshipout
+\newenvironment{largefigure}[1][\gridH/2]{
 	\clearpage % finish last page flush previous floats
 	\newgeometry{bindingoffset=\bO, left=\mI, top=\mT, right=\mO, bottom=\mB-#1}
 	\setlength{\@fptop}{0pt} % force float to top of page
@@ -1805,7 +1817,6 @@
 
 % Patch floatrow package so that it works properly even with pagenumbering style changes
 % patch assumes zref-abspage package is loaded and theabspage is defined 
-\RequirePackage{etoolbox}
 \PackageInfo{FRIteza}{Patching floatrow package to support pagenumbering style changes}
 \patchcmd{\flrow@FB}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\flrow@FB\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\flrow@FB}}
 \patchcmd{\flrow@FC}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\flrow@FC\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\flrow@FC}}
@@ -1814,7 +1825,8 @@
 \patchcmd{\FB@writeaux}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\FB@writeaux\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\FB@writeaux}}
 
 % lists
-\RequirePackage{enumerate} % review use of enumerate package
+\newenvironment{description}{}{} % dummy description environemt; redefined by enumitem
+\RequirePackage{enumitem} % review use of enumitem package
 \setlength\leftmargini  {2.5em}
 \leftmargin  \leftmargini
 \setlength\leftmarginii  {2.2em}
@@ -1844,6 +1856,7 @@
 \newcommand\labelitemiii{\color{grey40}\raisebox{.15em}{\rule{.15em}{.15em}}\normalcolor}
 \newcommand\labelitemiv {\color{grey30}\raisebox{.15em}{\rule{.15em}{.15em}}\normalcolor}
 
+% TODO correct issues with improper alignment of fist line and other lines in multiline items e.g. pg 24 in TOC of demo-bypub
 % table of contents see http://mirrors.concertpass.com/tex-archive/macros/latex/contrib/tocloft/tocloft.pdf
 \newcommand\@pnumwidth{1.55em}
 \newcommand\@tocrmarg{2.55em}
@@ -2084,6 +2097,7 @@
 	\endgroup
 }
 
+% TODO: Key words printing via macro \keywordsname
 \define@cmdkey{chapterAbstract}{keywords}[]{}
 \define@cmdkey{chapterAbstract}{published}[]{}
 \newcommand{\chapterAbstract}[2][]{
@@ -2151,9 +2165,9 @@
 	\if@slovene
 		\selectlanguage{english}
 	\fi
-	\chapter*{Abstract}
-	\chaptermark{Abstract}
-	\addcontentsline{toc}{chapter}{\protect\numberline{}Abstract}
+	\chapter*{\abstractname} 
+	\chaptermark{\abstractname}
+	\addcontentsline{toc}{chapter}{\protect\numberline{}\abstractname}
 	\metabox{
 		\vspace{-9\baselineskip}%
 		\begin{centering}
@@ -2186,9 +2200,9 @@
 	\else
 		\selectlanguage{slovenian}
 	\fi
-	\chapter*{Povzetek}
-	\chaptermark{Povzetek}
-	\addcontentsline{toc}{chapter}{\protect\numberline{}Povzetek}
+	\chapter*{\abstractname}
+	\chaptermark{\abstractname}
+	\addcontentsline{toc}{chapter}{\protect\numberline{}\abstractname}
 	\metabox{
 		\vspace{-9\baselineskip}%
 		\begin{centering}
@@ -2217,6 +2231,7 @@
 %	\fi
 }
 
+% TODO: declare \acknowledgementsname
 \newenvironment{acknowledgements}
 {
 	\if@slovene
@@ -2229,7 +2244,13 @@
 		\addcontentsline{toc}{chapter}{\protect\numberline{}Acknowledgements}
 	\fi
 	\begingroup
-		\itshape
+		%\itshape
+		\fontspec[
+			Path=fonts/EBGaramond/,
+			Ligatures={TeX,Discretionary,Rare,Historic},
+			Mapping=tex-text,
+			Numbers={OldStyle},
+			Style={Swash}]{EBGaramond08-Italic.otf}
 }{
 	\endgroup%
 	\par%
@@ -2339,6 +2360,7 @@
 	\setcounter{secnumdepth}{2}
 }
 
+% TODO: match with unmodified \section skips
 \newenvironment{subappendices}
 {
 	\if@inappendices 
@@ -2380,37 +2402,41 @@
 	\setcounter{subappendices}{\c@section}
 }
 
-%\newenvironment{description}{}{}
-%\newenvironment{defn}{}{}
-% TODO: revise
+% TODO: revise & move language dependant declarations to polyglosia load
 \newcommand\definitionname{Definition}
-\if@slovene
-	\renewcommand{\definitionname}{Definicija}
-\fi
-\RequirePackage[framemethod=tikz]{mdframed}
-\newlength{\@skip}\setlength{\@skip}{\baselineskip-8.5pt}
-\mdfdefinestyle{theoremstyle}{%
-	%linecolor=orange,linewidth=3pt,%
-	leftline=false,rightline=false,%
-	innerleftmargin=5pt,innerrightmargin=5pt,
-	innertopmargin=5pt,innerbottommargin=5pt,
-	skipabove=\@skip,skipbelow=\@skip,
-	%skipabove=3.5pt,skipbelow=3.5pt,
-	%skipabove={6pt minus 3pt},skipbelow={6pt minus 3pt},
-	outerlinewidth=1pt,outerlinecolor=grey20,
-	middlelinewidth=2.5pt,middlelinecolor=white,
-	splittopskip=12pt,splitbottomskip=6pt,
-	ignorelastdescenders,
-	backgroundcolor=grey05
+\addto\captionsenglish{%
+	\renewcommand\definitionname{Definition}
 }
-%\mdtheorem[style=theoremstyle]{defn}{Definition}
+\addto\captionsslovenian{%
+	\renewcommand{\definitionname}{Definicija}
+}
+
 \RequirePackage{ntheorem}
-%\theoremstyle{theoremstyle}
 \theoremheaderfont{\normalfont\itshape}
 \theorembodyfont{\normalfont}
 \theoremseparator{:}
-\newmdtheoremenv[style=theoremstyle]{definition}{\definitionname}[chapter]
+\theorempreskip{0pt}
+\theorempostskip{0pt}
+\theoremstyle{plain}
+\newtheorem{definition}{\definitionname}[chapter]
 
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\tcolorboxenvironment{definition}{
+	enhanced, boxrule=0pt, sharp corners, frame hidden, %drop lifted shadow,
+	breakable,
+% TODO: definition.wide
+%	enlarge right by=-\gridW,%\marginparwidth-\marginparsep,
+%	toggle enlargement=evenpage,
+%	width=\textwidth+\gridW,%\marginparwidth+\marginparsep,
+	left=.5\parindent, 
+	right=.5\parindent, 
+	before skip=.5\baselineskip,
+	after skip=.5\baselineskip, % TODO skip of theorem 
+	enlargepage flexible=\baselineskip,
+	colback=grey05,
+	borderline horizontal={1pt}{0pt}{grey20},
+}
 
 % hyperref and pdfsupport
 % !!! probably must be loaded last as it hooks on \maketitle \chapter and others
@@ -2436,12 +2462,15 @@
 
 
 
-% TODO: highlighting
-% \RequirePackage{soul} % higlighting alternative
+% TODO: highlighting, \hl{\ang{150}} has issues!!!! soul <-> siuntx
+%\RequirePackage{easyReview} % higlighting alternative [soul, proofread, changes, ]
+\RequirePackage{marginnote, soul}
 % \RequirePackage{pdfcomment}
-% TODO: authorcomments
-\newcommand{\sidenote}[2]{#1}
+% TODO: authorcomments, versonotes?, marginnote from tcolorbox (N,U,??, match coloring to reviewers)
+%\renewcommand\marginnotevadjust{-.5\baselineskip}
+\newcommand{\sidenote}[2]{#1}%{{\color{P1797}#1}\xspace\hl{[!]}\marginnote{\sffamily\bfseries\RaggedRight\scriptsize\color{P1797}#2}}
 
+% TODO implement notes like marginnote from tcolorbox; highlight affected text (reviewer intials date, eg: FHH 05-04-2005) and on opposite page (verso for recto pages, recto for verso pages) the note + any answer.
 
 %\show\FB@writeaux
 %\show\FB@readaux
