@@ -1,5 +1,5 @@
 %%
-%% This is file `FRIreport.cls'
+%% This is file `FRIteza.cls'
 %%
 %% Originaly based on 'book.cls' 2005/09/16 v1.4f Standard LaTeX document class
 %% generated from file(s) of the LaTeX base system.
@@ -24,8 +24,9 @@
 %%   Right bracket \]     Circumflex    \^     Underscore    \_
 %%   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %%   Right brace   \}     Tilde         \~}
+
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{FRIthesis}[2018/02/20 v1.3 FRIteza LaTeX thesis class]
+\ProvidesClass{FRIteza}[2018/09/27 v2 FRIteza XeLaTeX doctoral dissertation class]
 
 \RequirePackage{ifxetex}
 \RequireXeTeX 
@@ -59,80 +60,66 @@
 %
 %\where{chaptermark}
 
-%TODO:
-%refactor
-% check which packages are required
-%\textt and \textsf for rm, it, bf, bfit
-%draft with no color and "zoomed-in"
-%
-%!! figure sizes intext, outofbounds - align to fulpage, fullpage, spread!
-%        instructions
-%
+%TODO: instructions
+%TODO: check \texttt and \textsf for rm, it, bf, bfit
 
-% TODO: remove all unnecessary options
-%\newif\if@slovene \@slovenefalse
-%\newif\if@funded \@fundedfalse
-%\newif\if@forreview \@forreviewfalse
-%\newif\if@press \@pressfalse
-%\newif\if@mainmatter \@mainmattertrue
+\RequirePackage{xkeyval} % key=value command parameters
+\RequirePackage{expl3, xparse} % LaTeX3 code
+% enter LaTeX3 code
+\ExplSyntaxOn
 
-%%\DeclareOption{twoside}{\@twosidetrue  \@mparswitchtrue}
-%\DeclareOption{slovene}{\@slovenetrue}
-%\DeclareOption{english}{\@slovenefalse}
-%\DeclareOption{funded}{\@fundedtrue}
-%\DeclareOption{forreview}{\@forreviewtrue}
-%\DeclareOption{press}{\@presstrue}
-%\ExecuteOptions{slovene}
-%\ProcessOptions
+% switchcase command
+\NewDocumentCommand \switchcase { m m m }
+{
+	\str_case_x:nnF { #1 } { #2 } { #3 }
+}
 
-%\@twosidetrue 
-%\@mparswitchtrue
+\ExplSyntaxOff
 
-\newif\if@restonecol \@twocolumnfalse
-\newif\if@titlepage \@titlepagetrue
-\newif\if@openright \@openrighttrue
-\newif\if@mainmatter \@mainmattertrue
-\newif\if@slovene \@slovenefalse
-\newif\if@forreview \@forreviewfalse
-\newif\if@notes \@notesfalse
-\newif\if@BVSRI \@BVSRIfalse
-\newif\if@BUNRI \@BUNRIfalse
-\newif\if@BUNRM \@BUNRMfalse
-\newif\if@BSc \@BScfalse
-\newif\if@MSc \@MScfalse
-\newif\if@PhD \@PhDfalse
-\newif\if@PhDp \@PhDpfalse
-\newif\if@Presern \@Presernfalse
-\newif\if@funded \@fundedfalse
-\newif\if@press \@pressfalse
+% TODO: swap to etoolbox bool definitions
+\newif \if@dev \@devfalse
+\newif \if@press \@pressfalse
+\newif \if@funded \@fundedfalse
+\newif \if@slovene \@slovenefalse
+\newif \if@mainmatter \@mainmattertrue
 
-\DeclareOption{oneside}{\@twosidefalse \@mparswitchfalse}
-\DeclareOption{twoside}{\@twosidetrue  \@mparswitchtrue}
-\DeclareOption{forreview}{\@forreviewtrue}
-\DeclareOption{notes}{\@notestrue}
-\DeclareOption{slovene}{\@slovenetrue}
-\DeclareOption{english}{\@slovenefalse}
-\DeclareOption{funded}{\@fundedtrue}
-\DeclareOption{press}{\@presstrue}
-\DeclareOption{BVSRI}{\@BVSRItrue \@BUNRIfalse\@BUNRMfalse\@BScfalse\@MScfalse\@PhDfalse \@PhDpfalse \@Presernfalse \@titlepagetrue}
-\DeclareOption{BUNRI}{\@BVSRIfalse \@BUNRItrue \@BUNRMfalse\@BScfalse\@MScfalse\@PhDfalse \@PhDpfalse \@Presernfalse \@titlepagetrue}
-\DeclareOption{BUNRM}{\@BVSRIfalse\@BUNRIfalse \@BUNRMtrue \@BScfalse\@MScfalse\@PhDfalse \@PhDpfalse \@Presernfalse \@titlepagetrue}
-\DeclareOption{BSc}{\@BVSRIfalse\@BUNRIfalse\@BUNRMfalse \@BSctrue \@MScfalse\@PhDfalse \@PhDpfalse \@Presernfalse \@titlepagetrue}
-\DeclareOption{MSc}{\@BVSRIfalse\@BUNRIfalse\@BUNRMfalse\@BScfalse \@MSctrue \@PhDfalse \@PhDpfalse \@Presernfalse \@titlepagetrue}
-\DeclareOption{PhD}{\@BVSRIfalse\@BUNRIfalse\@BUNRMfalse\@BScfalse\@MScfalse \@PhDtrue \@PhDpfalse \@Presernfalse \@titlepagetrue}
-\DeclareOption{PhDp}{\@BVSRIfalse\@BUNRIfalse\@BUNRMfalse\@BScfalse\@MScfalse \@PhDfalse \@PhDptrue \@Presernfalse \@titlepagefalse \@twosidefalse \@mparswitchfalse}
-\DeclareOption{Presern}{\@BVSRIfalse\@BUNRIfalse\@BUNRMfalse\@BScfalse\@MScfalse\@PhDfalse \@PhDpfalse \@Preserntrue \@titlepagetrue}
-\ExecuteOptions{twoside,slovene,BSc}
-\ProcessOptions
+
+\DeclareOptionX{language}{%
+	\switchcase{#1}
+	{
+		{slovene} {\@slovenetrue}
+		{english} {\@slovenefalse}
+	}{%
+		\PackageError{FRIteza}{The FRIteza class supports only the\MessageBreak slovene and english language variant,\MessageBreak supplied "#1"}
+	}
+}
+\DeclareOptionX{funding}[]{%
+	\global\@fundedtrue
+	\gdef\@companyLogo{#1}
+}
+\DeclareOptionX{stage}{%
+	\switchcase{#1}
+	{
+		{pre-alpha} {\@devtrue}
+		{alpha} {\@devtrue}
+		{beta} {\@devtrue}
+		{gamma} {\@devtrue}
+		{gold} {\@devfalse}
+		{press} {\@devfalse \@presstrue}
+	}{%
+		\PackageError{FRIteza}{The FRIteza class supports stages\MessageBreak pre-alpha, alpha, beta, gamma, gold and press,\MessageBreak supplied "#1"}
+	}
+}
+
+\DeclareOptionX*{\PackageWarning{FRIteza}{`\CurrentOption' ignored}}
+\ExecuteOptionsX{language=english,stage=pre-alpha}
+\ProcessOptionsX*
+
+\@twosidetrue 
+\@mparswitchtrue
 
 %
 \special{pdf:minorversion 7}
-
-% Resolves "No room for a new \count" error that seems to be caused by the combination biblatex+floatrow
-%\RequirePackage{etex}
-%\reserveinserts{20}
-
-%\RequirePackage[log-declarations=false]{xparse}
 
 %%%%
 %% load typography related packages
@@ -140,7 +127,7 @@
 % TODO test with just two font sizes 12 & 8 as optical size, compute best font size based on width of body text; see vaignelli cannon & memoire.pdf
 % https://pearsonified.com/2011/12/golden-ratio-typography.php
 % http://ftp.math.purdue.edu/mirrors/ctan.org/info/memdesign/memdesign.pdf pg 48
-\input{bk9.clo} % font sizes, convert to bp [check use of all fontsizes and declare appropriately, headers, footnotes, captions, etc.]
+\input{bk9.clo} % TODO: font sizes, convert to bp [check use of all fontsizes and declare appropriately, headers, footnotes, captions, etc.]
 
 %\RequirePackage{ebgaramond}
 %\RequirePackage{ebgaramond-maths} % should this be included for proper microtype? 
@@ -151,7 +138,7 @@
 \RequirePackage{amssymb}
 % TODO: % add note to documentation about mathbf, mathrm, symbf, symrm; 
 % see http://mirrors.rit.edu/CTAN/macros/latex/contrib/unicode-math/unicode-math.pdf pg 5
-\RequirePackage[math-style=french,bold-style=upright]{unicode-math} % ,mathrm=sym,mathbf=sym ... causes issues with \siunitx [uppercase numerals in text] TODO: sans serif greek!!!
+\RequirePackage[math-style=french,bold-style=upright]{unicode-math} % TODO ,mathrm=sym,mathbf=sym ... causes issues with \siunitx [uppercase numerals in text] TODO: sans serif greek!!!
 \RequirePackage{ragged2e} % for flushleft justification with hyphenation turned on
 
 \setmainfont{EBGaramond12-Regular.otf}[ % https://github.com/georgd/EB-Garamond
@@ -170,6 +157,13 @@
 			{Size= 8-, Font={EBGaramond12-Italic.otf}}
 		}
 	},
+%	BoldFont={EBGaramond12-Italic.otf},
+%	BoldFeatures={
+%		SizeFeatures={
+%			{Size=-8, Font={EBGaramond08-Italic.otf}},% Numbers={Lining}},
+%			{Size= 8-, Font={EBGaramond12-Italic.otf}}
+%		}
+%	},
 	Mapping=tex-text,
 	Numbers={OldStyle},
 	AutoFakeBold=1.5
@@ -327,11 +321,18 @@
 %	}
 %]
 
+% TODO patch \textbf and \bfseries commands to disable use of bold in body text 
+%\PackageInfo{FRIteza}{Patching textbf and bfseries to force textit and itshape}
+%\let\@textbf\textbf
+%\let\@bfseries\bfseries
+%\renewcommand{\textbf}{\textit}
+%\renewcommand{\bfseries}{\itshape}
+
 % patch MakeUppercase to use lining numbers as uppercase numbers, 
 % see discussion at https://www.quora.com/Why-don’t-lowercase-and-uppercase-numbers-exist
 \PackageInfo{FRIteza}{Patching MakeUppercase to force Uppercase numbers}
 \let\@MakeUppercase\MakeUppercase
-\renewcommand{\MakeUppercase}{\addfontfeature{Numbers=Uppercase}\@MakeUppercase}
+\renewcommand{\MakeUppercase}[1]{\begingroup\addfontfeature{Numbers=Uppercase}\@MakeUppercase{#1}\endgroup}
 
 % macro for Historic dropcaps
 \RequirePackage{lettrine}
@@ -390,7 +391,7 @@
 		}
 	}
 	{
-		\PackageError {FRIthesis}
+		\PackageError {FRIteza}
 		{ \string\vfrac\space~can~only~be~used~with~fontspec~fonts }
 		{ Nothing~more~to~tell. }
 	}
@@ -433,9 +434,17 @@
 %\DeclareMathSizes{12bp}{12bp}{7bp}{6bp} %[for text font size 12pt choose math 12pt with subscripts of size 7pt and subsubscripts of 6pt; 1pt in tex = 1/72.27", 1bp = 1/72" ]
 %\check@mathfonts
 
+% TODO ?\setkeys{Gin}{width=\figurewidth} to force all figures to \figurewidth
 % load graphics and color related packages and setup colors
 \RequirePackage{graphicx}
-\RequirePackage{xcolor} % TODO {colortbl} for color tables, colorspace for pantone http://ctan.ijs.si/tex-archive/macros/latex/contrib/colorspace/colorspace.pdf
+\if@press
+	\graphicspath{{./img_HQ/}{img/}} % search path for graphics files
+\else
+	\graphicspath{{./img_LQ/}{img/}} % search path for graphics files
+\fi
+\DeclareGraphicsExtensions{.pdf,.png,.jpg} % graphics file extensions listed in order of preference
+
+\RequirePackage{xcolor} % TODO {colortbl} for color tables, {colorspace} for pantone http://ctan.ijs.si/tex-archive/macros/latex/contrib/colorspace/colorspace.pdf
 \RequirePackage{tikz}
 \RequirePackage[all]{background} % required for chaptermarks based on TikZ
 
@@ -454,20 +463,12 @@
 %P1797U 0, 100, 99, 4
 %P1797C 0, 100, 100, 0
 
-%identification
-%xetex
-%page layout
-%fonts
-%font sizes
-%misc
-%pdfnotes
-
 %%%%
 % setup page layout and page spread graphical elements
 %%%%
 \RequirePackage{calc} % length calculations
-\RequirePackage[strict]{changepage} % TODO: check if required
-\RequirePackage{ifoddpage} % TODO: check if required
+\RequirePackage[strict]{changepage} % required for oddpage checks 
+\RequirePackage{ifoddpage} % required for oddpage checks
 \RequirePackage{ifthen} % required for whiledo loops
 
 % Patch ifoddpage package so that it works properly even with pagenumbering style changes
@@ -480,29 +481,40 @@
 \newlength{\pageW}\setlength{\pageW}{6.14in}
 \newlength{\pageH}\setlength{\pageH}{9.21in}
 \newlength{\gridW}\setlength{\gridW}{\pageW/9}
-\newlength{\gridH}\setlength{\gridH}{\pageH/9}
+\newlength{\gridH}\setlength{\gridH}{\pageH/9}%\setlength{\pageH}{8\gridH}
 \newlength{\marginI}\setlength{\marginI}{\gridW}
 \newlength{\marginO}\setlength{\marginO}{2\gridW}
 \newlength{\marginT}\setlength{\marginT}{\gridH}
-\newlength{\marginB}\setlength{\marginB}{2\gridH}
+\newlength{\marginB}\setlength{\marginB}{2\gridH}%\setlength{\marginB}{\gridH}
 
 \newlength{\bindingW}\setlength{\bindingW}{0mm}
 \newlength{\bleedH}\setlength{\bleedH}{0mm}
 \newlength{\bleedW}\setlength{\bleedW}{0mm}
 \newlength{\trimMark}\setlength{\trimMark}{0mm}
+
+\if@dev % crop pages so that with fit to page one achieves a larger font size for pre-alpha, alpha, beta, gamma
+	\setlength{\pageW}{\pageW-\gridW}
+	\setlength{\pageH}{\pageH-2\gridH}
+	\setlength{\marginI}{\marginI-.75\gridW}
+	\setlength{\marginO}{\marginO-.25\gridW}
+	\setlength{\marginT}{\marginT-\gridH/2}
+	\setlength{\marginB}{\marginB-3\gridH/2}
+\fi
+
 \if@press
 	\setlength{\bindingW}{16mm} % widden up each page by 7.5mm / 6mm due to binding
 	\setlength{\bleedH}{5mm}
 	\setlength{\bleedW}{5mm}
 	\setlength{\trimMark}{5mm}
 \fi
+
 \newlength{\mW}\setlength{\mW}{\trimMark+\bleedW+\bindingW+\pageW+\bleedW+\trimMark} % media width
 \newlength{\mH}\setlength{\mH}{\trimMark+\bleedH+\pageH+\bleedH+\trimMark} % media height
 
 \setlength{\columnsep}{\gridW/4} % must be declared as floatrow by default sets capbesidesep=columnsep
 \setlength{\columnseprule}{0mm}
 \setlength{\marginparsep}{\gridW/4}
-\setlength{\marginparwidth}{\marginO-3\marginparsep} % TODO 5/4\gridW
+\setlength{\marginparwidth}{5\gridW/4}
 \setlength{\headheight}{\baselineskip}
 \newlength{\gs@dpth}\settodepth{\gs@dpth}{\normalfont\normalsize q} % get font depth (normalsize)
 \newlength{\gs@bls}\normalfont\normalsize\setlength{\gs@bls}{\baselineskip} % get baselineskip (normalsize)
@@ -543,7 +555,7 @@
 	\edef\@XeTeXTrimBoxes{\noexpand\special{pdf:put @thispage <<\@tmp>>}}
 }
 \AtBeginDocument{\setPDFBoxes}
-\RequirePackage{atbegshi} % loaded by hyperref
+\RequirePackage{atbegshi} % loaded also by hyperref
 \AtBeginShipout{%
 	\setbox\AtBeginShipoutBox=\hbox{%
 		\@XeTeXTrimBoxes
@@ -551,9 +563,8 @@
 	}%
 }
 
-% TODO: use totcount package and
-% \regtotcounter{chapter}\total{chapter}
-% TODO to definethe VOffset @deltay to step chapterMarks so that they are distributed over the whole textheight (if more than the amount that fits in)
+% TODO: use totcount package and \regtotcounter{chapter}\total{chapter}
+% TODO: to definethe VOffset @deltay to step chapterMarks so that they are distributed over the whole textheight (if more than the amount that fits in)
 % current max is 12 chapters ... 6.14in/13mm=11.99
 \newcommand{\@ULsquare}{13mm}
 \newlength{\VOffset}\setlength{\VOffset}{-\@ULsquare}
@@ -766,7 +777,11 @@
 \newcommand{\@stepChapterThumb}{
 	\addtolength{\VOffset}{\@ULsquare}
 	\global\VOffset=\VOffset % force global update of VOffset, see https://tex.stackexchange.com/questions/119730/global-scope-or-permanent-length-or-savebox
-	\global\@showChapterThumbtrue
+	\if@dev 
+		\global\@showChapterThumbfalse 
+	\else 
+		\global\@showChapterThumbtrue 
+	\fi
 }
 \newcommand{\@hideChapterThumb}{
 	\global\@showChapterThumbfalse
@@ -802,8 +817,9 @@
 	}
 }
 
-% cover page design
-
+%%%%
+% cover and title page design, and frontmatter chapters
+%%%%
 % title, approvedby and previous publication page design
 \def\metabox#1{\edef\theprevdepth{\the\prevdepth}\nointerlineskip
 	\vbox to0pt{#1\vss}\prevdepth=\theprevdepth}
@@ -859,8 +875,8 @@
 				to\\
 				The Faculty of Computer and Information Science\\
 				in partial fulfilment of the requirements for the degree of\\
-				Doctor of Philosophy\\
-				in the subject of\\
+				Doctor of Science\\
+				in\\ %the subject of\\
 				Computer and Information Science
 			}\par
 			%\vfill
@@ -883,7 +899,6 @@
 }
 
 % TODO: autogenerate _cover page when in press mode and build it in a single run
-%\RequirePackage{hyphenat} % used to disable hyphenation for the title on the cover page
 \newcommand{\makecoverpage}{%
 	\begingroup
 	\disablehyphenation
@@ -1158,7 +1173,6 @@
 	\endgroup
 }
 
-% TODO: funding keyword
 \newcommand{\maketitle}{
 	\begingroup
 		\begin{titlepage}%
@@ -1179,7 +1193,7 @@
 				\includegraphics[totalheight=.5\gridH,width=2.5\gridW,keepaspectratio]{cc/funding_ess-eng}}
 			\fi
 			
-			\@drawTitlepage
+			\@drawtitlepage
 		\end{titlepage}%
 		\fi
 		\setcounter{footnote}{0}%
@@ -1280,7 +1294,9 @@
 	}{}
 }
 
-
+%%%%
+% headings
+%%%%
 % define chapter\section\figure\page counters and parameters
 \hfuzz=1.6pt % ignore overfulls up to 1.6pt
 \setlength\overfullrule{\marginparwidth} % TODO: draft mode -> overfullrule{30pt} % show markers for overfull boxes
@@ -1348,7 +1364,6 @@
 	\@mainmatterfalse}
 
 
-% TODO
 % define part/chapter/section numbering
 \newcounter{part}
 \renewcommand{\thepart}{\@Roman\c@part}
@@ -1367,7 +1382,6 @@
 
 \newcommand{\@chapapp}{\chaptername}
 
-%
 \newcommand{\part}{
 	\cleardoublepage
 	\thispagestyle{empty}%
@@ -1443,7 +1457,7 @@
 	\@afterheading
 }
 
-% TODO test
+% TODO: correct issues with improper alignment of fist line and other lines in multiline items e.g. pg 24 in TOC of demo-bypub, see also \section and \@chapter
 %{\protect\numberline{\thechapter}\texorpdfstring{\protect\parbox[t]{0.9\linewidth}{#2}}{#2}}%  
 %\else  
 %\addcontentsline{toc}{chapter}{\texorpdfstring{\protect\parbox[t]{0.9\linewidth}{#2}}{#2}}%  
@@ -1452,14 +1466,21 @@
 
 \def\@makechapterhead#1{%
 	\global\@isChapterPagetrue
-	\pagecolor{P1797} % TODO: if draft
-	\@stepChapterThumb % TODO: if draft
+	\if@dev
+	\else
+		\pagecolor{P1797} 
+	\fi
+	\@stepChapterThumb 
 	\null
 	\vfil
 	{
 		\begin{flushright}
 			\fontsize{26}{30}\itshape\selectfont
-			\color{white} % TODO: if draft
+			\if@dev 
+				\color{P1797}\thechapter\quad
+			\else 
+				\color{white} 
+			\fi
 			#1%
 			\normalcolor\normalfont
 		\end{flushright}
@@ -1530,7 +1551,7 @@
 	{\color{P1797}\normalsize\normalfont}%
 }
 
-% TODO: paragraph for long titles like \chapter
+% TODO: paragraph for long titles, see TODO in definition of \@chapter
 % patch for appendices and subappendices to work as desired 
 % (i.e. not printing numbers for section, subsection and subsubsection
 % and forcing small caps of subappendix sections in TOC)
@@ -1648,8 +1669,8 @@
 	\renewcommand{\footrulewidth}{0pt}
 	% compute length of skip: offset - width of \itshape{\thepage}
 	% use \iffloatpage{}{} for different pagestyle on floatpages
-	\fancyhead[LE]{\begin{minipage}[t]{\marginparwidth}\hfill\itshape\thepage\end{minipage}\hspace*{\marginparsep}
-		\small\color{grey65}\@author@A}%
+	\fancyhead[LE]{\begin{minipage}[t]{\marginparwidth}\hfill\itshape\thepage\end{minipage}%
+		\hspace*{\marginparsep}\small\color{grey65}\@author@A}%
 	\fancyhead[RE]{\color{grey65}\small\leftmark}
 	\fancyhead[LO]{\color{grey65}\small\rightmark}
 	\fancyhead[RO]{\begin{minipage}[t]{\marginparwidth}\itshape\thepage\hfill\end{minipage}}%
@@ -1692,14 +1713,6 @@
 	\vskip\belowcaptionskip%
 }
 
-% caption positioning
-\RequirePackage[style=base]{caption}
-\DeclareCaptionLabelSeparator{br}{\par\vspace*{2\p@}}
-\captionsetup{singlelinecheck=off,labelsep=br,labelfont=it,textfont={RaggedRight,scriptsize}}
-% subcaptions
-\RequirePackage{subcaption}
-\captionsetup[sub]{subrefformat=parens}
-\captionsetup[sub]{format=plain,labelformat=parens,labelsep=space,font={normalfont,scriptsize},labelfont=up,hypcap=true}
 
 \RequirePackage{floatrow} % TODO: integrate example with subfigures
 \DeclareColorBox{framedfigure}{\fcolorbox{grey20}{white}}
@@ -1797,6 +1810,16 @@
 	\setlength{\@fptop}{0pt plus 1fill}	
 }
 
+
+% caption positioning
+\RequirePackage[style=base]{caption}
+\DeclareCaptionLabelSeparator{br}{\par\vspace*{2\p@}}
+\captionsetup{singlelinecheck=off,labelsep=br,labelfont=it,textfont={RaggedRight,scriptsize}}
+% subcaptions
+\RequirePackage{subcaption}
+\captionsetup[sub]{subrefformat=parens}
+\captionsetup[sub]{format=plain,labelformat=parens,labelsep=space,font={normalfont,scriptsize},labelfont=up,hypcap=true}
+
 %%%% % debug code
 %%%% \ExplSyntaxOn
 %%%% % https://tex.stackexchange.com/a/123283/5764
@@ -1856,7 +1879,7 @@
 \newcommand\labelitemiii{\color{grey40}\raisebox{.15em}{\rule{.15em}{.15em}}\normalcolor}
 \newcommand\labelitemiv {\color{grey30}\raisebox{.15em}{\rule{.15em}{.15em}}\normalcolor}
 
-% TODO correct issues with improper alignment of fist line and other lines in multiline items e.g. pg 24 in TOC of demo-bypub
+% TODO correct issues with improper alignment of fist line and other lines in multiline items e.g. pg 24 in TOC of demo-bypub, see also \section and \@chapter
 % table of contents see http://mirrors.concertpass.com/tex-archive/macros/latex/contrib/tocloft/tocloft.pdf
 \newcommand\@pnumwidth{1.55em}
 \newcommand\@tocrmarg{2.55em}
@@ -1935,23 +1958,16 @@
 %%%%
 % define common macros
 %%%%
-\RequirePackage{xkeyval}
-\ExplSyntaxOn
-
-% switchcase command
-\NewDocumentCommand \switchcase { m m m }
-{
-	\str_case_x:nnF { #1 } { #2 } { #3 }
-}
-
-\ExplSyntaxOff
 
 \newcommand{\@place}{Ljubljana}
 \newcommand{\@month}{\number\month}
 \newcommand{\@year}{\number\year}
 \newcommand{\forceDate}[2]{
-	\gdef\@month{#1}
-	\gdef\@year{#2}
+	\if@dev
+	\else
+		\gdef\@month{#1}
+		\gdef\@year{#2}
+	\fi
 }
 
 \define@cmdkey{author}{A}[]{}
@@ -1996,7 +2012,7 @@
 				}
 			}
 		}{%
-			\PackageError{FRIthesis}{The \protect\title\space macro must select language variant,\MessageBreak allowed slovene or english, supplied "\cmdKV@title@language"}
+			\PackageError{FRIteza}{The \protect\title\space macro must select language variant,\MessageBreak allowed slovene or english, supplied "\cmdKV@title@language"}
 		}
 	\endgroup
 }
@@ -2019,7 +2035,7 @@
 				}
 			}
 		}{%
-			\PackageError{FRIthesis}{The \protect\keywords\space macro must select language variant,\MessageBreak allowed slovene or english, supplied "\cmdKV@keywords@language"}
+			\PackageError{FRIteza}{The \protect\keywords\space macro must select language variant,\MessageBreak allowed slovene or english, supplied "\cmdKV@keywords@language"}
 		}
 	\endgroup
 }
@@ -2481,4 +2497,4 @@
 \endinput
 
 %%
-%% End of file `FRIthesis.cls'.
+%% End of file `FRIteza.cls'.

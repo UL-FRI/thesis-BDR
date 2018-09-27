@@ -1,0 +1,368 @@
+\documentclass[language=english,stage=gold]{FRIteza}
+
+\pgfmathsetlengthmacro{\mB}{\gridH}
+\pgfmathsetlengthmacro{\mO}{3\gridW+\gridW/8}
+\setlength{\marginparwidth}{2\gridW-\gridW/8}
+\geometry{bindingoffset=\bO, left=\mI, top=\mT, right=\mO, bottom=\mB}
+
+\usepackage{metalogo}
+\usepackage{fancyvrb}
+
+\author[A={I Lebar Bajec}]{Iztok Lebar Bajec}
+\title[language=english,A={FRI \LaTeX\ thesis class}]{FRIteza, \\the University of Ljubljana, \\Faculty of Computer and Information Science \\\XeLaTeX\ doctoral dissertation template class}
+\title[language=slovene,A={FRI \LaTeX\ predloga}]{FRIteza, \LaTeX\ predloga za doktorske disertacije Fakultete za računalništvo in informatiko, Univerze v Ljubljani}
+\keywords[language=english]{LaTeX, XeLaTeX, design, doctoral dissertation}
+\keywords[language=slovene]{LaTeX, XeLaTeX, grafična podoba, doktorska disertacija}
+
+\usepackage{csquotes}
+
+\usepackage{microtype}
+\defaultfontfeatures{RawFeature={+calt,+tlig,+ccmp,+cv06}}
+
+\setlength{\parindent}{1em}
+\newcommand{\alphabet}{abcdefghijklmnopqrstuvwxyz}
+\newlength{\tmp}
+\newcommand{\gettotalwidth}{
+ \settowidth{\tmp}{\alphabet}
+ \the\tmp
+}
+\newcommand{\gettotalheight}{
+\setlength{\tmp}{\totalheightof{dp}}
+\the\tmp
+}
+%\newfontface\EBsR{EBGaramond08-Regular}
+%\newfontface\EBRR{EBGaramond12-Regular}
+%\newfontfamily\AP{Anonymous Pro Minus}
+%\setmonofont[Scale=MatchLowercase]{Source Code Pro}
+%\setmathfont[Scale=MatchLowercase]{Asana Math}
+%\fontspec[Ligatures=TeX,
+          %Extension=.otf, 
+          %UprightFont=*-Regular,
+          %ItalicFont=*-Italic ,
+          %BoldFont=*-Regular ,
+          %BoldItalicFont=*-Italic ,
+         %]{EBGaramond08}
+
+\newcommand{\code}[1]{\textsf{#1}}
+\newcommand{\stage}[1]{\textsc{#1}}
+\newcommand{\file}[1]{\textsc{#1}}
+
+\makeatletter
+\newenvironment{LST}
+               {\list{}{\labelwidth\z@ \itemindent-\leftmargin
+                        }
+                }
+               {\endlist}
+\makeatother
+
+\newcommand{\SC}[1]{
+\vspace*{18pt}%
+{\RaggedRight\fontsize{12}{13}\selectfont\noindent{%
+\color{P1797}\emph{#1}%
+}\par}
+\vspace*{8pt}%
+%\addcontentsline{toc}{chapter}{#1}
+}
+\newcommand{\SSC}[2][*]{
+\vspace*{13pt}%
+{\RaggedRight\fontsize{9}{13}\selectfont\noindent{%
+\color{P1797}\emph{#2}%
+}\par}
+\ifx#1*\addcontentsline{toc}{section}{#2}\else\relax\fi
+}
+
+\usepackage{titletoc}
+\contentsmargin{0pt}
+\titlecontents*{section}[0pt]
+  {\filright\small}{}{}
+  {,~\emph{\thecontentspage}}
+  [\quad\textbullet\quad][.]
+
+%\usepackage{wrapfig}
+%\floatsetup[wrapfloat]{margins=hangoutside,facing=yes,capposition=bottom,floatwidth=3\gridW,objectset=centering
+%,framefit=yes,colorframeset=framedfigure,framestyle=colorbox,frameset={\fboxrule1pt\fboxsep2.5pt}}
+
+\begin{document}
+%\setmainfont[ %Path = ./fonts/,
+%%  UprightFont= *-Regular,
+%%  BoldFont = *-Regular,
+%%  ItalicFont=*-Italic,
+%%  BoldItalicFont=*-Italic,
+  %RawFeature={+calt,+tlig,+ccmp,+cv06}
+%]{EB Garamond}
+%{\AP scriptsize= \gettotalheight \texttt{scriptsize}}\par
+%{\EBsR scriptsize= \gettotalheight \texttt{scriptsize}}\par
+%{\fontspec
+%[ Path = ./fonts/,
+  %UprightFont= *-Regular,
+  %BoldFont = *-Regular,
+  %ItalicFont=*-Italic,
+  %BoldItalicFont=*-Italic,
+  %RawFeature={+calt,+tlig,+ccmp,+cv06}
+%]{EBGaramond08} scriptsize= \gettotalheight \texttt{scriptsize}}\par
+%{\fontspec
+%[ Path = ./fonts/,
+  %UprightFont= *-Regular,
+  %BoldFont = *-Regular,
+  %ItalicFont=*-Italic,
+  %BoldItalicFont=*-Italic,
+  %RawFeature={+calt,+tlig,+ccmp,+cv06}
+%]{EBGaramond12} scriptsize= \gettotalheight \texttt{scriptsize}}\par
+
+%for eb garamond
+%\fontspec[
+%SizeFeatures={
+%{Size=-8, OpticalSize=8 },
+%{Size= 8-, OpticalSize=12},
+%]{EB Garamond}
+
+% https://www.dropbox.com/sh/y34qnvc2ys8qbjq/l6sqHXV-0p
+\makeatletter
+%\@showGridSystemfalse
+\makeatother
+\thispagestyle{empty}
+%\startcontents[report]
+%
+%
+\makeatletter%
+\SC{\@title@en}%
+\makeatother%
+{\RaggedRight\fontsize{8}{13}\selectfont\noindent{%
+\textsc{Acknowledgements}\quad%
+\emph{I sincerely thank the deans of the Faculty for having the guts for a drastic change in the requirements regarding the typesetting of the doctoral dissertation. It was about time. At last there is a stylistic common denominator and the published works will look professionally executed. As the dissertation is the culmination of the hard work you have put in in the last few years, you should be proud. The look and feel of the published work will surpass those submitted to the most renowned universities. My special thanks therefore go to those not used doing it in \LaTeX, give it a chance, you might discover entirely new sensations and find out it is fun doing it this way as well.}%
+}\par}
+%
+\SSC[]{Contents}
+{\noindent{%
+\vspace*{-\baselineskip}\makeatletter\@starttoc{toc}\makeatother
+}\par
+}
+\SSC{Introduction}%
+\begin{RaggedRight}
+{\fontsize{9}{13}\selectfont
+ \setlength{\parindent}{1em}
+{\noindent{%
+What is in front of you is the \XeLaTeX\ class that allows typesetting the doctoral dissertation in compliance to the new typesetting rules set by the Faculty of Computer and Information Science. This document serves as a short introduction to the class, listing the special requirements of the class and trying to expose the all-important final touches that will allow you to produce a work that you will be rightfully proud of.
+}\par}
+\indent{\textsc{Be advised that the class is still under development so expect minor changes between releases.}}
+\par
+%\indent{%
+%The class file is in the \stage{rc} stage, with a \stage{beta3} release date planned for July 2013. What is missing in \stage{beta2} is the cover page engine, but it will be included in the \stage{beta3} release.
+%}\par
+}
+\end{RaggedRight}
+%
+\SSC{Prerequisites}%
+\begin{RaggedRight}
+{\fontsize{9}{13}\selectfont
+ \setlength{\parindent}{1em}
+{\noindent{%
+You should make sure that you have the latest version of your \LaTeXe\ distribution installed and that all of the pre-installed packages are up to date. If you are using a Microsoft Windows system this means the MikTeX\footnote{\href{http://www.miktex.org}{miktex.org}}\ 2.9 \LaTeXe\ distribution.\footnote{At the time of writing this documentation.} The choice of a suitable editor depends on personal preference, but you might try TeXstudio,\footnote{\href{https://www.texstudio.org/}{texstudio.org}} TeXnicCenter,\footnote{\href{https://www.texniccenter.org}{texniccenter.org}} Visual Studio Code\footnote{\href{https://code.visualstudio.com/}{code.visualstudio.com}} with the \LaTeX\ Workshop extension, or simply use the default editor that comes with the MikTeX distribution.
+}\par}
+\indent{
+As the class uses specific \file{otf} typeface files, the \file{tex} documents have to be compiled to \file{pdf} using \XeLaTeX\ and not pdf\/\LaTeX\ or \LaTeX. All other requirements (e.g. multiple compilations to get citations and references synchronized\ldots) are the same as for all \LaTeX\ based documents. For your convenience the \file{./editor-cfg} subdirectory contains configuration instructions for TeXstudio and Visual Studio Code. In both cases the compilation uses two subdirectories; \file{./int} for intermediate files and \file{./out} for the output of the final \file{pdf}.
+}\par}
+\end{RaggedRight}
+%
+\SSC{The story behind the design}%
+\begin{RaggedRight}
+{\fontsize{9}{13}\selectfont
+ \setlength{\parindent}{1em}
+\noindent{%
+When I first approached the challenge of creating a new design for doctoral dissertations of the Faculty of Computer and Information Science, I decided it should advertise science, excellence and clarity. It should advertise the new \textsc{Doctor of Science} and symbolise the act of their \emph{Alma Mater} releasing them from its protection.
+}\par
+\indent{%
+You might ask yourselves why the cover page lists merely the title and the author. Well, because this is the most important information of all; the new \textsc{Doctor of Science} and the title of their doctoral dissertation. The institution, their \emph{Alma Mater}, is confidently giving them credits and letting them step out of its shadow, placing emphasis on them (front of the book cover) rather than the institution itself (moving to the back of the book cover). The spine of the book cover contains merely the title of the dissertation and cryptic information about the year, the department (its acronym) and the serial number of the dissertation.
+}\par
+\indent{%
+The three concepts (science, excellence and clarity) drove the design of the page spread, colour scheme and the choice of type families. I started by inquiring: when was science real science, when did it all begin? Research led me to the mid-1500s, when scientists began to question accepted beliefs and make new theories based on experimentation; the roots of all modern science. It was the Renaissance era (1300--1600, a time of great changes in Europe). Some of the greats that lived and questioned in that period were Nicolaus Copernicus, Galileo Galilei, Isaac Newton, Leonardo da Vinci, to name just a few. Sometime in that period, in 1455 to be precise, the Gutenberg Bible, or \textsc{b}42, was printed. This is the first major book printed with movable type marking the age of the printed book in the West. Widely praised for its high aesthetic and artistic qualities, the book has an iconic status.
+}\par
+\renewcommand{\figurename}{}\renewcommand{\thefigure}{}
+% http://exhibits.library.yale.edu/files/original/49d38c7bc615289780e60a51684c6d1c.jpg
+\begin{figure}\includegraphics[width=\figurewidth]{cc/laire_index_1791r.jpg}\caption[figra]{François Xavier Laire, \addfontfeature{Ligatures=Historic}\emph{Index librorum ab inventa typographia ad annum 1500; chronologice dispositus cum notis historiam typographico-litterariam illustrantibus}. Senonis: apud viduam et filium P. Harduini Tarbe, 1791.}\end{figure}%\includegraphics[width=2.75\gridW]{doc/tschichold.png}\end{figure}
+\indent{%
+J.\,A. Van de Graaf, whilst studying \textsc{b}42 and other Gutenberg’s books, discovered that they all followed \emph{some} system in determining the position and size of the body text. In the field of book design the ways that page proportions, margins and type areas (print spaces) of books are constructed are governed by \textsc{The Canons of Page Construction}. Van de Graaf, based on his research, devised a geometrical solution, which works for any page width:height ratio and enables the book designer to position the body text in a specific area of the page. Using the canon, the proportions are maintained while creating pleasing and functional margins of size {\addfontfeature{Fractions=On}1/9 and 2/9} of the page size. In addition, the height of the body text equals the width of the page. The extra wide outside and bottom margins provide ample space for comfortably holding the book without covering the body text; they also provide ample space for writing notes,\footnote{Christopher Columbus's notes on the margins of his copy of \emph{The Travels of Marco Polo}---\href{http://en.wikipedia.org/wiki/File:ColombusNotesToMarcoPolo.jpg}{wikipedia.org}.} something that is to be expected in a proper scientific work. The canon, first discovered by Van de Graaf, was later reinterpreted by contemporary designers like Villard de Honnecourt, Raúl Rosarivo and Jan Tschichold.
+}\par
+\indent{%
+The page spread design of the Faculty of Computer and Information Science dissertations now follows Van de Graaf’s canon of page construction, thus putting \textsc{you} on par with all the greats of the Renaissance, Scientific Revolution era. Act responsibly.
+}\par}
+\end{RaggedRight}
+%
+\SSC{The front page of the book cover}%
+\begin{RaggedRight}
+{\fontsize{9}{13}\selectfont
+ \setlength{\parindent}{1em}
+\noindent{%
+The cover page design is personalized and different for every dissertation; a huge improvement over the boring covers that listed just the institution, title and author. This special treat does however come with responsibilities. You---the author---are required to find a suitable figure, image, illustration that best describes the essence of the work. This is the front-end to the user---the reader---you should provoke thoughts, intrigue, raise a question all in favour of making the reader want to open the 1\,kg of paper and start reading. 
+}\par
+\indent{%
+The same minimal standards as for figures are required. In case of a raster graphics image this should be at least 300\,dpi (600\,dpi preferred) and in case of a vector graphics figure or illustration, this should be well designed and in 1:1 ratio. The expected aspect ratio of the supplied graphics is 2:3 (width:height). The cover page dimensions are 181×272\,mm, at 300\,dpi this is 2141×3212\,px. A large enough portion of the image, figure or illustration should be white space (i.e. space with subdued colours or single colour) to aid readability when placing the title and author information. This should reside approximately 35\,mm below and left from the top right corner (above and left from the bottom right), or 20\,mm to the right and 35\,mm below (above) from the top left corner (from the bottom left corner).
+}\par
+\indent{%
+In case of using copyrighted images, the appropriate permissions must be obtained from the author(s). A good source of professional quality raster graphics images as well as vector graphics figures and illustrations are stock photo databases like \textsc{Corbis},\footnote{\href{http://www.corbis.com}{corbis.com}} \textsc{Shutterstock},\footnote{\href{http://www.shutterstock.com}{shutterstock.com}} \textsc{Dreamstime},\footnote{\href{http://www.dreamstime.com}{dreamstime.com}} \textsc{iStockphoto}\footnote{\href{http://www.istockphoto.com}{istockphoto.com}}… in some cases royalty free. Do check them out, especially as you can search by key words, thus also providing for inspiration in case you venture into self-production of the cover page image, figure or illustration.
+}\par
+}
+\end{RaggedRight}
+%
+\SSC{Typography}%
+\begin{RaggedRight}
+{\fontsize{9}{13}\selectfont
+ \setlength{\parindent}{1em}
+\noindent{%
+The aesthetics of body text and mathematics follow the design rules set by the University of Ljubljana. You might have noticed that the supporting graphical elements follow those rules as well. The body text and mathematics are set in the \textsc{EB Garamond} type family, a type family designed by Georg Duffner\footnote{\href{http://www.georgduffner.at/ebgaramond/index.html}{georgduffner.at}} that supports advanced features (ligatures, small caps, old-style numerals, superscripts…) and is closer to the original type designs used by Claude Garamond (ca. 1490--1561) than the typeface used by the University of Ljubljana.
+}\par
+\indent{
+The \file{otf} files containing the \textsc{EB Garamond} type family typefaces are located in the \file{fonts/} directory. This is a typeface that is distributed under the Open Font License, but is still under development.\footnote{\href{https://bitbucket.org/georgd/eb-garamond/downloads/}{bitbucket.org}} The version included in the \file{fonts/} directory is 0.016 and provides two optical sizes (8\,pt and 12\,pt) in {\upshape regular}, {\itshape italic} and {\scshape small caps}, as well as a subset of specially designed decorative initials.\footnote{Jure Demšar's use of decorative initials in his doctoral dissertation \emph{Evolution of fuzzy animats in a competitive environment}---\href{http://eprints.fri.uni-lj.si/3843/1/63040025-JURE_DEMŠAR-Evolucija_mehkih_animatov_v_tekmovalnem_okolju.pdf}{eprints.fri.uni-lj.si}.}  
+}\par
+\indent{
+You might have noticed in this document already that body text numerals are old-style figures 0123456789. These blend in well with the optical flow and rhythm of the lower-case alphabet. Mathematical equations use lining figures %
+%\marginpar{{\addfontfeature{Numbers=Lining}0123456789{\itshape q}Q{Q}αδε} $0123456789q\mathrm{Q}\mathbf{Q}αδε\alpha\delta\epsilon$} 
+%{\addfontfeature{Numbers=Lining}0123456789}
+{$0123456789$}, thus in \file{tex} language \verb#1 ≠ $1$# (i.e. 1 ≠ $1$). In cases when numbers coexist with upper-case letters only, e.g. CN2, this can disrupt the optical flow. In these cases use the command \verb|\MakeUppercase{cn2}| or \verb|{\addfontfeatures| \verb|{Numbers=Uppercase}CN2}|, both of these will produce \MakeUppercase{cn2}. An even better solution is to resort to small caps, i.e. \textsc{cn2}, which will, if the word in question is used frequently, result in a better blend with the optical flow and rhythm of the lower-case alphabet. To aid in number and standard unit printing, the template class pre-loads the \code{siunitx} package, refer to its documentation for further information.
+}\par
+\indent{
+In the body text only the {\upshape regular}, {\itshape italic} and {\scshape small caps} styles are available and allowed to be used. The 
+{\fontspec[Ligatures=TeX, Numbers={Lining}, FakeBold=1.5, SizeFeatures={{Size=-8, OpticalSize=8},{Size= 8-, OpticalSize=12}}]{EB Garamond}bold} 
+%{\fontspec{Adobe Garamond Pro Bold}bold} 
+style is not included as v0.016 of the \textsc{EB Garamond} type family typefaces does not provide a hand designed bold variant. Furthermore the decision to disallow the use of the bold style in the body text was made as most of the typographically inexperienced users choose this style too frequently or use it inappropriately. Frequent use of the bold style in the body text influences the type colour, making it non-homogeneous. The writer’s intent to aid the reader comprehend has the contrary effect hindering the reader’s ability to read. When trying to emphasise certain parts of your body text use \emph{italic} \verb|\emph{#}|,  or \textsc{small caps} \verb|\textsc{#}| instead. 
+}\par
+\indent{
+A totally different ball game is the typesetting of mathematical equations. They, with the proper notation, which includes the $\symbf{bold}$ and perhaps even the $\symbfit{bold\ italic}$ style as well, become easier if at all understandable. This is why the bold and bold italic styles are allowed in mathematical equations. At the present time mathematics is set in a mixture of \textsc{EB Garamond} for numbers, lower- and upper-case Latin and Greek, whereas symbols are set in \textsc{XITS Math}.\footnote{\href{https://fontlibrary.org/en/font/xits-math}{fontlibrary.org}} A special typeface, named \textsc{Garamond-Math}, was designed by Yuansheng Zhao\footnote{\href{https://github.com/YuanshengZhao/Garamond-Math}{github.com}} and is distributed under the Open Font License. In addition the class pre-loads the \code{amsmath} and \code{unicode-math} \LaTeX\ packages thus providing additional mathematical symbols and giving you the ability to typeset mathematical equations in Unicode. Styles available are $\symrm{regular}$ \verb|\symrm{#}|, $\symit{italic}$ \verb|\symit{#}|, $\symbf{bold}$ \verb|\symbf{#}| and $\symbfit{bold\ italic}$ \verb|\symbfit{#}|. Note the use of \verb|\sym*{#}| commands, a peculiarity of the \code{unicode-math} \LaTeX\ package, which distinguishes between math text (\verb|\math*{#}|) and math math mode (\verb|\sym*{#}|).\footnote{For further information refer to \S3.1 of the \code{unicode-math} documentation.} 
+%Note also that the bold and bold italic style are not set with hand designed typefaces, but rather with versions faked from the {\upshape regular} and {\itshape italic} typefaces. 
+Note also that v0.016 of the \textsc{EB Garamond} type family typefaces provides Greek letters in regular {\fontsize{9.5}{13}\selectfontαβγδε…} and italic {\fontsize{9.5}{13}\selectfont\textit{αβγδε…}} only for optical size 12\,pt. The 8\,pt optical size does not provide Greek letters in italic, so by forcing the use of italic for Greek letters you might experience disparaging letter forms. 
+}\par
+\indent{
+Listings and verbatim code usually require \texttt{monospace} typefaces. At the present time these are typeset using the \textsc{Source Code Pro} type family typefaces designed by Paul D. Hunt for Adobe and distributed under the Open Font License. Styles available are \texttt{\upshape regular} \verb|\texttt{\upshape #}|, \texttt{\itshape italic} \verb|\texttt{\itshape #}|, \texttt{\bfseries bold} \verb|\texttt{\bfseries #}| and \texttt{\itshape\bfseries bold italic} \verb|\texttt{\itshape| \verb|\bfseries #}|. As \textsc{Source Code Pro} was designed as a companion mono spaced version of the sans serif typeface \textsc{Source Sans Pro} the latter was selected as the primary sans serif typeface. For this typeface the available styles are \textsf{\upshape regular} \verb|\textsf{\upshape #}|, \textsf{\itshape italic} \verb|\textsf{\itshape #}|, \textsf{\bfseries bold} \verb|\textsf{\bfseries #}| and \textsf{\itshape\bfseries bold italic} \noindent\verb|\textsf{\itshape\bfseries #}|. 
+}\par
+}
+\end{RaggedRight}
+%
+\SSC{Floats}%
+\begin{RaggedRight}
+{\fontsize{9}{13}\selectfont
+ \setlength{\parindent}{1em}
+\noindent{%
+The body text dimensions are approximately 100×150\,mm (w×h), so all images should be kept within this dimensions. The preferred aspect ratio is 3:2, which gives you 100×67\,mm for a landscape figure. All figures are framed with a 5\,\% grey 1\,pt wide frame and 2.5\,pt inner margins. For your convenience a special dimension named \verb|\figurewidth| was defined. Should you need to do so, you can use it to scale figures to the appropriate size.
+}\par
+\indent{%
+As figures use side captions special care needs to be taken when writing them. The space available for the caption needs to be taken into account. A small figure might not provide enough space for a long caption. These types of events can be easily solved during the creation of the figure. Either by rethinking the figure or adding an invisible background to it, such that will provide enough space for the caption in question. Later, the event can be resolved by encompassing the \verb|\includegraphics{#}| command with \verb|\vspace*{#}| to give some white space before and after the included figure.\footnote{See \file{thesis-ch4\_fuzzymodelling.tex}, ln 180 in \file{./demo-asbook} for an example.} For extremely long captions, the template class provides a special command \verb|\infigurecaption{#}|, which allows part of the caption to be included as part of the figure.\footnote{See \file{thesis-pub1\_alife.tex}, ln 59 in \file{./demo-bypub} for an example.}
+}\par
+\indent{%
+Images and other raster graphics must have a resolution of at least 300\,dpi, thus measuring at least 1182×787\,px for a landscape figure, and should be saved in the \file{png} or \file{jpg} file format. A resolution of 600\,dpi is preferred.
+}\par
+\indent{%
+All figures should be produced in vector graphics editing software like \textsc{Adobe Illustrator}, \textsc{Corel Draw}, \textsc{Inkspace}… in a 1:1 ratio (i.e. requiring no scaling at the time of import) and exported in the \file{pdf} or \file{eps} file format. The figures should be aesthetically consistent, use the same typeface and colour palette throughout. Suitable typefaces are \textsc{Source Sans Pro}, \textsc{Helvetica}, \textsc{Arial}, and in case of mathematical equations and symbols the already mentioned mixture of \textsc{EB Garamond} and \textsc{XITS Math} all in a 7--9\,pt type. Refer to \file{palette.pdf} for an example of a suitable palette. A good source of pleasing palettes is \textsc{Adobe Kuler}\footnote{\href{http://kuler.adobe.com}{kuler.adobe.com}}. 
+}\par
+\indent{%
+%\marginpar{\RaggedRight\\color[cymk]{.84,.39,0,.35}\tiny Important!}
+Note that \XeLaTeX\ might have issues importing \file{eps} files; the figures might end up disappearing from the page entirely or be placed in the wrong place. The issue can be easily solved by converting the \file{eps} file to \file{pdf}. This can be done from the command line by calling \code{epstopdf <filename.eps>}, a command that is available in all \LaTeX\ distributions.
+}\par
+\indent{%
+In its latest version the template class provides also starred (wide) versions of the table \verb|\begin{table*}| and figure \verb|\begin{figure*}| environments. In the case of a figure this increases the available space to 118×79\,mm (1395×929\,px at 300\,dpi) for a landscape figure and moves the caption below the figure. Note that these environments should be used only on rare occasions.\footnote{See \file{thesis-introdcution.tex}, ln 71 in \file{./demo-bypub} for an example of a wide figure and \file{thesis-ch6\_analysis.tex}, ln 115 in \file{./demo-asbook} for an example of a wide table.} In addition to the table and figure environments the template provides also a video environment, where the same restrictions as for the figure environment apply.\footnote{See \file{thesis-pub2\_ecomod.tex}, ln 397 in \file{./demo-bypub} for an example.} % On extremely rare occasions, when a single figure should appear on a page, the height of the available space can be increased by using the largefigure environment.  
+}\par
+}
+\end{RaggedRight}
+%
+\SSC{Dissertation structure}%
+\begin{RaggedRight}
+{\fontsize{9}{13}\selectfont
+ \setlength{\parindent}{1em}
+\noindent{%
+The revised doctoral dissertation structure is as follows:
+\begin{itemize}[label=\color{P1797}+%
+%\raisebox{0em}{\rule{1ex}{1ex}}
+\normalcolor, leftmargin=0pt, labelsep=.5ex, nosep, noitemsep]
+\item \textsc{Title} page,
+\item \color{grey65}\textsc{Duplicate title} page with required logos,\normalcolor %\\\emph{only for funded doctoral dissertations},
+\item \textsc{Approval} page,
+\item \textsc{Previous publications} page,
+\item \color{grey40}\textsc{Dedication},\normalcolor
+\item \textsc{Table of contents},%\marginpar{\RaggedRight\tiny You should not include additional lists, like the lists of tables or list of figures.}
+\item Dissertation body,
+\item \color{grey65}\textsc{Appendix},\normalcolor%\\ \emph{mandatory for doctoral dissertations written in English, optional otherwise}
+\item \textsc{Bibliography},
+\item \color{grey40}\textsc{Glossary},\normalcolor\marginpar{\RaggedRight\sffamily Currently unsupported.}%\\ \emph{optional},
+\item \color{grey40}\textsc{Index}.\normalcolor\marginpar{\RaggedRight\sffamily Currently unsupported.}%\\ \emph{optional}.
+\end{itemize}
+%TODO: list pre-loaded packages, list useful commands like numbers with SI units, vulgar fractions, etc. subfigure!?
+}\par
+\indent{
+Except for the \textsc{Table of contents} no additional lists, like the list of figures or list of tables, should be included. 
+%}\par
+%\indent{
+The \textsc{Index}, \textsc{Glossary} and \textsc{Dedication} parts are optional. Similarly the \textsc{Appendix} part is optional as well, except for dissertations written in English. In this case it is mandatory and should, by requirement, include an \textsc{Appendix} titled \emph{Razširjen povzetek} that covers at least 10\,\% of the material discussed in the dissertation body.\footnote{See \file{./demo-bypub} or \file{./demo-asbook} for an example.} Optionally additional appendices can exist. 
+%}\par
+%\indent{
+The \textsc{Duplicate title} page is required only for funded doctoral dissertations. As funded young researchers are legally bound to provide information about the funding sources it typesets a duplicate \textsc{Title} page and places all of the required logos in the page header.
+}\par}
+\end{RaggedRight}
+%
+\SSC{Using the template}%
+\begin{RaggedRight}
+{\fontsize{9}{13}\selectfont
+ \setlength{\parindent}{1em}
+\noindent{%
+For your convenience the template class package contains two subdirectories, namely \file{./demo-asbook} and \file{./demo-bypub}. Respectively they provide all the necessary files to build a dissertation in the two distinct formats allowed by the Faculty of Computer and Information Science, namely as a book, and as a collection of published manuscripts. Refer to them as a starting point, when preparing your own dissertation. The most important files of all are \file{thesis.tex} and \file{cover.tex}; the former is used to produce the main body of your dissertation, the latter to produce its cover. They start by loading the \file{FRIteza} template class with the appropriate options. They then proceed by specifying the \emph{author}, \emph{title}, \emph{key words}, the \emph{approval committee}, the \emph{list of previous publications},… The class commands used to specify these properties are documented in the files themselves and since the class file is still under development this document will not explain them further. For a doctoral student, who is writing his dissertation they should be self-explanatory. 
+}\par
+\indent{
+After the initial setup a number of helper commands that are to be used in the remaining part(s) of the document are defined. The body of the dissertation is enclosed between {\verb|\begin{document}|} and {\verb|\end{document}|}. Files included with {\verb|\input{<filename>}|} represent sub-parts (chapters) of the dissertation. I strongly advise using this type of tree structure as it makes the document much easier to manage. It also simplifies compilation as it allows excluding certain sub-parts when they are not the ones being worked on. Everything else should be quite self-explanatory. Whenever you have trouble typesetting parts of your dissertation, you can use the files in \file{./demo-asbook} and \file{./demo-bypub} as a reference point. 
+}\par}
+\end{RaggedRight}
+%\newpage
+%
+\SSC{Production stages \& printing}%
+\begin{RaggedRight}
+{\fontsize{9}{13}\selectfont
+ \setlength{\parindent}{1em}
+\noindent{%
+A typical doctoral dissertation has several production stages, namely \emph{dissertation proposal}, \emph{draft}, \emph{revised}, \emph{proofread}, \emph{final}. The preparation of the dissertation proposal is currently unsupported, however, the template class can be easily used throughout all of the other stages. In some cases the draft can be preceded by an \emph{early draft} version, and the revised and proofread stages can have multiple occurrences. The stages are more or less merely a good practice in the preparation of a doctoral dissertation or any other manuscript. From the template class perspective there is no real difference, but for good practice it does provide an option to declare the stage the manuscript is in, namely \code{pre-alpha}, \code{alpha}, \code{beta}, \code{gold}, \code{press}, which roughly correspond to \emph{early draft}, \emph{draft}, \emph{revised}, \emph{proofread}, \emph{final}. 
+}\par
+\indent{
+The same set of class options can be used throughout all of the production stages except for the final stage. From the template class perspective the stages \code{pre-alpha}, \code{alpha}, and \code{beta} are interpreted as production stages, whereas the \code{gold} and \code{press} stages are interpreted as final. Note that there are some differences in the generated \file{pdf} files. The production stages do not colour chapter pages, do not generate chapter marks at the page borders, and generate a smaller page size. The smaller page size gives the possibility to increase the font size (approximately 50\,\%) when the dissertation is printed and soft-bound (spiral binding), all to aid in late night readability of the manuscript. This will mostly help \textsc{you}, as your reviewers might consequentially show more mercy. To achieve this on \textsc{a4} one needs to select the options \textsc{Size} > \textsc{Fit}, \textsc{Orientation} > \textsc{Auto portrait/landscape} in the \textsc{Page Size \& Handling} section of the \textsc{Print} dialogue box of \textsc{Adobe Acrobat Reader/Pro}. In addition the \code{beta} stage displays also the notes regarding responses and revisions based on the committee's comments, all other stages hide these notes.\footnote{Currently unsupported feature.} 
+
+In the final stage, i.e. when the dissertation has been revised and proofread and is ready to be book-bound and published on the Faculty of Computer and Information Science web site, you will prepare two \file{pdf} versions. One that is to be published on the web site and one that is to be printed, either by you or by the bookbinder who will make the hardcover, hardbound book. The former edition, i.e. the one that is to be published on the web site, must be prepared with the stage \code{gold}. The latter edition, i.e. the one that is to be printed either by you or the bookbinder, requires the stage \code{press}. This stage generates all of the necessary information that will aid the bookbinder to correctly trim the book block. When preparing each of the two final \file{pdf} versions make sure to run them through \XeLaTeX\ a couple of times and check for any possible issues.\footnote{See \file{thesis.pdf} and \file{thesis-press.pdf} in \file{./demo-asbook/out} and \file{./demo-bypub/out} for reference.} As a special feature the dissertation template automatically searches for figures in the \file{./img}, \file{./img\_lq} and \file{./img\_hq} directories, where it prefers files in the \file{pdf}, \file{png} and \file{jpg} format, respectively. The choice of search directories depends on the stage, where the \code{press} stage searches for files in either \file{./img} and \file{./img\_hq}, all other stages search for files in \file{./img} and \file{./img\_lq}. This gives the author the possibility to reduce the file size for web and email versions, while retaining high resolution figures for press.\footnote{See \file{./demo-bypub} for an example.}
+
+Taking all the above into account, a good practice would be to use \code{pre-alpha} to submit draft versions to the advisor. Once approved by the them a revised version in \code{alpha} stage is printed and soft-bound for Seminar 5. Afterwards a proofread revised version in \code{beta} is printed and soft-bound for the Faculty Senate. And once approved by the Faculty Senate the manuscript reaches the \code{gold} stage. 
+}\par
+\indent{
+If you decide to leave final printing to the bookbinder, you will need to give them two \file{pdf} files, one with the main body\footnote{See \file{thesis-press.pdf} in \file{./demo-asbook/out} and \file{./demo-bypub/out} for reference.} and one with the cover page.\footnote{See \file{cover.pdf} in \file{./demo-asbook/out} and \file{./demo-bypub/out} for reference.} If you, however, decide to print the main body of the dissertation yourself, you will require a \emph{colour laser printer} capable of \emph{double sided} printing and enough sheets of 100\,g/m\realsuperscript{2} paper. When printing, make sure that you disable any page scaling and enable central placement of the page. Translated to \textsc{Adobe Acrobat Reader/Pro} speak this means selecting \textsc{Size} > \textsc{Actual Size}, \textsc{Orientation} > \textsc{Auto portrait/landscape} in the \textsc{Page Size \& Handling} section of the \textsc{Print} dialogue box. The cover page will still need to be printed by the bookbinder, as it requires an \textsc{a3} colour laser printer, special paper and a further step of plastic lamination. 
+}\par
+\indent{
+The suggested bookbinder is \textsc{Grafika Bonifer}, all additional information can be found on their web site.\footnote{\href{http://www.bonifer.si}{bonifer.si}}
+}\par
+}
+\end{RaggedRight}
+
+%\SSC{Thesis production stages}%
+%\begin{RaggedRight}
+%{\fontsize{9}{13}\selectfont
+ %\setlength{\parindent}{1em}
+%\noindent{%
+%A doctoral dissertation typically has several production stages, namely:
+%\begin{itemize}[label=\color{P1797}+%
+%%\raisebox{0em}{\rule{1ex}{1ex}}
+%\normalcolor, leftmargin=0pt, labelsep=.5ex, nosep, noitemsep]
+%\item \textsc{Dissertation proposal},
+%\item \textsc{First draft},
+%\item \textsc{Review},
+%\item \textsc{Proofreading},
+%\item \textsc{Press}.
+%\end{itemize}
+%}\par
+%}\par
+%\indent{
+%After the initial setup a number of helper commands that are to be used in the remaining part(s) of the document are defined. The body of the document is enclosed between the commands {\verb#\begin{document}#} and {\verb#\end{document}#}. Files included with the command {\verb#\input{<filename>}#} represent sub-parts (chapters) of the thesis. I strongly advise using this type of tree structure as it makes the document much easier to manage. It also simplifies compilation as it allows excluding certain sub-parts when they are not the ones being worked on. Everything else should be quite self-explanatory. Whenever you have trouble typesetting parts of your dissertation, you can use \file{thesis-demo} as a reference point. 
+%}\par}
+%\end{RaggedRight}
+%
+%\SSC{Tables}%
+%%
+%\SSC{Listings}%
+%%
+%\SSC{Using the class}%
+%\SSC{Preloaded packages}%
+%\SSC{titlepage}%
+%\SSC{copyright page}%
+%\SSC{Aproval page}%
+%\SSC{Previous publication page}%
+\end{document}
