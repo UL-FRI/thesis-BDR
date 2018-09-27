@@ -1,10 +1,14 @@
 % load FRI thesis document class with options: 
-% - english for writing in english
-% - slovene for writing in slovene
-% - [PhD, funded] for a funded PhD thesis - doktorska disertacija MR iz gospodarstva
-% - press for print version
-% - online for online version - coloured and active figure/table/... links
-\documentclass[english,PhD]{FRIthesis}
+% - language=english for writing in english as main language [default]
+% - language=slovene for writing in slovene as main language
+% - funding=logo.pdf for a funded PhD thesis - doktorska disertacija MR iz gospodarstva, 
+% - stage=pre-alpha for early drafts - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
+% - stage=alpha for first review by advisor - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
+% - stage=beta for seminar 5 - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
+% - stage=gamma for senate aproval - no chapter thumbs, TODO: includes notes showing reviewer comments (and author response) [seeks for images in directories /img_LQ, /img]
+% - stage=gold for final approved version - notes not displayed, chapter pages in colour, chapter thumbs [seeks for images in directories /img_LQ, /img]
+% - stage=press for print version - gold with trimmarks [seeks for images in directories /img_HQ, /img]
+\documentclass[language=english,stage=gold]{FRIteza}
 
 \author[A={I Lebar Bajec}]{Iztok Lebar Bajec}
 
@@ -15,11 +19,9 @@
 \keywords[language=slovene]{ptica, jata, boid, animat, mehka logika, mehko modeliranje, mehki animat, umetno življenje, vedenjska animacija}
 
 % primer v slovenskem jeziku
-%\companyLogo{cc/company_logo-slo}
-%\approvedBy[id=1, title={izredni profesor za računalništvo in informatiko}, role={mentor in član ocenjevalne komisije}]{dr. Nikolaj Zimic}
-%\approvedBy[id=2, title={izredni profesor za računalništvo in informatiko}, role={predsednik ocenjevalne komisije}]{dr. Blaž Zupan}
-%\approvedBy[id=2, affiliation={University of Rhode Island}, title={Professor Emeritus of Biological Sciences}, role={zunanji član ocenjevalne komisije}]{dr. Frank H. Heppner}
-%\companyLogo{cc/company_logo-eng}
+%\approvedBy[title={izredni profesor za računalništvo in informatiko}, role={mentor in član ocenjevalne komisije}]{dr. Nikolaj Zimic}
+%\approvedBy[title={izredni profesor za računalništvo in informatiko}, role={predsednik ocenjevalne komisije}]{dr. Blaž Zupan}
+%\approvedBy[affiliation={University of Rhode Island}, title={Professor Emeritus of Biological Sciences}, role={zunanji član ocenjevalne komisije}]{dr. Frank H. Heppner}
 \approvedBy[title={Associate Professor of Computer and Information Science}, role={advisor and examiner}]{dr. Nikolaj Zimic}
 \approvedBy[title={Associate Professor of Computer and Information Science}, role={examiner}]{dr. Blaž Zupan}
 \approvedBy[affiliation={University of Rhode Island}, title={Professor Emeritus of Biological Sciences}, role={external examiner}]{dr. Frank H. Heppner}
@@ -52,6 +54,7 @@
 	doi:\,\doi{10.1016/j.jtbi.2004.10.003}.
 }
 
+% force correct date display, ignored if stage not gold or press
 \forceDate{6}{2005}
 
 % define cover 
@@ -61,14 +64,18 @@
 %  title - use title to insert prefered line breaking with '\\' 
 %  loc - options NE, SE, NW, SW
 %  colour - options P1797, white, black
-\cover[title={Fuzzy model for a computer simulation of bird flocking}, loc={NE}, colour={P1797}]{./cc/coverImage.jpg} 
+%\cover[title={Fuzzy model for a computer simulation of bird flocking}, loc={NE}, colour={P1797}]{./cc/coverImage.jpg} 
 % define spine
 % \spine[title=<title to appear on spine>, loc=<location of the title>, colour=<colour of the title>]{thesisId in hexadecimal}
 % defaults: title=\title[A={#}]
 % notes:
 %  title - use title to provide a shortended title for the spine 
 %  pages - privde the total number of pages
-\spine[title={Fuzzy model for a computer simulation of bird flocking}, pages=134]{80}
+%\spine[title={Fuzzy model for a computer simulation of bird flocking}, pages=134]{80}
+
+% load path for graphics files
+%\graphicspath{{img/}}
+%\DeclareGraphicsExtensions{.pdf,.png,.jpg} % search order for graphics files
 
 \usepackage{xspace} % helper package for automatic spaces after replacement macros, to be used with caution
 %% define common abbreviations
@@ -110,45 +117,28 @@
 %
 \newcommand{\fov}{\ensuremath\mathit{fov}} % field of view; \mathit ensures proper kerning between f and o, a common issue for multichar variables
 
-% load path for graphics files
-\graphicspath{{img/}} % search path for graphics files
-\DeclareGraphicsExtensions{.pdf,.jpg,.png} % graphics file extensions listed in order of prefference
-
 % define additional hyphenation patterns
 \sethyphenation{english}{pri-mar-i-ly} % https://www.hyphenation24.com/
 
 
-% TODO resolve todos!
-
-
-\makeatletter
-%\@showGridSystemtrue
-%\@showTextAreastrue
-%\@showTextAreaBaselinestrue
-\makeatother
-
-% TODO cleveref, varioref packages and \cref
-
 \begin{document}
 
 % TODO: show as an example of subfigure use
-%\begin{figure}%[b]
+%\begin{figure}
 %	\begin{subfigure}[b]{.5\figurewidth-3.5pt}
 %		\noindent\hrulefill\par
-%		\includegraphics{img/fig[fuzzySet]a}
+%		\includegraphics{fig_fuzzySet_a}
 %		\caption{sub A}\label{labA}
 %	\end{subfigure}
 %	\hfill
 %	\begin{subfigure}[b]{.5\figurewidth-3.5pt}
 %		\noindent\hrulefill\par
-%		\includegraphics{img/fig[fuzzySet]b}
+%		\includegraphics{fig_fuzzySet_b}
 %		\caption{sub B}\label{labB}
 %	\end{subfigure}
 %	\caption{Membership functions of a crisp set of real numbers `from 3 to 5' \subref{labA} and a fuzzy set of real numbers `close to 4' \subref{labB}.}
 %	\label{fig:fuzzy:set0}
 %\end{figure}
-
-%\makecoverpage % auto-generate cover.tex file and build using xelatex
 
 \frontmatter
  	\maketitle
