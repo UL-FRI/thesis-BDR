@@ -1,0 +1,131 @@
+% !TeX root = ./thesis.tex
+
+
+
+
+
+
+
+
+
+
+%==============================
+\chapter{Introduction}
+\label{ch:introduction}
+
+
+%-----
+\section{Motivation}
+With the increase of the processing and presentational capabilities of personal computers, the field of computer modelling and simulation has been gaining research interest even in the areas that a decade ago did not believe that modelling and simulation were suitable for them. One such area is the modelling of the dynamics of organized groups of moving animals. Some of the typical examples of such groups are pedestrians \cite{brogan:1998,helbing:1995}, bird flocks and fish schools \cite{aoki:1982,heppner:1990,lebar_bajec:2002,lebar_bajec:2003a,lebar_bajec:2003b,lebar_bajec:2005a,okubo:1986,reynolds:1987,terzopoulos:1994,tu:1994,tu:1999,zaera:1996}, ant colonies \cite{bonabeau:1999,resnick:1997}, \etc\ For the majority of these groups their dynamics is not based on a centralized source of decision processing, but on a distributed one. Each individual member of the group thus processes its own decision, depending on the perceived state of the universe and the tendencies that originate from the drives guiding it. 
+
+If I focus on bird flocks: the first and most influential models were developed by Reynolds \cite{reynolds:1987} and Heppner and Grenander \cite{heppner:1990}. In both cases the drives are implemented through mathematical equations (geometrical calculations, differential equations, \etc), which the authors obtained by means of trial-and-error experimentation. According to Reynolds \cite{reynolds:1987,reynolds:1999}, these drives are:
+
+\begin{itemize}
+	\item \emph{separation}: each member of the flock tries to maintain a certain separation distance from its flockmates (nearby flock members),
+	
+	\item \emph{alignment}: each member of the flock tries to match its flight speed and flight direction with that of its flockmates, 
+	
+	\item \emph{cohesion}: each member of the flock tries to fly toward the centre of its flockmates.
+\end{itemize}
+
+According to Heppner and Grenander \cite{heppner:1990}, the drives are:
+
+\begin{itemize}
+	\item \emph{homing}: each member of the flock tries to stay in the roosting area,
+	
+	\item \emph{velocity regulation}: each member of the flock tries to fly with a certain predefined flight speed---it tries to return to that speed if perturbed,
+	
+	\item \emph{interaction}: if two flockmates are too close to one another, they try to move apart; if they are too distant, they do not influence each other; otherwise they try to move closer together. 
+\end{itemize}
+
+However, in addition to these three drives, Heppner and Grenander modelled also the \emph{random impact}, which was intended to simulate the random distractions that are present in a natural environment (wind gusts, distractions from moving objects on the ground, \etc). They implemented it as a Poisson stochastic process and admitted that without its inclusion they were unable to produce flock-like behaviour. 
+
+Upon the analysis of the relevant bibliography it has been determined that the existing models have some weaknesses, which can be briefly summarized as follows:
+
+\begin{itemize}
+	\item \emph{syntactical confusion}: most of the authors do not present formal definitions of the models; in the majority of cases the models are only described, which is usually not a good enough basis for an actual implementation; the latter requires a formal specification in the form of an automaton or algorithm; 
+	
+	\item \emph{lack of evaluation metrics}: regardless of the numerous models, neither an analytical comparison between the obtained results nor their evaluation have been performed; in this sense the models have never been truth-tested;
+	
+	\item \emph{usability}: most of the models are based on complex mathematical formalisms (differential equations, random processes, computation of the centre of mass, \etc); in this sense the models are difficult to understand and/or use by the audience they were designed for (biologists, ethologists, behaviourists, etc.).
+\end{itemize}
+
+Fuzzy modelling has gained momentum with the increase of processing capabilities. It is based on fuzzy logic, which emerged as an outgrowth of fuzzy set theory. The latter was first introduced in 1965 by Lotfi A. Zadeh \cite{zadeh:1965}. Fuzzy set theory is a generalization of conventional (or crisp) set theory by the introduction of the concept of partial membership. The main difference between the two is thus in the interpretation of membership. In conventional set theory, an object can be either a member of the observed set or not a member of the observed set; in fuzzy set theory, however, it can also be a partial member of the observed set. Therefore if the object's membership to the observed set is computed by means of a membership function, then in the case of a crisp set this function maps to the set $\left\{0,1\right\}$, whereas in the case of a fuzzy set it maps to the entire unit interval $\left[0,1\right]$. 
+
+The basics of modelling using uncertain knowledge and preconditions were set by Witold Pedrycz \cite{pedrycz:1993}. In the current literature numerous examples of fuzzy modelling can be found (modelling of fire spread prediction \cite{mraz:1999,vakalis:2004a,vakalis:2004b}, modelling of snow avalanches \cite{barpi:2004}, modelling of the control of kitchen appliances \cite{mraz:2001}, \etc). However, only some of them model massive dynamic processes. Furthermore in the extensive literature I did not find any attempt at fuzzy modelling of bird flocking.
+
+
+%----
+\section{Scientific Contributions}
+In the light of the preceding discussion about the existing models' weaknesses, the following scientific contributions are presented in this dissertation:
+
+\begin{itemize}
+	\item \emph{design and formal definition of an extended Moore automaton (animat)}:
+	with respect to the current syntactical confusion I design and present a formal definition of an extended Moore automaton \cite{kohavi:1978}, which allows a uniform approach to modelling the dynamics of organized groups of moving entities; the ideas behind the above mentioned formal definition correspond with the term animat, which was introduced, without a formal definition, by Wilson \cite{wilson:1985}; in spite of that, in the last decade the term has become the synonym for a class of computer simulated animals or robots;
+	
+	\item \emph{design and formal definition of a fuzzy extended Moore automaton (fuzzy animat)}:
+	afterwards I upgrade the extended Moore automaton with the introduction of fuzziness \cite{zadeh:1965}; the latter allows the construction and implementation of the automaton by using ambiguous (uncertain, vague, \etc) knowledge and data; one of the main advantages of fuzzy logic is its ability to permit a direct linguistic description (programming) of an arbitrary decision system;
+	
+	\item \emph{application of the fuzzy animat to the problem of the simulation of bird flocking}:
+	to present its usability I employ the fuzzy animat to model a member of a bird flock; the model is limited to a two-dimensional space without obstacles; these two preconditions originate from comparable models of other authors; 
+	
+	\item \emph{design and formal definition of a set of metrics used for comparing the simulation results from different computer models of bird flocking}:
+	the authors of the related models base the analysis of their simulation results mostly on visual grounds; the approach is subjective and is, as such, useless for an analytical comparison of different models; with this in mind I design and formally define a set of metrics that allow the comparison of the simulation results, and if the required data be available, perhaps also a comparison to the dynamics of a natural flock;
+	
+	\item \emph{comparison of the simulation results obtained by using different computer models of bird flocking}:
+	I then use the introduced metrics to compare the simulation results obtained by using the newly introduced model with those obtained by using Reynolds's model \cite{reynolds:1987,reynolds:1999}; the latter represents the main reference for the majority of the existing models;
+	
+	\item \emph{analysis of simulation results from different computer models of bird flocking}:
+	I analyse the differences in the simulation results of the compared models.
+\end{itemize}
+
+
+%----
+\section{Methodology}
+In the quest to achieve the discussed scientific contributions, the following methodologies have been employed:
+
+\begin{itemize}
+\item review and analysis of the bibliography related to modelling massive dynamic processes; in doing so, I have learnt about the most important related models;  
+\item application of the acquired knowledge to the design of an extended Moore automaton (animat);
+\item application of the knowledge about fuzzy logic to the design of a fuzzy extended Moore automaton (fuzzy animat);
+\item development of a computer application (simulator) for the simulation of bird flocking;
+\item experimental work with the simulator and analysis of the simulation results;
+\item comparison of the results obtained with the simulation and those obtained by using the computer models of other authors;
+\item monitoring and review of all of the new activities in the related fields and active participation in the form of journal articles and conference contributions.
+\end{itemize}
+
+
+%----
+\section{Dissertation Overview}
+The main question to be addressed by this dissertation is, ``How to use fuzzy logic for modelling bird flocking?'' I feel that flock-like behaviour could be much more easily described by using simple linguistic descriptions (\eg\ collections of if-then rules) than by using mathematical equations. Indeed, the existing knowledge about the behaviour of flocks is usually available in the form of the observer's linguistic descriptions and explanations of the perceived behaviour.\footnote{``\emph{It seems likely that if a bird, say, to the left and in front of another bird turned suddenly in front of the trailing bird, the trailing bird would have time to react, and turn in the same direction, avoiding collision.}'' From personal correspondence with Frank H. Heppner.} The existing models were thus arrived at by approximating such linguistic descriptions using mathematical equations. Moreover, considerable amounts of advanced mathematical skills were required for this transition. Fuzzy logic \cite{zadeh:1965} is a very popular, successful and widespread approach for modelling processes, for example fire spread prediction \cite{mraz:1999,vakalis:2004a,vakalis:2004b}, which are too complex for classical mathematical methods. I feel that by using it to describe the simulated animal's behaviour the transition from the linguistic description to the actual behaviour could be made much shorter and much more understandable. In this way researchers involved with the study of the dynamics of organized groups of moving animals would gain a tool that enabled them to construct the subjects of their interest---the digital animals---and study their behaviour through simulations.
+
+This dissertation presents the \emph{fuzzy animat construction framework} and through the study case of bird flocking also its usage. In \chaptername~\ref{ch:birdFlocks} the bird flocking literature is reviewed and the two most influential models are presented. \chaptername~\ref{ch:animat} presents a formal definition of an extended Moore automaton that can be used as a uniform approach to modelling the dynamics of organized groups of moving animals. \chaptername~\ref{ch:fuzzyModelling} presents a brief overview of fuzzy logic and fuzzy modelling. In \chaptername~\ref{ch:fuzzyAnimat} fuzzy logic is used to introduce fuzziness into the earlier formalized extended Moore automaton, which is then used to construct a fuzzy digital bird. \chaptername~\ref{ch:analysis} is dedicated to the analysis of the dynamics of organized groups of moving fuzzy digital birds and \chaptername~\ref{ch:conclusion} concludes by reviewing the achieved scientific contributions and presenting the future research directions.
+
+I assume that the reader is familiar with the fundamentals of the theory of conventional (or crisp) sets and conventional (crisp or two-valued) logic. Furthermore, it is assumed that the reader is familiar with Euclidean vector spaces and corresponding vector operations. Throughout the dissertation I use the following notation:
+
+\begin{itemize}
+	\item $\N=\left\{1,2,3,\ldots\right\}$ the set of all positive natural numbers,
+	\item $\N_n=\left\{1,2,3,\ldots,n\right\}$ the set of all positive natural numbers lower or equal $n$,
+	\item $\R$ the set of all real numbers,
+	\item $\R^+$ the set of all non-negative real numbers,
+	\item $\E$ an Euclidean vector space such as $\R^2$, $\R^3$,
+	\item $\set{A},\ldots,\set{Z}$ conventional (or crisp) sets,
+	\item $\fset{A},\ldots,\fset{Z}$ fuzzy sets,
+	\item $\vect{a},\ldots,\vect{z}$ vectors from vector space $\E$,
+	\item $\langle x_1,x_2,\ldots,x_n \rangle$ ordered $n$-tuple of elements $x_1$, $x_2$, \ldots, $x_n$.
+\end{itemize}
+
+\noindent In addition
+\begin{itemize}
+	\item $\mathrm{iff}$ is shorthand expression for ``if and only if'',
+	\item $\exists$ is shorthand expression for ``exists'',
+	\item $\forall$ is shorthand expression for ``for all'',
+	\item $\left|\set{A}\right|$ is shorthand for the size of set $\set{A}$,
+	\item $\mu_\set{A}$ is shorthand for the membership function of crisp set $\set{A}$,
+	\item $\powset{\set{A}}$ is shorthand for the family of all crisp sets that can be defined on universal set $\set{A}$, 
+	\item $\mu_\fset{A}$ is shorthand for the membership function of fuzzy set $\fset{A}$,
+	\item $\fpowset{\set{A}}$ is shorthand for the family of all fuzzy sets that can be defined on universal set $\set{A}$, 
+	\item $\left\|\vect{a}\right\|$ is shorthand for the size (norm) of vector $\vect{a}$,
+	\item $\vect{a}^0$ is shorthand for the normalized vector $\vect{a}$ (\ie\ a vector in the same direction as $\vect{a}$ but with size $1$),
+	\item $\lfloor\vect{a}\rceil^a$ is shorthand for the truncated vector $\vect{a}$ (\ie\ a vector in the same direction as $\vect{a}$ but with size lower or equal $a$).
+\end{itemize}

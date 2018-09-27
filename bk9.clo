@@ -55,15 +55,15 @@
               [2005/09/16 v1.4f
       Standard LaTeX file (size option)]
 \renewcommand\normalsize{%
-   \@setfontsize\normalsize{9.03}{13}%{9.75}{13}%9.75 = PhD
-   \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+   \@setfontsize\normalsize{9bp}{13bp}%{9.75}{13}%9.75 = PhD
+   \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@				% https://tex.stackexchange.com/questions/47773/how-can-i-change-the-whitespace-above-and-below-math-displays
    \abovedisplayshortskip \z@ \@plus3\p@
    \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
    \belowdisplayskip \abovedisplayskip
    \let\@listi\@listI}
 \normalsize
-\newcommand\small{%
-   \@setfontsize\small{8.03}{11}%{9.75}%11
+\newcommand\small{% 											% previousPublicationList, approvedByTitle, chapterAbstract
+   \@setfontsize\small{8bp}{11.5bp}%{9.75}%11
    \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
    \abovedisplayshortskip \z@ \@plus2\p@
    \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
@@ -73,8 +73,8 @@
                \itemsep \parsep}%
    \belowdisplayskip \abovedisplayskip
 }
-\newcommand\footnotesize{%
-   \@setfontsize\footnotesize{7.03}{10}%
+\newcommand\footnotesize{%                                     	% chapterAcknowledgments
+   \@setfontsize\footnotesize{7.5bp}{10.8bp}%
    \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
    \abovedisplayshortskip \z@ \@plus\p@
    \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
@@ -84,13 +84,14 @@
                \itemsep \parsep}%
    \belowdisplayskip \abovedisplayskip
 }
-\newcommand\scriptsize{\@setfontsize\scriptsize{6.02}{7}}
+% TODO test with 8.667bp
+\newcommand\scriptsize{\@setfontsize\scriptsize{6.75bp}{8.1bp}} 	% infigure captions, captions, bibliography
 \newcommand\tiny{\@setfontsize\tiny\@vpt\@vipt}
-\newcommand\large{\@setfontsize\large\@xiipt{13}}%{14}}
-\newcommand\Large{\@setfontsize\Large\@xivpt{13}}%{18}}
-\newcommand\LARGE{\@setfontsize\LARGE\@xviipt{13}}%{22}}
-\newcommand\huge{\@setfontsize\huge\@xxpt{26}}
-\newcommand\Huge{\@setfontsize\Huge\@xxvpt{30}}
+\newcommand\large{\@setfontsize\large\@xiipt{13bp}}%{14}}
+\newcommand\Large{\@setfontsize\Large\@xivpt{13bp}}%{18}}
+\newcommand\LARGE{\@setfontsize\LARGE\@xviipt{13bp}}%{22}}
+\newcommand\huge{\@setfontsize\huge\@xxpt{26bp}}
+\newcommand\Huge{\@setfontsize\Huge\@xxvpt{30bp}}
 \if@twocolumn
   \setlength\parindent{1em}
 \else

@@ -1,0 +1,11 @@
+Options > Configure TeXstudio > Commands > XeLaTeX
+xelatex.exe -synctex=1 -interaction=nonstopmode -include-directory=../ -include-directory=./int -aux-directory=./int -output-directory=./out %.tex
+
+Options > Configure TeXstudio > Commands > BibTeX
+bibtex.exe -include-directory=../ -include-directory=./int ./int/%
+
+Options > Configure TeXstudio > Build > Additional Search Paths > Log File
+./int
+
+Options > Configure TeXstudio > Build > Additional Search Paths > Log File
+./out
