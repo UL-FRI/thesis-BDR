@@ -875,7 +875,8 @@
 				to\\
 				The Faculty of Computer and Information Science\\
 				in partial fulfilment of the requirements for the degree of\\
-				Doctor of Science\\
+				DOKTOR ZNANOSTI\\
+				(Doctor of Science)\\
 				in\\ %the subject of\\
 				Computer and Information Science
 			}\par
