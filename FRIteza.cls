@@ -323,10 +323,13 @@
 \newcommand{\EBLettrineBackFont}{\fontspec{EB Garamond Initials Fill1}}
 \newcommand{\EBLettrineFrontFont}{\fontspec{EB Garamond Initials Fill2}}
 \newcommand{\EBlettrine}[1]{%
+	\StrRemoveBraces{#1}[\str]
+	\StrSplit{\str}{1}{\first}{\rest}
 	\renewcommand{\LettrineFontHook}{\EBLettrineBackFont}%
 	\lettrine[lines=4,loversize=-.2,lraise=.25,findent=2pt,nindent=0pt]{%
-		\rlap{\color{\EBLettrineBackColor} \StrLeft{#1}{1}}%
-		{\EBLettrineFrontFont\color{\EBLettrineFrontColor} \StrLeft{#1}{1}}}{\StrGobbleLeft{#1}{1}}%
+		\rlap{\color{\EBLettrineBackColor} \first}%
+		{\EBLettrineFrontFont\color{\EBLettrineFrontColor} \first}}%
+		\rest%
 }
 
 % load language related packages
