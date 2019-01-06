@@ -1,32 +1,13 @@
 %%
 %% This is file `FRIteza.cls'
 %%
-%% Originaly based on 'book.cls' 2005/09/16 v1.4f Standard LaTeX document class
-%% generated from file(s) of the LaTeX base system.
-%% --------------------------------------------------------------
+%% (c) 2005-2018 Iztok Lebar Bajec
 %%
-%% It may be distributed and/or modified under the
-%% conditions of the LaTeX Project Public License, either version 1.3b
-%% of this license or (at your option) any later version.
-%%
-%% \CharacterTable
-%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%%   Digits        \0\1\2\3\4\5\6\7\8\9
-%%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%%   Dollar        \$     Percent       \%     Ampersand     \&
-%%   Acute accent  \'     Left paren    \(     Right paren   \)
-%%   Asterisk      \*     Plus          \+     Comma         \,
-%%   Minus         \-     Point         \.     Solidus       \/
-%%   Colon         \:     Semicolon     \;     Less than     \<
-%%   Equals        \=     Greater than  \>     Question mark \?
-%%   Commercial at \@     Left bracket  \[     Backslash     \\
-%%   Right bracket \]     Circumflex    \^     Underscore    \_
-%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%%   Right brace   \}     Tilde         \~}
 
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{FRIteza}[2018/09/27 v2 FRIteza XeLaTeX doctoral dissertation class]
+\ProvidesClass{FRIteza}
+		 [v2.20180927
+		  XeLaTeX doctoral dissertation class]
 
 \RequirePackage{ifxetex}
 \RequireXeTeX 
@@ -90,7 +71,7 @@
 		{slovene} {\@slovenetrue}
 		{english} {\@slovenefalse}
 	}{%
-		\PackageError{FRIteza}{The FRIteza class supports only the\MessageBreak slovene and english language variant,\MessageBreak supplied "#1"}
+		\ClassError{FRIteza}{The FRIteza class supports only the\MessageBreak slovene and english language variant,\MessageBreak supplied "#1"}{}
 	}
 }
 \DeclareOptionX{funding}[]{%
@@ -107,11 +88,11 @@
 		{gold} {\@devfalse}
 		{press} {\@devfalse \@presstrue}
 	}{%
-		\PackageError{FRIteza}{The FRIteza class supports stages\MessageBreak pre-alpha, alpha, beta, gamma, gold and press,\MessageBreak supplied "#1"}
+		\ClassError{FRIteza}{The FRIteza class supports stages\MessageBreak pre-alpha, alpha, beta, gamma, gold and press,\MessageBreak supplied "#1"}{}
 	}
 }
 
-\DeclareOptionX*{\PackageWarning{FRIteza}{`\CurrentOption' ignored}}
+\DeclareOptionX*{\ClassWarning{FRIteza}{`\CurrentOption' ignored}}
 \ExecuteOptionsX{language=english,stage=pre-alpha}
 \ProcessOptionsX*
 
@@ -322,7 +303,7 @@
 %]
 
 % TODO patch \textbf and \bfseries commands to disable use of bold in body text 
-%\PackageInfo{FRIteza}{Patching textbf and bfseries to force textit and itshape}
+%\ClassInfo{FRIteza}{Patching textbf and bfseries to force textit and itshape}
 %\let\@textbf\textbf
 %\let\@bfseries\bfseries
 %\renewcommand{\textbf}{\textit}
@@ -330,7 +311,7 @@
 
 % patch MakeUppercase to use lining numbers as uppercase numbers, 
 % see discussion at https://www.quora.com/Why-don’t-lowercase-and-uppercase-numbers-exist
-\PackageInfo{FRIteza}{Patching MakeUppercase to force Uppercase numbers}
+\ClassInfo{FRIteza}{Patching MakeUppercase to force Uppercase numbers}
 \let\@MakeUppercase\MakeUppercase
 \renewcommand{\MakeUppercase}[1]{\begingroup\addfontfeature{Numbers=Uppercase}\@MakeUppercase{#1}\endgroup}
 
@@ -391,18 +372,18 @@
 		}
 	}
 	{
-		\PackageError {FRIteza}
+		\ClassError {FRIteza}
 		{ \string\vfrac\space~can~only~be~used~with~fontspec~fonts }
 		{ Nothing~more~to~tell. }
 	}
 }
 
 \AtBeginDocument{ % these patch needs to be called last, after preamble finishes, i.e. at begin document 
-	\PackageInfo{FRIteza}{Patching siunitx package for correct printing of minus sign}
+	\ClassInfo{FRIteza}{Patching\space siunitx\space package\space for\space correct\space printing\space of\space minus\space sign}
 	% patch for siunitx package so than the minus sign gets printed in math and text mode
 	\tl_gset:Nn \c__siunitx_minus_tl { \ensuremath{ - } }
 	
-	\PackageInfo{FRIteza}{Patching realscript package for correct subscript font feature +sinf}
+	\ClassInfo{FRIteza}{Patching\space realscript\space package\space for\space correct\space subscript\space font\space feature\space +sinf}{}
 	% patch for realscript package so that proper subscripts get printed with EBGaramond
 	% EBGaramond (+subs) are closer to (+dnom) than typical subscripts, see also https://glyphsapp.com/tutorials/superscript-and-subscript-figures
 	\DeclareDocumentCommand \realsubscript {m} {
@@ -474,9 +455,9 @@
 % Patch ifoddpage package so that it works properly even with pagenumbering style changes
 % patch assumes zref-abspage package is loaded and theabspage is defined 
 \RequirePackage{etoolbox}
-\PackageInfo{FRIteza}{Patching ifoddpage package to support pagenumbering style changes}
-\patchcmd{\oddpage@checkpage}{\the\c@page}{\theabspage}{\PackageInfo{FRIteza}{\string\oddpage@checkpage\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\oddpage@checkpage}}
-\patchcmd{\oddpage@page}{\the\c@page}{\theabspage}{\PackageInfo{FRIteza}{\string\oddpage@page\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\oddpage@page}}
+\ClassInfo{FRIteza}{Patching ifoddpage package to support pagenumbering style changes}
+\patchcmd{\oddpage@checkpage}{\the\c@page}{\theabspage}{\ClassInfo{FRIteza}{\string\oddpage@checkpage\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\oddpage@checkpage}}
+\patchcmd{\oddpage@page}{\the\c@page}{\theabspage}{\ClassInfo{FRIteza}{\string\oddpage@page\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\oddpage@page}}
 
 \newlength{\pageW}\setlength{\pageW}{6.14in}
 \newlength{\pageH}\setlength{\pageH}{9.21in}
@@ -1840,12 +1821,12 @@
 
 % Patch floatrow package so that it works properly even with pagenumbering style changes
 % patch assumes zref-abspage package is loaded and theabspage is defined 
-\PackageInfo{FRIteza}{Patching floatrow package to support pagenumbering style changes}
-\patchcmd{\flrow@FB}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\flrow@FB\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\flrow@FB}}
-\patchcmd{\flrow@FC}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\flrow@FC\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\flrow@FC}}
-\patchcmd{\@@@floatbox}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\@@@floatbox\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\@@@floatbox}}
-\patchcmd{\FR@floatbox}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\FR@floatbox\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\FR@floatbox}}
-\patchcmd{\FB@writeaux}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\FB@writeaux\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\FB@writeaux}}
+\ClassInfo{FRIteza}{Patching floatrow package to support pagenumbering style changes}
+\patchcmd{\flrow@FB}{\thepage}{\theabspage}{\ClassInfo{FRIteza}{\string\flrow@FB\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\flrow@FB}}
+\patchcmd{\flrow@FC}{\thepage}{\theabspage}{\ClassInfo{FRIteza}{\string\flrow@FC\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\flrow@FC}}
+\patchcmd{\@@@floatbox}{\thepage}{\theabspage}{\ClassInfo{FRIteza}{\string\@@@floatbox\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\@@@floatbox}}
+\patchcmd{\FR@floatbox}{\thepage}{\theabspage}{\ClassInfo{FRIteza}{\string\FR@floatbox\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\FR@floatbox}}
+\patchcmd{\FB@writeaux}{\thepage}{\theabspage}{\ClassInfo{FRIteza}{\string\FB@writeaux\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\FB@writeaux}}
 
 % lists
 \newenvironment{description}{}{} % dummy description environemt; redefined by enumitem
@@ -2012,7 +1993,7 @@
 				}
 			}
 		}{%
-			\PackageError{FRIteza}{The \protect\title\space macro must select language variant,\MessageBreak allowed slovene or english, supplied "\cmdKV@title@language"}
+			\ClassError{FRIteza}{The \protect\title\space macro must select language variant,\MessageBreak allowed slovene or english, supplied "\cmdKV@title@language"}{}
 		}
 	\endgroup
 }
@@ -2035,7 +2016,7 @@
 				}
 			}
 		}{%
-			\PackageError{FRIteza}{The \protect\keywords\space macro must select language variant,\MessageBreak allowed slovene or english, supplied "\cmdKV@keywords@language"}
+			\ClassError{FRIteza}{The \protect\keywords\space macro must select language variant,\MessageBreak allowed slovene or english, supplied "\cmdKV@keywords@language"}{}
 		}
 	\endgroup
 }
@@ -2313,14 +2294,14 @@
 
 % Patch natbib thebibliography environment, to take into account variable width font, which causes issues with item identation (based on cmr10)
 % https://tex.stackexchange.com/questions/304010/how-does-bibtex-know-the-widest-label 
-\PackageInfo{FRIteza}{Patching natbib package to support variable width font in bibitem labels}
-\patchcmd{\flrow@FB}{\thepage}{\theabspage}{\PackageInfo{FRIteza}{\string\flrow@FB\ successfully patched}}{\PackageInfo{FRIteza}{failed to patch \string\flrow@FB}}
-\patchcmd{\thebibliography}{#1}{\arabic{longestlabel}}{\PackageInfo{FRIteza}{\string\thebibliography\ successfully patched, step 1}}{\PackageInfo{FRIteza}{failed to patch \string\thebibliography, step 1}}
+\ClassInfo{FRIteza}{Patching natbib package to support variable width font in bibitem labels}
+\patchcmd{\flrow@FB}{\thepage}{\theabspage}{\ClassInfo{FRIteza}{\string\flrow@FB\ successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\flrow@FB}}
+\patchcmd{\thebibliography}{#1}{\arabic{longestlabel}}{\ClassInfo{FRIteza}{\string\thebibliography\space successfully patched, step 1}}{\ClassInfo{FRIteza}{failed to patch \string\thebibliography, step 1}}
 \patchcmd{\thebibliography}{\bibsection}{%
 	\newcounter{longestlabel}
 	\expandafter\setcounter{longestlabel}{#1*10}
 	\bibsection
-}{\PackageInfo{FRIteza}{\string\thebibliography\ successfully patched, step 2}}{\PackageInfo{FRIteza}{failed to patch \string\thebibliography, step 2}}
+}{\ClassInfo{FRIteza}{\string\thebibliography\space successfully patched, step 2}}{\ClassInfo{FRIteza}{failed to patch \string\thebibliography, step 2}}
 
 \newif\if@inappendices \@inappendicesfalse
 \newif\if@insubappendices \@insubappendicesfalse
@@ -2330,10 +2311,10 @@
 \newenvironment{appendices}
 {
 	\if@inappendices 
-		\PackageError{FRIteza}{The 'appendices' environment can not be used inside the 'appendices' environment}
+		\ClassError{FRIteza}{The 'appendices' environment can not be used\MessageBreak inside the 'appendices' environment}{}
 	\fi
 	\if@insubappendices 
-		\PackageError{FRIteza}{The 'appendices' environment can not be used inside the 'subappendices' environment}
+		\ClassError{FRIteza}{The 'appendices' environment can not be used\MessageBreak inside the 'subappendices' environment}{}
 	\fi
 	\@inappendicestrue
 	
@@ -2380,10 +2361,10 @@
 \newenvironment{subappendices}
 {
 	\if@inappendices 
-		\PackageError{FRIteza}{The 'subappendices' environment can not be used inside the 'appendices' environment}
+		\ClassError{FRIteza}{The 'subappendices' environment can not be used\MessageBreak inside the 'appendices' environment}{}
 	\fi
 	\if@insubappendices 
-		\PackageError{FRIteza}{The 'subappendices' environment can not be used inside the 'subappendices' environment}
+		\ClassError{FRIteza}{The 'subappendices' environment can not be used\MessageBreak inside the 'subappendices' environment}{}
 	\fi
 	\@insubappendicestrue
 
