@@ -2161,8 +2161,13 @@
 	\cleardoublepage
 }
 
+\newif\if@abstract \@abstractfalse
 \newenvironment{abstract}{
 	\if@slovene
+		\if@povzetek
+			\ClassError{FRIteza}{With class option language=english the 'abstract'\MessageBreak 
+								 environment must precede the 'povzetek' enviornment}{}
+		\fi
 		\selectlanguage{english}
 	\fi
 	\chapter*{\abstractname} 
@@ -2189,15 +2194,21 @@
 }{
 	\par \vspace{10pt}
 	{\noindent\emph{Key words}\quad\@keywords@en\par} % text with \textsc{\MakeLowercase{\@keywords@en}}
+	\global\@abstracttrue
 %   on exit from environment swap to main language is automatic
 %	\if@slovene
 %		\selectlanguage{slovenian}
 %	\fi
 }
 
+\newif\if@povzetek \@povzetekfalse
 \newenvironment{povzetek}{
 	\if@slovene
 	\else
+		\if@abstract
+			\ClassError{FRIteza}{With class option language=english the 'povzetek'\MessageBreak 
+								 environment must precede the 'abstract' enviornment}{}
+		\fi
 		\selectlanguage{slovenian}
 	\fi
 	\chapter*{\abstractname}
@@ -2224,6 +2235,7 @@
 }{
 	\par \vspace{10pt}
 	{\noindent\emph{Ključne besede}\quad\@keywords@sl\par}
+	\global\@povzetektrue
 %   on exit from environment swap to main language is automatic
 %	\if@slovene
 %	\else
