@@ -1,10 +1,9 @@
 %%% ====================================================================
 %%%  @BibTeX-style-file{
-%%%     author          = "Russell Standish"
+%%%     author          = "Iztok Lebar Bajec"
 %%%  }
 %%% ====================================================================
-% This is "pnas2011.bst, adapted from "pnas2009.bst" and "pnas.bst", modified
-% from "unsrt.bst"
+% This is "FRIteza.bst, adapted from "pnas2011.bst", modified from "unsrt.bst"
 % BibTeX standard bibliography style `unsrt'
 	% version 0.99a for BibTeX versions 0.99a or later, LaTeX version 2.09.
 	% Copyright (C) 1985, all rights reserved.

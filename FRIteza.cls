@@ -2276,7 +2276,7 @@
 	\par
 }
 
-% bibliography environment [require pnas2011 style]
+% bibliography environment [require FRIteza style]
 % dummy thebibiliography environment; redefined by natbib
 \newenvironment{thebibliography}[1]{}{}%
 % dummy newblock macro; redefined by natbib
@@ -2306,6 +2306,8 @@
 	\endgroup
 	\end{multicols}
 }
+% set FRIteza bibstyle as default
+\bibliographystyle{FRIteza} 
 
 % Patch natbib thebibliography environment, to take into account variable width font, which causes issues with item identation (based on cmr10)
 % https://tex.stackexchange.com/questions/304010/how-does-bibtex-know-the-widest-label 
