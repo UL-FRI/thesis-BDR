@@ -344,6 +344,17 @@
 	\setotherlanguage{slovenian}
 	\RequirePackage[locale=UK,abbreviations]{siunitx} % load siunitx package for printing numers and units
 \fi
+\sisetup{detect-all, math-rm=\symup, math-sf=\symsf, math-tt=\symtt} % make siunitx detect mode (math, text, sans, typewriter, bold, and force use of symrm instead of mathrm to get uppercase numerals in math mode)
+
+% language specific special keyword translations
+\addto\captionsenglish{%
+	\renewcommand{\definitionname}{Definition}
+	\renewcommand{\acknowledgementsname}{Acknowledgements}
+}
+\addto\captionsslovenian{%
+	\renewcommand{\definitionname}{Definicija}
+	\renewcommand{\acknowledgementsname}{Zahvala}
+}
 
 % command for introducing hyphenation/syllabization patterns
 \newcommand{\sethyphenation}[2]{%
@@ -351,8 +362,6 @@
 		\begin{#1}\hyphenation{#2}\end{#1}%
 	}%
 }
-
-\sisetup{detect-all, math-rm=\symup, math-sf=\symsf, math-tt=\symtt} % make siunitx detect mode (math, text, sans, typewriter, bold, and force use of symrm instead of mathrm to get uppercase numerals in math mode)
 
 % enter LaTeX3 code
 \ExplSyntaxOn
@@ -2211,6 +2220,9 @@
 		\fi
 		\selectlanguage{slovenian}
 	\fi
+%	\chapter*{Izvleček} % izvleček should be max 300 words long
+%	\chaptermark{Izvleček}
+%	\addcontentsline{toc}{chapter}{\protect\numberline{}Izvleček}
 	\chapter*{\abstractname}
 	\chaptermark{\abstractname}
 	\addcontentsline{toc}{chapter}{\protect\numberline{}\abstractname}
@@ -2243,21 +2255,15 @@
 %	\fi
 }
 
-% TODO: declare \acknowledgementsname
+\newcommand{\acknowledgementsname}{Acknowledgements}
 \newenvironment{acknowledgements}
 {
-	\if@slovene
-		\chapter*{Zahvala}
-		\chaptermark{Zahvala}
-		\addcontentsline{toc}{chapter}{\protect\numberline{}Zahvala}
-	\else
-		\chapter*{Acknowledgements}
-		\chaptermark{Acknowledgements}
-		\addcontentsline{toc}{chapter}{\protect\numberline{}Acknowledgements}
-	\fi
+	\chapter*{\acknowledgementsname}
+	\chaptermark{\acknowledgementsname}
+	\addcontentsline{toc}{chapter}{\protect\numberline{}\acknowledgementsname}
 	\begingroup
-		%\itshape
-		\fontspec[
+	%\itshape
+	\fontspec[
 			Path=fonts/EBGaramond/,
 			Ligatures={TeX,Discretionary,Rare,Historic},
 			Mapping=tex-text,
@@ -2416,15 +2422,7 @@
 	\setcounter{subappendices}{\c@section}
 }
 
-% TODO: revise & move language dependant declarations to polyglosia load
-\newcommand\definitionname{Definition}
-\addto\captionsenglish{%
-	\renewcommand\definitionname{Definition}
-}
-\addto\captionsslovenian{%
-	\renewcommand{\definitionname}{Definicija}
-}
-
+% theorem envionrments
 \RequirePackage{ntheorem}
 \theoremheaderfont{\normalfont\itshape}
 \theorembodyfont{\normalfont}
@@ -2432,6 +2430,9 @@
 \theorempreskip{0pt}
 \theorempostskip{0pt}
 \theoremstyle{plain}
+
+% declare definition theorem like environment
+\newcommand\definitionname{Definition}
 \newtheorem{definition}{\definitionname}[chapter]
 
 \usepackage{tcolorbox}
