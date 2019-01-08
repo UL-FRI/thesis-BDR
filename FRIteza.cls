@@ -6,7 +6,7 @@
 
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{FRIteza}
-		 [v2.20180927
+		 [v2.20190108
 		  XeLaTeX doctoral dissertation class]
 
 \RequirePackage{ifxetex}
@@ -442,14 +442,15 @@
 \RequirePackage[all]{background} % required for chaptermarks based on TikZ
 
 \definecolor{grey65}{cmyk}{0,0,0,.65}
-\definecolor{grey50}{cmyk}{0,0,0,.5}
-\definecolor{grey40}{cmyk}{0,0,0,.4}
-\definecolor{grey20}{cmyk}{0,0,0,.2}
+\definecolor{grey50}{cmyk}{0,0,0,.50}
+\definecolor{grey40}{cmyk}{0,0,0,.40}
+\definecolor{grey20}{cmyk}{0,0,0,.20}
 \definecolor{grey05}{cmyk}{0,0,0,.05}
-\definecolor{PCG3M}{cmyk}{0.20,0.15,0.14,0}
-\definecolor{PCG9M}{cmyk}{0.48,0.39,0.37,0.03}
-\definecolor{P654M}{cmyk}{1,0.87,0.32,0.19}
-\definecolor{P1797}{cmyk}{0,0.94,0.94,0.06}
+\definecolor{PCG3M}{cmyk}{.20,.15,.14,0}
+\definecolor{PCG9M}{cmyk}{.48,.39,.37,.03}
+\definecolor{P654M}{cmyk}{1,.87,.32,.19}
+\definecolor{P1797}{cmyk}{0,.94,.94,.06}
+\definecolor{gold}{cmyk}{.15,.20,.80,.05}
 
 %P424
 %P654M
@@ -733,6 +734,8 @@
 }
 
 % TODO: change VOffset to multiples of thechapter counter
+\newcommand{\@chapterThumbColourA}{white}
+\newcommand{\@chapterThumbColourB}{P1797}
 \newcommand{\@drawChapterThumb}[2]{
 	\checkoddpage
 	\ifoddpageoroneside
@@ -795,7 +798,15 @@
 		\if@showTextAreaBaselines \@drawTextAreaBaselines \fi
 		\if@press \@drawTrimMarks \fi
 		\if@isPartPage \@drawPartMark{grey65} \fi
-		\if@showChapterThumb \@drawChapterThumb{white}{P1797} \fi
+		\if@showChapterThumb \@drawChapterThumb{\@chapterThumbColourA}{\@chapterThumbColourB} \fi
+		\if@dev
+			\checkoddpage
+			\ifoddpageoroneside
+				\node[black, rotate=90, anchor=east] at
+				(\mW-\trimMark-\bleedW-\@ULsquare/8,-\trimMark-\bleedH-\marginT-\@ULsquare/2)
+				{\fontsize{5bp}{6bp}\textsf{\textenglish{\today}~|~built with \expandafter\csname ver@FRIteza.cls\endcsname}};
+			\fi
+		\fi
 	\end{tikzpicture}
 }
 
@@ -820,18 +831,21 @@
 	\thispagestyle{empty}
 	\begin{centering}
 		\if@slovene
-			\vspace*{5\baselineskip}
-			{\Large\itshape\color{P1797}\addfontfeature{Ligatures=Historic}%
+			\hbox{}\vfill%\vfill\vfill
+			%\vspace*{5\baselineskip}
+			{\LARGE\scshape\color{P1797}\addfontfeature{Ligatures=Historic}{%
 				\@title@sl
-			}\par
+			}\par}
 			
-			\vspace*{1.5\baselineskip}
-			{\large\upshape\addfontfeature{Ligatures=Historic}%
+			\vfill
+			%\vspace*{1.5\baselineskip}
+			{\Large\scshape\addfontfeature{Ligatures=Historic}{%
 				\@author
-			}\par
+			}\par}
 			
-			\vspace*{1.5\baselineskip}
-			{\normalsize\scshape\addfontfeature{Ligatures=Historic}%
+			\vfill
+			%\vspace*{1.5\baselineskip}
+			{\normalsize\scshape\addfontfeature{Ligatures=Historic}{%
 				doktorska disertacija\\
 				predana\\
 				Fakulteti za računalništvo in informatiko\\
@@ -839,43 +853,43 @@
 				doktor znanosti\\
 				s področja\\
 				računalništva in informatike
-			}\par
+			}\par}
+			\vfill
 		\else
-			%\hbox{}\vfill\vfill\vfill
-			\vspace*{5\baselineskip}
-			% possible swap for \Huge\MakeUppercase + vfill
-			{%\Huge\color{P1797}\addfontfeature{Ligatures=Historic}%
-			 %	\MakeUppercase{\@title@en}
-			 \Large\itshape\color{P1797}\addfontfeature{Ligatures=Historic}%
+			\hbox{}\vfill%\vfill\vfill
+			%\vspace*{5\baselineskip}
+			{\LARGE\scshape\color{P1797}\addfontfeature{Ligatures=Historic}{%
 			 	\@title@en
-			}\par
-			
-			%\vfill
-			\vspace*{1.5\baselineskip}
-			{\normalsize\scshape\addfontfeature{Ligatures=Historic}%
+			}\par}
+		
+			\vfill
+			%\vspace*{1.5\baselineskip}
+			{\normalsize\scshape\addfontfeature{Ligatures=Historic}{%
 				A dissertation presented\\
-				by}
+				by%
+			}\par}
 			
-			%\vfill
-			\vspace*{1.5\baselineskip}
+			\vfill
+			%\vspace*{1.5\baselineskip}
 			{%\large\itshape\addfontfeature{Ligatures=Historic}%
-			 \large\upshape\addfontfeature{Ligatures=Historic}%
-				\@author}
+			 \Large\scshape\addfontfeature{Ligatures=Historic}{%
+				\@author
+			}\par}
 			
-			%\vfill
-			\vspace*{1.5\baselineskip}
-			{\normalsize\scshape\addfontfeature{Ligatures=Historic}%
+			\vfill
+			%\vspace*{1.5\baselineskip}
+			{\normalsize\scshape\addfontfeature{Ligatures=Historic}{%
 				to\\
 				The Faculty of Computer and Information Science\\
 				in partial fulfilment of the requirements for the degree of\\
 				Doctor of Science\\
-				in\\ %the subject of\\
-				Computer and Information Science
-			}\par
-			%\vfill
+				in\\ 
+				Computer and Information Science%
+			}\par}
+			\vfill
 		\fi
 		
-		\vfill
+		\vfill\vfill
 		\includegraphics{cc/uni-lj-min}
 		
 		{\@place,~\number\@year}\par				
@@ -1012,7 +1026,7 @@
 	([shift={(\trimMark,\trimMark)}]current page.south west);
 	\node at
 	([shift={(\ULc,\trimMark)}]current page.west)
-	{\includegraphics{./cc/uni-lj-max}};
+	{\includegraphics{./cc/uni-lj-max-gold}};
 	
 	% spine
 	\path[fill=grey65]
@@ -1028,7 +1042,7 @@
 	{\texttt{\fontsize{10}{11}\selectfont{\addfontfeatures{RawFeature=-onum}\textbf{\@spine@id}}}};
 	\node[white] at
 	([shift={(0,\trimMark+\bleedH+1.5*\@ULsquare)}]current page.south)
-	{\begin{minipage}{\textwidth}\fontsize{10.5bp}{11bp}\selectfont\centering\texttt{\textbf{FRI}\\PhD}\end{minipage}};
+	{\begin{minipage}{\textwidth}\fontsize{10.5bp}{11bp}\selectfont\centering\texttt{\textbf{FRI}\\BDR}\end{minipage}};
 	\node[white] at
 	([shift={(0,\trimMark+\bleedH+2.5*\@ULsquare)}]current page.south)
 	{\color{grey20}\fontsize{8bp}{9bp}\selectfont\texttt{\addfontfeatures{RawFeature=-onum}\textbf{\number\@year}}};
@@ -1375,6 +1389,7 @@
 
 \newcommand{\@chapapp}{\chaptername}
 
+% TODO: check if everything works as it should with parts
 \newcommand{\part}{
 	\cleardoublepage
 	\thispagestyle{empty}%
@@ -1549,6 +1564,7 @@
 % (i.e. not printing numbers for section, subsection and subsubsection
 % and forcing small caps of subappendix sections in TOC)
 % code copied from http://www.tug.org/texlive/Contents/live/texmf-dist/doc/latex/base/source2e.pdf pg. 364
+\newif\if@addsectionstotoc \@addsectionstotoctrue
 \def\@sect#1#2#3#4#5#6[#7]#8{%
 	\ifnum #2>\c@secnumdepth 
 		\let \@svsec \@empty 
@@ -1572,8 +1588,7 @@
 				\interlinepenalty \@M #8\@@par}%
 		\endgroup 
 		\csname #1mark\endcsname {#7}%
-		\if@inappendices
-		\else
+		\if@addsectionstotoc
 			\addcontentsline {toc}{#1}{%
 				\if@insubappendices
 					\ifnum #2=1
@@ -1594,8 +1609,7 @@
 	\else 
 		\def \@svsechd {#6{\hskip #3\relax \@svsec #8}%
 		\csname #1mark\endcsname {#7}
-		\if@inappendices
-		\else
+		\if@addsectionstotoc
 			\addcontentsline {toc}{#1}{%
 				\if@insubappendices
 					\ifnum #2=1
@@ -2000,7 +2014,7 @@
 				\hypersetup{
 					pdfinfo={
 						Title={\@title@enA},
-						Subject={PhD thesis}
+						Subject={doctoral disertation}
 					}
 				}
 			}
@@ -2264,22 +2278,150 @@
 	\begingroup
 	%\itshape
 	\fontspec[
-			Path=fonts/EBGaramond/,
-			Ligatures={TeX,Discretionary,Rare,Historic},
-			Mapping=tex-text,
-			Numbers={OldStyle},
-			Style={Swash}]{EBGaramond08-Italic.otf}
+	Path=fonts/EBGaramond/,
+	Ligatures={TeX,Discretionary,Rare,Historic},
+	Mapping=tex-text,
+	Numbers={OldStyle},
+	Style={Swash}]{EBGaramond08-Italic.otf}
 }{
 	\endgroup%
 	\par%
 	\hfill  --- \@author, \@place,
 	\if@slovene
-		\ifcase\@month\or januar\or februar\or marec\or april\or maj\or junij\or julij\or avgust\or september\or oktober\or november\or december\fi
+	\ifcase\@month\or januar\or februar\or marec\or april\or maj\or junij\or julij\or avgust\or september\or oktober\or november\or december\fi
 	\else
-		\ifcase\@month\or January\or February\or March\or April\or May\or June\or July\or August\or September\or October\or November\or December\fi
+	\ifcase\@month\or January\or February\or March\or April\or May\or June\or July\or August\or September\or October\or November\or December\fi
 	\fi
 	~\number\@year.
 	\par
+}
+
+\newif\if@inrazsirjeniPovzetek \@inrazsirjeniPovzetekfalse
+\newenvironment{razsirjeniPovzetek}
+{ 
+	% error if main language slovene
+	% error if inappendices
+	% error if insubappendices
+	% TODO: error if not last chapter?
+	\if@slovene
+		\ClassError{FRIteza}{The 'razsirjeniPovzetek' environment can not be used\MessageBreak with 'slovene' as primary language}{}
+	\fi
+	\if@inappendices
+		\ClassError{FRIteza}{The 'razsirjeniPovzetek' environment can not be used\MessageBreak inside the 'appendices' environment}{}
+	\fi
+	\if@insubappendices
+		\ClassError{FRIteza}{The 'razsirjeniPovzetek' environment can not be used\MessageBreak inside the 'subappendices' environment}{}
+	\fi
+	\@inrazsirjeniPovzetektrue
+	
+	\selectlanguage{slovenian}
+	
+	\cleardoublepage
+	\thispagestyle{empty}
+	\global\@isChapterPagetrue
+	\if@dev
+		\newcommand{\rp@colorA}{P1797} 
+		\newcommand{\rp@color}{black} 
+		\newcommand{\rp@logo}{cc/uni-lj-min} 
+	\else
+		\pagecolor{grey65}
+		\newcommand{\rp@colorA}{white} 
+		\newcommand{\rp@color}{white} 
+		\newcommand{\rp@logo}{cc/uni-lj-min-g65} 
+	\fi
+	\@stepChapterThumb
+	\global\@showChapterThumbfalse
+	\begin{centering}
+		\hbox{}\vfill%\vfill\vfill
+		%\vspace*{5\baselineskip}
+		{\LARGE\scshape\color{\rp@colorA}\addfontfeature{Ligatures=Historic}{%
+				\@title@sl
+			}\par}
+		
+		\vfill
+		%\vspace*{1.5\baselineskip}
+		{\Large\scshape\color{\rp@color}\addfontfeature{Ligatures=Historic}{%
+				\@author
+			}\par}
+		
+		\vfill
+		%\vspace*{1.5\baselineskip}
+		{\normalsize\scshape\color{\rp@color}\addfontfeature{Ligatures=Historic}{%
+				doktorska disertacija\\
+				predana\\
+				Fakulteti za računalništvo in informatiko\\
+				kot del izpolnjevanja pogojev za pridobitev naziva\\
+				doktor znanosti\\
+				s področja\\
+				računalništva in informatike
+			}\par}
+		
+		\vfill
+		%\vspace*{1.5\baselineskip}
+		{\normalsize\itshape\color{\rp@colorA}\addfontfeature{Ligatures=Historic}{%
+				razširjeni povzetek
+			}\par}
+		
+		\vfill\vfill
+		\includegraphics{\rp@logo}
+		
+		{\color{\rp@color}\@place,~\number\@year}\par				
+	\end{centering}
+	\refstepcounter{chapter}
+	\typeout{=== Razsirjeni povzetek.}%
+	\chaptermark{Razširjeni povzetek}
+	\addcontentsline{toc}{chapter}{\protect\numberline{}Razširjeni povzetek}%
+	\clearpage
+	\global\@isChapterPagefalse
+	\if@dev
+	\else
+		% chapter thumb color to grey65, thumb start at 0ft
+		\renewcommand{\@chapterThumbColourB}{grey65}
+		\global\setlength{\VOffset}{0pt}
+		\global\@showChapterThumbtrue
+	\fi
+	\pagecolor{white}
+	
+	% disable numbering for section, subsection and subsubsection,
+	\setcounter{secnumdepth}{0}
+	% change formatting of section, subsection and subsubsection titles
+	\renewcommand\section{
+		\@startsection{section}{1}{\z@}%
+		%		{\baselineskip}%
+		%		{-1em}%
+		{2.25ex \@plus1ex \@minus.2ex}%
+		{-1em}%
+		{\color{P1797}\normalsize\scshape}
+	}
+	\renewcommand\subsection{
+		\@startsection{subsection}{2}{\z@}%
+		%		{\baselineskip}%
+		%		{-1em}%
+		{2.25ex \@plus1ex \@minus.2ex}%
+		{-1em}%
+		{\color{P1797}\normalsize\itshape}
+	}
+	\renewcommand\subsubsection{
+		\@startsection{subsubsection}{3}{\z@}%
+		%		{\baselineskip}%
+		%		{-1em}%
+		{2.25ex \@plus1ex \@minus.2ex}%
+		{-1em}%
+		{\color{P1797}\normalsize}
+	}
+	% disable adding sections, subsections, and subsubsections to the toc 
+	\@addsectionstotocfalse
+	% change numbering for figure, table, equation, video, definition
+	\renewcommand{\thefigure}{\arabic{figure}}
+	\renewcommand{\thetable}{\arabic{table}}
+	\renewcommand{\thevideo}{\arabic{video}}
+	\renewcommand{\theequation}{\arabic{equation}}
+	\renewcommand{\thedefinition}{\arabic{definition}}	
+}
+{
+	\clearpage
+	\@inrazsirjeniPovzetekfalse
+	\setcounter{secnumdepth}{2}
 }
 
 % bibliography environment [require FRIteza style]
@@ -2326,11 +2468,9 @@
 	\bibsection
 }{\ClassInfo{FRIteza}{\string\thebibliography\space successfully patched, step 2}}{\ClassInfo{FRIteza}{failed to patch \string\thebibliography, step 2}}
 
-\newif\if@inappendices \@inappendicesfalse
-\newif\if@insubappendices \@insubappendicesfalse
 \newcounter{savedchapter}
 \newcounter{appendices}
-\newcounter{subappendices}
+\newif\if@inappendices \@inappendicesfalse
 \newenvironment{appendices}
 {
 	\if@inappendices 
@@ -2339,10 +2479,12 @@
 	\if@insubappendices 
 		\ClassError{FRIteza}{The 'appendices' environment can not be used\MessageBreak inside the 'subappendices' environment}{}
 	\fi
+	\if@inrazsirjeniPovzetek 
+		\ClassError{FRIteza}{The 'appendices' environment can not be used\MessageBreak inside the 'razsirjeniPovzetek' environment}{}
+	\fi
 	\@inappendicestrue
 	
-	% change formatting of section, subsection and subsubsection titles
-	% change numbering for chapters and disable numbering for section, subsection and subsubsection,
+	% change numbering for chapters 
 	\ifnum \c@subappendices > \z@
 		\renewcommand{\thechapter}{\Roman{chapter}}
 		\renewcommand{\theHchapter}{\Roman{chapter}}
@@ -2352,22 +2494,32 @@
 	\fi
 	\setcounter{savedchapter}{\c@chapter}
 	\setcounter{chapter}{\c@appendices}
+	% disable numbering for section, subsection and subsubsection
 	\setcounter{secnumdepth}{0}
 	\gdef\@chapapp{\appendixname}%
+	% disable adding sections, subsections, and subsubsections to the toc 
+%	\@addsectionstotocfalse
+	% change formatting of section, subsection and subsubsection titles
 	\renewcommand\section{
 		\@startsection{section}{1}{\z@}%
+%		{\baselineskip}%
+%		{-1em}%
 		{2.25ex \@plus1ex \@minus.2ex}%
 		{-1em}%
 		{\color{P1797}\normalsize\scshape}
 	}
 	\renewcommand\subsection{
 		\@startsection{subsection}{2}{\z@}%
+%		{\baselineskip}%
+%		{-1em}%
 		{2.25ex \@plus1ex \@minus.2ex}%
 		{-1em}%
 		{\color{P1797}\normalsize\itshape}
 	}
 	\renewcommand\subsubsection{
 		\@startsection{subsubsection}{3}{\z@}%
+%		{\baselineskip}%
+%		{-1em}%
 		{2.25ex \@plus1ex \@minus.2ex}%
 		{-1em}%
 		{\color{P1797}\normalsize}
@@ -2380,7 +2532,8 @@
 	\setcounter{secnumdepth}{2}
 }
 
-% TODO: match with unmodified \section skips
+\newcounter{subappendices}
+\newif\if@insubappendices \@insubappendicesfalse
 \newenvironment{subappendices}
 {
 	\if@inappendices 
@@ -2392,13 +2545,13 @@
 	\@insubappendicestrue
 
     % continuous numbering of subappendices regardless of chapter
-	% change formatting of section titles
-	% disable numbering for section, but change numbering for subsection, figure, table, equation
 	\setcounter{section}{\c@subappendices}
+	% disable numbering for section, but change numbering for subsection
 	\renewcommand{\thesection}{\alph{section}} % remove numbering force to star version
 	\renewcommand{\theHsection}{\arabic{chapter}.\alph{section}}
 	\renewcommand{\thesubsection}{\Alph{section}.\arabic{subsection}}
 	\renewcommand{\theHsubsection}{\theHsection.\arabic{subsection}}
+	% change numbering for figure, table, equation, video, definition
 	\setcounter{figure}{0}
 	\renewcommand{\thefigure}{\textsc{\thesection}.\arabic{figure}}
 %	\renewcommand{\theHfigure}{\theHsection.\arabic{figure}} TODO: necessary??
@@ -2411,10 +2564,15 @@
 	\setcounter{video}{0}
 	\renewcommand{\thevideo}{\textsc{\thesection}.\arabic{video}}
 %	\renewcommand{\theHvideo}{\theHsection.\arabic{video}} TODO: necessary??
+	\renewcommand{\thedefinition}{\textsc{\thesection}.\arabic{definition}}
+%	\renewcommand{\theHdefinition}{\theHsection.\arabic{definition}} TODO: necessary??	
+	% change formatting of section titles
 	\renewcommand{\section}{%
 		\@startsection {section}{1}{\z@}%
-		{-2.5ex \@plus -1ex \@minus -.2ex}%{\baselineskip}
-		{2.3ex \@plus.2ex}%{0ex}%
+		%{-\preskipS}%
+		%{2ex}
+		{-2.5ex \@plus -1ex \@minus -.2ex}
+		{2.3ex \@plus.2ex}
 		{\color{P1797}\large\scshape}%
 	}
 }{

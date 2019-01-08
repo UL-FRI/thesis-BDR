@@ -86,12 +86,12 @@
 }
 % TODO test with 8.667bp
 \newcommand\scriptsize{\@setfontsize\scriptsize{6.75bp}{8.1bp}} 	% infigure captions, captions, bibliography
-\newcommand\tiny{\@setfontsize\tiny\@vpt\@vipt}
-\newcommand\large{\@setfontsize\large\@xiipt{13bp}}%{14}}
-\newcommand\Large{\@setfontsize\Large\@xivpt{13bp}}%{18}}
-\newcommand\LARGE{\@setfontsize\LARGE\@xviipt{13bp}}%{22}}
-\newcommand\huge{\@setfontsize\huge\@xxpt{26bp}}
-\newcommand\Huge{\@setfontsize\Huge\@xxvpt{30bp}}
+\newcommand\tiny{\@setfontsize\tiny{6bp}{7.2bp}}
+\newcommand\large{\@setfontsize\large{12bp}{15.6bp}}%{14}}
+\newcommand\Large{\@setfontsize\Large{14bp}{18.2bp}}%{18}}
+\newcommand\LARGE{\@setfontsize\LARGE{18bp}{21.6bp}}%{22}}
+\newcommand\huge{\@setfontsize\huge{24bp}{28.8bp}}
+\newcommand\Huge{\@setfontsize\Huge{30bp}{33bp}}
 \if@twocolumn
   \setlength\parindent{1em}
 \else

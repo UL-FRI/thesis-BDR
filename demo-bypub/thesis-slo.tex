@@ -10,9 +10,7 @@
 
 
 %==============================
-\begin{slovenian}
-\chapter{Razširjen povzetek}
-\label{chap:a}
+\begin{razsirjeniPovzetek}
 
 %-----
 \EBlettrine{Ali} imajo jate ptic, jate rib, črede kopitarjev, roji mušic, mehiški val, trume ljudi na koncertu, borza in biološke celice kaj skupnega? S tem se ukvarjajo znanstveniki, ki raziskujejo področje skupinskega vedenja. Primere skupinskega vedenja iz narave prikazuje slika~\ref{fig:CB_si}. Skupinsko vedenje je fascinantno področje, ki analizira, kako preproste odločitve posameznikov vplivajo na dinamiko celotne skupine. Aristotel je nekoč izjavil: »Celota je več kot vsota sestavnih delov.« -- trditev, ki zelo lepo opiše bistvo skupinskega vedenja. Rezultati raziskav iz področja skupinskega vedenja so zanimivi za znanstvenike z več različnih področij, od biologije, fizike in medicine do družboslovnih ved in računalništva \cite{deisboeck2009collective,lebarbajec2009organized,nahin2012chases,silverberg2013collective,spector2003emergence,sumpter2006principles,vicsek1995novel,wei2009pursuit,xu2014crowd}.
@@ -36,7 +34,7 @@ Eden izmed računalniških pristopov k obravnavi skupinskega vedenja je gradnja 
 
 \begin{figure}
 	\vskip.2in
-	\includegraphics[width=.6\figurewidth]{fig[animat]_si.pdf}
+	\includegraphics[width=.6\figurewidth]{fig_animat_si}
 	\vskip.2in
 	\caption{Vizualizacija procesov in terminologije povezanih z animatom.}
 	\label{fig:animat_si}
@@ -47,13 +45,13 @@ Animat torej povzema osnovne lastnosti pravih živali \cite{lebarbajec2005fuzzy}
 S pomočjo modelov, zasnovanih na nivoju posameznika, je bilo pokazano, da lahko do zapletenih dinamik skupinskega vedenja pridemo že, če posamezniki sledijo dokaj preprostim težnjam. Prvi poskusi modeliranja skupinskega vedenja s pomočjo modelov zasnovanih na nivoju posameznika segajo v osemdeseta leta prejšnjega stoletja. Aoki \cite{aoki1982simulation} je predlagal pristop od spodaj navzgor za simuliranje jat rib. Reynolds \cite{reynolds1987flocks} je razvil prvi računalniški model za proceduralno animiranje jat ptic. Podobno kot Reynolds sta tudi Heppner in Grenander \cite{heppner1990stochastic} modelirala jate ptic, a s pomočjo stohastičnih nelinearnih diferencialnih enačb. Poleg naštetih modelov se tudi večina novejših \cite{couzin2002collective,demsar2013family,demsar2014simulated,demsar2015simulating,demsar2016balanced,demsar2017evolution,helbing1995social,hildenbrandt2010selforganized,lebarbajec2009organized,parrish2002schools,schellinck2011review,sumpter2006principles,vicsek2012collective} razlikuje zgolj v implementaciji določenega segmenta animata, glavni del, ki definira vedenje, pa je v večini modelov zelo podoben. Vedenje animatov v večini primerov temelji na treh težnjah (Slika~\ref{fig:drives_si}), ki se imenujejo razmik (\angl{separation}), poravnava (\angl{alignment}) in kohezija (\angl{cohesion}). S kohezijo modeliramo težnjo biti blizu drug drugemu. Tako se animat, če nima bližnjih sosedov, želi približati tistim, ki so bolj oddaljeni. S pomočjo težnje razmika animati ohranjajo osebni prostor ter preprečujejo trke. S pomočjo poravnave usklajujejo smer in hitrost gibanja s sosedi. Ker se lahko že zgolj s poravnavo smeri gibanja prepreči razpadanje skupin ter medsebojne trke, nekateri modeli uporabljajo izključno to težnjo \cite{vicsek1995novel}.
 
 \begin{figure*}
-	\includegraphics[width=\figurewidth]{figDrives.pdf}
+	\includegraphics[width=\figurewidth]{figDrives}
 	\caption{Vizualizacije treh osnovnih teženj: (a) kohezija, (b) razmik in (c) poravnava. Črni animat je opazovani posameznik. Sivi animati so sosedi, ki neposredno vplivajo na vedenje opazovanega posameznika. Beli animati s sivo obrobo so sosedi, ki nimajo neposrednega vpliva na vedenje opazovanega posameznika.}
 	\label{fig:drives_si}
 \end{figure*}
 
 %-----
-\section{Evolucijski animati}
+\section{Evolucijski animat}
 
 Nekoliko drugačen pristop predstavljajo modeli, kjer vedenje animatov ni načrtovano povsem ročno, ampak lahko animati svoje vedenje skozi čas spreminjajo samodejno (pri ročno načrtovanih modelih se obnašanje animatov skozi čas ne spreminja). Spremembe vedenja izvajajo za dosego čimbolj učinkovitega zadovoljevanja teženj v danem okolju oziroma prostoru. Običajno so taki modeli osnovani na genetskih algoritmih, ki s pomočjo selekcije, križanja in mutacije posnemajo naravno evolucijo in tako iščejo rešitve za razne kompleksne probleme \cite{goldberg1989genetic,goldberg2002design,holland1992adaptation}. Selekcija zagotavlja, da imajo boljše rešitve oziroma boljši osebki večjo možnost za reprodukcijo. S tem se zagotovi prenos dobrega genetskega materiala v naslednje generacije. Kvaliteta posamezne rešitve se ocenjuje s pomočjo ocenjevalne funkcije. Križanje posnema izmenjavo genetskega materiala pri reprodukciji. Pri formiranju novega osebka se tako kromosomi staršev združijo v en kromosom, ki opredeljuje otroka. S tem se lastnosti staršev prenesejo na otroke. V naravi razne anomalije v reprodukcijskem procesu povzročijo spremembe v genetskem materialu, kar vodi v mutacije, zato genetski algoritmi v zadnjem koraku opravljajo še mutacije -- redke naključne spremembe otrokovega kromosoma. 
 
@@ -75,7 +73,7 @@ Lebar Bajec in sod. \cite{lebarbajec2005fuzzy,lebarbajec2005simulating} so za re
 Leta 2005 so Lebar Bajec in sod. predstavili definicijo mehkega animata (\angl{fuzzy animat}) \cite{lebarbajec2005fuzzy,lebarbajec2005simulating}, umetnega živega bitja, zasnovanega s pomočjo mehke logike. Glavna razlika med klasičnim animatom in mehkim animatom je v definiciji pristopa k implementaciji teženj. V primeru klasičnega animata so težnje običajno zapisane v obliki diferencialnih enačb, pri mehkih animatih pa so težnje zapisane v obliki mehkega odločitvenega sistema (\angl{fuzzy rule-based system}). Mehki odločitveni sistem je opredeljen z mehko bazo znanja (\angl{fuzzy knowledge base}), ki je sestavljena iz mehke baze podatkov (\angl{fuzzy data base}) in mehke baze pravil (\angl{fuzzy rule base}). V prvi so deklarirane mehke spremenljivke, mehke vrednosti in interpretacija logičnih povezav. Mehka baza pravil podaja opis obnašanja sistema. V ta namen uporablja lingvistični opis, če-potem pravila v katerih nastopajo logične povezave, mehke spremenljivke in vrednosti. Primer enostavne mehke baze znanja pri sistemu za gretje prostora je predstavljen na sliki~\ref{fig:knowledgebase_si}.
 
 \begin{figure}
-	\includegraphics[width=\figurewidth]{figKnowledgebase_si.pdf}
+	\includegraphics[width=\figurewidth]{figKnowledgebase_si}
 	\caption{Primer enostavne mehke baze znanja. Primer prikazuje mehki sistem za gretje prostora. Zgornji del vizualizira mehko bazo podatkov, definirani imamo dve mehki spremenljivki -- eno vhodno in eno izhodno. Vhodna spremenljivka je trenutna temperatura v prostoru, ki jo sistem pridobi s pomočjo senzorja za temperaturo. Mehka baza pravil (spodnji del) opisuje, kako se vhodne spremenljivke pretvorijo v akcije (izhodne spremenljivke) preko če-potem pravil. V našem primeru je akcija sistema za gretje sprememba v temperaturi prostora.}
 	\label{fig:knowledgebase_si}
 \end{figure}
@@ -119,4 +117,4 @@ Nenazadnje, eno izmed pomembnih vprašanj je, kdaj se bo plen po zaznavi napada 
 
 S pomočjo evolucijskih modelov smo razvozlali že marsikatero uganko glede skupinskega vedenja, glede na trenutne smernice pa verjamemo, da najzanimivejši odgovori šele prihajajo.
 
-\end{slovenian}
+\end{razsirjeniPovzetek}
