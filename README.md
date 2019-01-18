@@ -25,7 +25,7 @@ Make sure to initialize all the selected languages (Slovene and UK English):
 
     $ initexmf --mklangs
 
-Recreate the demo-asbook example [^1]:
+Recreate the demo-asbook example<a href="#note1" id="note1ref" title="The same build script ('build.bat') should work on Windows, Linux and macOS."><sup>1</sup></a>:
 
     $ cd demo-asbook
     $ ../editor-cfg/build.bat
@@ -34,7 +34,7 @@ Most likely you will see a warning in the last lines of the output:
 
     LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Note, you have to re-run the build process until the Warning message disappears (~5 times):
+Note, you have to re-run the build process until all Warning messages disappear (~5 times):
 
     $ ../editor-cfg/build.bat
     $ ../editor-cfg/build.bat
@@ -47,4 +47,6 @@ You should find the `thesis.pdf` in folder `out`:
     $ ls out
     thesis.pdf              thesis.synctex.gz
 
-[^1]: The same build script (`build.bat`) should work on Windows, Linux and macOS.
+***
+
+<a id="note1" href="#note1ref"><sup>1</sup></a>The same build script (`build.bat`) should work on Windows, Linux and macOS.
