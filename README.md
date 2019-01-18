@@ -18,12 +18,13 @@ Enter the folder:
 
 Install all the MiKTeX packages listed in `packages.txt`. Use the GUI or command line:
 
-    $ mpm --install=@packages.txt
+    $ mpm --require=@packages.txt
     77 packages have been successfully installed.
 
 Make sure to initialize all the selected languages (Slovene and UK English):
 
     $ initexmf --mklangs
+    $ initexmf --dump
 
 Recreate the demo-asbook example<a href="#note1" id="note1ref" title="The same build script ('build.bat') should work on Windows, Linux and macOS."><sup>1</sup></a>:
 
