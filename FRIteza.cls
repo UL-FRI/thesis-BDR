@@ -4,6 +4,20 @@
 %% (c) 2005-2018 Iztok Lebar Bajec
 %%
 
+% Options of the FRI thesis document class:
+% - language=english for writing in english as main language [default]
+% - language=slovene for writing in slovene as main language
+%
+% - funding=logo.pdf for a funded PhD thesis - doktorska disertacija MR iz gospodarstva
+%
+% - stage=pre-alpha for early drafts - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
+% - stage=alpha for first review by advisor - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
+% - stage=beta for seminar 5 - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
+% - stage=gamma for senate approval - no chapter thumbs, TODO: includes notes showing reviewer comments (and author response) [seeks for images in directories /img_LQ, /img]
+% - stage=gold for final approved version - notes not displayed, chapter pages in colour, chapter thumbs [seeks for images in directories /img_LQ, /img]
+% - stage=press for print version - gold with trim marks [seeks for images in directories /img_HQ, /img]
+
+
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{FRIteza}
 		 [v2.20190108
