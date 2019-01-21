@@ -179,7 +179,7 @@
 %\setmathfont{EB Garamond} % To use in the future?
 % TODO: check printed
 % base math font to use in the future? [override only bold and bolditalic, greek italic!!]
-\setmathfont{Garamond-math.otf}[ % https://github.com/YuanshengZhao/Garamond-Math
+\setmathfont{Garamond-Math.otf}[ % https://github.com/YuanshengZhao/Garamond-Math
 	Path=fonts/Garamond-Math/,
 	StylisticSet={1,4} % Garamond based blackboard, Semibold, SemiboldItalic
 ] 
