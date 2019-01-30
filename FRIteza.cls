@@ -320,8 +320,8 @@
 \RequirePackage{xstring}
 \newcommand{\EBLettrineBackColor}{P1797}
 \newcommand{\EBLettrineFrontColor}{black}
-\newcommand{\EBLettrineBackFont}{\fontspec{EB Garamond Initials Fill1}}
-\newcommand{\EBLettrineFrontFont}{\fontspec{EB Garamond Initials Fill2}}
+\newcommand{\EBLettrineBackFont}{\fontspec{EBGaramond-InitialsF1}[Path=fonts/EBGaramond/, Extension=.otf]}
+\newcommand{\EBLettrineFrontFont}{\fontspec{EBGaramond-InitialsF2}[Path=fonts/EBGaramond/, Extension=.otf]}
 \newcommand{\EBlettrine}[1]{%
 	\StrRemoveBraces{#1}[\str]
 	\StrSplit{\str}{1}{\first}{\rest}
