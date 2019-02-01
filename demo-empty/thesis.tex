@@ -8,7 +8,8 @@
 % - stage=gamma for senate aproval - no chapter thumbs, TODO: includes notes showing reviewer comments (and author response) [seeks for images in directories /img_LQ, /img]
 % - stage=gold for final approved version - notes not displayed, chapter pages in colour, chapter thumbs [seeks for images in directories /img_LQ, /img]
 % - stage=press for print version - gold with trimmarks [seeks for images in directories /img_HQ, /img]
-\documentclass[language=english,stage=gold]{FRIteza}
+\providecommand{\stage}{gold}
+\documentclass[language=english,stage=\stage]{FRIteza}
 
 \author[A={D Author}]{Demo Author}
 
