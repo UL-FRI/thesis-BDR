@@ -49,6 +49,7 @@ if %argC% EQU 3 (
 	SET "var="&for /f "delims=0123456789" %%i in ("%3") do set var=%%i
 	if not defined var (
 		SET l=%3
+		goto pre-pdf
 	) else (
 		goto usage
 	)
@@ -60,6 +61,8 @@ echo Build bibliography.
 xelatex -quiet -interaction=batchmode -halt-on-error -synctex=0 -aux-directory=./int -include-directory=../ -include-directory=./int -output-directory=./out -job-name=%j% -no-pdf "%c%"
 if not errorlevel 0 goto error
 bibtex -quiet -include-directory=../ ./int/%j%
+xelatex -quiet -interaction=batchmode -halt-on-error -synctex=0 -aux-directory=./int -include-directory=../ -include-directory=./int -output-directory=./out -job-name=%j% -no-pdf "%c%"
+if not errorlevel 0 goto error
 
 :pre-pdf
 for /l %%i in (1,1,%l%) do (
