@@ -2456,7 +2456,9 @@
 	\renewcommand{\thetable}{\arabic{table}}
 	\renewcommand{\thevideo}{\arabic{video}}
 	\renewcommand{\theequation}{\arabic{equation}}
-	\renewcommand{\thedefinition}{\arabic{definition}}	
+	\renewcommand{\thedefinition}{\arabic{definition}}
+	\@afterheading
+	\@afterindentfalse
 }
 {
 	\clearpage
