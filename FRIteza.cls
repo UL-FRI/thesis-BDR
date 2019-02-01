@@ -128,6 +128,39 @@
 %\RequirePackage{ebgaramond-maths} % should this be included for proper microtype? 
 
 \RequirePackage{microtype}
+% patch for microtype to stop producing Unknown slot number warnings, 
+% see discussion at https://tex.stackexchange.com/questions/373594/microtype-producing-dozens-of-unknown-slot-number-warnings/
+\@ifpackagelater{microtype}{2017/07/07} % 
+{	
+	% no need to pach
+}
+{
+	\ClassInfo{FRIteza}{Patching microtype pre-v2.7 2017/07/07 to to stop producing Unknown slot number warnings}
+	\def\MT@is@composite#1#2\relax{%
+	  \ifx\\#2\\\else
+	    \expandafter\def\expandafter\MT@char\expandafter{\csname\expandafter
+	                    \string\csname\MT@encoding\endcsname
+	                    \MT@detokenize@n{#1}-\MT@detokenize@n{#2}\endcsname}%
+	    % 3 lines added:
+	    \ifx\UnicodeEncodingName\@undefined\else
+	      \expandafter\expandafter\expandafter\MT@is@uni@comp\MT@char\iffontchar\else\fi\relax
+	    \fi
+	    \expandafter\expandafter\expandafter\MT@is@letter\MT@char\relax\relax
+	    \ifnum\MT@char@ < \z@
+	      \ifMT@xunicode
+	        \edef\MT@char{\MT@exp@two@c\MT@strip@prefix\meaning\MT@char>\relax}%
+	          \expandafter\MT@exp@two@c\expandafter\MT@is@charx\expandafter
+	            \MT@char\MT@charxstring\relax\relax\relax\relax\relax
+	      \fi
+	    \fi
+	  \fi
+	}
+	% new:
+	\def\MT@is@uni@comp#1\iffontchar#2\else#3\fi\relax{%
+	  \ifx\\#2\\\else\edef\MT@char{\iffontchar#2\fi}\fi
+	}
+}
+
 \RequirePackage{realscripts} % for textsubscripts and textsuperscripts
 \RequirePackage{amsmath} % must be loaded before unicode-math to avoid conflicts
 \RequirePackage{amssymb}
@@ -136,20 +169,22 @@
 \RequirePackage[math-style=french,bold-style=upright]{unicode-math} % TODO ,mathrm=sym,mathbf=sym ... causes issues with \siunitx [uppercase numerals in text] TODO: sans serif greek!!!
 \RequirePackage{ragged2e} % for flushleft justification with hyphenation turned on
 
-\setmainfont{EBGaramond12-Regular.otf}[ % https://github.com/georgd/EB-Garamond
+\setmainfont{EBGaramond}[ % https://github.com/georgd/EB-Garamond
 	Path=fonts/EBGaramond/,
 	Ligatures={TeX,Discretionary},
+	Extension=.otf,
+	UprightFont=EBGaramond12-Regular,
 	UprightFeatures={
 		SizeFeatures={
-			{Size=-8, Font={EBGaramond08-Regular.otf}},% Numbers={Lining}},
-			{Size= 8-, Font={EBGaramond12-Regular.otf}}
+			{Size=-8, Font={*08-Regular}},% Numbers={Lining}},
+			{Size= 8-, Font={*12-Regular}}
 		}
 	}, 
-	ItalicFont={EBGaramond12-Italic.otf},
+	ItalicFont=EBGaramond12-Italic,
 	ItalicFeatures={
 		SizeFeatures={
-			{Size=-8, Font={EBGaramond08-Italic.otf}},% Numbers={Lining}},
-			{Size= 8-, Font={EBGaramond12-Italic.otf}}
+			{Size=-8, Font={*08-Italic}},% Numbers={Lining}},
+			{Size= 8-, Font={*12-Italic}}
 		}
 	},
 %	BoldFont={EBGaramond12-Italic.otf},
@@ -166,24 +201,26 @@
 
 \setsansfont{SourceSansPro}[ % https://github.com/adobe-fonts/source-sans-pro, 2.020R-ro/1.075R-it 
 	Path=fonts/SourceSansPro/,
+	Extension=.otf,
 	Mapping=tex-text, 
 	Ligatures={TeX}, 
 	Numbers={OldStyle}, 
-	UprightFont={*-Regular.otf},
-	ItalicFont={*-It.otf},
-	BoldFont={*-Semibold.otf},
-	BoldItalicFont={*-SemiboldIt.otf},
+	UprightFont=*-Regular,
+	ItalicFont=*-It,
+	BoldFont=*-Semibold,
+	BoldItalicFont=*-SemiboldIt,
 	Scale=MatchLowercase
 ]
 
 \setmonofont{SourceCodePro}[ % https://github.com/adobe-fonts/source-code-pro, 2.030R-ro/1.050R-it
 	Path=fonts/SourceCodePro/,
+	Extension=.otf,
 	Mapping=tex-text, 
 	Ligatures={TeX}, 
-	UprightFont={*-Regular.otf},
-	ItalicFont={*-It.otf},
-	BoldFont={*-Semibold.otf},
-	BoldItalicFont={*-SemiboldIt.otf},
+	UprightFont=*-Regular,
+	ItalicFont=*-It,
+	BoldFont=*-Semibold,
+	BoldItalicFont=*-SemiboldIt,
 	Numbers={OldStyle}, 
 	Scale=MatchLowercase
 ]
@@ -193,8 +230,9 @@
 %\setmathfont{EB Garamond} % To use in the future?
 % TODO: check printed
 % base math font to use in the future? [override only bold and bolditalic, greek italic!!]
-\setmathfont{Garamond-math.otf}[ % https://github.com/YuanshengZhao/Garamond-Math
+\setmathfont{Garamond-Math}[ % https://github.com/YuanshengZhao/Garamond-Math
 	Path=fonts/Garamond-Math/,
+	Extension=.otf,
 	StylisticSet={1,4} % Garamond based blackboard, Semibold, SemiboldItalic
 ] 
 
@@ -334,8 +372,8 @@
 \RequirePackage{xstring}
 \newcommand{\EBLettrineBackColor}{P1797}
 \newcommand{\EBLettrineFrontColor}{black}
-\newcommand{\EBLettrineBackFont}{\fontspec{EB Garamond Initials Fill1}}
-\newcommand{\EBLettrineFrontFont}{\fontspec{EB Garamond Initials Fill2}}
+\newcommand{\EBLettrineBackFont}{\fontspec{EBGaramond-InitialsF1}[Path=fonts/EBGaramond/, Extension=.otf]}
+\newcommand{\EBLettrineFrontFont}{\fontspec{EBGaramond-InitialsF2}[Path=fonts/EBGaramond/, Extension=.otf]}
 \newcommand{\EBlettrine}[1]{%
 	\StrRemoveBraces{#1}[\str]
 	\StrSplit{\str}{1}{\first}{\rest}
@@ -2214,7 +2252,7 @@
 		\vspace{-9\baselineskip}%
 		\begin{centering}
 			{ \setlength{\@tempdima}{\baselineskip}
-				\fontsize{8}{9}\selectfont
+				\fontsize{8bp}{9bp}\selectfont
 				\setlength{\@tempdimb}{\baselineskip}
 				\setlength{\@tempdimc}{\@tempdima}\addtolength{\@tempdimc}{-\@tempdimb}
 				\vspace*{1em}
@@ -2258,7 +2296,7 @@
 		\vspace{-9\baselineskip}%
 		\begin{centering}
 			{ \setlength{\@tempdima}{\baselineskip}
-				\fontsize{8}{9}\selectfont
+				\fontsize{8bp}{9bp}\selectfont
 				\setlength{\@tempdimb}{\baselineskip}
 				\setlength{\@tempdimc}{\@tempdima}\addtolength{\@tempdimc}{-\@tempdimb}
 				\vspace*{1em}
@@ -2290,13 +2328,15 @@
 	\chaptermark{\acknowledgementsname}
 	\addcontentsline{toc}{chapter}{\protect\numberline{}\acknowledgementsname}
 	\begingroup
-	%\itshape
-	\fontspec[
-	Path=fonts/EBGaramond/,
-	Ligatures={TeX,Discretionary,Rare,Historic},
-	Mapping=tex-text,
-	Numbers={OldStyle},
-	Style={Swash}]{EBGaramond08-Italic.otf}
+	%\itshape\addfontfeatures{ItalicFeatures{Ligatures={TeX,Discretionary,Rare,Historic},Numbers={OldStyle},Style={Swash}}}
+	\fontspec{EBGaramond}[
+		Path=fonts/EBGaramond/,
+		Extension=.otf,
+		UprightFont={*08-Italic},
+		Ligatures={TeX,Discretionary,Rare,Historic},
+		Mapping=tex-text,
+		Numbers={OldStyle},
+		Style={Swash}]
 }{
 	\endgroup%
 	\par%
@@ -2430,7 +2470,9 @@
 	\renewcommand{\thetable}{\arabic{table}}
 	\renewcommand{\thevideo}{\arabic{video}}
 	\renewcommand{\theequation}{\arabic{equation}}
-	\renewcommand{\thedefinition}{\arabic{definition}}	
+	\renewcommand{\thedefinition}{\arabic{definition}}
+	\@afterheading
+	\@afterindentfalse
 }
 {
 	\clearpage
