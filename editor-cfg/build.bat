@@ -73,6 +73,8 @@ for /l %%i in (1,1,%l%) do (
 
 :pdf
 echo Build pdf.
+xelatex -quiet -interaction=batchmode -halt-on-error -synctex=0 -aux-directory=./int -include-directory=../ -include-directory=./int -output-directory=./out -job-name=%j% -no-pdf "%c%"
+if not errorlevel 0 goto error
 xelatex -halt-on-error -synctex=1 -aux-directory=./int -include-directory=../ -include-directory=./int -output-directory=./out -job-name=%j% "%c%"
 exit /b %errorlevel%
 

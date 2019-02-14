@@ -31,28 +31,30 @@ Recreate the `demo-asbook` example<a href="#note1" id="note1ref" title="Dependin
     $ cd demo-asbook
     $ ../editor-cfg/build.sh gold
 
-The parameter of the build script specifies the stage of the thesis, which determines the formatting of the rendered PDF:
+The build script has three parameters `<stage>`, `-no-bib` and `<rebuilds>`. The main parameter specifies the stage of the thesis, which determines the formatting of the generated PDF:
 
-* `pre-alpha`: early drafts - no chapter thumbs, increased font,
-* `alpha`: for review by advisor - no chapter thumbs, increased font,
-* `beta`: fir seminar 5 - no chapter thumbs, increased font,
-* `gamma`: for senate approval - no chapter thumbs, TODO: includes rebuttal,
-* `gold`: final approved version - notes not displayed, chapter pages in colour, chapter thumbs,
+* `pre-alpha`: early drafts - no chapter thumbs, increased font when printed fit to page,
+* `alpha`: for review by advisor - no chapter thumbs, increased font when printed fit to page,
+* `beta`: for seminar 5 - no chapter thumbs, increased font when printed fit to page,
+* `gamma`: for senate approval - no chapter thumbs, _includes rebuttal_ __TODO__,
+* `gold`: final approved version - rebuttal not displayed, chapter pages in colour, chapter thumbs,
 * `press`: for print - gold with trim marks.
 
-Most likely you will see a warning in the last lines of the output:
+The `-no-bib` optional parameter suppresses the rebuilding of the bibiliography.
+
+The `<rebuilds>` optional parameter specifies the number of pre-pdf re-runs and is useful in the event you see a warning in the last lines of the output, such as:
+
+    Package atenddvi Warning: Rerun LaTeX, last page has changed.
+
+or
 
     LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Note, you have to re-run the build process until all Warning messages disappear (~5 times for this demo and for gold or press, ~2 times for alpha):
+In this case you can increase the number of pre-pdf re-runs until all Warning messages disappear (e.g. three pre-pdf re-runs):
 
-    $ ../editor-cfg/build.sh gold
-    $ ../editor-cfg/build.sh gold
-    $ ../editor-cfg/build.sh gold
-    $ ../editor-cfg/build.sh gold
-    $ ../editor-cfg/build.sh gold
+    $ ../editor-cfg/build.sh gold 3
 
-You should find `thesis.pdf` in folder `out`:
+You should find `thesis-<stage>.pdf` in folder `out`:
 
     $ ls out
     thesis-gold.pdf         thesis-gold.synctex.gz
