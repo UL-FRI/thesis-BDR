@@ -29,7 +29,7 @@ hyperref
 hyperxmp
 hyph-utf8
 ifmtarg
-ifoddpage
+scrextend
 ifxetex
 knuth-lib
 l3kernel

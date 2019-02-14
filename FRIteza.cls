@@ -513,16 +513,9 @@
 % setup page layout and page spread graphical elements
 %%%%
 \RequirePackage{calc} % length calculations
-\RequirePackage[strict]{changepage} % required for oddpage checks 
-\RequirePackage{ifoddpage} % required for oddpage checks
+\RequirePackage{scrextend} % required for oddpage checks
 \RequirePackage{ifthen} % required for whiledo loops
-
-% Patch ifoddpage package so that it works properly even with pagenumbering style changes
-% patch assumes zref-abspage package is loaded and theabspage is defined 
-\RequirePackage{etoolbox}
-\ClassInfo{FRIteza}{Patching ifoddpage package to support pagenumbering style changes}
-\patchcmd{\oddpage@checkpage}{\the\c@page}{\theabspage}{\ClassInfo{FRIteza}{\string\oddpage@checkpage\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\oddpage@checkpage}}
-\patchcmd{\oddpage@page}{\the\c@page}{\theabspage}{\ClassInfo{FRIteza}{\string\oddpage@page\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\oddpage@page}}
+\RequirePackage{etoolbox} % required for package patches
 
 \newlength{\pageW}\setlength{\pageW}{6.14in}
 \newlength{\pageH}\setlength{\pageH}{9.21in}
@@ -617,8 +610,7 @@
 
 \newcommand{\@drawGridSystem}{
 	% grid system
-	\checkoddpage
-	\ifoddpageoroneside
+	\ifthispageodd{%
 		\foreach \n in {1,...,8} {
 			\draw[dashed, color=lightgray]
 			(\trimMark+\bleedW+\bindingW+\n\gridW,-\bleedH-\trimMark)
@@ -633,7 +625,7 @@
 		(\trimMark+\bleedW+\bindingW,-\bleedH-\trimMark)
 		--
 		(\trimMark+\bleedW+\bindingW,-\mH+\bleedH+\trimMark);
-	\else
+	}{%
 		\foreach \n in {1,...,8} {
 			\draw[dashed, color=lightgray]
 			(\mW-\trimMark-\bleedW-\bindingW-\n\gridW,-\trimMark-\bleedH)
@@ -648,12 +640,11 @@
 		(\mW-\trimMark-\bleedW-\bindingW,-\trimMark-\bleedH)
 		--
 		(\mW-\trimMark-\bleedW-\bindingW,-\mH+\bleedH+\trimMark);
-	\fi
+	}
 }
 
 \newcommand{\@drawTextAreas}{
-	\checkoddpage
-	\ifoddpageoroneside
+	\ifthispageodd{%
 		\draw[color=orange] % body text area
 		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT)
 		rectangle
@@ -670,7 +661,7 @@
 		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip-\gs@dpth+\gs@bls)
 		rectangle
 		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip-\gs@dpth);
-	\else
+	}{%
 		\draw[color=orange] % body text area
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\trimMark-\bleedH-\marginT)
 		rectangle
@@ -687,13 +678,12 @@
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip-\gs@dpth+\gs@bls)
 		rectangle
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip-\gs@dpth);
-	\fi
+	}%
 }
 
 \newcommand{\@drawTextAreaBaselines}{
 	\pgfmathsetmacro{\nRows}{round(6*\gridH/\gs@bls)}
-	\checkoddpage
-	\ifoddpageoroneside
+	\ifthispageodd{%
 		\foreach \n in {1,...,\nRows} { % body text
 			\draw[dashed, color=cyan]
 			(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT-\n\gs@bls+\gs@dpth)
@@ -712,7 +702,7 @@
 		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip)
 		--
 		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip);
-	\else
+	}{%\else
 		\foreach \n in {1,...,\nRows} {
 			\draw[dashed, color=cyan]
 			(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\marginT-\bleedH-\trimMark-\n\gs@bls+\gs@dpth)
@@ -731,7 +721,7 @@
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip)
 		--
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip);
-	\fi
+	}%\fi
 }
 
 \newcommand{\@drawTrimMarks}{
@@ -771,26 +761,24 @@
 }
 
 \newcommand{\@drawPartMark}[1]{
-	\checkoddpage
-	\ifoddpageoroneside
+	\ifthispageodd{%
 		\path[fill=#1]
 		(\mW-\trimMark-\bleedW-\gridW/4,0)
 		rectangle
 		(\mW-\trimMark,-\mH);
-	\else
+	}{%
 		\path[fill=#1]
 		(\trimMark,0)
 		rectangle
 		(\trimMark+\bleedW+\gridW/4,-\mH);
-	\fi
+	}%
 }
 
 % TODO: change VOffset to multiples of thechapter counter
 \newcommand{\@chapterThumbColourA}{white}
 \newcommand{\@chapterThumbColourB}{P1797}
 \newcommand{\@drawChapterThumb}[2]{
-	\checkoddpage
-	\ifoddpageoroneside
+	\ifthispageodd{%
 		\if@isChapterPage
 			\path[fill=#1]
 			(\mW-\trimMark-\bleedW-\@ULsquare,-\trimMark-\bleedH-\marginT-\VOffset)
@@ -805,7 +793,7 @@
 			rectangle
 			(\mW-\trimMark,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare);
 		\fi		
-	\else
+	}{%
 		\if@isChapterPage
 			\path[fill=#1]
 			(\trimMark, -\trimMark-\bleedH-\marginT-\VOffset)
@@ -820,7 +808,7 @@
 			rectangle
 			(\trimMark+\bleedW+\gridW/4,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare);
 		\fi		
-	\fi
+	}%
 }
 \newcommand{\@stepChapterThumb}{
 	\addtolength{\VOffset}{\@ULsquare}
@@ -852,12 +840,11 @@
 		\if@isPartPage \@drawPartMark{grey65} \fi
 		\if@showChapterThumb \@drawChapterThumb{\@chapterThumbColourA}{\@chapterThumbColourB} \fi
 		\if@dev
-			\checkoddpage
-			\ifoddpageoroneside
+		  \ifthispageodd{%
 				\node[black, rotate=90, anchor=east] at
 				(\mW-\trimMark-\bleedW-\@ULsquare/8,-\trimMark-\bleedH-\marginT-\@ULsquare/2)
 				{\fontsize{5bp}{6bp}\textsf{\textenglish{\today}~|~built with \expandafter\csname ver@FRIteza.cls\endcsname}};
-			\fi
+			}{}%
 		\fi
 	\end{tikzpicture}
 }
@@ -880,7 +867,6 @@
 \def\metabox#1{\edef\theprevdepth{\the\prevdepth}\nointerlineskip
 	\vbox to0pt{#1\vss}\prevdepth=\theprevdepth}
 \newcommand{\@drawtitlepage}{%
-	\thispagestyle{empty}
 	\begin{centering}
 		\if@slovene
 			\hbox{}\vfill%\vfill\vfill
@@ -1688,11 +1674,11 @@
 % ensure empty odd pages
 \renewcommand{\cleardoublepage}{
 	\clearpage
-	\checkoddpage
-	\ifoddpageoroneside
-	\else
-		{\hbox{}\thispagestyle{empty}\clearpage}
-	\fi
+	\ifthispageodd{%
+		% nothing to do
+	}{%
+		{\hbox{}\thispagestyle{empty}\newpage}
+	}
 }
 
 \RequirePackage{fancyhdr}
@@ -2231,7 +2217,6 @@
 % environments
 \newenvironment{titlepage}{
 	\thispagestyle{empty}%
-	\setcounter{page}\@ne
 }{
 	\cleardoublepage
 }
@@ -2669,9 +2654,9 @@
 
 % hyperref and pdfsupport
 % !!! probably must be loaded last as it hooks on \maketitle \chapter and others
+\setcounter{page}{1}
+\pagenumbering{roman}
 \thispagestyle{empty}
-\pagenumbering{roman} % must be provided for hyperref: pdfpagelabels to work properly
-\setcounter{page}\@ne 
 \RequirePackage{hyperxmp}
 \RequirePackage[xetex,unicode,pdfa,pdfdisplaydoctitle=true,colorlinks,citecolor=P1797,linkcolor=P1797,urlcolor=P1797,plainpages=false,linktocpage=true,hyperfigures=true]{hyperref}
 
