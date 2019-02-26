@@ -8,8 +8,7 @@
 % - stage=gamma for senate approval - no chapter thumbs, TODO: includes notes showing reviewer comments (and author response) [seeks for images in directories /img_LQ, /img]
 % - stage=gold for final approved version - notes not displayed, chapter pages in colour, chapter thumbs [seeks for images in directories /img_LQ, /img]
 % - stage=press for print version - gold with trim marks [seeks for images in directories /img_HQ, /img]
-\providecommand{\setstage}{gold}
-\documentclass[language=english,stage=\setstage]{FRIteza}
+\documentclass[language=english,stage=gold]{FRIteza}
 
 \author[A={J Demšar}]{Jure Demšar}
 
@@ -65,8 +64,9 @@
 % force correct date display, ignored if stage not gold or press
 \forceDate{4}{2017}
 
-%\cover[title={Evolution of fuzzy animats\\ in a competitive environment}, loc={SW}, colour={P1797}]{./cc/coverImage.jpg} 
-%\spine[title={Evolution of fuzzy animats in a competitive Environment}, pages=190]{177}
+% define cover
+\cover[title={Evolution of fuzzy animats\\ in a competitive environment}, loc={SW}, colour={white}]{coverImage.jpg} 
+\spine{177}
 
 % load path for graphics files
 %\graphicspath{{img_HQ/}} % use high qualty figures - for press, automatic when stage=press
@@ -151,6 +151,8 @@
 
 
 \begin{document}
+
+\makecoverpage
 
 \frontmatter
 	\maketitle

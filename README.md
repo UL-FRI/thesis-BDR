@@ -26,49 +26,44 @@ Make sure to initialize all the selected languages (Slovene and UK English):
     $ initexmf --mklangs
     $ initexmf --dump
 
-Recreate the `demo-asbook` example<a href="#note1" id="note1ref" title="Depending on the OS, use `build.bat` or `build.sh`."><sup>1</sup></a>:
+Recreate the `demo-asbook` example:
 
     $ cd demo-asbook
-    $ ../editor-cfg/build.sh gold
+    $ ../editor-cfg/build gold
 
-The build script has three parameters `<stage>`, `-no-bib` and `<rebuilds>`. The main parameter specifies the stage of the thesis, which determines the formatting of the generated PDF:
+The build script optional parameter `<stage>` specifies the stage of the thesis, which determines the formatting of the generated PDF:
 
 * `pre-alpha`: early drafts - no chapter thumbs, increased font when printed fit to page,
 * `alpha`: for review by advisor - no chapter thumbs, increased font when printed fit to page,
 * `beta`: for seminar 5 - no chapter thumbs, increased font when printed fit to page,
 * `gamma`: for senate approval - no chapter thumbs, _includes rebuttal_ __TODO__,
 * `gold`: final approved version - rebuttal not displayed, chapter pages in colour, chapter thumbs,
-* `press`: for print - gold with trim marks.
+* `press`: for print - coverpage + gold - with trim marks for the bookbinder.
 
-The `-no-bib` optional parameter suppresses the rebuilding of the bibiliography.
+The build script is based on `latexmk`<a href="#note1" id="note1ref" title="Override with v4.61+ provided in 'editor-cfg/'."><sup>1</sup></a>, a [Perl](http://www.perl.org/) script, which automates the process of compiling a LaTeX document. Make sure it is installed. Follow [the tutorial](https://mg.readthedocs.io/latexmk.html) for your platform.
 
-The `<rebuilds>` optional parameter specifies the number of pre-pdf re-runs and is useful in the event you see a warning in the last lines of the output, such as:
-
-    Package atenddvi Warning: Rerun LaTeX, last page has changed.
-
-or
-
-    LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-In this case you can increase the number of pre-pdf re-runs until all Warning messages disappear (e.g. three pre-pdf re-runs):
-
-    $ ../editor-cfg/build.sh gold 3
-
-You should find `thesis-<stage>.pdf` in folder `out`:
+You should find `thesis-<stage>.pdf` in folder `out/`:
 
     $ ls out
-    thesis-gold.pdf         thesis-gold.synctex.gz
+    thesis-gold.fls         thesis-gold.pdf         thesis-gold.synctex.gz
 
-To build the cover page, run<a href="#note2" id="note2ref" title="The same `build-cover.bar` script should run on Windows, Linux and macOS."><sup>2</sup></a>:
+To build the final version that is to be distributed via emails run:
 
-    $ ../editor-cfg/build-cover.bat
+    $ ../editor-cfg/build gold
 
-You should find `cover.pdf` in folder `out`:
+To build the final version that is to be printed and bookbound run:
+
+    $ ../editor-cfg/build press
+
+If the `<stage>` parameter is ommitted the build script will generate the thesis in the stage that is specified in `thesis.tex` when the `FRIteza` document class is loaded, for example:
+
+    \documentclass[language=english,stage=alpha]{FRIteza}
+
+In this case the folder `out/` will contain files without the stage suffix:
 
     $ ls out
-    cover.pdf               thesis-gold.pdf         thesis-gold.synctex.gz
+    thesis.fls         thesis.pdf         thesis.synctex.gz
 
 ***
-<a id="note1" href="#note1ref"><sup>1</sup></a>Depending on the OS, use `build.bat` or `build.sh`.
 
-<a id="note2" href="#note2ref"><sup>2</sup></a>The same `build-cover.bar` script should run on Windows, Linux and macOS.
+<a id="note1" href="#note1ref"><sup>1</sup></a>Note that there is a minor bug in `latexmk.pl` specific to our use case. The script's author has already been contacted, but until a new version is released you should override the current version (v4.61) wih the modified version (v4.61+) that is provided in `editor-cfg/`. Depending on your OS you should copy `latexmk.pl` into `C:\Program Files\MiKTeX 2.9\scripts\latexmk\`, `~/.miktex/texmfs/install/scripts/latexmk/` (Linux), or `~/Library/Application Support/MiKTeX/texmfs/install/scripts/latexmk/` (macOS). 

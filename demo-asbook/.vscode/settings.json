@@ -1,80 +1,139 @@
 {
-    "latex-workshop.latex.recipes": [
+    "latex-workshop.latex.recipes":[
         {
-            "name": "xelatex -> bibtex -> xelatex*2",
-            "tools": [
-                "xelatex",
-                "bibtex",
-                "xelatex",
-                "xelatex"
-            ]
-        },
-        {
-            "name": "bibtex",
-            "tools": [
-                "bibtex"
-            ]
-        },
-        {
-            "name": "latexmk",
+            "name": "latexmk 🔃",
             "tools": [
                 "latexmk"
             ]
         },
         {
-            "name": "pdflatex -> bibtex -> pdflatex*2",
+            "name": "latexmk pre-alpha",
             "tools": [
-                "pdflatex",
-                "bibtex",
-                "pdflatex",
-                "pdflatex"
+                "latexmk pre-alpha",
+            ]
+        },
+        {
+            "name": "latexmk alpha",
+            "tools": [
+                "latexmk alpha",
+            ]
+        },
+        {
+            "name": "latexmk beta",
+            "tools": [
+                "latexmk beta",
+            ]
+        },
+        {
+            "name": "latexmk gamma",
+            "tools": [
+                "latexmk gamma",
+            ]
+        },
+        {
+            "name": "latexmk gold",
+            "tools": [
+                "latexmk gold",
+            ]
+        },
+        {
+            "name": "latexmk press",
+            "tools": [
+                "latexmk press",
             ]
         }
     ],
-    "latex-workshop.latex.tools": [
+    "latex-workshop.latex.tools":[
         {
             "name": "latexmk",
             "command": "latexmk",
             "args": [
                 "-synctex=1",
                 "-interaction=nonstopmode",
-                "-file-line-error",
-                "-pdf",
-                "%DOC%"
-            ]
-        },
-        {
-            "name": "xelatex",
-            "command": "xelatex",
-            "args": [
-                "-synctex=1",
-                "-aux-directory=./int",
-                "-include-directory=../",
-                "-include-directory=./int",
-                "-output-directory=./out",
-                "-interaction=nonstopmode",
+                "-max-print-line=10000",
                 "-file-line-error",
                 "%DOC%"
-            ]
+            ],
+            "env": {}
         },
         {
-            "name": "pdflatex",
-            "command": "pdflatex",
+            "name": "latexmk pre-alpha",
+            "command": "latexmk",
             "args": [
                 "-synctex=1",
                 "-interaction=nonstopmode",
                 "-file-line-error",
+                "-pretex='\\providecommand{\\stage}{pre-alpha}",
+                "-jobname=%DOCFILE%-pre-alpha",
                 "%DOC%"
-            ]
+            ],
+            "env": {}
         },
         {
-            "name": "bibtex",
-            "command": "bibtex",
+            "name": "latexmk alpha",
+            "command": "latexmk",
             "args": [
-                "-include-directory=../",
-                "./int/%DOCFILE%"
-            ]
-        }
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pretex='\\providecommand{\\stage}{alpha}",
+                "-jobname=%DOCFILE%-alpha",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "latexmk beta",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pretex='\\providecommand{\\stage}{beta}",
+                "-jobname=%DOCFILE%-beta",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "latexmk gamma",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pretex='\\providecommand{\\stage}{gamma}",
+                "-jobname=%DOCFILE%-gamma",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "latexmk gold",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pretex='\\providecommand{\\stage}{gold}",
+                "-jobname=%DOCFILE%-gold",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "latexmk press",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pretex='\\providecommand{\\stage}{press}",
+                "-jobname=%DOCFILE%-press",
+                "%DOC%"
+            ],
+            "env": {}
+        },
     ],
-    "latex-workshop.latex.outputDir": "./out"
+    "latex-workshop.latex.outDir": "out/"
 }

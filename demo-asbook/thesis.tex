@@ -7,9 +7,8 @@
 % - stage=beta for seminar 5 - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
 % - stage=gamma for senate approval - no chapter thumbs, TODO: includes notes showing reviewer comments (and author response) [seeks for images in directories /img_LQ, /img]
 % - stage=gold for final approved version - notes not displayed, chapter pages in colour, chapter thumbs [seeks for images in directories /img_LQ, /img]
-% - stage=press for print version - gold with trim marks [seeks for images in directories /img_HQ, /img]
-\providecommand{\setstage}{gold}
-\documentclass[language=english,stage=\setstage]{FRIteza}
+% - stage=press for print version - gold with trim marks, includes also coverpage [seeks for images in directories /img_HQ, /img]
+\documentclass[language=english,stage=gold]{FRIteza}
 
 \author[A={I Lebar Bajec}]{Iztok Lebar Bajec}
 
@@ -65,14 +64,14 @@
 %  title - use title to insert prefered line breaking with '\\' 
 %  loc - options NE, SE, NW, SW
 %  colour - options P1797, white, black
-%\cover[title={Fuzzy model for a computer simulation of bird flocking}, loc={NE}, colour={P1797}]{./cc/coverImage.jpg} 
+\cover[loc={NE}, colour={P1797}]{coverImage.jpg} 
 % define spine
-% \spine[title=<title to appear on spine>, loc=<location of the title>, colour=<colour of the title>]{thesisId in hexadecimal}
-% defaults: title=\title[A={#}]
+% \spine[title=<title to appear on spine>, pages=<number of pages in book>]{thesisId in decimal}
+% defaults: title=\title[A={#}], pages=\ztotpages-2
 % notes:
 %  title - use title to provide a shortended title for the spine 
-%  pages - privde the total number of pages
-%\spine[title={Fuzzy model for a computer simulation of bird flocking}, pages=134]{80}
+%  pages - provide the total number of pages in book, excluding cover and jobinfo (number of pages in pdf - 2) 
+\spine{80}
 
 % load path for graphics files
 %\graphicspath{{img/}}
@@ -141,14 +140,16 @@
 %	\label{fig:fuzzy:set0}
 %\end{figure}
 
+\makecoverpage
+
 \frontmatter
  	\maketitle
-	\makeapprovedby
+ 	\makeapprovedby
 	\makepreviouspublication
  	\input{thesis-dedication}
  	\input{thesis-abstract}
  	\input{thesis-acknowledgements}
- 	\tableofcontents 
+ 	\tableofcontents
 
 \mainmatter
  	\input{thesis-ch1_introduction}
