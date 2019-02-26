@@ -93,7 +93,7 @@
 	\gdef\@companyLogo{#1}
 }
 \DeclareOptionX{stage}{%
-%	\@ifundefined{stage}{
+ \@ifundefined{stage}{
 		\switchcase{#1}
 		{
 			{pre-alpha} {\@devtrue}
@@ -105,19 +105,19 @@
 		}{%
 			\ClassError{FRIteza}{The FRIteza class supports stages\MessageBreak pre-alpha, alpha, beta, gamma, gold and press,\MessageBreak supplied "#1"}{}
 		}
-%	}{%
-%		\switchcase{\stage}
-%		{
-%			{pre-alpha} {\@devtrue}
-%			{alpha} {\@devtrue}
-%			{beta} {\@devtrue}
-%			{gamma} {\@devtrue}
-%			{gold} {\@devfalse}
-%			{press} {\@devfalse \@presstrue}
-%		}{%
-%			\ClassError{FRIteza}{The FRIteza class supports stages\MessageBreak pre-alpha, alpha, beta, gamma, gold and press,\MessageBreak supplied "\stage"}{}
-%		}
-%	}
+	}{%
+		\switchcase{\stage}
+		{
+			{pre-alpha} {\@devtrue}
+			{alpha} {\@devtrue}
+			{beta} {\@devtrue}
+			{gamma} {\@devtrue}
+			{gold} {\@devfalse}
+			{press} {\@devfalse \@presstrue}
+		}{%
+			\ClassError{FRIteza}{The FRIteza class supports stages\MessageBreak pre-alpha, alpha, beta, gamma, gold and press,\MessageBreak supplied "\stage"}{}
+		}
+	}
 }
 
 \DeclareOptionX*{\ClassWarning{FRIteza}{`\CurrentOption' ignored}}
