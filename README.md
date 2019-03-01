@@ -109,7 +109,7 @@ In the side bar select `thesis.tex` to open it. A TeX action should appear in th
 
 A script is provided that packs all the requisite files into a single `zip` that can be uploaded to Overleaf. Note that there are certain limitations of using a free overleaf account, most notably a compile time out limit and a file number limit. For example the demo-bypub can not be uploaded on a free account, and with demo-asbook one can occasionally receive a compile time out error.
 
-Pack all necessay files for Overleaf<a href="#note3" id="note3ref" title="A free Overleaf account has a timeout limit."></sup>3</sup></a></sup>,</sup><a href="#note4" id="note4ref" title="Overleaf has a 50MB upload limit."></sup>,</sup><a href="#note5" id="note5ref" title="Avoid using accented characters in file names.">:
+Pack all necessay files for Overleaf<a href="#note3" id="note3ref" title="A free Overleaf account has a timeout limit."></sup>3</sup></a></sup>,</sup><a href="#note4" id="note4ref" title="Overleaf has a 50MB upload limit."></sup>4</sup></a></sup>,</sup><a href="#note5" id="note5ref" title="Avoid using accented characters in file names."></sup>5</sup></a>:
 
      cd thesis-BDR
      pack-overleaf demo-asbook
