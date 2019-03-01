@@ -26,7 +26,7 @@ Make sure to initialize all the selected languages (Slovene and UK English):
     initexmf --mklangs
     initexmf --dump
 
-Make sure to have `latexmk`, a [Perl](http://www.perl.org/) script, which automates the process of compiling a LaTeX document installed. [Perl](http://www.perl.org/) script, which automates the process of compiling a LaTeX document. _Note that as v4.61 has minor bugs it has to be overriden<a href="#note1" id="note1ref" title="Override with v4.61+."><sup>1</sup></a> with the version provided in `editor-cfg/`._
+Make sure to have `latexmk`, a [Perl](http://www.perl.org/) script, which automates the process of compiling a LaTeX document. _Note that as v4.61 has minor bugs it has to be overriden<a href="#note1" id="note1ref" title="Override with v4.61+."><sup>1</sup></a> with the version provided in `editor-cfg/`._
 
 Recreate the `demo-asbook` example:
 
@@ -82,7 +82,7 @@ The main TeX file is `thesis.tex`, the other TeX files are individual chapters. 
 
 ### Using an IDE
 
-We suggest the use of [TeXstudio](https://texstudio.sourceforge.net) or [Visual Studio Code](https://code.visualstudio.com) with the [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) extension.<a href="#note2" id="note2ref" title="Both are available for Windows, Linux and macOS."></sup>2</sup></a> Note that the provided IDE configurations are, like the build script, based on `latexmk`, so make sure it is installed.
+We suggest the use of [TeXstudio](https://texstudio.sourceforge.net) or [Visual Studio Code](https://code.visualstudio.com) with the [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) extension.<a href="#note2" id="note2ref" title="Both are available for Windows, Linux and macOS."><sup>2</sup></a> Note that the provided IDE configurations are, like the build script, based on `latexmk`, so make sure it is installed.
 
 #### TeXstudio
 
@@ -109,7 +109,7 @@ In the side bar select `thesis.tex` to open it. A TeX action should appear in th
 
 A script is provided that packs all the requisite files into a single `zip` that can be uploaded to Overleaf. Note that there are certain limitations of using a free overleaf account, most notably a compile time out limit and a file number limit. For example the demo-bypub can not be uploaded on a free account, and with demo-asbook one can occasionally receive a compile time out error.
 
-Pack all necessay files for Overleaf<a href="#note3" id="note3ref" title="A free Overleaf account has a timeout limit."></sup>3</sup></a></sup>,</sup><a href="#note4" id="note4ref" title="Overleaf has a 50MB upload limit."></sup>4</sup></a></sup>,</sup><a href="#note5" id="note5ref" title="Avoid using accented characters in file names."></sup>5</sup></a>:
+Pack all necessay files for Overleaf<a href="#note3" id="note3ref" title="A free Overleaf account has a timeout limit."><sup>3</sup></a><sup>,</sup><a href="#note4" id="note4ref" title="Overleaf has a 50MB upload limit."><sup>4</sup></a><sup>,</sup><a href="#note5" id="note5ref" title="Avoid using accented characters in file names."><sup>5</sup></a>:
 
      cd thesis-BDR
      pack-overleaf demo-asbook
@@ -121,7 +121,8 @@ You should find `demo-asbook.zip` in `overleaf/`
 
 Upload `demo-asbook.zip` to Overlaf:
 
-Change the compiler to `XeLaTeX`.<a href="#note6" id="note6ref" title="In the background Overleaf actually uses 'latexmk'.">
+
+Change the compiler to `XeLaTeX`.<a href="#note6" id="note6ref" title="In the background Overleaf actually uses 'latexmk'."><sup>6</sup></a>
 
 <!--
 Unpack overleaf _TODO_??
