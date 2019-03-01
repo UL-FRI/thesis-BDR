@@ -19,9 +19,8 @@
 
 
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{FRIteza}
-		 [v2.20190108
-		  XeLaTeX doctoral dissertation class]
+\ProvidesClass{FRIteza}[v2.20190301
+		  									XeLaTeX doctoral dissertation class]
 
 \RequirePackage{ifxetex}
 \RequireXeTeX 
