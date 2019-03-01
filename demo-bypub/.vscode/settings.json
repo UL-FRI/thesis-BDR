@@ -62,6 +62,7 @@
             "args": [
                 "-synctex=1",
                 "-interaction=nonstopmode",
+                "-max-print-line=10000",
                 "-file-line-error",
                 "-pretex='\\providecommand{\\stage}{pre-alpha}",
                 "-jobname=%DOCFILE%-pre-alpha",
@@ -75,6 +76,7 @@
             "args": [
                 "-synctex=1",
                 "-interaction=nonstopmode",
+                "-max-print-line=10000",
                 "-file-line-error",
                 "-pretex='\\providecommand{\\stage}{alpha}",
                 "-jobname=%DOCFILE%-alpha",
@@ -88,6 +90,7 @@
             "args": [
                 "-synctex=1",
                 "-interaction=nonstopmode",
+                "-max-print-line=10000",
                 "-file-line-error",
                 "-pretex='\\providecommand{\\stage}{beta}",
                 "-jobname=%DOCFILE%-beta",
@@ -101,6 +104,7 @@
             "args": [
                 "-synctex=1",
                 "-interaction=nonstopmode",
+                "-max-print-line=10000",
                 "-file-line-error",
                 "-pretex='\\providecommand{\\stage}{gamma}",
                 "-jobname=%DOCFILE%-gamma",
@@ -114,6 +118,7 @@
             "args": [
                 "-synctex=1",
                 "-interaction=nonstopmode",
+                "-max-print-line=10000",
                 "-file-line-error",
                 "-pretex='\\providecommand{\\stage}{gold}",
                 "-jobname=%DOCFILE%-gold",
@@ -127,6 +132,7 @@
             "args": [
                 "-synctex=1",
                 "-interaction=nonstopmode",
+                "-max-print-line=10000",
                 "-file-line-error",
                 "-pretex='\\providecommand{\\stage}{press}",
                 "-jobname=%DOCFILE%-press",

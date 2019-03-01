@@ -1,0 +1,9 @@
+Tools\Commands\bibtex="bibtex -include-directory=../ -include-directory=./int ./int/%.aux"
+Tools\Commands\compile=txs:///latexmk
+Tools\Commands\latexmk="latexmk -silent -synctex=1 %"
+Tools\Commands\latex="latex -src -interaction=nonstopmode -include-directory=../ -include-directory=./int -aux-directory=./int -output-directory=./out %.tex"
+Tools\Commands\lualatex="lualatex -synctex=1 -interaction=nonstopmode -include-directory=../ -include-directory=./int -aux-directory=./int -output-directory=./out %.tex"
+Tools\Commands\pdflatex="pdflatex -synctex=1 -interaction=nonstopmode -include-directory=../ -include-directory=./int -aux-directory=./int -output-directory=./out %.tex"
+Tools\Commands\xelatex="xelatex -synctex=1 -interaction=nonstopmode -include-directory=../ -include-directory=./int -aux-directory=./int -output-directory=./out %.tex"
+Tools\Log%20Paths=./int
+Tools\PDF%20Paths=./out

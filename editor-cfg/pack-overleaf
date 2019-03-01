@@ -34,17 +34,21 @@ if ! [ -d "$1" ]; then
 fi
 
 # pack
-rm -f $p.zip
+if ! [ -d "overleaf/" ]; then 
+    mkdir overleaf/
+else
+    rm -f overleaf/$p.zip
+fi
 
-zip -r $p.zip ./README.md
-zip -r $p.zip ./fonts/*
-zip -r $p.zip ./mt-*.cfg
-zip -r $p.zip ./cc/*
-zip -r $p.zip ./FRIteza.bst
-zip -r $p.zip ./FRIteza.cls
-zip -r $p.zip ./bk9.clo
+zip -r overleaf/$p.zip ./README.md
+zip -r overleaf/$p.zip ./fonts/*
+zip -r overleaf/$p.zip ./mt-*.cfg
+zip -r overleaf/$p.zip ./cc/*
+zip -r overleaf/$p.zip ./FRIteza.bst
+zip -r overleaf/$p.zip ./FRIteza.cls
+zip -r overleaf/$p.zip ./bk9.clo
 
 cd $1
-zip -r ../$p.zip ./* -x ./int/* -x ./out/* -x ./.*
+zip -r ../overleaf/$p.zip ./* -x ./int/* -x ./out/* -x ./.*
 cd ..
 exit 0

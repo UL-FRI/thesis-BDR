@@ -735,7 +735,7 @@
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip)
 		--
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip);
-	}%\fi
+	}%
 }
 
 \newcommand{\@drawTrimMarks}{
@@ -957,7 +957,7 @@
 	\renewcommand{\@showCoverAnnotations}{#1}
 }
 
-% TODO: autogenerate _cover page when in press mode and build it in a single run
+% generate cover page when in press mode
 \newcommand{\makecoverpage}{%
 	\if@press
 		\begingroup
@@ -1398,16 +1398,16 @@
 %\newcommand\listfigurename{List of Figures}
 %\newcommand\listtablename{List of Tables}
 %\newcommand\bibname{Bibliography}
-\if@slovene
+%\if@slovene
 %\providecommand\biographyname{Biografija}
-\else
+%\else
 %\providecommand\biographyname{Biography}
-\fi
-\if@slovene
+%\fi
+%\if@slovene
 %\providecommand\bibliographyname{Osebna bibliografija}
-\else
+%\else
 %\providecommand\bibliographyname{Personal bibliography}
-\fi
+%\fi
 %\newcommand\indexname{Index}
 %\newcommand\figurename{Figure}
 %\newcommand\tablename{Table}
@@ -2341,9 +2341,9 @@
 	\par%
 	\hfill  --- \@author, \@place,
 	\if@slovene
-	\ifcase\@month\or januar\or februar\or marec\or april\or maj\or junij\or julij\or avgust\or september\or oktober\or november\or december\fi
+		\ifcase\@month\or januar\or februar\or marec\or april\or maj\or junij\or julij\or avgust\or september\or oktober\or november\or december\fi
 	\else
-	\ifcase\@month\or January\or February\or March\or April\or May\or June\or July\or August\or September\or October\or November\or December\fi
+		\ifcase\@month\or January\or February\or March\or April\or May\or June\or July\or August\or September\or October\or November\or December\fi
 	\fi
 	~\number\@year.
 	\par

@@ -5,11 +5,10 @@
 % - stage=pre-alpha for early drafts - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
 % - stage=alpha for first review by advisor - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
 % - stage=beta for seminar 5 - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
-% - stage=gamma for senate aproval - no chapter thumbs, TODO: includes notes showing reviewer comments (and author response) [seeks for images in directories /img_LQ, /img]
+% - stage=gamma for senate approval - no chapter thumbs, TODO: includes notes showing reviewer comments (and author response) [seeks for images in directories /img_LQ, /img]
 % - stage=gold for final approved version - notes not displayed, chapter pages in colour, chapter thumbs [seeks for images in directories /img_LQ, /img]
-% - stage=press for print version - gold with trimmarks [seeks for images in directories /img_HQ, /img]
-\providecommand{\stage}{gold}
-\documentclass[language=english,stage=\stage]{FRIteza}
+% - stage=press for print version - gold with trim marks, includes also coverpage [seeks for images in directories /img_HQ, /img]
+\documentclass[language=english,stage=gold]{FRIteza}
 
 \author[A={D Author}]{Demo Author}
 
@@ -60,20 +59,18 @@
 %  title - use title to insert prefered line breaking with '\\' 
 %  loc - options NE, SE, NW, SW
 %  colour - options P1797, white, black
-%\cover[title={Fuzzy model for a computer simulation of bird flocking}, loc={NE}, colour={P1797}]{./cc/coverImage.jpg} 
+\cover[loc={NE}, colour={P1797}]{coverImage.jpg} 
 % define spine
-% \spine[title=<title to appear on spine>, loc=<location of the title>, colour=<colour of the title>]{thesisId in hexadecimal}
-% defaults: title=\title[A={#}]
+% \spine[title=<title to appear on spine>, pages=<number of pages in book>]{thesisId in decimal}
+% defaults: title=\title[A={#}], pages=\ztotpages-2
 % notes:
 %  title - use title to provide a shortended title for the spine 
-%  pages - privde the total number of pages
-%\spine[title={Fuzzy model for a computer simulation of bird flocking}, pages=134]{80}
-
-% load path for graphics files
-%\graphicspath{{img/}}
-%\DeclareGraphicsExtensions{.pdf,.png,.jpg} % search order for graphics files
+%  pages - provide the total number of pages in book, excluding cover and jobinfo (number of pages in pdf - 2) 
+\spine{4017}
 
 \usepackage{xspace} % helper package for automatic spaces after replacement macros, to be used with caution
+
+%% user defined commands - examples
 %% define common abbreviations
 \newcommand{\ie}{i.e.\xspace} % id est ~ that is
 \newcommand{\eg}{e.g.\xspace} % exempli gratia ~ for example
@@ -112,32 +109,20 @@
 \newcommand{\aprod}{\ensuremath\capdot} % algebraic product symbol
 %
 \newcommand{\fov}{\ensuremath\mathit{fov}} % field of view; \mathit ensures proper kerning between f and o, a common issue for multichar variables
+%% end of user defined commands
 
-% define additional hyphenation patterns
+% define additional hyphenation patterns to prevent overful boxes
 \sethyphenation{english}{pri-mar-i-ly} % https://www.hyphenation24.com/
 
-
+% load additional packages, most of those required are preloaded
+% check first if additional packages are really necessary
 \usepackage{lipsum}
 \usepackage{blindtext}
+% end of load additional packages
 
 \begin{document}
 
-% TODO: show as an example of subfigure use
-%\begin{figure}
-%	\begin{subfigure}[b]{.5\figurewidth-3.5pt}
-%		\noindent\hrulefill\par
-%		\includegraphics{fig_fuzzySet_a}
-%		\caption{sub A}\label{labA}
-%	\end{subfigure}
-%	\hfill
-%	\begin{subfigure}[b]{.5\figurewidth-3.5pt}
-%		\noindent\hrulefill\par
-%		\includegraphics{fig_fuzzySet_b}
-%		\caption{sub B}\label{labB}
-%	\end{subfigure}
-%	\caption{Membership functions of a crisp set of real numbers `from 3 to 5' \subref{labA} and a fuzzy set of real numbers `close to 4' \subref{labB}.}
-%	\label{fig:fuzzy:set0}
-%\end{figure}
+\makecoverpage
 
 \frontmatter
 	\maketitle
@@ -156,6 +141,7 @@
 	\input{thesis-ch5_topic4}
 	\input{thesis-ch6_conclusion}
 	\begin{appendices}
+		% insert appendix chapters if any
 	\end{appendices}
 
 \backmatter
