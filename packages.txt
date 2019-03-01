@@ -29,7 +29,8 @@ hyperref
 hyperxmp
 hyph-utf8
 ifmtarg
-scrextend
+latexmk
+koma-script
 ifxetex
 knuth-lib
 l3kernel
