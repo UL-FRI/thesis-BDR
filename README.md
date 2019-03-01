@@ -103,7 +103,11 @@ Recreate the `demo-asbook` example:
 
     File > Open > thesis-BDR/demo-asbook/
 
-In the side bar select `thesis.tex` to open it. A TeX action should appear in the activity bar. Use it to view the list ov available commands, and choose `Recipe: latexmk`. This is the default build command, which Visual Studio Code will run automaticaly upon modification of any of the constituiting files. It will generate `out/thesis.pdf` in the stage that is specified when the `FRIteza` document class is loaded. Additional recipes are provided, that will generate the PDF in the specific stage, as the command line build script, they will create files named `out/thesis-<stage>.pdf`. For further information please refer to the official [Visual Studio Code](https://code.visualstudio.com/docs) and [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) documentation.
+In the side bar select `thesis.tex` to open it. A TeX action should appear in the activity bar. Use it to view the list ov available commands, and choose `Recipe: latexmk`. This is the default build command, which Visual Studio Code will run automaticaly upon modification of any of the constituiting files. It will generate `out/thesis.pdf` in the stage that is specified when the `FRIteza` document class is loaded. Additional recipes are provided, that will generate the PDF in the specific stage, as the command line build script, they will create files named `out/thesis-<stage>.pdf`. 
+
+![VScode compile](https://github.com/UL-FRI/thesis-BDR/raw/add_stage_parameter/editor-cfg/VScode_compile.gif "VScode compile")
+
+For further information please refer to the official [Visual Studio Code](https://code.visualstudio.com/docs) and [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) documentation.
 
 #### Overleaf
 
@@ -119,10 +123,13 @@ You should find `demo-asbook.zip` in `overleaf/`
     $ ls overleaf/
     demo-asbook.zip
 
-Upload `demo-asbook.zip` to Overlaf:
+Upload `demo-asbook.zip` to Overlaf.
 
+![Upload to Overleaf](https://github.com/UL-FRI/thesis-BDR/raw/add_stage_parameter/editor-cfg/Overleaf_upload_zip.gif "Upload to Overleaf")
 
 Change the compiler to `XeLaTeX`.<a href="#note6" id="note6ref" title="In the background Overleaf actually uses 'latexmk'."><sup>6</sup></a>
+
+![Overleaf compiler](https://github.com/UL-FRI/thesis-BDR/raw/add_stage_parameter/editor-cfg/Overleaf_XeLaTeX.gif "Overleaf compiler")
 
 <!--
 Unpack overleaf _TODO_??
