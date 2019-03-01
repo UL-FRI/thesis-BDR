@@ -18,23 +18,25 @@ Enter the folder:
 
 Install all the MiKTeX packages listed in `packages.txt`. Use the GUI or command line:
 
-    $ mpm --require=@packages.txt
-    78 packages have been successfully installed.
+    mpm --require=@packages.txt
+    79 packages have been successfully installed.
 
 Make sure to initialize all the selected languages (Slovene and UK English):
 
     initexmf --mklangs
     initexmf --dump
+    initexmf --dump  # has to be run twice
 
 Make sure to have `latexmk`, a [Perl](https://www.perl.org/) script, which automates the process of compiling a LaTeX document, installed. Follow [the tutorial](https://mg.readthedocs.io/latexmk.html) for your platform. _Note that as v4.61 has minor bugs it has to be overriden<a href="#note1" id="note1ref" title="Override with v4.61+."><sup>1</sup></a> with the version provided in `editor-cfg/`._
 
 Recreate the `demo-asbook` example:
 
+    cd demo-asbook
     ../editor-cfg/build alpha
 
 You should find `thesis-<stage>.pdf` in folder `out/`:
 
-    $ ls out/
+    ls out/
     thesis-alpha.fls         thesis-alpha.pdf         thesis-alpha.synctex.gz
 
 To build the final version that is to be distributed via emails run:
@@ -60,18 +62,18 @@ If the `<stage>` parameter is ommitted the build script will generate the PDF in
 
 Note that in this case the folder `out/` will contain files without the stage related suffix:
 
-    $ ls out/
+    ls out/
     thesis.fls         thesis.pdf         thesis.synctex.gz
 
 ### Starting to write your own doctoral dissertation
 
-Copy `demo-empty` to a folder of your choosing, e.g. `dissertation`:
+Copy `demo-empty` to a folder of your choosing, e.g., `dissertation`:
 
     cp -r demo-empty/ dissertation/
 
 Make sure that a `latexmk` config file named `.latexmkrc` and Visual Studio Code config folder named `.vscode/` are present in your working folder:
 
-    $ ls -al dissertation/
+    ls -al dissertation/
     drwxr-xr-x  22 iTZ  staff    704 27 Feb 19:53 .
     drwxr-xr-x  23 iTZ  staff    736 27 Feb 22:01 ..
     -rw-r--r--   1 iTZ  staff    681 27 Feb 19:53 .latexmkrc
@@ -111,16 +113,16 @@ For further information please refer to the official [Visual Studio Code](https:
 
 #### Overleaf
 
-A script is provided that packs all the requisite files into a single `zip` that can be uploaded to Overleaf. Note that there are certain limitations of using a free overleaf account, most notably a compile time out limit and a file number limit. For example the demo-bypub can not be uploaded on a free account, and with demo-asbook one can occasionally receive a compile time out error.
+A script is provided that packs all the requisite files into a single `zip` that can be uploaded to Overleaf. Note that there are certain limitations of using a free overleaf account, most notably a compile time out limit and a file number limit. For example the `demo-bypub` can not be uploaded on a free account, and with `demo-asbook` one can occasionally receive a compile time out error.
 
-Pack all necessay files for Overleaf<a href="#note3" id="note3ref" title="A free Overleaf account has a timeout limit."><sup>3</sup></a><sup>,</sup><a href="#note4" id="note4ref" title="Overleaf has a 50MB upload limit."><sup>4</sup></a><sup>,</sup><a href="#note5" id="note5ref" title="Avoid using accented characters in file names."><sup>5</sup></a>:
+Pack all necessay files for Overleaf<a href="#note3" id="note3ref" title="A free Overleaf account has a timeout limit."><sup>3</sup></a><sup>,</sup><a href="#note4" id="note4ref" title="Overleaf has a 50MB upload limit."><sup>4</sup></a><sup>,</sup><a href="#note5" id="note5ref" title="Avoid using accented characters in file names."><sup>5</sup></a>. For example, you may try to recreate the `demo-asbook` on Overleaf:
 
-     cd thesis-BDR
-     pack-overleaf demo-asbook
+    cd thesis-BDR
+    editor-cfg/pack-overleaf demo-asbook
 
 You should find `demo-asbook.zip` in `overleaf/`
 
-    $ ls overleaf/
+    ls overleaf/
     demo-asbook.zip
 
 Upload `demo-asbook.zip` to Overlaf.
