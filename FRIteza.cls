@@ -4,6 +4,20 @@
 %% (c) 2005-2018 Iztok Lebar Bajec
 %%
 
+% Options of the FRI thesis document class:
+% - language=english for writing in english as main language [default]
+% - language=slovene for writing in slovene as main language
+%
+% - funding=logo.pdf for a funded PhD thesis - doktorska disertacija MR iz gospodarstva
+%
+% - stage=pre-alpha for early drafts - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
+% - stage=alpha for first review by advisor - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
+% - stage=beta for seminar 5 - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
+% - stage=gamma for senate approval - no chapter thumbs, TODO: includes notes showing reviewer comments (and author response) [seeks for images in directories /img_LQ, /img]
+% - stage=gold for final approved version - notes not displayed, chapter pages in colour, chapter thumbs [seeks for images in directories /img_LQ, /img]
+% - stage=press for print version - gold with trim marks [seeks for images in directories /img_HQ, /img]
+
+
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{FRIteza}
 		 [v2.20190108
@@ -79,16 +93,30 @@
 	\gdef\@companyLogo{#1}
 }
 \DeclareOptionX{stage}{%
-	\switchcase{#1}
-	{
-		{pre-alpha} {\@devtrue}
-		{alpha} {\@devtrue}
-		{beta} {\@devtrue}
-		{gamma} {\@devtrue}
-		{gold} {\@devfalse}
-		{press} {\@devfalse \@presstrue}
+ \@ifundefined{stage}{
+		\switchcase{#1}
+		{
+			{pre-alpha} {\@devtrue}
+			{alpha} {\@devtrue}
+			{beta} {\@devtrue}
+			{gamma} {\@devtrue}
+			{gold} {\@devfalse}
+			{press} {\@devfalse \@presstrue}
+		}{%
+			\ClassError{FRIteza}{The FRIteza class supports stages\MessageBreak pre-alpha, alpha, beta, gamma, gold and press,\MessageBreak supplied "#1"}{}
+		}
 	}{%
-		\ClassError{FRIteza}{The FRIteza class supports stages\MessageBreak pre-alpha, alpha, beta, gamma, gold and press,\MessageBreak supplied "#1"}{}
+		\switchcase{\stage}
+		{
+			{pre-alpha} {\@devtrue}
+			{alpha} {\@devtrue}
+			{beta} {\@devtrue}
+			{gamma} {\@devtrue}
+			{gold} {\@devfalse}
+			{press} {\@devfalse \@presstrue}
+		}{%
+			\ClassError{FRIteza}{The FRIteza class supports stages\MessageBreak pre-alpha, alpha, beta, gamma, gold and press,\MessageBreak supplied "\stage"}{}
+		}
 	}
 }
 
@@ -114,6 +142,39 @@
 %\RequirePackage{ebgaramond-maths} % should this be included for proper microtype? 
 
 \RequirePackage{microtype}
+% patch for microtype to stop producing Unknown slot number warnings, 
+% see discussion at https://tex.stackexchange.com/questions/373594/microtype-producing-dozens-of-unknown-slot-number-warnings/
+\@ifpackagelater{microtype}{2017/07/07} % 
+{	
+	% no need to pach
+}
+{
+	\ClassInfo{FRIteza}{Patching microtype pre-v2.7 2017/07/07 to to stop producing Unknown slot number warnings}
+	\def\MT@is@composite#1#2\relax{%
+	  \ifx\\#2\\\else
+	    \expandafter\def\expandafter\MT@char\expandafter{\csname\expandafter
+	                    \string\csname\MT@encoding\endcsname
+	                    \MT@detokenize@n{#1}-\MT@detokenize@n{#2}\endcsname}%
+	    % 3 lines added:
+	    \ifx\UnicodeEncodingName\@undefined\else
+	      \expandafter\expandafter\expandafter\MT@is@uni@comp\MT@char\iffontchar\else\fi\relax
+	    \fi
+	    \expandafter\expandafter\expandafter\MT@is@letter\MT@char\relax\relax
+	    \ifnum\MT@char@ < \z@
+	      \ifMT@xunicode
+	        \edef\MT@char{\MT@exp@two@c\MT@strip@prefix\meaning\MT@char>\relax}%
+	          \expandafter\MT@exp@two@c\expandafter\MT@is@charx\expandafter
+	            \MT@char\MT@charxstring\relax\relax\relax\relax\relax
+	      \fi
+	    \fi
+	  \fi
+	}
+	% new:
+	\def\MT@is@uni@comp#1\iffontchar#2\else#3\fi\relax{%
+	  \ifx\\#2\\\else\edef\MT@char{\iffontchar#2\fi}\fi
+	}
+}
+
 \RequirePackage{realscripts} % for textsubscripts and textsuperscripts
 \RequirePackage{amsmath} % must be loaded before unicode-math to avoid conflicts
 \RequirePackage{amssymb}
@@ -122,20 +183,22 @@
 \RequirePackage[math-style=french,bold-style=upright]{unicode-math} % TODO ,mathrm=sym,mathbf=sym ... causes issues with \siunitx [uppercase numerals in text] TODO: sans serif greek!!!
 \RequirePackage{ragged2e} % for flushleft justification with hyphenation turned on
 
-\setmainfont{EBGaramond12-Regular.otf}[ % https://github.com/georgd/EB-Garamond
+\setmainfont{EBGaramond}[ % https://github.com/georgd/EB-Garamond
 	Path=fonts/EBGaramond/,
 	Ligatures={TeX,Discretionary},
+	Extension=.otf,
+	UprightFont=EBGaramond12-Regular,
 	UprightFeatures={
 		SizeFeatures={
-			{Size=-8, Font={EBGaramond08-Regular.otf}},% Numbers={Lining}},
-			{Size= 8-, Font={EBGaramond12-Regular.otf}}
+			{Size=-8, Font={*08-Regular}},% Numbers={Lining}},
+			{Size= 8-, Font={*12-Regular}}
 		}
 	}, 
-	ItalicFont={EBGaramond12-Italic.otf},
+	ItalicFont=EBGaramond12-Italic,
 	ItalicFeatures={
 		SizeFeatures={
-			{Size=-8, Font={EBGaramond08-Italic.otf}},% Numbers={Lining}},
-			{Size= 8-, Font={EBGaramond12-Italic.otf}}
+			{Size=-8, Font={*08-Italic}},% Numbers={Lining}},
+			{Size= 8-, Font={*12-Italic}}
 		}
 	},
 %	BoldFont={EBGaramond12-Italic.otf},
@@ -152,24 +215,26 @@
 
 \setsansfont{SourceSansPro}[ % https://github.com/adobe-fonts/source-sans-pro, 2.020R-ro/1.075R-it 
 	Path=fonts/SourceSansPro/,
+	Extension=.otf,
 	Mapping=tex-text, 
 	Ligatures={TeX}, 
 	Numbers={OldStyle}, 
-	UprightFont={*-Regular.otf},
-	ItalicFont={*-It.otf},
-	BoldFont={*-Semibold.otf},
-	BoldItalicFont={*-SemiboldIt.otf},
+	UprightFont=*-Regular,
+	ItalicFont=*-It,
+	BoldFont=*-Semibold,
+	BoldItalicFont=*-SemiboldIt,
 	Scale=MatchLowercase
 ]
 
 \setmonofont{SourceCodePro}[ % https://github.com/adobe-fonts/source-code-pro, 2.030R-ro/1.050R-it
 	Path=fonts/SourceCodePro/,
+	Extension=.otf,
 	Mapping=tex-text, 
 	Ligatures={TeX}, 
-	UprightFont={*-Regular.otf},
-	ItalicFont={*-It.otf},
-	BoldFont={*-Semibold.otf},
-	BoldItalicFont={*-SemiboldIt.otf},
+	UprightFont=*-Regular,
+	ItalicFont=*-It,
+	BoldFont=*-Semibold,
+	BoldItalicFont=*-SemiboldIt,
 	Numbers={OldStyle}, 
 	Scale=MatchLowercase
 ]
@@ -179,8 +244,9 @@
 %\setmathfont{EB Garamond} % To use in the future?
 % TODO: check printed
 % base math font to use in the future? [override only bold and bolditalic, greek italic!!]
-\setmathfont{Garamond-math.otf}[ % https://github.com/YuanshengZhao/Garamond-Math
+\setmathfont{Garamond-Math}[ % https://github.com/YuanshengZhao/Garamond-Math
 	Path=fonts/Garamond-Math/,
+	Extension=.otf,
 	StylisticSet={1,4} % Garamond based blackboard, Semibold, SemiboldItalic
 ] 
 
@@ -461,16 +527,9 @@
 % setup page layout and page spread graphical elements
 %%%%
 \RequirePackage{calc} % length calculations
-\RequirePackage[strict]{changepage} % required for oddpage checks 
-\RequirePackage{ifoddpage} % required for oddpage checks
+\RequirePackage{scrextend} % required for oddpage checks
 \RequirePackage{ifthen} % required for whiledo loops
-
-% Patch ifoddpage package so that it works properly even with pagenumbering style changes
-% patch assumes zref-abspage package is loaded and theabspage is defined 
-\RequirePackage{etoolbox}
-\ClassInfo{FRIteza}{Patching ifoddpage package to support pagenumbering style changes}
-\patchcmd{\oddpage@checkpage}{\the\c@page}{\theabspage}{\ClassInfo{FRIteza}{\string\oddpage@checkpage\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\oddpage@checkpage}}
-\patchcmd{\oddpage@page}{\the\c@page}{\theabspage}{\ClassInfo{FRIteza}{\string\oddpage@page\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\oddpage@page}}
+\RequirePackage{etoolbox} % required for package patches
 
 \newlength{\pageW}\setlength{\pageW}{6.14in}
 \newlength{\pageH}\setlength{\pageH}{9.21in}
@@ -565,8 +624,7 @@
 
 \newcommand{\@drawGridSystem}{
 	% grid system
-	\checkoddpage
-	\ifoddpageoroneside
+	\ifthispageodd{%
 		\foreach \n in {1,...,8} {
 			\draw[dashed, color=lightgray]
 			(\trimMark+\bleedW+\bindingW+\n\gridW,-\bleedH-\trimMark)
@@ -581,7 +639,7 @@
 		(\trimMark+\bleedW+\bindingW,-\bleedH-\trimMark)
 		--
 		(\trimMark+\bleedW+\bindingW,-\mH+\bleedH+\trimMark);
-	\else
+	}{%
 		\foreach \n in {1,...,8} {
 			\draw[dashed, color=lightgray]
 			(\mW-\trimMark-\bleedW-\bindingW-\n\gridW,-\trimMark-\bleedH)
@@ -596,12 +654,11 @@
 		(\mW-\trimMark-\bleedW-\bindingW,-\trimMark-\bleedH)
 		--
 		(\mW-\trimMark-\bleedW-\bindingW,-\mH+\bleedH+\trimMark);
-	\fi
+	}
 }
 
 \newcommand{\@drawTextAreas}{
-	\checkoddpage
-	\ifoddpageoroneside
+	\ifthispageodd{%
 		\draw[color=orange] % body text area
 		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT)
 		rectangle
@@ -618,7 +675,7 @@
 		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip-\gs@dpth+\gs@bls)
 		rectangle
 		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip-\gs@dpth);
-	\else
+	}{%
 		\draw[color=orange] % body text area
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\trimMark-\bleedH-\marginT)
 		rectangle
@@ -635,13 +692,12 @@
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip-\gs@dpth+\gs@bls)
 		rectangle
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip-\gs@dpth);
-	\fi
+	}%
 }
 
 \newcommand{\@drawTextAreaBaselines}{
 	\pgfmathsetmacro{\nRows}{round(6*\gridH/\gs@bls)}
-	\checkoddpage
-	\ifoddpageoroneside
+	\ifthispageodd{%
 		\foreach \n in {1,...,\nRows} { % body text
 			\draw[dashed, color=cyan]
 			(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT-\n\gs@bls+\gs@dpth)
@@ -660,7 +716,7 @@
 		(\trimMark+\bleedW+\bindingW+\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip)
 		--
 		(\trimMark+\bleedW+\bindingW+\marginI+\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip);
-	\else
+	}{%\else
 		\foreach \n in {1,...,\nRows} {
 			\draw[dashed, color=cyan]
 			(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\marginT-\bleedH-\trimMark-\n\gs@bls+\gs@dpth)
@@ -679,7 +735,7 @@
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI,-\trimMark-\bleedH-\marginT-\textheight-\footskip)
 		--
 		(\mW-\trimMark-\bleedW-\bindingW-\marginI-\textwidth,-\trimMark-\bleedH-\marginT-\textheight-\footskip);
-	\fi
+	}%
 }
 
 \newcommand{\@drawTrimMarks}{
@@ -719,26 +775,24 @@
 }
 
 \newcommand{\@drawPartMark}[1]{
-	\checkoddpage
-	\ifoddpageoroneside
+	\ifthispageodd{%
 		\path[fill=#1]
 		(\mW-\trimMark-\bleedW-\gridW/4,0)
 		rectangle
 		(\mW-\trimMark,-\mH);
-	\else
+	}{%
 		\path[fill=#1]
 		(\trimMark,0)
 		rectangle
 		(\trimMark+\bleedW+\gridW/4,-\mH);
-	\fi
+	}%
 }
 
 % TODO: change VOffset to multiples of thechapter counter
 \newcommand{\@chapterThumbColourA}{white}
 \newcommand{\@chapterThumbColourB}{P1797}
 \newcommand{\@drawChapterThumb}[2]{
-	\checkoddpage
-	\ifoddpageoroneside
+	\ifthispageodd{%
 		\if@isChapterPage
 			\path[fill=#1]
 			(\mW-\trimMark-\bleedW-\@ULsquare,-\trimMark-\bleedH-\marginT-\VOffset)
@@ -753,7 +807,7 @@
 			rectangle
 			(\mW-\trimMark,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare);
 		\fi		
-	\else
+	}{%
 		\if@isChapterPage
 			\path[fill=#1]
 			(\trimMark, -\trimMark-\bleedH-\marginT-\VOffset)
@@ -768,7 +822,7 @@
 			rectangle
 			(\trimMark+\bleedW+\gridW/4,-\trimMark-\bleedH-\marginT-\VOffset-\@ULsquare);
 		\fi		
-	\fi
+	}%
 }
 \newcommand{\@stepChapterThumb}{
 	\addtolength{\VOffset}{\@ULsquare}
@@ -800,12 +854,11 @@
 		\if@isPartPage \@drawPartMark{grey65} \fi
 		\if@showChapterThumb \@drawChapterThumb{\@chapterThumbColourA}{\@chapterThumbColourB} \fi
 		\if@dev
-			\checkoddpage
-			\ifoddpageoroneside
+		  \ifthispageodd{%
 				\node[black, rotate=90, anchor=east] at
 				(\mW-\trimMark-\bleedW-\@ULsquare/8,-\trimMark-\bleedH-\marginT-\@ULsquare/2)
 				{\fontsize{5bp}{6bp}\textsf{\textenglish{\today}~|~built with \expandafter\csname ver@FRIteza.cls\endcsname}};
-			\fi
+			}{}%
 		\fi
 	\end{tikzpicture}
 }
@@ -828,7 +881,6 @@
 \def\metabox#1{\edef\theprevdepth{\the\prevdepth}\nointerlineskip
 	\vbox to0pt{#1\vss}\prevdepth=\theprevdepth}
 \newcommand{\@drawtitlepage}{%
-	\thispagestyle{empty}
 	\begin{centering}
 		\if@slovene
 			\hbox{}\vfill%\vfill\vfill
@@ -905,279 +957,289 @@
 	\renewcommand{\@showCoverAnnotations}{#1}
 }
 
-% TODO: autogenerate _cover page when in press mode and build it in a single run
+% generate cover page when in press mode
 \newcommand{\makecoverpage}{%
-	\begingroup
-	\disablehyphenation
-	\thispagestyle{empty}
-	% save current geometry: media size, margins, bleed and slug area
-	\savegeometry{G}
-	
-	\newlength{\@lmW}\setlength{\@lmW}{\mW}
-	\newlength{\@lmH}\setlength{\@lmH}{\mH}
-	\newlength{\@lbW}\setlength{\@lbW}{\bleedW}
-	\newlength{\@lbH}\setlength{\@lbH}{\bleedH}
-	
-	% compute cover spine width, page, coverspine, front/back and media size
-	\pgfmathsetlengthmacro{\spineW}{(round(\@spine@pages/2)*\@paperCaliper+0*.5mm+6mm)}
-	\pgfmathsetlengthmacro{\coverW}{(2*(4mm+\bindingW+\pageW+4mm)+\spineW)}
-	\pgfmathsetlengthmacro{\coverH}{(4mm+\pageH+4mm)}
-	\pgfmathsetlengthmacro{\coverspineW}{(18mm+\spineW+18mm)}
-	\pgfmathsetlengthmacro{\coverfrontW}{((\coverW-\coverspineW)/2)}
 	\if@press
-		\pgfmathsetlengthmacro{\coverbleed}{15mm}
-	\else
-		\pgfmathsetlengthmacro{\coverbleed}{0mm}
-	\fi
-	% setup cover geometry: media size, margins, bleed and slug area
-	\pgfmathsetlength{\mW}{(\coverW+2*(\coverbleed+\trimMark))}
-	\pgfmathsetlength{\mH}{(\coverH+2*(\coverbleed+\trimMark))}
-	\pdfpagewidth=\mW \pdfpageheight=\mH
-	\paperwidth=\mW \paperheight=\mH
-	\setlength{\bleedW}{\coverbleed}
-	\setlength{\bleedH}{\coverbleed}
-	\setPDFBoxes
-	
-	% draw cover page
-	\pgfmathsetlengthmacro{\sW}{\spineW/2}
-	\pgfmathsetlengthmacro{\csW}{\coverspineW/2}
-	\pgfmathsetlengthmacro{\ULc}{\trimMark+\bleedW+\coverfrontW/2}
-	\pgfmathsetlengthmacro{\CIc}{\trimMark+(\bleedW+\coverfrontW)/2}
-	\pgfmathsetlengthmacro{\ciH}{\coverH+2*\coverbleed}
-	\pgfmathsetlengthmacro{\ciW}{\ciH/1.5} % expect images in 2:3 ratio w:h
-	\pgfmathsetlengthmacro{\TN}{-\trimMark-\bleedH-4mm-\gridH}
-	\pgfmathsetlengthmacro{\TS}{\trimMark+\bleedW+4mm+\gridH}
-	\pgfmathsetlengthmacro{\TE}{-\trimMark-\bleedW-4mm-\gridW}
-	\pgfmathsetlengthmacro{\TW}{\csW+\gridW}
-	
-	\begin{tikzpicture}[remember picture,overlay]
-	% front
-	% --- include 2:3 figure stretched
-	\ifthenelse{\equal{\@cover@image}{\@empty}}{}{
+		\begingroup
+		\disablehyphenation
+		\thispagestyle{empty}
+		% save current geometry: media size, margins, bleed and slug area
+		\savegeometry{G}
+		
+		\newlength{\@lmW}\setlength{\@lmW}{\mW}
+		\newlength{\@lmH}\setlength{\@lmH}{\mH}
+		\newlength{\@lbW}\setlength{\@lbW}{\bleedW}
+		\newlength{\@lbH}\setlength{\@lbH}{\bleedH}
+		
+		% compute cover spine width, page, coverspine, front/back and media size
+		\pgfmathsetlengthmacro{\spineW}{(round(\@spine@pages/2)*\@paperCaliper+0*.5mm+6mm)}
+		\pgfmathsetlengthmacro{\coverW}{(2*(4mm+\bindingW+\pageW+4mm)+\spineW)}
+		\pgfmathsetlengthmacro{\coverH}{(4mm+\pageH+4mm)}
+		\pgfmathsetlengthmacro{\coverspineW}{(18mm+\spineW+18mm)}
+		\pgfmathsetlengthmacro{\coverfrontW}{((\coverW-\coverspineW)/2)}
+		\if@press
+			\pgfmathsetlengthmacro{\coverbleed}{15mm}
+		\else
+			\pgfmathsetlengthmacro{\coverbleed}{0mm}
+		\fi
+		% setup cover geometry: media size, margins, bleed and slug area
+		\pgfmathsetlength{\mW}{(\coverW+2*(\coverbleed+\trimMark))}
+		\pgfmathsetlength{\mH}{(\coverH+2*(\coverbleed+\trimMark))}
+		\pdfpagewidth=\mW \pdfpageheight=\mH
+		\paperwidth=\mW \paperheight=\mH
+		\setlength{\bleedW}{\coverbleed}
+		\setlength{\bleedH}{\coverbleed}
+		\setPDFBoxes
+		
+		% draw cover page
+		\pgfmathsetlengthmacro{\sW}{\spineW/2}
+		\pgfmathsetlengthmacro{\csW}{\coverspineW/2}
+		\pgfmathsetlengthmacro{\ULc}{\trimMark+\bleedW+\coverfrontW/2}
+		\pgfmathsetlengthmacro{\CIc}{\trimMark+(\bleedW+\coverfrontW)/2}
+		\pgfmathsetlengthmacro{\ciH}{\coverH+2*\coverbleed}
+		\pgfmathsetlengthmacro{\ciW}{\ciH/1.5} % expect images in 2:3 ratio w:h
+		\pgfmathsetlengthmacro{\TN}{-\trimMark-\bleedH-4mm-\gridH}
+		\pgfmathsetlengthmacro{\TS}{\trimMark+\bleedW+4mm+\gridH}
+		\pgfmathsetlengthmacro{\TE}{-\trimMark-\bleedW-4mm-\gridW}
+		\pgfmathsetlengthmacro{\TW}{\csW+\gridW}
+		
+		\begin{tikzpicture}[remember picture,overlay]
+		% front
+		% --- include 2:3 figure stretched
+		\ifthenelse{\equal{\@cover@image}{\@empty}}{}{
+			\node at
+			([shift={(-\CIc,0)}]current page.east)
+			{\includegraphics[height=\ciH,width=\ciW]{\@cover@image}};
+			% --- include single figure centered
+			%  \node at
+			%      ([shift={(-\ULc,0)}]current page.east)
+			%      {\includegraphics[height=\ciH]{\@coverImage}};
+		}
+		\ifthenelse{\equal{\@cover@title@loc}{SE}}{
+			\node[\@cover@title@colour, anchor=south east] at
+			([shift={(\TE,\TS)}]current page.south east)
+			{\begin{minipage}{6\gridW}
+				\begin{flushright}
+					\fontsize{18}{19}\selectfont
+					\@author\\
+					\vspace{30bp}
+					\fontsize{24}{24.5}\selectfont
+					\emph{\@cover@title}
+				\end{flushright}
+				\end{minipage}
+			};
+		}{}
+		\ifthenelse{\equal{\@cover@title@loc}{SW}}{
+			\node[\@cover@title@colour, anchor=south west] at
+			([shift={(\TW,\TS)}]current page.south)
+			{\begin{minipage}{6\gridW}
+				\begin{flushleft}
+					\fontsize{18}{19}\selectfont
+					\@author\\
+					\vspace{30bp}
+					\fontsize{24}{24.5}\selectfont
+					\emph{\@cover@title}
+				\end{flushleft}
+				\end{minipage}
+			};
+		}{}
+		\ifthenelse{\equal{\@cover@title@loc}{NE}}{
+			\node[\@cover@title@colour, anchor=north east] at
+			([shift={(\TE,\TN)}]current page.north east)
+			{\begin{minipage}{6\gridW}
+				\begin{flushright}
+					\fontsize{24}{24.5}\selectfont
+					\emph{\@cover@title}\\
+					\vspace{30bp}
+					\fontsize{18}{19}\selectfont
+					\@author
+				\end{flushright}
+				\end{minipage}
+			};
+		}{}
+		\ifthenelse{\equal{\@cover@title@loc}{NW}}{
+			\node[\@cover@title@colour, anchor=north west] at
+			([shift={(\TW,\TN)}]current page.north)
+			{\begin{minipage}{6\gridW}
+				\begin{flushleft}
+					\fontsize{24}{24.5}\selectfont
+					\emph{\@cover@title}\\
+					\vspace{30bp}
+					\fontsize{18}{19}\selectfont
+					\@author
+				\end{flushleft}
+				\end{minipage}
+			};
+		}{}
+		
+		% back
+		\path[fill=P1797]
+		([shift={(-\csW,-\trimMark)}]current page.north)
+		rectangle
+		([shift={(\trimMark,\trimMark)}]current page.south west);
 		\node at
-		([shift={(-\CIc,0)}]current page.east)
-		{\includegraphics[height=\ciH,width=\ciW]{\@cover@image}};
-		% --- include single figure centered
-		%  \node at
-		%      ([shift={(-\ULc,0)}]current page.east)
-		%      {\includegraphics[height=\ciH]{\@coverImage}};
-	}
-	\ifthenelse{\equal{\@cover@title@loc}{SE}}{
-		\node[\@cover@title@colour, anchor=south east] at
-		([shift={(\TE,\TS)}]current page.south east)
-		{\begin{minipage}{6\gridW}
-			\begin{flushright}
-				\fontsize{18}{19}\selectfont
-				\@author\\
-				\vspace{30bp}
-				\fontsize{24}{24.5}\selectfont
-				\emph{\@cover@title}
-			\end{flushright}
-			\end{minipage}
-		};
-	}{}
-	\ifthenelse{\equal{\@cover@title@loc}{SW}}{
-		\node[\@cover@title@colour, anchor=south west] at
-		([shift={(\TW,\TS)}]current page.south)
-		{\begin{minipage}{6\gridW}
-			\begin{flushleft}
-				\fontsize{18}{19}\selectfont
-				\@author\\
-				\vspace{30bp}
-				\fontsize{24}{24.5}\selectfont
-				\emph{\@cover@title}
-			\end{flushleft}
-			\end{minipage}
-		};
-	}{}
-	\ifthenelse{\equal{\@cover@title@loc}{NE}}{
-		\node[\@cover@title@colour, anchor=north east] at
-		([shift={(\TE,\TN)}]current page.north east)
-		{\begin{minipage}{6\gridW}
-			\begin{flushright}
-				\fontsize{24}{24.5}\selectfont
-				\emph{\@cover@title}\\
-				\vspace{30bp}
-				\fontsize{18}{19}\selectfont
-				\@author
-			\end{flushright}
-			\end{minipage}
-		};
-	}{}
-	\ifthenelse{\equal{\@cover@title@loc}{NW}}{
-		\node[\@cover@title@colour, anchor=north west] at
-		([shift={(\TW,\TN)}]current page.north)
-		{\begin{minipage}{6\gridW}
-			\begin{flushleft}
-				\fontsize{24}{24.5}\selectfont
-				\emph{\@cover@title}\\
-				\vspace{30bp}
-				\fontsize{18}{19}\selectfont
-				\@author
-			\end{flushleft}
-			\end{minipage}
-		};
-	}{}
-	
-	% back
-	\path[fill=P1797]
-	([shift={(-\csW,-\trimMark)}]current page.north)
-	rectangle
-	([shift={(\trimMark,\trimMark)}]current page.south west);
-	\node at
-	([shift={(\ULc,\trimMark)}]current page.west)
-	{\includegraphics{./cc/uni-lj-max-gold}};
-	
-	% spine
-	\path[fill=grey65]
-	([shift={(-\csW,-\trimMark)}]current page.north)
-	rectangle
-	([shift={(\csW,\trimMark)}]current page.south);
-	\path[fill=P1797]
-	([shift={(-\sW,\trimMark+\bleedH+\@ULsquare)}]current page.south)
-	rectangle
-	([shift={(\sW,\trimMark)}]current page.south);
-	\node[white] at
-	([shift={(0,\trimMark+\bleedH+\@ULsquare/2)}]current page.south)
-	{\texttt{\fontsize{10}{11}\selectfont{\addfontfeatures{RawFeature=-onum}\textbf{\@spine@id}}}};
-	\node[white] at
-	([shift={(0,\trimMark+\bleedH+1.5*\@ULsquare)}]current page.south)
-	{\begin{minipage}{\textwidth}\fontsize{10.5bp}{11bp}\selectfont\centering\texttt{\textbf{FRI}\\BDR}\end{minipage}};
-	\node[white] at
-	([shift={(0,\trimMark+\bleedH+2.5*\@ULsquare)}]current page.south)
-	{\color{grey20}\fontsize{8bp}{9bp}\selectfont\texttt{\addfontfeatures{RawFeature=-onum}\textbf{\number\@year}}};
-	\node[white, anchor=west, rotate=270] at
-	([shift={(0,-\trimMark-\bleedH-1.5*\@ULsquare)}]current page.north)
-	{\fontsize{14}{15}\selectfont{\@spine@title}};
-	
-	% slug area
-	\draw[white, line width=\trimMark]
-	([shift={(\trimMark/2,\trimMark/2)}]current page.south west)
-	rectangle
-	([shift={(-\trimMark/2,-\trimMark/2)}]current page.north east);
-	
-	% trimmarks
-	\draw[black, line width=0.25pt]
-	([shift={(\trimMark+\bleedW,0)}]current page.south west)
-	--
-	([shift={(\trimMark+\bleedW,\trimMark)}]current page.south west);
-	\draw[black, line width=0.25pt]
-	([shift={(0,\trimMark+\bleedH)}]current page.south west)
-	--
-	([shift={(\trimMark,\trimMark+\bleedH)}]current page.south west);
-	\draw[black, line width=0.25pt]
-	([shift={(\trimMark+\bleedW,0)}]current page.north west)
-	--
-	([shift={(\trimMark+\bleedW,-\trimMark)}]current page.north west);
-	\draw[black, line width=0.25pt]
-	([shift={(0,-\trimMark-\bleedW)}]current page.north west)
-	--
-	([shift={(\trimMark,-\trimMark-\bleedW)}]current page.north west);
-	\draw[black, line width=0.25pt]
-	([shift={(-\trimMark-\bleedW,0)}]current page.south east)
-	--
-	([shift={(-\trimMark-\bleedW,\trimMark)}]current page.south east);
-	\draw[black, line width=0.25pt]
-	([shift={(0,\trimMark+\bleedW)}]current page.south east)
-	--
-	([shift={(-\trimMark,\trimMark+\bleedW)}]current page.south east);
-	\draw[black, line width=0.25pt]
-	([shift={(-\trimMark-\bleedW,0)}]current page.north east)
-	--
-	([shift={(-\trimMark-\bleedW,-\trimMark)}]current page.north east);
-	\draw[black, line width=0.25pt]
-	([shift={(0,-\trimMark-\bleedW)}]current page.north east)
-	--
-	([shift={(-\trimMark,-\trimMark-\bleedW)}]current page.north east);
-	
-	% job info
-	\draw[green, dashed, line width=.25pt]
-	([shift={(-\sW,0)}]current page.north)
-	--
-	([shift={(-\sW,-\trimMark)}]current page.north);
-	\draw[green, dashed, line width=.25pt]
-	([shift={(\sW,0)}]current page.north)
-	--
-	([shift={(\sW,-\trimMark)}]current page.north);
-	\node at
-	([shift={(0,-\trimMark/2)}]current page.north)
-	{\fontsize{8}{8}\selectfont{\textsf{\pgfmathparse{round(\spineW/1mm)}\pgfmathresult\,mm}}};
-	\draw[green, dashed, line width=.25pt]
-	([shift={(-\sW,0)}]current page.south)
-	--
-	([shift={(-\sW,\trimMark)}]current page.south);
-	\draw[green, dashed, line width=.25pt]
-	([shift={(\sW,0)}]current page.south)
-	--
-	([shift={(\sW,\trimMark)}]current page.south);
-	\node at
-	([shift={(0,\trimMark/2)}]current page.south)
-	{\fontsize{8}{8}\selectfont{\textsf{\@spine@pages\,p}}};
-	
-	%% annotations
-	\ifthenelse{\equal{\@showCoverAnnotations}{YES}}
-	{
-		% cover spine
-		\draw[grey65, dashed]
+		([shift={(\ULc,\trimMark)}]current page.west)
+		{\includegraphics{cc/uni-lj-max-gold}};
+		
+		% spine
+		\path[fill=grey65]
 		([shift={(-\csW,-\trimMark)}]current page.north)
 		rectangle
 		([shift={(\csW,\trimMark)}]current page.south);
-		% midpage line
-		\draw[green, dotted]
-		(current page.north)
-		--
-		(current page.south);
-		% bleed
-		\draw[red, dashed]
-		([shift={(\trimMark+\bleedW,\trimMark+\bleedH)}]current page.south west)
+		\path[fill=P1797]
+		([shift={(-\sW,\trimMark+\bleedH+\@ULsquare)}]current page.south)
 		rectangle
-		([shift={(-\trimMark-\bleedW,-\trimMark-\bleedH)}]current page.north east);
-		\draw[green]
-		([shift={(\ULc,0)}]current page.west)
-		circle(2.5mm);
-		\draw[green]
-		([shift={(\ULc,5mm)}]current page.west)
-		--
-		([shift={(\ULc,-5mm)}]current page.west);
-		\draw[green]
-		([shift={(\ULc-5mm,0)}]current page.west)
-		--
-		([shift={(\ULc+5mm,0)}]current page.west);
-		\draw[orange]
-		([shift={(-\CIc,0)}]current page.east)
-		circle(2.5mm);
-		\draw[orange]
-		([shift={(-\CIc,5mm)}]current page.east)
-		--
-		([shift={(-\CIc,-5mm)}]current page.east);
-		\draw[orange]
-		([shift={(-\CIc-5mm,0)}]current page.east)
-		--
-		([shift={(-\CIc+5mm,0)}]current page.east);
-		\draw[green, dashed]
-		([shift={(\TW,\TS)}]current page.south)
+		([shift={(\sW,\trimMark)}]current page.south);
+		\node[white] at
+		([shift={(0,\trimMark+\bleedH+\@ULsquare/2)}]current page.south)
+		{\texttt{\fontsize{10}{11}\selectfont{\addfontfeatures{RawFeature=-onum}\textbf{\@spine@id}}}};
+		\node[white] at
+		([shift={(0,\trimMark+\bleedH+1.5*\@ULsquare)}]current page.south)
+		{\begin{minipage}{\textwidth}\fontsize{10.5bp}{11bp}\selectfont\centering\texttt{\textbf{FRI}\\BDR}\end{minipage}};
+		\node[white] at
+		([shift={(0,\trimMark+\bleedH+2.5*\@ULsquare)}]current page.south)
+		{\color{grey20}\fontsize{8bp}{9bp}\selectfont\texttt{\addfontfeatures{RawFeature=-onum}\textbf{\number\@year}}};
+		\node[white, anchor=west, rotate=270] at
+		([shift={(0,-\trimMark-\bleedH-1.5*\@ULsquare)}]current page.north)
+		{\fontsize{14}{15}\selectfont{\@spine@title}};
+		
+		% slug area
+		\draw[white, line width=\trimMark]
+		([shift={(\trimMark/2,\trimMark/2)}]current page.south west)
 		rectangle
-		([shift={(\TE,\TS+1.5\gridH)}]current page.south east);
-		\draw[green, dashed]
-		([shift={(\TW,\TN)}]current page.north)
-		rectangle
-		([shift={(\TE,\TN-1.5\gridH)}]current page.north east);
-	}{}
-	\end{tikzpicture}
-	% end draw cover page
-	
-	% restore page geometry, media size, margins, bleed and slug area
-	\newpage
-	\setlength{\mW}{\@lmW}
-	\setlength{\mH}{\@lmH}
-	\setlength{\bleedW}{\@lbW}
-	\setlength{\bleedH}{\@lbH}
-	\loadgeometry{G}
-	\pdfpagewidth=\mW \pdfpageheight=\mH
-	\paperwidth=\mW \paperheight=\mH
-	\setPDFBoxes
-	\enablehyphenation
-	\endgroup
+		([shift={(-\trimMark/2,-\trimMark/2)}]current page.north east);
+		
+		% trimmarks
+		\draw[black, line width=0.25pt]
+		([shift={(\trimMark+\bleedW,0)}]current page.south west)
+		--
+		([shift={(\trimMark+\bleedW,\trimMark)}]current page.south west);
+		\draw[black, line width=0.25pt]
+		([shift={(0,\trimMark+\bleedH)}]current page.south west)
+		--
+		([shift={(\trimMark,\trimMark+\bleedH)}]current page.south west);
+		\draw[black, line width=0.25pt]
+		([shift={(\trimMark+\bleedW,0)}]current page.north west)
+		--
+		([shift={(\trimMark+\bleedW,-\trimMark)}]current page.north west);
+		\draw[black, line width=0.25pt]
+		([shift={(0,-\trimMark-\bleedW)}]current page.north west)
+		--
+		([shift={(\trimMark,-\trimMark-\bleedW)}]current page.north west);
+		\draw[black, line width=0.25pt]
+		([shift={(-\trimMark-\bleedW,0)}]current page.south east)
+		--
+		([shift={(-\trimMark-\bleedW,\trimMark)}]current page.south east);
+		\draw[black, line width=0.25pt]
+		([shift={(0,\trimMark+\bleedW)}]current page.south east)
+		--
+		([shift={(-\trimMark,\trimMark+\bleedW)}]current page.south east);
+		\draw[black, line width=0.25pt]
+		([shift={(-\trimMark-\bleedW,0)}]current page.north east)
+		--
+		([shift={(-\trimMark-\bleedW,-\trimMark)}]current page.north east);
+		\draw[black, line width=0.25pt]
+		([shift={(0,-\trimMark-\bleedW)}]current page.north east)
+		--
+		([shift={(-\trimMark,-\trimMark-\bleedW)}]current page.north east);
+		
+		% job info
+		\draw[green, dashed, line width=.25pt]
+		([shift={(-\sW,0)}]current page.north)
+		--
+		([shift={(-\sW,-\trimMark)}]current page.north);
+		\draw[green, dashed, line width=.25pt]
+		([shift={(\sW,0)}]current page.north)
+		--
+		([shift={(\sW,-\trimMark)}]current page.north);
+		\node at
+		([shift={(0,-\trimMark/2)}]current page.north)
+		{\fontsize{8}{8}\selectfont{\textsf{\pgfmathparse{round(\spineW/1mm)}\pgfmathresult\,mm}}};
+		\draw[green, dashed, line width=.25pt]
+		([shift={(-\sW,0)}]current page.south)
+		--
+		([shift={(-\sW,\trimMark)}]current page.south);
+		\draw[green, dashed, line width=.25pt]
+		([shift={(\sW,0)}]current page.south)
+		--
+		([shift={(\sW,\trimMark)}]current page.south);
+		\node at
+		([shift={(0,\trimMark/2)}]current page.south)
+		{\fontsize{8}{8}\selectfont{\textsf{\@spine@pages\,p}}};
+		
+		%% annotations
+		\ifthenelse{\equal{\@showCoverAnnotations}{YES}}
+		{
+			% cover spine
+			\draw[grey65, dashed]
+			([shift={(-\csW,-\trimMark)}]current page.north)
+			rectangle
+			([shift={(\csW,\trimMark)}]current page.south);
+			% midpage line
+			\draw[green, dotted]
+			(current page.north)
+			--
+			(current page.south);
+			% bleed
+			\draw[red, dashed]
+			([shift={(\trimMark+\bleedW,\trimMark+\bleedH)}]current page.south west)
+			rectangle
+			([shift={(-\trimMark-\bleedW,-\trimMark-\bleedH)}]current page.north east);
+			\draw[green]
+			([shift={(\ULc,0)}]current page.west)
+			circle(2.5mm);
+			\draw[green]
+			([shift={(\ULc,5mm)}]current page.west)
+			--
+			([shift={(\ULc,-5mm)}]current page.west);
+			\draw[green]
+			([shift={(\ULc-5mm,0)}]current page.west)
+			--
+			([shift={(\ULc+5mm,0)}]current page.west);
+			\draw[orange]
+			([shift={(-\CIc,0)}]current page.east)
+			circle(2.5mm);
+			\draw[orange]
+			([shift={(-\CIc,5mm)}]current page.east)
+			--
+			([shift={(-\CIc,-5mm)}]current page.east);
+			\draw[orange]
+			([shift={(-\CIc-5mm,0)}]current page.east)
+			--
+			([shift={(-\CIc+5mm,0)}]current page.east);
+			\draw[green, dashed]
+			([shift={(\TW,\TS)}]current page.south)
+			rectangle
+			([shift={(\TE,\TS+1.5\gridH)}]current page.south east);
+			\draw[green, dashed]
+			([shift={(\TW,\TN)}]current page.north)
+			rectangle
+			([shift={(\TE,\TN-1.5\gridH)}]current page.north east);
+		}{}
+		\end{tikzpicture}
+		% end draw cover page
+		
+		% restore page geometry, media size, margins, bleed and slug area
+		\newpage
+		\setlength{\mW}{\@lmW}
+		\setlength{\mH}{\@lmH}
+		\setlength{\bleedW}{\@lbW}
+		\setlength{\bleedH}{\@lbH}
+		\loadgeometry{G}
+		\pdfpagewidth=\mW \pdfpageheight=\mH
+		\paperwidth=\mW \paperheight=\mH
+		\setPDFBoxes
+		\enablehyphenation
+		\thispagestyle{empty}
+		\hbox{}\vfill
+		\begin{center}
+			--- \emph{this page is not to be printed} --- \\
+			{\fontsize{8}{8}\textsf{\textbf{\jobname}~|~\textsf{\@spine@pages\,p}~|~\textenglish{\today}~|~built with \expandafter\csname ver@FRIteza.cls\endcsname}}
+		\end{center}
+		\vfill
+		\newpage
+		\endgroup
+	\fi
 }
 
 \newcommand{\maketitle}{
@@ -1336,16 +1398,16 @@
 %\newcommand\listfigurename{List of Figures}
 %\newcommand\listtablename{List of Tables}
 %\newcommand\bibname{Bibliography}
-\if@slovene
+%\if@slovene
 %\providecommand\biographyname{Biografija}
-\else
+%\else
 %\providecommand\biographyname{Biography}
-\fi
-\if@slovene
+%\fi
+%\if@slovene
 %\providecommand\bibliographyname{Osebna bibliografija}
-\else
+%\else
 %\providecommand\bibliographyname{Personal bibliography}
-\fi
+%\fi
 %\newcommand\indexname{Index}
 %\newcommand\figurename{Figure}
 %\newcommand\tablename{Table}
@@ -1630,17 +1692,6 @@
 		}
 	\fi 
 	\@xsect {#5}%
-}
-
-
-% ensure empty odd pages
-\renewcommand{\cleardoublepage}{
-	\clearpage
-	\checkoddpage
-	\ifoddpageoroneside
-	\else
-		{\hbox{}\thispagestyle{empty}\clearpage}
-	\fi
 }
 
 \RequirePackage{fancyhdr}
@@ -2079,7 +2130,8 @@
 			{\expandafter\gdef\expandafter\@spine@title\expandafter{\if@slovene\@title@slA\else\@title@enA\fi}}
 			{\expandafter\gdef\expandafter\@spine@title\expandafter{\cmdKV@spine@title}}
 		\ifundef{\cmdKV@spine@pages}
-			{\expandafter\gdef\expandafter\@spine@pages\expandafter{\zref@extract{LastPage}{abspage}}} % on first run warn label used
+			% on first run warn LastPage label used; subtract 2 due to cover followed by a non printable jobinfo page
+			{\expandafter\gdef\expandafter\@spine@pages\expandafter{\expandafter\the\numexpr\zref@extract{LastPage}{abspage}-2\relax}}
 			{\expandafter\gdef\expandafter\@spine@pages\expandafter{\cmdKV@spine@pages}}
 	\endgroup
 }
@@ -2179,7 +2231,6 @@
 % environments
 \newenvironment{titlepage}{
 	\thispagestyle{empty}%
-	\setcounter{page}\@ne
 }{
 	\cleardoublepage
 }
@@ -2200,7 +2251,7 @@
 		\vspace{-9\baselineskip}%
 		\begin{centering}
 			{ \setlength{\@tempdima}{\baselineskip}
-				\fontsize{8}{9}\selectfont
+				\fontsize{8bp}{9bp}\selectfont
 				\setlength{\@tempdimb}{\baselineskip}
 				\setlength{\@tempdimc}{\@tempdima}\addtolength{\@tempdimc}{-\@tempdimb}
 				\vspace*{1em}
@@ -2244,7 +2295,7 @@
 		\vspace{-9\baselineskip}%
 		\begin{centering}
 			{ \setlength{\@tempdima}{\baselineskip}
-				\fontsize{8}{9}\selectfont
+				\fontsize{8bp}{9bp}\selectfont
 				\setlength{\@tempdimb}{\baselineskip}
 				\setlength{\@tempdimc}{\@tempdima}\addtolength{\@tempdimc}{-\@tempdimb}
 				\vspace*{1em}
@@ -2276,21 +2327,23 @@
 	\chaptermark{\acknowledgementsname}
 	\addcontentsline{toc}{chapter}{\protect\numberline{}\acknowledgementsname}
 	\begingroup
-	%\itshape
-	\fontspec[
-	Path=fonts/EBGaramond/,
-	Ligatures={TeX,Discretionary,Rare,Historic},
-	Mapping=tex-text,
-	Numbers={OldStyle},
-	Style={Swash}]{EBGaramond08-Italic.otf}
+	%\itshape\addfontfeatures{ItalicFeatures{Ligatures={TeX,Discretionary,Rare,Historic},Numbers={OldStyle},Style={Swash}}}
+	\fontspec{EBGaramond}[
+		Path=fonts/EBGaramond/,
+		Extension=.otf,
+		UprightFont={*08-Italic},
+		Ligatures={TeX,Discretionary,Rare,Historic},
+		Mapping=tex-text,
+		Numbers={OldStyle},
+		Style={Swash}]
 }{
 	\endgroup%
 	\par%
 	\hfill  --- \@author, \@place,
 	\if@slovene
-	\ifcase\@month\or januar\or februar\or marec\or april\or maj\or junij\or julij\or avgust\or september\or oktober\or november\or december\fi
+		\ifcase\@month\or januar\or februar\or marec\or april\or maj\or junij\or julij\or avgust\or september\or oktober\or november\or december\fi
 	\else
-	\ifcase\@month\or January\or February\or March\or April\or May\or June\or July\or August\or September\or October\or November\or December\fi
+		\ifcase\@month\or January\or February\or March\or April\or May\or June\or July\or August\or September\or October\or November\or December\fi
 	\fi
 	~\number\@year.
 	\par
@@ -2416,7 +2469,9 @@
 	\renewcommand{\thetable}{\arabic{table}}
 	\renewcommand{\thevideo}{\arabic{video}}
 	\renewcommand{\theequation}{\arabic{equation}}
-	\renewcommand{\thedefinition}{\arabic{definition}}	
+	\renewcommand{\thedefinition}{\arabic{definition}}
+	\@afterheading
+	\@afterindentfalse
 }
 {
 	\clearpage
@@ -2613,9 +2668,9 @@
 
 % hyperref and pdfsupport
 % !!! probably must be loaded last as it hooks on \maketitle \chapter and others
+\setcounter{page}{1}
+\pagenumbering{alph}
 \thispagestyle{empty}
-\pagenumbering{roman} % must be provided for hyperref: pdfpagelabels to work properly
-\setcounter{page}\@ne 
 \RequirePackage{hyperxmp}
 \RequirePackage[xetex,unicode,pdfa,pdfdisplaydoctitle=true,colorlinks,citecolor=P1797,linkcolor=P1797,urlcolor=P1797,plainpages=false,linktocpage=true,hyperfigures=true]{hyperref}
 

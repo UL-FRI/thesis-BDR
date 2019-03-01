@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# usage
+function usage
+{
+	printf "\n" 
+	printf "Usage: pack-overleaf <directory>\n"
+	printf "\n"
+	printf "      <directory>    Pack directory for overleaf.\n"
+    printf "                     All necessary files will be included.\n"
+	printf "\n"
+    exit 1
+}
+
+# usage-arg
+function usage_arg
+{
+    printf "Argument missing, specify directory to pack\n"
+    usage
+}
+
+# check arguments
+if [ $# -lt 1 ]; then usage_arg; fi
+if [ $# -gt 1 ]; then usage; fi
+
+# set name of package, remove trailing slash if necessary 
+p=${1%/} # package
+
+# check <directory> exists
+if ! [ -d "$1" ]; then 
+    printf "No directory named '$1' exists. Nothing to pack.\n"
+    printf "\n"
+    exit 2
+fi
+
+# pack
+if ! [ -d "overleaf/" ]; then 
+    mkdir overleaf/
+else
+    rm -f overleaf/$p.zip
+fi
+
+zip -r overleaf/$p.zip ./README.md
+zip -r overleaf/$p.zip ./fonts/*
+zip -r overleaf/$p.zip ./mt-*.cfg
+zip -r overleaf/$p.zip ./cc/*
+zip -r overleaf/$p.zip ./FRIteza.bst
+zip -r overleaf/$p.zip ./FRIteza.cls
+zip -r overleaf/$p.zip ./bk9.clo
+
+cd $1
+zip -r ../overleaf/$p.zip ./* -x ./int/* -x ./out/* -x ./.*
+cd ..
+exit 0
