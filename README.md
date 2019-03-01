@@ -26,7 +26,7 @@ Make sure to initialize all the selected languages (Slovene and UK English):
     initexmf --mklangs
     initexmf --dump
 
-Make sure to have `latexmk`, a [Perl](http://www.perl.org/) script, which automates the process of compiling a LaTeX document. _Note that as v4.61 has minor bugs it has to be overriden<a href="#note1" id="note1ref" title="Override with v4.61+."><sup>1</sup></a> with the version provided in `editor-cfg/`._
+Make sure to have `latexmk`, a [Perl](https://www.perl.org/) script, which automates the process of compiling a LaTeX document, installed. Follow [the tutorial](https://mg.readthedocs.io/latexmk.html) for your platform. _Note that as v4.61 has minor bugs it has to be overriden<a href="#note1" id="note1ref" title="Override with v4.61+."><sup>1</sup></a> with the version provided in `editor-cfg/`._
 
 Recreate the `demo-asbook` example:
 
