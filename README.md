@@ -82,6 +82,10 @@ Make sure that a `latexmk` config file named `.latexmkrc` and Visual Studio Code
 
 The main TeX file is `thesis.tex`, the other TeX files are individual chapters. The folder `img/` contains the images.
 
+#### Thesis ID on cover page
+After your doctoral thesis is approved by the UL FRI Senate, you will receive a thesis `ID` number (in decimal format). Place the `ID` in your `thesis.tex` file. Look for line with command `\spine{<ID>}` and replace the `<ID>` with your `ID` (in decimal format). Rebuild with stage `press`. The generated PDF will include a cover page with the thesis `ID` (shown in hexadecimal).
+
+
 ### Using an IDE
 
 We suggest the use of [TeXstudio](https://texstudio.sourceforge.net) or [Visual Studio Code](https://code.visualstudio.com) with the [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) extension.<a href="#note2" id="note2ref" title="Both are available for Windows, Linux and macOS."><sup>2</sup></a> Note that the provided IDE configurations are, like the build script, based on `latexmk`, so make sure it is installed.
