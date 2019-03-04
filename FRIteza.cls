@@ -2514,7 +2514,6 @@
 % Patch natbib thebibliography environment, to take into account variable width font, which causes issues with item identation (based on cmr10)
 % https://tex.stackexchange.com/questions/304010/how-does-bibtex-know-the-widest-label 
 \ClassInfo{FRIteza}{Patching natbib package to support variable width font in bibitem labels}
-\patchcmd{\flrow@FB}{\thepage}{\theabspage}{\ClassInfo{FRIteza}{\string\flrow@FB\ successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\flrow@FB}}
 \patchcmd{\thebibliography}{#1}{\arabic{longestlabel}}{\ClassInfo{FRIteza}{\string\thebibliography\space successfully patched, step 1}}{\ClassInfo{FRIteza}{failed to patch \string\thebibliography, step 1}}
 \patchcmd{\thebibliography}{\bibsection}{%
 	\newcounter{longestlabel}
@@ -2676,7 +2675,8 @@
 % format hyperlinks
 \urlstyle{same}
 \providecommand{\url}[1]{\href{#1}{\urlstyle{same}\nolinkurl{#1}}}
-\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\urlstyle{same}\nolinkurl{#1}}}
+\providecommand{\doi}[1]{\href{https://doi.org/#1}{\urlstyle{same}\nolinkurl{#1}}}
+\providecommand{\arXiv}[1]{\href{https://arxiv.org/abs/#1}{\urlstyle{same}\nolinkurl{#1}}}
 
 % declare pdf transforms for unsupported commands
 % i.e. commands that issue hyperref warning "Token not allowed in a PDF string (Unicode)"
