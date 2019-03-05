@@ -413,12 +413,94 @@
 
 % language specific special keyword translations
 \addto\captionsenglish{%
-	\renewcommand{\definitionname}{Definition}
-	\renewcommand{\acknowledgementsname}{Acknowledgements}
+	\def\definitionname{Definition}
+	\def\acknowledgementsname{Acknowledgements}
+
+	\def\bbland{\&}
+	\def\bbletal{et~al.}
+	\def\bbleds{eds.}
+	\def\bbled{ed.}
+	\def\bbledby{edited by}
+	\def\bbledn{edition}
+	\def\bblvol{vol.}
+	\def\bblof{of}
+	\def\bblno{no.}
+	\def\bblin{in}
+	\def\bblpp{pp.}
+	\def\bblp{p.}
+	\def\bblchap{ch.}
+	\def\bbltechrep{Tech Rep}
+	\def\bblmthesis{Master's thesis}
+	\def\bblphdthesis{Doctoral dissertation}
+	\def\bbleidpp{eid}
+	\def\bblfirsto{\MakeUppercase{1}\textsuperscript{st}}
+	\def\bblsecondo{\MakeUppercase{2}\textsuperscript{nd}}
+	\def\bblthirdo{\MakeUppercase{3}\textsuperscript{rd}}
+	\def\bblfourtho{\MakeUppercase{4}\textsuperscript{th}}
+	\def\bblfiftho{\MakeUppercase{5}\textsuperscript{th}}
+	\def\bblst{\textsuperscript{st}}
+	\def\bblnd{\textsuperscript{nd}}
+	\def\bblrd{\textsuperscript{rd}}
+	\def\bblth{\textsuperscript{th}}
+	
+	\def\bbljan{Jan}
+	\def\bblfeb{Feb}
+	\def\bblmar{Mar}
+	\def\bblapr{Apr}
+	\def\bblmay{May}
+	\def\bbljun{Jun}
+	\def\bbljul{Jul}
+	\def\bblaug{Aug}
+	\def\bblsep{Sep}
+	\def\bbloct{Oct}
+	\def\bblnov{Nov}
+	\def\bbldec{Dec}
 }
 \addto\captionsslovenian{%
 	\renewcommand{\definitionname}{Definicija}
 	\renewcommand{\acknowledgementsname}{Zahvala}
+ 
+	% http://www.informatika.bf.uni-lj.si/akad_okrajsave.htm
+	\def\bbland{\&}
+	\def\bbletal{in sod.}
+	\def\bbleds{ur.}
+	\def\bbled{ur.}
+	\def\bbledby{uredil(i)}
+	\def\bbledn{izdaja}
+	\def\bblvol{zv.}
+	\def\bblof{od}
+	\def\bblno{št.}
+	\def\bblin{v}
+	\def\bblpp{str.}
+	\def\bblp{s.}
+	\def\bblchap{ch.}
+	\def\bbltechrep{Tech Rep}
+	\def\bblmthesis{Magistrsko delo}
+	\def\bblphdthesis{Doktorska disertacija}
+	\def\bbleidpp{eid}
+	\def\bblfirsto{\MakeUppercase{1}.}
+	\def\bblsecondo{\MakeUppercase{2}.}
+	\def\bblthirdo{\MakeUppercase{3}.}
+	\def\bblfourtho{\MakeUppercase{4}.}
+	\def\bblfiftho{\MakeUppercase{5}.}
+	\def\bblst{.}
+	\def\bblnd{.}
+	\def\bblrd{.}
+	\def\bblth{.}
+	
+	% http://www.lektorsko-drustvo.si/jezikovni-pogovori/pisanje-datumov-v-slovenscini
+	\def\bbljan{jan.}
+	\def\bblfeb{feb.}
+	\def\bblmar{mar.}
+	\def\bblapr{apr.}
+	\def\bblmay{maj.}
+	\def\bbljun{jun.}
+	\def\bbljul{jul.}
+	\def\bblaug{avg.}
+	\def\bblsep{sep.}
+	\def\bbloct{okt.}
+	\def\bblnov{nov.}
+	\def\bbldec{dec.}
 }
 
 % command for introducing hyphenation/syllabization patterns
@@ -2514,7 +2596,6 @@
 % Patch natbib thebibliography environment, to take into account variable width font, which causes issues with item identation (based on cmr10)
 % https://tex.stackexchange.com/questions/304010/how-does-bibtex-know-the-widest-label 
 \ClassInfo{FRIteza}{Patching natbib package to support variable width font in bibitem labels}
-\patchcmd{\flrow@FB}{\thepage}{\theabspage}{\ClassInfo{FRIteza}{\string\flrow@FB\ successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\flrow@FB}}
 \patchcmd{\thebibliography}{#1}{\arabic{longestlabel}}{\ClassInfo{FRIteza}{\string\thebibliography\space successfully patched, step 1}}{\ClassInfo{FRIteza}{failed to patch \string\thebibliography, step 1}}
 \patchcmd{\thebibliography}{\bibsection}{%
 	\newcounter{longestlabel}
@@ -2676,7 +2757,8 @@
 % format hyperlinks
 \urlstyle{same}
 \providecommand{\url}[1]{\href{#1}{\urlstyle{same}\nolinkurl{#1}}}
-\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\urlstyle{same}\nolinkurl{#1}}}
+\providecommand{\doi}[1]{\href{https://doi.org/#1}{\urlstyle{same}\nolinkurl{#1}}}
+\providecommand{\arXiv}[1]{\href{https://arxiv.org/abs/#1}{\urlstyle{same}\nolinkurl{#1}}}
 
 % declare pdf transforms for unsupported commands
 % i.e. commands that issue hyperref warning "Token not allowed in a PDF string (Unicode)"
