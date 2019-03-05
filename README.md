@@ -27,7 +27,7 @@ Make sure to initialize all the selected languages (Slovene and UK English):
     initexmf --dump
     initexmf --dump  # has to be run twice
 
-Make sure to have `latexmk`, a [Perl](https://www.perl.org/) script, which automates the process of compiling a LaTeX document, installed. Follow [the tutorial](https://mg.readthedocs.io/latexmk.html) for your platform. _Note that as v4.61 has minor bugs it has to be overriden<a href="#note1" id="note1ref" title="Override with v4.61+."><sup>1</sup></a> with the version provided in `editor-cfg/`._
+Make sure to have `latexmk`, a [Perl](https://www.perl.org/) script, which automates the process of compiling a LaTeX document, installed. Follow [the tutorial](https://mg.readthedocs.io/latexmk.html) for your platform. _Note that as v4.61 has minor bugs it has to be overridden<a href="#note1" id="note1ref" title="Override with v4.61+."><sup>1</sup></a> with the version provided in `editor-cfg/`._
 
 Recreate the `demo-asbook` example:
 
@@ -43,7 +43,7 @@ To build the final version that is to be distributed via emails run:
 
     ../editor-cfg/build gold
 
-To build the final version that is to be printed and bookbound run:
+To build the final version that is to be printed and book bound run:
 
     ../editor-cfg/build press
 
@@ -56,7 +56,7 @@ The build script optional parameter `<stage>` specifies the stage of the manuscr
 * `gold`: final approved version - rebuttal not displayed, chapter pages in colour, chapter thumbs,
 * `press`: for print - coverpage + gold - with trim marks for the bookbinder.
 
-If the `<stage>` parameter is ommitted the build script will generate the PDF in the stage that is specified in the main TeX file when the `FRIteza` document class is loaded, in the case of `demo-asbook/thesis.tex`:
+If the `<stage>` parameter is omitted the build script will generate the PDF in the stage that is specified in the main TeX file when the `FRIteza` document class is loaded, in the case of `demo-asbook/thesis.tex`:
 
     \documentclass[language=english,stage=gold]{FRIteza}
 
@@ -82,6 +82,10 @@ Make sure that a `latexmk` config file named `.latexmkrc` and Visual Studio Code
 
 The main TeX file is `thesis.tex`, the other TeX files are individual chapters. The folder `img/` contains the images.
 
+#### Thesis ID on cover page
+After your doctoral thesis is approved by the UL FRI Senate, you will receive a thesis `ID` number (in decimal format). Place the `ID` in your `thesis.tex` file. Look for line with command `\spine{<ID>}` and replace the `<ID>` with your `ID` (in decimal format). Rebuild with stage `press`. The generated PDF will include a cover page with the thesis `ID` (shown in hexadecimal).
+
+
 ### Using an IDE
 
 We suggest the use of [TeXstudio](https://texstudio.sourceforge.net) or [Visual Studio Code](https://code.visualstudio.com) with the [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) extension.<a href="#note2" id="note2ref" title="Both are available for Windows, Linux and macOS."><sup>2</sup></a> Note that the provided IDE configurations are, like the build script, based on `latexmk`, so make sure it is installed.
@@ -105,7 +109,7 @@ Recreate the `demo-asbook` example:
 
     File > Open > thesis-BDR/demo-asbook/
 
-In the side bar select `thesis.tex` to open it. A TeX action should appear in the activity bar. Use it to view the list ov available commands, and choose `Recipe: latexmk`. This is the default build command, which Visual Studio Code will run automaticaly upon modification of any of the constituiting files. It will generate `out/thesis.pdf` in the stage that is specified when the `FRIteza` document class is loaded. Additional recipes are provided, that will generate the PDF in the specific stage, as the command line build script, they will create files named `out/thesis-<stage>.pdf`. 
+In the side bar select `thesis.tex` to open it. A TeX action should appear in the activity bar. Use it to view the list of available commands, and choose `Recipe: latexmk`. This is the default build command, which Visual Studio Code will run automatically upon modification of any of the constituting files. It will generate `out/thesis.pdf` in the stage that is specified when the `FRIteza` document class is loaded. Additional recipes are provided, that will generate the PDF in the specific stage, as the command line build script, they will create files named `out/thesis-<stage>.pdf`. 
 
 ![VScode compile](https://github.com/UL-FRI/thesis-BDR/raw/master/editor-cfg/VScode_compile.gif "VScode compile")
 
@@ -115,7 +119,7 @@ For further information please refer to the official [Visual Studio Code](https:
 
 A script is provided that packs all the requisite files into a single `zip` that can be uploaded to Overleaf. Note that there are certain limitations of using a free overleaf account, most notably a compile time out limit and a file number limit. For example the `demo-bypub` can not be uploaded on a free account, and with `demo-asbook` one can occasionally receive a compile time out error.
 
-Pack all necessay files for Overleaf<a href="#note3" id="note3ref" title="A free Overleaf account has a timeout limit."><sup>3</sup></a><sup>,</sup><a href="#note4" id="note4ref" title="Overleaf has a 50MB upload limit."><sup>4</sup></a><sup>,</sup><a href="#note5" id="note5ref" title="Avoid using accented characters in file names."><sup>5</sup></a>. For example, you may try to recreate the `demo-asbook` on Overleaf:
+Pack all necessary files for Overleaf<a href="#note3" id="note3ref" title="A free Overleaf account has a timeout limit."><sup>3</sup></a><sup>,</sup><a href="#note4" id="note4ref" title="Overleaf has a 50MB upload limit."><sup>4</sup></a><sup>,</sup><a href="#note5" id="note5ref" title="Avoid using accented characters in file names."><sup>5</sup></a>. For example, you may try to recreate the `demo-asbook` on Overleaf:
 
     cd thesis-BDR
     editor-cfg/pack-overleaf demo-asbook
@@ -125,7 +129,7 @@ You should find `demo-asbook.zip` in `overleaf/`
     ls overleaf/
     demo-asbook.zip
 
-Upload `demo-asbook.zip` to Overlaf.
+Upload `demo-asbook.zip` to Overleaf.
 
 ![Upload to Overleaf](https://github.com/UL-FRI/thesis-BDR/raw/master/editor-cfg/Overleaf_upload_zip.gif "Upload to Overleaf")
 
@@ -141,11 +145,11 @@ Unpack overleaf _TODO_??
 
 ***
 
-<a id="note1" href="#note1ref"><sup>1</sup></a>Note that there is a minor bug in `latexmk.pl` specific to our use case. The script's author has already been contacted, but until a new version is released you should override the current version (v4.61) wih the modified version (v4.61+) that is provided in `editor-cfg/`. Depending on your OS you should copy `latexmk.pl` into `C:\Program Files\MiKTeX 2.9\scripts\latexmk\` (Windows), `~/.miktex/texmfs/install/scripts/latexmk/` (Linux), or `~/Library/Application Support/MiKTeX/texmfs/install/scripts/latexmk/` (macOS). 
+<a id="note1" href="#note1ref"><sup>1</sup></a>Note that there is a minor bug in `latexmk.pl` specific to our use case. The script's author has already been contacted, but until a new version is released you should override the current version (v4.61) with the modified version (v4.61+) that is provided in `editor-cfg/`. Depending on your OS you should copy `latexmk.pl` into `C:\Program Files\MiKTeX 2.9\scripts\latexmk\` (Windows), `~/.miktex/texmfs/install/scripts/latexmk/` (Linux), or `~/Library/Application Support/MiKTeX/texmfs/install/scripts/latexmk/` (macOS). 
 
 <a id="note2" href="#note2ref"><sup>2</sup></a>Both are available for Windows, Linux and macOS.
 
-<a id="note3" href="#note3ref"><sup>3</sup></a>A free Overleaf account has a timeout limit, depending on the complexity of your manuscript you may occasionaly recieve a compile time out error.
+<a id="note3" href="#note3ref"><sup>3</sup></a>A free Overleaf account has a timeout limit, depending on the complexity of your manuscript you may occasionally receive a compile time out error.
 
 <a id="note4" href="#note4ref"><sup>4</sup></a>Overleaf has a 50MB upload limit, for this reason the `demo-bypub` can be uploaded only partially, e.g. excluding the `img_HQ/` folder, which can than be uploaded into the project on an individual file basis. Overleaf support has already been contacted and we are trying to find a solution.
 
