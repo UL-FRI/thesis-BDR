@@ -43,7 +43,7 @@ To build the final version that is to be distributed via emails run:
 
     ../editor-cfg/build gold
 
-To build the final version that is to be printed and book bound run:
+To build the final version that is to be (printed and) sent to the bookbinder run:
 
     ../editor-cfg/build press
 
