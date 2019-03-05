@@ -17,12 +17,13 @@
 %% major modifications include: 
 %% - support for the arxiv field
 %% - preference of doi & arxiv fields to make bibliography less verbose
-%% - support for Slovene language via \bbleditor, etc.
+%% - support for Slovene language via \bbletal, etc.
+%% - support for title and booktitle language via language field
 %% - @book, @proceedings, @conference require ether title or booktitle, to solve issue with crossref inheritance
 %% 
  % This bibliography style file is intended to be used in conjunction with 
  %   FRIteza.cls and natbib. It requires predefined definitions of word commands 
- %   like \bbleditor, etc. 
+ %   like \bbletal, etc. 
  % 
  % With FRIteza.cls the \cite command functions as follows:
  %   \cite{key} ==>>                 [1]
@@ -75,14 +76,18 @@ ENTRY
   }
   {}
   { label extra.label sort.label short.list }
+
 INTEGERS { output.state before.all mid.sentence after.sentence after.block }
+
 FUNCTION {init.state.consts}
 { #0 'before.all :=
   #1 'mid.sentence :=
   #2 'after.sentence :=
   #3 'after.block :=
 }
-STRINGS { s t}
+
+STRINGS { s t }
+
 FUNCTION {output.nonnull}
 { 's :=
   output.state mid.sentence =
@@ -103,12 +108,14 @@ FUNCTION {output.nonnull}
   if$
   s
 }
+
 FUNCTION {output}
 { duplicate$ empty$
     'pop$
     'output.nonnull
   if$
 }
+
 FUNCTION {output.check}
 { 't :=
   duplicate$ empty$
@@ -116,6 +123,7 @@ FUNCTION {output.check}
     'output.nonnull
   if$
 }
+
 FUNCTION {fin.entry}
 { add.period$
   write$
@@ -128,6 +136,7 @@ FUNCTION {new.block}
     { after.block 'output.state := }
   if$
 }
+
 FUNCTION {new.sentence}
 { output.state after.block =
     'skip$
@@ -138,6 +147,7 @@ FUNCTION {new.sentence}
     }
   if$
 }
+
 FUNCTION {add.blank}
 {  " " * before.all 'output.state :=
 }
@@ -152,16 +162,19 @@ FUNCTION {not}
     { #1 }
   if$
 }
+
 FUNCTION {and}
 {   'skip$
     { pop$ #0 }
   if$
 }
+
 FUNCTION {or}
 {   { pop$ #1 }
     'skip$
   if$
 }
+
 STRINGS {z}
 
 FUNCTION {remove.dots}
@@ -182,6 +195,7 @@ FUNCTION {remove.dots}
    }
    while$
 }
+
 FUNCTION {new.block.checkb}
 { empty$
   swap$ empty$
@@ -190,30 +204,35 @@ FUNCTION {new.block.checkb}
     'new.block
   if$
 }
+
 FUNCTION {field.or.null}
 { duplicate$ empty$
     { pop$ "" }
     'skip$
   if$
 }
+
 FUNCTION {smallcaps}
 { duplicate$ empty$
     { pop$ "" }
     { "\textsc{" swap$ * "}" * }
   if$
 }
+
 FUNCTION {emphasize}
 { duplicate$ empty$
     { pop$ "" }
     { "\emph{" swap$ * "}" * }
   if$
 }
+
 FUNCTION {bolden}
 { duplicate$ empty$
     { pop$ "" }
     { "\textbf{" swap$ * "}" * }
   if$
 }
+
 FUNCTION {tie.or.space.prefix}
 { duplicate$ text.length$ #3 <
     { "~" }
@@ -227,113 +246,51 @@ FUNCTION {capitalize}
 
 FUNCTION {space.word}
 { " " swap$ * " " * }
- % Here are the language-specific definitions for explicit words.
- % Each function has a name bbl.xxx where xxx is the English word.
- % The BABEL language selection is made here; definitions in 
- % FRIteza.cls or bblbst.tex.
-FUNCTION {bbl.and}
-{ "\bbland{}"}
 
-FUNCTION {bbl.etal}
-{ "\bbletal{}"}
-
-FUNCTION {bbl.editors}
-{ "\bbleds{}" }
-
-FUNCTION {bbl.editor}
-{ "\bbled{}" }
-
-FUNCTION {bbl.edby}
-{ "\bbledby{}" }
-
-FUNCTION {bbl.edition}
-{ "\bbledn{}" }
-
-FUNCTION {bbl.volume}
-{ "\bblvol{}" }
-
-FUNCTION {bbl.of}
-{ "\bblof{}" }
-
-FUNCTION {bbl.number}
-{ "\bblno{}" }
-
-FUNCTION {bbl.nr}
-{ "\bblno{}" }
-
-FUNCTION {bbl.in}
-{ "\bblin{}" }
-
-FUNCTION {bbl.pages}
-{ "\bblpp{}" }
-
-FUNCTION {bbl.page}
-{ "\bblp{}" }
-
-FUNCTION {bbl.eidpp}
-{ "\bbleidpp{}" }
-
-FUNCTION {bbl.chapter}
-{ "\bblchap{}" }
-
-FUNCTION {bbl.techrep}
-{ "\bbltechrep{}" }
-
-FUNCTION {bbl.mthesis}
-{ "\bblmthesis{}" }
-
-FUNCTION {bbl.phdthesis}
-{ "\bblphdthesis{}" }
-
-FUNCTION {bbl.first}
-{ "\bblfirsto{}" }
-
-FUNCTION {bbl.second}
-{ "\bblsecondo{}" }
-
-FUNCTION {bbl.third}
-{ "\bblthirdo{}" }
-
-FUNCTION {bbl.fourth}
-{ "\bblfourtho{}" }
-
-FUNCTION {bbl.fifth}
-{ "\bblfiftho{}" }
-
-FUNCTION {bbl.st}
-{ "\bblst{}" }
-
-FUNCTION {bbl.nd}
-{ "\bblnd{}" }
-
-FUNCTION {bbl.rd}
-{ "\bblrd{}" }
-
-FUNCTION {bbl.th}
-{ "\bblth{}" }
+% ----------------
+% Here are the language-specific definitions for explicit words.
+% Each function has a name bbl.xxx where xxx is the English word.
+% The BABEL language selection is made here; definitions in 
+% FRIteza.cls or bblbst.tex.
+FUNCTION {bbl.and} { "\bbland{}" }
+FUNCTION {bbl.etal} { "\bbletal{}" }
+FUNCTION {bbl.editors} { "\bbleds{}" }
+FUNCTION {bbl.editor} { "\bbled{}" }
+FUNCTION {bbl.edby} { "\bbledby{}" }
+FUNCTION {bbl.edition} { "\bbledn{}" }
+FUNCTION {bbl.volume} { "\bblvol{}" }
+FUNCTION {bbl.of} { "\bblof{}" }
+FUNCTION {bbl.number} { "\bblno{}" }
+FUNCTION {bbl.nr} { "\bblno{}" }
+FUNCTION {bbl.in} { "\bblin{}" }
+FUNCTION {bbl.pages} { "\bblpp{}" }
+FUNCTION {bbl.page} { "\bblp{}" }
+FUNCTION {bbl.eidpp} { "\bbleidpp{}" }
+FUNCTION {bbl.chapter} { "\bblchap{}" }
+FUNCTION {bbl.techrep} { "\bbltechrep{}" }
+FUNCTION {bbl.mthesis} { "\bblmthesis{}" }
+FUNCTION {bbl.phdthesis} { "\bblphdthesis{}" }
+FUNCTION {bbl.first} { "\bblfirsto{}" }
+FUNCTION {bbl.second} { "\bblsecondo{}" }
+FUNCTION {bbl.third} { "\bblthirdo{}" }
+FUNCTION {bbl.fourth} { "\bblfourtho{}" }
+FUNCTION {bbl.fifth} { "\bblfiftho{}" }
+FUNCTION {bbl.st} { "\bblst{}" }
+FUNCTION {bbl.nd} { "\bblnd{}" }
+FUNCTION {bbl.rd} { "\bblrd{}" }
+FUNCTION {bbl.th} { "\bblth{}" }
 
 MACRO {jan} {"\bbljan{}"}
-
 MACRO {feb} {"\bblfeb{}"}
-
 MACRO {mar} {"\bblmar{}"}
-
 MACRO {apr} {"\bblapr{}"}
-
 MACRO {may} {"\bblmay{}"}
-
 MACRO {jun} {"\bbljun{}"}
-
 MACRO {jul} {"\bbljul{}"}
-
 MACRO {aug} {"\bblaug{}"}
-
 MACRO {sep} {"\bblsep{}"}
-
 MACRO {oct} {"\bbloct{}"}
-
 MACRO {nov} {"\bblnov{}"}
-
 MACRO {dec} {"\bbldec{}"}
 
 FUNCTION {eng.ord}
@@ -357,9 +314,9 @@ FUNCTION {eng.ord}
    if$
 }
 
- %-------------------------------------------------------------------
- % Begin module:
- % \ProvidesFile{physjour.mbs}[2002/01/14 2.2 (PWD)]
+%-------------------------------------------------------------------
+% Begin module:
+% \ProvidesFile{physjour.mbs}[2002/01/14 2.2 (PWD)]
 MACRO {aa}{"Astronomy and Astrophysics"}
 MACRO {aasup}{"Astronomy and Astrophysics, Supplement Series"}
 MACRO {aj}{"Astronomical Journal"}
@@ -453,10 +410,11 @@ MACRO {spd} {"Soviet Physics--Doklady"}
 MACRO {sptp} {"Soviet Physics--Technical Physics"}
 MACRO {spu} {"Soviet Physics--Uspeki"}
 MACRO {st} {"Sky and Telescope"}
- % End module: physjour.mbs
- %-------------------------------------------------------------------
- % Begin module:
- % \ProvidesFile{geojour.mbs}[2002/07/10 2.0h (PWD)]
+% End module: physjour.mbs
+%-------------------------------------------------------------------
+
+% Begin module:
+% \ProvidesFile{geojour.mbs}[2002/07/10 2.0h (PWD)]
 MACRO {aisr} {"Advances in Space Research"}
 MACRO {ag} {"Annales Geophysic\ae"}
 MACRO {anigeo} {"Annali di Geofisica"}
@@ -568,11 +526,11 @@ MACRO {wafc} {"Weather and Forecasting"}
 MACRO {ww} {"Weatherwise"}
 MACRO {wmob} {"World Meteorological Organization Bulletin"}
 MACRO {zeitmet} {"Zeitschrift f\^^b{u}r Meteorologie"}
- % End module: geojour.mbs
- %-------------------------------------------------------------------
- % Begin module:
- % \ProvidesFile{photjour.mbs}[1999/02/24 2.0b (PWD)]
+% End module: geojour.mbs
 
+%-------------------------------------------------------------------
+% Begin module:
+% \ProvidesFile{photjour.mbs}[1999/02/24 2.0b (PWD)]
 MACRO {appopt} {"Applied Optics"}
 MACRO {bell} {"Bell Systems Technical Journal"}
 MACRO {ell} {"Electronics Letters"}
@@ -598,66 +556,55 @@ MACRO {vr} {"Vision Research"}
 MACRO {zph} {"Zeitschrift f\^^b{u}r Physik"}
 MACRO {zphb} {"Zeitschrift f\^^b{u}r Physik~B"}
 MACRO {zphd} {"Zeitschrift f\^^b{u}r Physik~D"}
-
 MACRO {CLEO} {"Conf. on Lasers and Electro-Optics"}
 MACRO {ASSL} {"Advanced Solid State Lasers"}
 MACRO {OSA}  {"Optical Society of America"}
- % End module: photjour.mbs
+% End module: photjour.mbs
+
 %% Copyright 1994-2011 Patrick W Daly
 MACRO {acmcs} {"ACM Computing Surveys"}
-
 MACRO {acta} {"Acta Informatica"}
-
 MACRO {cacm} {"Communications of the ACM"}
-
 MACRO {ibmjrd} {"IBM Journal of Research and Development"}
-
 MACRO {ibmsj} {"IBM Systems Journal"}
-
 MACRO {ieeese} {"IEEE Transactions on Software Engineering"}
-
 MACRO {ieeetc} {"IEEE Transactions on Computers"}
-
-MACRO {ieeetcad}
- {"IEEE Transactions on Computer-Aided Design of Integrated Circuits"}
-
+MACRO {ieeetcad} {"IEEE Transactions on Computer-Aided Design of Integrated Circuits"}
 MACRO {ipl} {"Information Processing Letters"}
-
 MACRO {jacm} {"Journal of the ACM"}
-
 MACRO {jcss} {"Journal of Computer and System Sciences"}
-
 MACRO {scp} {"Science of Computer Programming"}
-
 MACRO {sicomp} {"SIAM Journal on Computing"}
-
 MACRO {tocs} {"ACM Transactions on Computer Systems"}
-
 MACRO {tods} {"ACM Transactions on Database Systems"}
-
 MACRO {tog} {"ACM Transactions on Graphics"}
-
 MACRO {toms} {"ACM Transactions on Mathematical Software"}
-
 MACRO {toois} {"ACM Transactions on Office Information Systems"}
-
 MACRO {toplas} {"ACM Transactions on Programming Languages and Systems"}
-
 MACRO {tcs} {"Theoretical Computer Science"}
+
+% The bibinfo system provides a way for the electronic parsing/acquisition
+% of a bibliography's contents as is done by ReVTeX. For example, a field
+% could be entered into the bibliography as:
+% \bibinfo{volume}{2}
+% Only the "2" would show up in the document, but the LaTeX \bibinfo command
+% could do additional things with the information. FRIteza.bst does provide
+% a \bibinfo command via "\providecommand{\bibinfo}[2]{#2}". However, it is
+% currently not used as the bogus bibinfo functions defined here output the
+% entry values directly without the \bibinfo wrapper. The bibinfo functions
+% themselves (and the calls to them) are retained for possible future use.
+% 
+% bibinfo.check avoids acting on missing fields while bibinfo.warn will
+% issue a warning message if a missing field is detected. Prior to calling
+% the bibinfo functions, the user should push the field value and then its
+% name string, in that order.
 FUNCTION {bibinfo.check}
 { swap$
   duplicate$ missing$
-    {
-      pop$ pop$
-      ""
-    }
+    { pop$ pop$ "" }
     { duplicate$ empty$
-        {
-          swap$ pop$
-        }
-        { swap$
-          "\bibinfo{" swap$ * "}{" * swap$ * "}" *
-        }
+        { swap$ pop$ }
+        { swap$ pop$ }
       if$
     }
   if$
@@ -665,21 +612,15 @@ FUNCTION {bibinfo.check}
 FUNCTION {bibinfo.warn}
 { swap$
   duplicate$ missing$
-    {
-      swap$ "missing " swap$ * " in " * cite$ * warning$ pop$
-      ""
-    }
+    { swap$ "missing " swap$ * " in " * cite$ * warning$ pop$ "" }
     { duplicate$ empty$
-        {
-          swap$ "empty " swap$ * " in " * cite$ * warning$
-        }
-        { swap$
-          "\bibinfo{" swap$ * "}{" * swap$ * "}" *
-        }
+        { swap$ "empty " swap$ * " in " * cite$ * warning$ }
+        { swap$ pop$ }
       if$
     }
   if$
 }
+
 FUNCTION {format.eprint}
 { eprint duplicate$ empty$
     'skip$
@@ -692,6 +633,7 @@ FUNCTION {format.eprint}
     }
   if$
 }
+
 FUNCTION {format.url}
 {
   url
@@ -702,9 +644,14 @@ FUNCTION {format.url}
 }
 
 INTEGERS { nameptr namesleft numnames }
+STRINGS  { bibinfo }
 
-
-STRINGS  { bibinfo}
+% The maximum number of names that can be present beyond which an "et al."
+% usage is forced.
+FUNCTION { max.num.names.before.forced.et.al } { #5 }
+% The number of names that will be shown with a forced "et al.".
+% Must be less than or equal to max.num.names.before.forced.et.al
+FUNCTION { num.names.shown.with.forced.et.al } { #1 }
 
 FUNCTION {format.names}
 { 'bibinfo :=
@@ -723,14 +670,14 @@ FUNCTION {format.names}
       't :=
       nameptr #1 >
         {
-%          nameptr #1 % output just 1
-%          #1 + =
-%          numnames #5 % if more than 5
-%          > and
-%            { "others" 't :=
-%              #1 'namesleft := }
-%            'skip$
-%          if$
+          nameptr num.names.shown.with.forced.et.al % output just 1
+          #1 + =
+          numnames max.num.names.before.forced.et.al % if more than 5
+          > and
+            { "others" 't :=
+              #1 'namesleft := }
+            'skip$
+          if$
           namesleft #1 >
             { ", " * t * }
             {
@@ -758,6 +705,7 @@ FUNCTION {format.names}
   while$
   } if$
 }
+
 FUNCTION {format.names.ed}
 {
   'bibinfo :=
@@ -776,6 +724,14 @@ FUNCTION {format.names.ed}
       't :=
       nameptr #1 >
         {
+          nameptr num.names.shown.with.forced.et.al % output just 1
+          #1 + =
+          numnames max.num.names.before.forced.et.al % if more than 5
+          > and
+            { "others" 't :=
+              #1 'namesleft := }
+            'skip$
+          if$
           namesleft #1 >
             { ", " * t * }
             {
@@ -804,6 +760,7 @@ FUNCTION {format.names.ed}
   while$
   } if$
 }
+
 FUNCTION {format.key}
 { empty$
     { key field.or.null }
@@ -822,6 +779,7 @@ FUNCTION {format.authors}
     }
   if$
 }
+
 FUNCTION {get.bbl.editor}
 { editor num.names$ #1 > 'bbl.editors 'bbl.editor if$ }
 
@@ -835,6 +793,7 @@ FUNCTION {format.editors}
     }
   if$
 }
+
 FUNCTION {format.doi}
 { doi empty$
     { arxiv empty$
@@ -851,12 +810,16 @@ FUNCTION {format.doi}
     }
   if$
 }
+
 FUNCTION {select.language}
 { duplicate$ empty$
     'pop$
     { language empty$
         'skip$
-        { "{\selectlanguage{" language * "}" * swap$ * "}" * }
+        { "\foreignlanguage{" language "l" change.case$ * "}{" * 
+         swap$ * 
+         "}" * 
+        }
       if$
     }
     if$
@@ -893,6 +856,7 @@ FUNCTION {format.title}
     }
   if$
 }
+
 FUNCTION {format.full.names}
 {'s :=
  "" 't :=
@@ -1038,11 +1002,11 @@ FUNCTION {format.date}
     }
     'skip$
   if$
-% bolden
   extra.label *
   before.all 'output.state :=
   " (" swap$ * ")" *
 }
+
 FUNCTION {format.btitle}
 { title empty$
     { booktitle "title or booktitle" bibinfo.check }
@@ -1055,12 +1019,14 @@ FUNCTION {format.btitle}
     }
   if$
 }
+
 FUNCTION {either.or.check}
 { empty$
     'pop$
     { "can't use both " swap$ * " fields in " * cite$ * warning$ }
   if$
 }
+
 FUNCTION {format.bvolume}
 { volume empty$
     { "" }
@@ -1075,6 +1041,7 @@ FUNCTION {format.bvolume}
     }
   if$
 }
+
 FUNCTION {format.number.series}
 { volume empty$
     { number empty$
@@ -1096,6 +1063,7 @@ FUNCTION {format.number.series}
     { "" }
   if$
 }
+
 FUNCTION {is.num}
 { chr.to.int$
   duplicate$ "0" chr.to.int$ < not
@@ -1162,7 +1130,9 @@ FUNCTION {format.edition}
     }
   if$
 }
+
 INTEGERS { multiresult }
+
 FUNCTION {multi.page.check}
 { 't :=
   #0 'multiresult :=
@@ -1182,6 +1152,7 @@ FUNCTION {multi.page.check}
   while$
   multiresult
 }
+
 FUNCTION {format.pages}
 { pages duplicate$ empty$ 'skip$
     { duplicate$ multi.page.check
@@ -1199,6 +1170,7 @@ FUNCTION {format.pages}
     }
   if$
 }
+
 FUNCTION {format.journal.pages}
 { pages duplicate$ empty$ 'pop$
     { swap$ duplicate$ empty$
@@ -1214,6 +1186,7 @@ FUNCTION {format.journal.pages}
     }
   if$
 }
+
 FUNCTION {format.journal.eid}
 { eid "eid" bibinfo.check
   duplicate$ empty$ 'pop$
@@ -1232,6 +1205,7 @@ FUNCTION {format.journal.eid}
     }
   if$
 }
+
 FUNCTION {format.vol.num.pages}
 { volume field.or.null
   duplicate$ empty$ 'skip$
@@ -1285,6 +1259,7 @@ FUNCTION {format.booktitle}
     }
   if$
 }
+
 FUNCTION {format.in.ed.booktitle}
 { format.booktitle duplicate$ empty$ 'skip$
     {
@@ -1301,6 +1276,7 @@ FUNCTION {format.in.ed.booktitle}
     }
   if$
 }
+
 FUNCTION {format.thesis.type}
 { type duplicate$ empty$
     'pop$
@@ -1309,6 +1285,7 @@ FUNCTION {format.thesis.type}
     }
   if$
 }
+
 FUNCTION {format.tr.number}
 { number "number" bibinfo.check
   type duplicate$ empty$
@@ -1321,11 +1298,13 @@ FUNCTION {format.tr.number}
     { tie.or.space.prefix * * }
   if$
 }
+
 FUNCTION {format.article.crossref}
 {
   word.in
   " \cite{" * crossref * "}" *
 }
+
 FUNCTION {format.book.crossref}
 { volume duplicate$ empty$
     { "empty volume in " cite$ * "'s crossref of " * crossref * warning$
@@ -1338,11 +1317,13 @@ FUNCTION {format.book.crossref}
   if$
   " \cite{" * crossref * "}" *
 }
+
 FUNCTION {format.incoll.inproc.crossref}
 {
   word.in
   " \cite{" * crossref * "}" *
 }
+
 FUNCTION {format.org.or.pub}
 { 't :=
   ""
@@ -1364,6 +1345,7 @@ FUNCTION {format.org.or.pub}
     }
   if$
 }
+
 FUNCTION {format.publisher.address}
 { publisher "publisher" bibinfo.warn format.org.or.pub
 }
@@ -1410,6 +1392,7 @@ FUNCTION {article}
   format.url output
   fin.entry
 }
+
 FUNCTION {book}
 { output.bibitem
   author empty$
@@ -1539,6 +1522,7 @@ FUNCTION {incollection}
   format.url output
   fin.entry
 }
+
 FUNCTION {inproceedings}
 { output.bibitem
   format.authors "author" output.check
@@ -1577,7 +1561,9 @@ FUNCTION {inproceedings}
   format.url output
   fin.entry
 }
+
 FUNCTION {conference} { inproceedings }
+
 FUNCTION {manual}
 { output.bibitem
   format.authors output
@@ -1709,12 +1695,16 @@ FUNCTION {unpublished}
 }
 
 FUNCTION {default.type} { misc }
+
 READ
+
 FUNCTION {sortify}
 { purify$
   "l" change.case$
 }
+
 INTEGERS { len }
+
 FUNCTION {chop.word}
 { 's :=
   'len :=
@@ -1723,6 +1713,7 @@ FUNCTION {chop.word}
     's
   if$
 }
+
 FUNCTION {format.lab.names}
 { 's :=
   "" 't :=
@@ -1824,14 +1815,6 @@ FUNCTION {sort.format.names}
       format.name$ 't :=
       nameptr #1 >
         {
-%          nameptr #1 % output just 1
-%          #1 + =
-%          numnames #5 % if more than 5
-%          > and
-%            { "others" 't :=
-%              #1 'namesleft := }
-%            'skip$
-%          if$
           "   "  *
           namesleft #1 = t "others" = and
             { "zzzzz" 't := }
@@ -1857,6 +1840,7 @@ FUNCTION {sort.format.title}
   sortify
   #1 global.max$ substring$
 }
+
 FUNCTION {author.sort}
 { author empty$
     { key empty$
@@ -1869,6 +1853,7 @@ FUNCTION {author.sort}
     { author sort.format.names }
   if$
 }
+
 FUNCTION {author.editor.sort}
 { author empty$
     { editor empty$
@@ -1885,6 +1870,7 @@ FUNCTION {author.editor.sort}
     { author sort.format.names }
   if$
 }
+
 FUNCTION {editor.sort}
 { editor empty$
     { key empty$
@@ -1897,14 +1883,19 @@ FUNCTION {editor.sort}
     { editor sort.format.names }
   if$
 }
+
 INTEGERS { seq.num }
+
 FUNCTION {init.seq}
 { #0 'seq.num :=}
+
 EXECUTE {init.seq}
+
 FUNCTION {int.to.fix}
 { "000000000" swap$ int.to.str$ *
   #-1 #10 substring$
 }
+
 FUNCTION {presort}
 { calc.label
   label sortify
@@ -1925,9 +1916,13 @@ FUNCTION {presort}
 }
 
 ITERATE {presort}
+
 SORT
+
 STRINGS { last.label next.extra }
+
 INTEGERS { last.extra.num last.extra.num.extended last.extra.num.blank number.label }
+
 FUNCTION {initialize.extra.label.stuff}
 { #0 int.to.chr$ 'last.label :=
   "" 'next.extra :=
@@ -1936,6 +1931,7 @@ FUNCTION {initialize.extra.label.stuff}
   last.extra.num.blank 'last.extra.num.extended :=
   #0 'number.label :=
 }
+
 FUNCTION {forward.pass}
 { last.label label =
     { last.extra.num #1 + 'last.extra.num :=
@@ -1959,6 +1955,7 @@ FUNCTION {forward.pass}
   if$
   number.label #1 + 'number.label :=
 }
+
 FUNCTION {reverse.pass}
 { next.extra "b" =
     { "a" 'extra.label := }
@@ -1973,9 +1970,13 @@ FUNCTION {reverse.pass}
   'extra.label :=
   label extra.label * 'label :=
 }
+
 EXECUTE {initialize.extra.label.stuff}
+
 ITERATE {forward.pass}
+
 REVERSE {reverse.pass}
+
 FUNCTION {bib.sort.order}
 { sort.label
   "    "
@@ -1990,8 +1991,11 @@ FUNCTION {bib.sort.order}
   #1 entry.max$ substring$
   'sort.key$ :=
 }
+
 ITERATE {bib.sort.order}
+
 SORT
+
 FUNCTION {begin.bib} % most of thse commands are predefined in FRIteza.cls, here just as a fallback
 { preamble$ empty$
     'skip$
@@ -2023,9 +2027,9 @@ FUNCTION {begin.bib} % most of thse commands are predefined in FRIteza.cls, here
   write$ newline$
   "\providecommand{\arxivprefix}{\textsc{arXiv:}\,}"
   write$ newline$
-  "\providecommand{\selectlanguage}[1]{\relax}"
+  "\providecommand{\foreignlanguage}[1]{\relax}"
   write$ newline$
-  "\input{babelbst.tex}" write$ newline$
+  "\makeatletter\@ifundefined{bbletal}{\input{bblbst.tex}}{}\makeatother" write$ newline$
   "\newcommand{\Capitalize}[1]{\uppercase{#1}}" write$ newline$
   "\newcommand{\capitalize}[1]{\expandafter\Capitalize#1}" write$ newline$
   "\providecommand{\bibinfo}[2]{#2}"
@@ -2033,14 +2037,20 @@ FUNCTION {begin.bib} % most of thse commands are predefined in FRIteza.cls, here
   "\providecommand{\eprint}[2][]{\url{#2}}"
   write$ newline$
 }
+
 EXECUTE {begin.bib}
+
 EXECUTE {init.state.consts}
+
 ITERATE {call.type$}
+
 FUNCTION {end.bib}
 { newline$
   "\end{thebibliography}" write$ newline$
 }
+
 EXECUTE {end.bib}
+
 %% End of customized bst file
 %%
 %% End of file `FRIteza.bst'.
