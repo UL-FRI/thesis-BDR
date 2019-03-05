@@ -83,8 +83,8 @@ Make sure that a `latexmk` config file named `.latexmkrc` and Visual Studio Code
 The main TeX file is `thesis.tex`, the other TeX files are individual chapters. The folder `img/` contains the images.
 
 #### Thesis ID on cover page
-After your doctoral thesis is approved by the UL FRI Senate, you will receive a thesis `ID` number (in decimal format). Place the `ID` in your `thesis.tex` file. Look for line with command `\spine{<ID>}` and replace the `<ID>` with your `ID` (in decimal format). Rebuild with stage `press`. The generated PDF will include a cover page with the thesis `ID` (shown in hexadecimal).
 
+After your doctoral dissertation is approved by the UL FRI Senate, you will receive a dissertation `ID` (a number in decimal format). Place the `ID` in your `thesis.tex` file. Look for the line with command `\spine{<ID>}` and replace the `<ID>` with your `ID` (in decimal format). Rebuild with stages `gold` and `press`. The gold version is intended for email distribution and upload to digital repositories. The press version includes a cover page with the thesis `ID` (shown in hexadecimal) and is intended for printing and bookbinding.
 
 ### Using an IDE
 

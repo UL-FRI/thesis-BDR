@@ -19,7 +19,7 @@
 
 
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{FRIteza}[v2.20190301
+\ProvidesClass{FRIteza}[v2.20190305
 		  									XeLaTeX doctoral dissertation class]
 
 \RequirePackage{ifxetex}

@@ -4,7 +4,7 @@
 function usage
 {
     printf "\n"
-    printf "Usage: build <stage>\n"
+    printf "Usage: build [<stage>]\n"
     printf "\n"
     printf "      <stage>        Build pdf in stage:\n"
     printf "                     pre-alpha, alpha, beta, gamma, gold, press.\n"
@@ -20,7 +20,11 @@ function usage_arg
 }
 
 # check arguments
-if [ $# -lt 1 ]; then usage_arg; fi
+if [ $# -lt 1 ]; then
+    # build no parameter
+    latexmk -synctex=1 -file-line-error
+    exit $?
+fi
 if [ $# -gt 1 ]; then usage; fi
 
 # check stage
