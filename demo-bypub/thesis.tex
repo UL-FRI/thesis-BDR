@@ -1,3 +1,5 @@
+%%% FRI thesis
+%
 % load FRI thesis document class with options:
 % - language=english for writing in english as main language [default]
 % - language=slovene for writing in slovene as main language
@@ -9,6 +11,9 @@
 % - stage=gold for final approved version - notes not displayed, chapter pages in colour, chapter thumbs [seeks for images in directories /img_LQ, /img]
 % - stage=press for print version - gold with trim marks, includes also coverpage [seeks for images in directories /img_HQ, /img]
 \documentclass[language=english,stage=gold]{FRIteza}
+
+
+%%% Thesis information
 
 \author[A={J Demšar}]{Jure Demšar}
 
@@ -23,6 +28,7 @@
 \approvedBy[title={Professor of Computer and Information Science}, role={examiner}]{dr. Blaž Zupan}
 \approvedBy[affiliation={University of Konstanz}, title={Director of Max Planck Institute of Ornithology, Chair of Biodiversity and Collective Behaviour}, role={external examiner}]{dr. Iain D. Couzin}
 
+% publications in bibliography format
 \previousPublication{%
   {Demšar J, {Lebar Bajec} I} {(2013)}
   {Family bird: a heterogeneous simulated flock}
@@ -68,22 +74,29 @@
 \cover[title={Evolution of fuzzy animats\\ in a competitive environment}, loc={SW}, colour={white}]{coverImage.jpg}
 \spine{177}
 
+
+%%% Packages section
+
 % load path for graphics files
 %\graphicspath{{img_HQ/}} % use high qualty figures - for press, automatic when stage=press
 %\graphicspath{{img_LQ/}} % use low quality figures - reduce file size for email, automatic when stage=pre-alpha, alpha, beta, gamma, or gold
 %\DeclareGraphicsExtensions{.pdf,.png,.jpg} % search order for graphics files
 
 \usepackage{xspace} % helper package for automatic spaces after replacement macros, to be used with caution
-%% define common abbreviations
+
+
+%%% Macros section
+
+% define common abbreviations
 \newcommand{\ie}{i.e.\xspace} % id est ~ that is
 \newcommand{\eg}{e.g.\xspace} % exempli gratia ~ for example
 \newcommand{\etal}{\xspace\bbletal\xspace} % et~al. ~ and others
 \newcommand{\eq}{eq.\xspace} % define eq. ~ equation
-%
-%% define macros for frequently used commands
+
+% define macros for frequently used commands
 \newcommand{\angl}[1]{angl. \emph{#1}\xspace} % english translation
 
-%% common notation
+% notation
 \newcommand{\autom}[1]{{\ensuremath{\symrm{#1}}}} % automaton; intro
 \renewcommand{\vec}[1]{\ensuremath{\symbfup{#1}}} % vector
 \newcommand{\uvec}[1]{\ensuremath{\hat{\vec{#1}}}} % unit vector, ecomod + plos + scirep
@@ -149,6 +162,8 @@
 % define additional hyphenation patterns
 \sethyphenation{english}{coun-tered} % https://www.hyphenation24.com/
 
+
+%%% Thesis document
 
 \begin{document}
 

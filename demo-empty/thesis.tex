@@ -1,3 +1,5 @@
+%%% FRI thesis
+%
 % load FRI thesis document class with options:
 % - language=english for writing in english as main language [default]
 % - language=slovene for writing in slovene as main language
@@ -10,6 +12,9 @@
 % - stage=press for print version - gold with trim marks, includes also coverpage [seeks for images in directories /img_HQ, /img]
 \documentclass[language=english,stage=gold]{FRIteza}
 
+
+%%% Thesis information
+
 \author[A={D Author}]{Demo Author}
 
 \title[language=english]{Demo thesis title}
@@ -18,16 +23,19 @@
 \keywords[language=english]{template, demo, doctoral, thesis}
 \keywords[language=slovene]{predloga, demo, doktorska, disertacija}
 
-% primer v slovenskem jeziku
-%\approvedBy[title={profesor za računalništvo in informatiko}, role={mentor}]{dr. Main Mentor}
-%\approvedBy[title={profesor za računalništvo in informatiko}, role={predsednik ocenjevalne komisije}]{dr. Examiner Chair}
-%\approvedBy[title={izredni profesor za računalništvo in informatiko}, role={predsednik ocenjevalne komisije}]{dr. Examiner Two}
-%\approvedBy[affiliation={University of Abroad}, title={Professor Emeritus of Thesis Topic}, role={zunanji član ocenjevalne komisije}]{dr. Examiner Three}
-\approvedBy[title={Professor of Computer and Information Science}, role={advisor}]{dr. Main Mentor}
-\approvedBy[title={Professor of Computer and Information Science}, role={examiner}]{dr. Examiner Chair}
-\approvedBy[title={Associate Professor of Computer and Information Science}, role={examiner}]{dr. Examiner Two}
-\approvedBy[affiliation={University of Abroad}, title={Professor Emeritus of Thesis Topic}, role={external examiner}]{dr. Examiner Three}
+\if@slovene
+  %\approvedBy[title={profesor za računalništvo in informatiko}, role={mentor}]{dr. Main Mentor}
+  %\approvedBy[title={profesor za računalništvo in informatiko}, role={predsednik ocenjevalne komisije}]{dr. Examiner Chair}
+  %\approvedBy[title={izredni profesor za računalništvo in informatiko}, role={predsednik ocenjevalne komisije}]{dr. Examiner Two}
+  %\approvedBy[affiliation={University of Abroad}, title={Professor Emeritus of Thesis Topic}, role={zunanji član ocenjevalne komisije}]{dr. Examiner Three}
+\else
+  \approvedBy[title={Professor of Computer and Information Science}, role={advisor}]{dr. Main Mentor}
+  \approvedBy[title={Professor of Computer and Information Science}, role={examiner}]{dr. Examiner Chair}
+  \approvedBy[title={Associate Professor of Computer and Information Science}, role={examiner}]{dr. Examiner Two}
+  \approvedBy[affiliation={University of Abroad}, title={Professor Emeritus of Thesis Topic}, role={external examiner}]{dr. Examiner Three}
+\fi
 
+% publications in bibliography format
 \previousPublication{%
   Author D, Mentor M (2003)
   Main thesis results manuscript, in
@@ -68,25 +76,39 @@
 %  pages - provide the total number of pages in book, excluding cover and jobinfo (number of pages in pdf - 2)
 \spine{4017}
 
+
+%%% Packages section
+
+% load path for graphics files
+%\graphicspath{{img/}}
+%\DeclareGraphicsExtensions{.pdf,.png,.jpg} % search order for graphics files
+
 \usepackage{xspace} % helper package for automatic spaces after replacement macros, to be used with caution
 
-%% user defined commands - examples
-%% define common abbreviations
+% load additional packages, most of those required are preloaded
+% check first if additional packages are really necessary
+\usepackage{lipsum}
+\usepackage{blindtext}
+
+
+%%% Macros section
+
+% define common abbreviations
 \newcommand{\ie}{i.e.\xspace} % id est ~ that is
 \newcommand{\eg}{e.g.\xspace} % exempli gratia ~ for example
 \newcommand{\etc}{etc.\xspace} % et cetera ~ and so on
-\newcommand{\etal}{\xspace et al.\xspace} % et al. ~ and others
+\newcommand{\etal}{\xspace\bbletal\xspace} % et al. ~ and others
 \newcommand{\fig}{Fig.} % reference a figure
 \newcommand{\figs}{Figs.} % reference multiple figures
 \newcommand{\tab}{Tab.} % reference a table
 
-%% define macros for frequently used commands
+% define macros for frequently used commands
 \newcommand{\eng}[1]{angl. #1} % english original
 
-%% notation
-\newcommand{\R}{\Rset} \newcommand{\Rset}{\ensuremath{\mathbb{R}}} % real numbers symbol
-\newcommand{\N}{\Nset} \newcommand{\Nset}{\ensuremath{\mathbb{N}}} % natural numbers symbol
-\newcommand{\E}{\Eset} \newcommand{\Eset}{\ensuremath{\mathbb{E}}} % euclidean vector space symbol
+% notation
+\newcommand{\Rset}{\ensuremath{\mathbb{R}}} % real numbers symbol
+\newcommand{\Nset}{\ensuremath{\mathbb{N}}} % natural numbers symbol
+\newcommand{\Eset}{\ensuremath{\mathbb{E}}} % euclidean vector space symbol
 \newcommand{\set}[1]{{\ensuremath{\symbfup{#1}}}} % set; introduction +
 \newcommand{\powset}[1]{\ensuremath{\mathcal{P}(#1)}} % power set; introduction +
 \newcommand{\vect}[1]{\ensuremath{\symbfup{#1}}} % vector; introduction +
@@ -109,16 +131,12 @@
 \newcommand{\aprod}{\ensuremath\capdot} % algebraic product symbol
 %
 \newcommand{\fov}{\ensuremath\mathit{fov}} % field of view; \mathit ensures proper kerning between f and o, a common issue for multichar variables
-%% end of user defined commands
 
-% define additional hyphenation patterns to prevent overful boxes
-\sethyphenation{english}{pri-mar-i-ly} % https://www.hyphenation24.com/
+% define additional hyphenation patterns to prevent overful boxes (https://www.hyphenation24.com/)
+\sethyphenation{english}{pri-mar-i-ly}
 
-% load additional packages, most of those required are preloaded
-% check first if additional packages are really necessary
-\usepackage{lipsum}
-\usepackage{blindtext}
-% end of load additional packages
+
+%%% Thesis document
 
 \begin{document}
 
