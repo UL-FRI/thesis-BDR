@@ -2253,7 +2253,7 @@
   \endgroup
 }
 
-% TODO: Key words printing via macro \keywordsname
+% TODO: Keywords printing via macro \keywordsname
 \define@cmdkey{chapterAbstract}{keywords}[]{}
 \define@cmdkey{chapterAbstract}{published}[]{}
 \newcommand{\chapterAbstract}[2][]{
@@ -2275,7 +2275,7 @@
       \ifundef{\cmdKV@chapterAbstract@keywords}
         {\relax}
          {\vspace{.5\baselineskip}
-          \textsc{Key words.}\quad\cmdKV@chapterAbstract@keywords}
+          \textsc{Keywords.}\quad\cmdKV@chapterAbstract@keywords}
 
        {\color{grey20}\rule{\textwidth}{0.4pt}}
     \end{minipage}
@@ -2348,7 +2348,7 @@
   \@afterindentfalse
 }{
   \par \vspace{10pt}
-  {\noindent\emph{Key words}\quad\@keywords@en\par} % text with \textsc{\MakeLowercase{\@keywords@en}}
+  {\noindent\emph{Keywords}\quad\@keywords@en\par} % text with \textsc{\MakeLowercase{\@keywords@en}}
   \global\@abstracttrue
 %   on exit from environment swap to main language is automatic
 %  \if@slovene

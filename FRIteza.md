@@ -11,8 +11,8 @@ What is in front of you is the XeLaTeX class that allows typesetting the doctora
 > Be advised that the class is still under development so expect minor changes between releases.
 
 ## Prerequisites <a id="ch2"></a>
-You should make sure that you have the latest version of your LaTeX 2ε distribution installed and that all of the pre-installed packages are up to date. If you are using a Microsoft Windows system this means the [MikTeX 2.9](http://www.miktex.org) LaTeX 2ε distribution.<a href="#note1" id="note1ref" title="At the time of writing this documentation."><sup>1</sup></a>
-The choice of a suitable editor depends on personal preference, but you might try [TeXstudio](https://www.texstudio.org/), [TeXnicCenter](https://www.texniccenter.org), [Visual Studio Code](https://code.visualstudio.com/) with the LaTeX Workshop extension, or simply use the default editor that comes with the MikTeX distribution.
+You should make sure that you have the latest version of your LaTeX 2ε distribution installed and that all of the pre-installed packages are up to date. If you are using a Microsoft Windows system this means the [MiKTeX 2.9](http://www.miktex.org) LaTeX 2ε distribution.<a href="#note1" id="note1ref" title="At the time of writing this documentation."><sup>1</sup></a>
+The choice of a suitable editor depends on personal preference, but you might try [TeXstudio](https://www.texstudio.org/), [TeXnicCenter](https://www.texniccenter.org), [Visual Studio Code](https://code.visualstudio.com/) with the LaTeX Workshop extension, or simply use the default editor that comes with the MiKTeX distribution.
 
 As the class uses specific `otf` typeface files, the `tex` documents have to be compiled to `pdf` using XeLaTeX and not pdfLaTeX or LaTeX. All other requirements (e.g. multiple compilations to get citations and references synchronized ...) are the same as for all LaTeX based documents. For your convenience the `./editor-cfg` subdirectory contains configuration instructions for TeXstudio and Visual Studio Code. In both cases the compilation uses two subdirectories; `./int` for intermediate files and `./out` for the output of the final `pdf`.
 
