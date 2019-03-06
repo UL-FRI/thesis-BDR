@@ -26,10 +26,10 @@ Complex flocking behaviour can emerge if individuals follow simple rules. In 198
 
 Some current state-of-the-art models are in three dimensions and incorporate some simplified aerodynamics \cite{hildenbrandt2010selforganized}. To make an in-depth study of shapes and patterns that emerge within the flock during a predator attack a three-dimensional model would be required \cite{hemelrijk2011somecauses}, but for the purpose of our study a two-dimensional model suffices, since some researchers suggest that the dimensionality of the model minimally affects the results of the simulations \cite{huth1992simulation,huth1994simulation,kunz2012simulations} and others believe that models should be as simple as possible \cite{czirok2000collective}.
 
-Various authors have upgraded the basic models to add additional functionalities. Moškon\etal, for example, used fuzzy logic to simulate the foraging behaviour of artificial birds \cite{moskon2007fuzzy}. There are also several models that implement predators. All of them are based on Reynolds' model and most of them use a predator that attacks the centre of the flock \cite{inada2002order,lee2006dynamics}. This predator attack tactic 
+Various authors have upgraded the basic models to add additional functionalities. Moškon\etal, for example, used fuzzy logic to simulate the foraging behaviour of artificial birds \cite{moskon2007fuzzy}. There are also several models that implement predators. All of them are based on Reynolds' model and most of them use a predator that attacks the centre of the flock \cite{inada2002order,lee2006dynamics}. This predator attack tactic
 might be true for some species of real fish; a swordfish, for example, in nature typically attacks the centre of a prey school. In the first attack it disperses the school, and in the following attacks the swordfish focuses on the individual fish that become separated from the rest of the group \cite{stephens2003modelling}. Compared to birds, however fish may have better perception of the environment than birds because of the lateral line, and schooling might be used to confuse the lateral line of predators \cite{larsson2009possible}. Assuming that birds do not have a sense like the lateral line, avian predators in nature might not attack in such a fashion.
 
-Others that studied predator-prey dynamics in collective behaviour mostly focused on a flock's response to the predator's attack. For example, Inada\etal focused on common escape patterns that emerge \cite{inada2002order}, while Lee\etal analysed how the size of the flocks changes during an attack \cite{lee2006dynamics}. 
+Others that studied predator-prey dynamics in collective behaviour mostly focused on a flock's response to the predator's attack. For example, Inada\etal focused on common escape patterns that emerge \cite{inada2002order}, while Lee\etal analysed how the size of the flocks changes during an attack \cite{lee2006dynamics}.
 
 In both cases the predator attacked the centre of the flock. With respect to the hypothesis that flocks form as a defensive mechanism, targeting the centre of the flock in hope of catching a prey might be viewed as a tactic based on pure luck. As already stated this attack tactic might not be used by avian predators, except maybe for the first attacks, where the goal might be to disperse the prey in order to prepare for other tactics whose positive outcome might be more probable. This research is not the first to propose different attack tactics; Nishimura \cite{nishimura2000studying,nishimura2002predator} was the first to study target selection mechanisms. The key differences of this research compared to Nishimura's studies are: 1) we use fuzzy logic; Nishimura used differential equations; 2) we model target selection through ``realistic'' visual perception; Nishimura defined the probability of a prey becoming a target through a mathematical equation that does not take into account the position of the predator relative to the flock, nor its orientation; 3) in our model the prey that ``sees'' the predator tries to escape; in Nishimura's model it does not; and 4) we study social versus individualistic prey behaviour; Nishimura studies ordered, partially disordered and fully disordered prey motion.
 
@@ -45,9 +45,9 @@ The basis for our work is an existing fuzzy logic based bird flocking model made
 The animats in our model use the basic Reynolds drives -- \emph{cohesion}, \emph{separation} and \emph{alignment} \cite{reynolds1987flocks}. Cohesion simulates attraction toward flock-mates and is modelled as the animat's tendency to fly towards distant flock-mates when there are none nearby. Separation is a drive which helps the animats to avoid collisions -- it forces an individual to fly away from flock-mates that are too close. With the third drive -- alignment -- ani\-mats synchronize their velocity (direction and speed of flight) with flock-mates. A visual representation of the drives can be seen in \figurename~\ref{figDrives}. In our model the drives are described with simple linguistic if-then rules. Fuzzy logic is used for the transformation of the rules into numerical values; the desired change in direction and speed of each individual animat. More precisely the if-then rules are used in a Mamdani fuzzy inference system \cite{mamdani1974application} (see supplementary material).
 
 \begin{figure}
-	\includegraphics[width=\figurewidth]{alife/basicdrives}
-	\caption{Perception of nearby neighbours (a). The black bird is the observed individual. The dark grey birds are the perceived nearby birds that influence the observed bird's behaviour. The white and outlined birds are either occluded by nearer birds (shaded areas), outside of the observed bird's field of vision (dashed area) or outside the number-limited range. Red arrows represent the resulting force vectors of the three basic drives -- lignment (b), cohesion (c), separation (d). The black bird is the observed individual, the dark grey birds are the influencing neighbours.}
-	\label{figDrives}
+  \includegraphics[width=\figurewidth]{alife/basicdrives}
+  \caption{Perception of nearby neighbours (a). The black bird is the observed individual. The dark grey birds are the perceived nearby birds that influence the observed bird's behaviour. The white and outlined birds are either occluded by nearer birds (shaded areas), outside of the observed bird's field of vision (dashed area) or outside the number-limited range. Red arrows represent the resulting force vectors of the three basic drives -- lignment (b), cohesion (c), separation (d). The black bird is the observed individual, the dark grey birds are the influencing neighbours.}
+  \label{figDrives}
 \end{figure}
 
 The original Reynolds' model and most existing models are based on metric distance. In these models every animat within a limited radius influences the behaviour of the observed animat; if an animat is outside that radius it does not have any influence on the observed individual. Nevertheless, recent research \cite{ballerini2008interaction,ballerini2008empirical} suggests that in nature only around seven nearest neighbours influence an individual. As this technique is already gaining support in current state-of-the-art models \cite{hildenbrandt2010selforganized}, we use a number-limited neighbourhood (topological distance) instead of a radius-limited neighbourhood (metric distance) as well. In models based on topological distance, only a fixed number of nearest animats is influential, regardless of their distance.
@@ -57,10 +57,10 @@ Our model uses topological distance and concentrates on vision as the principal 
 Predator and prey behaviours in our study are based on rules extracted from relevant theoretical literature and field observations. We modelled our simulations after a common scenario, where a Peregrine Falcon (\emph{Falco peregrinus}) is attacking a flock of European Starlings (\emph{Sturnus vulgaris}). In horizontal flight, the most economical flight speed (as to the amount of energy spent for flight propulsion) is around 60\% of the bird's maximum speed \cite{tennekes2009simple}. Let us call this speed the \emph{optimal cruising speed}. The optimal cruising speed of European Starling is \mps{11} and the optimal cruising speed of a Peregrine Falcon is \mps{13} \cite{tennekes2009simple}. In accordance to these values we set the maximum speed of our prey animat to \mps{18}, and the maximum speed of our predator animat to \mps{22}. Note that we presumed that the Peregrine Falcon was not hunting by using its characteristic hunting stoop (high speed dive), when it can reach speeds up to \mps{157} \cite{tucker1998gliding}. The minimum flight speed, in nature and in our model, is around 40\% of maximum flight speed \cite{tennekes2009simple}, which results in \mps{7.2} for prey animats and \mps{8.8} for the predator animat. To define the predator-prey relationship we introduced three additional drives -- \emph{hide}, \emph{seek}, and \emph{regulate speed}. The prey's behaviour is governed by the three basic drives (cohesion, separation, and alignment), and in addition hide, and regulate speed (see supplementary material for their explanation). The hide drive helps the prey to survive, as it forces it fly away from the attacking predator; it was tuned so that the direction of the prey's escape matches field observations by Handegard\etal \cite{handegard2012dynamics}. Regulate speed is only active when the hide drive is inactive -- when the predator is hidden from the prey's sight. This drive encourages prey to fly with their optimal cruising speed. The predator's behaviour is guided only by the seek drive (see supplementary material for its detailed explanation). With the seek drive the predator tries to catch the selected target.
 
 \begin{figure}
-	\includegraphics[width=\figurewidth]{alife/strategies}
-	\infigurecaption{(a) the predator attacks the centre of the seven perceived prey, (b) the predator attacks the nearest of the seven perceived prey, (c) the predator attacks the most isolated of the seven perceived prey. The red bird is the predator and the red arrow represents the resulting force vector of the predator's seek drive.}	
-	\caption{The three attack tactics.}
-	\label{figStrategies}
+  \includegraphics[width=\figurewidth]{alife/strategies}
+  \infigurecaption{(a) the predator attacks the centre of the seven perceived prey, (b) the predator attacks the nearest of the seven perceived prey, (c) the predator attacks the most isolated of the seven perceived prey. The red bird is the predator and the red arrow represents the resulting force vector of the predator's seek drive.}
+  \caption{The three attack tactics.}
+  \label{figStrategies}
 \end{figure}
 
 We implemented three different attack tactics (see \figurename~~\ref{figStrategies}). In our first tactic the predator attacks the centre point of the seven perceived prey. This mimics the tactic in which a predator attacks the centre of the flock in hope of hitting a target, but takes into account the limited amount of information available -- distance, relative position, difference in speed, and difference in heading of the perceived artificial animals.
@@ -75,17 +75,17 @@ A predator using the third tactic attacks the most isolated of the seven perceiv
 To recapitulate, the predator in our model uses one of the following three attack tactics: 1) \emph{attack centre} (\ie attack the centre point of the seven perceived prey), 2) \emph{attack nearest} (\ie attack the nearest of the seven perceived prey), 3) \emph{attack isolated} (\ie attack the most isolated, from the predator's point of view, of the seven perceived prey). In addition to escaping predator attacks and regulating their flight speed the prey can exhibit two types of behaviour: 1) \emph{social} behaviour (\ie prey obey the cohesion, separation, and alignment drives) or 2) \emph{individualistic} behaviour (\ie prey ignore the cohesion and alignment drives, but obey the separation drive to avoid collisions). In total this gives 6 combinations, through which we wished to answer the following questions: 1) what is the optimal predator tactic given a certain prey behaviour, 2) what is the optimal prey behaviour given a certain predator tactic.
 
 \begin{figure}
-	\includegraphics[width=\figurewidth]{alife/bearings}
-	\caption{One of the starting configurations along with eight bearings of the predator's attack.}
-	\label{figBearings}
+  \includegraphics[width=\figurewidth]{alife/bearings}
+  \caption{One of the starting configurations along with eight bearings of the predator's attack.}
+  \label{figBearings}
 \end{figure}
 
 To provide answers to these questions we ran simulations where small cluster flocks consisting of 20, 40 or 60 social or individualistic prey were attacked by a predator from eight different bearings, relative to the flock. One of the starting configurations along with the eight bearings can be seen in \figurename~\ref{figBearings}. The different bearings were used to eliminate any dependency of the simulation's results on the predator's bearing (\eg a head on attack vs an attack from behind). This gives a total of 432 simulations (72 per configuration; selected predator attack tactic and prey behaviour). Each simulation was ran for 900 steps (frames) -- 30 seconds in our visualizations. We measured the time the predator needed to catch a prey. If the predator failed to catch the prey, the time-to-catch was set to 900 frames. The histograms of the time-to-catch for all simulations can be seen in \figurename~\ref{figHistograms}, with a more in depth discussion given in the following subsections.
 
 \begin{figure}
-	\includegraphics[width=\figurewidth]{alife/histograms}
-	\caption{The influence of the predator's attack tactic and prey's behaviour on survivability of prey. Presented are six histograms of the predator's time-to-catch in corresponding simulation runs ($n=72$). Dark grey histograms present the time-to-catch in simulations with social prey, whereas light grey histograms present the time-to-catch in simulations with individualistic prey (cohesion and alignment drives not used). Red lines present the corresponding median time-to-catch.}
-	\label{figHistograms}
+  \includegraphics[width=\figurewidth]{alife/histograms}
+  \caption{The influence of the predator's attack tactic and prey's behaviour on survivability of prey. Presented are six histograms of the predator's time-to-catch in corresponding simulation runs ($n=72$). Dark grey histograms present the time-to-catch in simulations with social prey, whereas light grey histograms present the time-to-catch in simulations with individualistic prey (cohesion and alignment drives not used). Red lines present the corresponding median time-to-catch.}
+  \label{figHistograms}
 \end{figure}
 
 %-----
@@ -114,20 +114,20 @@ The best tactic for prey attacked by a predator appears to be social behaviour.
 Sonar fine-scale tracking of interactions among predatory fish and their schooling prey performed by Handegard\etal \cite{handegard2012dynamics} suggests that the most successful predators attack from behind. In our simulations, when the predator attacked from the side or front, the prey always managed to escape the initial attack. The predator was successful in one of the successive attacks that occurred from behind. Attacks from behind appear to be much more successful than other strategies as in some cases, when the predator attacked from behind, his initial attack was already fruitful. An example of the corresponding chase and escape paths in the case of a single predator attacking a single prey is presented in \figurename~\ref{figPaths}.
 
 \begin{figure}
-	\includegraphics[width=\figurewidth]{alife/paths}
-	\caption{Predator attacking a single prey from three main directions: (a) behind, (b) head on, (c) side.}
-	\label{figPaths}
+  \includegraphics[width=\figurewidth]{alife/paths}
+  \caption{Predator attacking a single prey from three main directions: (a) behind, (b) head on, (c) side.}
+  \label{figPaths}
 \end{figure}
 
 In 1983, Pitcher and Wyche \cite{pitcher1983predator} defined several escape patterns. In our simulations, when the predator attacks the centre point of the seven perceived prey, prey show similar escape patterns as in nature and existing fish school models. Indeed we managed to spot three of the escape patterns defined by Pitcher \& Wyche \cite{pitcher1983predator}: \emph{herd}, \emph{split}, and \emph{fountain}. The herd pattern can be seen at the beginning of a predator approach. The herd pattern then morphs into either split or fountain. Split occurs when a large flock is divided into smaller ones. A typical characteristic of the fountain pattern is that the split flock rejoins behind the predator. These patterns can be seen in \figurename~\ref{figPatternsPhases}.
 
 \begin{figure}
-	\includegraphics[width=\figurewidth]{alife/patternsPhases}
-	\caption{Three common patterns in the artificial flock's response to a predator attack: (above) from \emph{herd} (frames 30--120) to \emph{split} (frames 120--240), (below) from \emph{herd} (frames 60--330) to \emph{fountain} (frames 330--510). In the below snapshots one can also notice the phases in the flock's response: before attack (frame 60), \emph{compression} (frames 60--180 and 510--600), \emph{expansion} (frames 270--510) and \emph{relaxation} (frames 600--690). The red bird is the predator, black birds represent prey. For the sake of clarity the birds were scaled by 200\% (above) and 300\% (below).}
-	\label{figPatternsPhases}
+  \includegraphics[width=\figurewidth]{alife/patternsPhases}
+  \caption{Three common patterns in the artificial flock's response to a predator attack: (above) from \emph{herd} (frames 30--120) to \emph{split} (frames 120--240), (below) from \emph{herd} (frames 60--330) to \emph{fountain} (frames 330--510). In the below snapshots one can also notice the phases in the flock's response: before attack (frame 60), \emph{compression} (frames 60--180 and 510--600), \emph{expansion} (frames 270--510) and \emph{relaxation} (frames 600--690). The red bird is the predator, black birds represent prey. For the sake of clarity the birds were scaled by 200\% (above) and 300\% (below).}
+  \label{figPatternsPhases}
 \end{figure}
 
-A more quantifiable measure was defined by Lee\etal \cite{lee2006dynamics}, who defined three phases that can be seen in artificial flocks during a predator attack -- \emph{compression}, \emph{expansion} and \emph{relaxation} (\figurename~\ref{figPatternsPhases}). In the first phase of an attack the flock's size decreases; this phase is called compression. In the second phase -- expansion -- prey try to move away from the predator. By doing this, the flock's size increases. In the last phase prey try to regroup, so the flock's size again decreases. This last phase is called relaxation. 
+A more quantifiable measure was defined by Lee\etal \cite{lee2006dynamics}, who defined three phases that can be seen in artificial flocks during a predator attack -- \emph{compression}, \emph{expansion} and \emph{relaxation} (\figurename~\ref{figPatternsPhases}). In the first phase of an attack the flock's size decreases; this phase is called compression. In the second phase -- expansion -- prey try to move away from the predator. By doing this, the flock's size increases. In the last phase prey try to regroup, so the flock's size again decreases. This last phase is called relaxation.
 
 The three phases can easily be observed by tracing the artificial flock's \emph{flock size}, as defined by Lee\etal \cite{lee2006dynamics}:
 %
@@ -138,19 +138,19 @@ The three phases can easily be observed by tracing the artificial flock's \emph{
 where $r_i$ is the distance from the centre of the flock to the $i$-th individual, and $N$ is the total number of animats in the flock. All of our simulations showed a similar response of the artificial flock to a predator's attack. \figurename~\ref{figSizeChart} visualizes how, in our simulations, the flock size changes through time, both when the artificial flock is under threat from the predator and when there is no predator nearby. The flock size is measured in body lengths, one body length equals 20 centimetres, which is the size of a European Starling.
 
 \begin{figure}
-	\vskip3pt
-	\includegraphics[width=\figurewidth]{alife/sizeChart}
-	\infigurecaption{The black line shows the flock size when there is no predator nearby. The red line shows the flock size when the flock is under predator attack.}
-	\caption{Plot of the flock size of an artificial flock consisting 20 animats. A clear example of flock expansion is marked with a light grey background, and dark grey is used to mark an example of flock compression. As predator attacks occur one after the other there is no clear example of flock relaxation.}
-	\label{figSizeChart}
+  \vskip3pt
+  \includegraphics[width=\figurewidth]{alife/sizeChart}
+  \infigurecaption{The black line shows the flock size when there is no predator nearby. The red line shows the flock size when the flock is under predator attack.}
+  \caption{Plot of the flock size of an artificial flock consisting 20 animats. A clear example of flock expansion is marked with a light grey background, and dark grey is used to mark an example of flock compression. As predator attacks occur one after the other there is no clear example of flock relaxation.}
+  \label{figSizeChart}
 \end{figure}
 
 %-----
 \section{Conclusion}
 
-Our simulations show that the least successful predator is the one that attacks the centre of the flock. They suggest that with predators whose tactic tries to optimize the chance of a positive outcome, social behaviour is more advantageous than individualistic behaviour, which strengthens our belief in the hypothesis that cluster flocking can be a mechanism for protection from predators. 
+Our simulations show that the least successful predator is the one that attacks the centre of the flock. They suggest that with predators whose tactic tries to optimize the chance of a positive outcome, social behaviour is more advantageous than individualistic behaviour, which strengthens our belief in the hypothesis that cluster flocking can be a mechanism for protection from predators.
 
-The behaviour of our artificial flocks appears to be comparable with that seen in flocks in nature. The average distance from nearest neighbour is around four body lengths (one body length equals 20 centimetres) \cite{ballerini2008empirical,major1978three,pomeroy1992structure}, the response of an artificial flock to a predator attack is similar to field observations \cite{lee2006dynamics}, and similar escape patterns emerge as in nature \cite{pitcher1983predator}. Our results also shows that the most successful predators attack from behind \cite{handegard2012dynamics}, and seek isolated targets \cite{ioannou2012predatory}. 
+The behaviour of our artificial flocks appears to be comparable with that seen in flocks in nature. The average distance from nearest neighbour is around four body lengths (one body length equals 20 centimetres) \cite{ballerini2008empirical,major1978three,pomeroy1992structure}, the response of an artificial flock to a predator attack is similar to field observations \cite{lee2006dynamics}, and similar escape patterns emerge as in nature \cite{pitcher1983predator}. Our results also shows that the most successful predators attack from behind \cite{handegard2012dynamics}, and seek isolated targets \cite{ioannou2012predatory}.
 
 Our results seem to suggest that cluster flocking around a roost is paradoxical because although its structure might provide some protection against a predator attack, its very existence invites a predator attack, and at least in nature, there are always isolated individuals that can be picked off. It suggests also that at least in some circumstances, which may or may not be common in nature, tight cluster flocking can be of benefit to the flock as a whole, although it does not provide absolute protection to individuals in the flock.
 
@@ -176,29 +176,29 @@ The number of objects that can be stored in working memory in humans and other m
 
 %-----
 \subsection{Drives}
-The drives that result in actions that would fulfil the animat's individual needs are modelled using Mamdani fuzzy rules \cite{mamdani1974application}. For a detailed description of the cohesion, separation, and alignment drives, as well as a brief explanation of how a specific action is computed, the reader is invited to refer to \cite{lebarbajec2005simulating}. An in-depth description is available in \cite{lebarbajec2005fuzzy}. 
+The drives that result in actions that would fulfil the animat's individual needs are modelled using Mamdani fuzzy rules \cite{mamdani1974application}. For a detailed description of the cohesion, separation, and alignment drives, as well as a brief explanation of how a specific action is computed, the reader is invited to refer to \cite{lebarbajec2005simulating}. An in-depth description is available in \cite{lebarbajec2005fuzzy}.
 
-The data extrapolated in the previous stage are fuzzified as singletons and used as inputs for the fuzzy rules. The fuzzy variables, membership functions, and control rules for the hide drive can be seen in \figurename~\ref{figHide}. \figurename~\ref{figRegulateSpeed} presents the regulate speed drive, and \figurename~\ref{figSeek} presents the seek drive.\footnote{On the membership function charts that describe speed the value $1$ represents the appropriate maximum speed (predator's or prey's) while $-1$ represents the negative value of the appropriate maximum speed. While these are the desired changes in speed, the action selection stage ensures that the current speed of the observed individual never falls under the appropriate minimum speed (predator's or prey's).} The fuzzy rules are evaluated per individual perceived animat and the fuzzy outputs aggregated. 
+The data extrapolated in the previous stage are fuzzified as singletons and used as inputs for the fuzzy rules. The fuzzy variables, membership functions, and control rules for the hide drive can be seen in \figurename~\ref{figHide}. \figurename~\ref{figRegulateSpeed} presents the regulate speed drive, and \figurename~\ref{figSeek} presents the seek drive.\footnote{On the membership function charts that describe speed the value $1$ represents the appropriate maximum speed (predator's or prey's) while $-1$ represents the negative value of the appropriate maximum speed. While these are the desired changes in speed, the action selection stage ensures that the current speed of the observed individual never falls under the appropriate minimum speed (predator's or prey's).} The fuzzy rules are evaluated per individual perceived animat and the fuzzy outputs aggregated.
 
 \begin{figure}
-	\includegraphics[width=\figurewidth]{alife/hide}
-	\caption{Detailed description of the hide drive.}
-	\label{figHide}
+  \includegraphics[width=\figurewidth]{alife/hide}
+  \caption{Detailed description of the hide drive.}
+  \label{figHide}
 \end{figure}
 
 \begin{figure}
-	\parbox[c][.33\textheight]{\figurewidth}{\includegraphics[width=\figurewidth]{alife/regulateSpeed}}
-	\caption{Detailed description of the regulate speed drive.}
-	\label{figRegulateSpeed}
+  \parbox[c][.33\textheight]{\figurewidth}{\includegraphics[width=\figurewidth]{alife/regulateSpeed}}
+  \caption{Detailed description of the regulate speed drive.}
+  \label{figRegulateSpeed}
 \end{figure}
 
 \begin{figure}
-	\includegraphics[width=\figurewidth]{alife/seek}
-	\caption{Detailed description of the seek drive.}
-	\label{figSeek}
+  \includegraphics[width=\figurewidth]{alife/seek}
+  \caption{Detailed description of the seek drive.}
+  \label{figSeek}
 \end{figure}
 
-The fuzzy outputs are then defuzzified and a force vector computed. This force vector represents the action that will fulfil the individual need. It gives the direction and magnitude of the individual drive (the desired change in speed and direction). 
+The fuzzy outputs are then defuzzified and a force vector computed. This force vector represents the action that will fulfil the individual need. It gives the direction and magnitude of the individual drive (the desired change in speed and direction).
 
 %-----
 \subsection{Action selection}
@@ -206,39 +206,39 @@ In the action selection stage the force vectors resulting from individual drives
 
 %-----
 \subsection{Parameter values}
-All of our model's parameters were either extrapolated from relevant theoretical literature (\eg speed, field of view, etc.) or tuned (\eg fuzzy membership functions, action selection mixing weights, etc.) so that the resemblance of the displayed behaviour to that observed in nature was visually as close as possible. For example, the action selection mixing weights have been configured so that the simulations visually resemble (as close as possible) field observations of flocking behaviour. In the prey's case these were (5, 5, 3, 4 and 1) for cohesion, separation, alignment, hide and regulate speed respectively. \tablename~\ref{table:parameters} presents all of the remaining parameters of the model. 
+All of our model's parameters were either extrapolated from relevant theoretical literature (\eg speed, field of view, etc.) or tuned (\eg fuzzy membership functions, action selection mixing weights, etc.) so that the resemblance of the displayed behaviour to that observed in nature was visually as close as possible. For example, the action selection mixing weights have been configured so that the simulations visually resemble (as close as possible) field observations of flocking behaviour. In the prey's case these were (5, 5, 3, 4 and 1) for cohesion, separation, alignment, hide and regulate speed respectively. \tablename~\ref{table:parameters} presents all of the remaining parameters of the model.
 
 \begin{table}
-	\caption{Default parameter values.}
-	\label{table:parameters}
-	\begin{tabular}{l l l}
-		\toprule
-		Parameter & Description & Default value \\ [0.5ex]
-		\midrule 
-		$\Delta t$ & Time step & 1 frame (\vfrac{1}{30}\,\si{\second}) \\
-		$T$ & Maximum length of one simulation & 900 frames (\SI{30}{\second}) \\
-		$v_\textnormal{aM}$ & Maximum speed of the predator animat & \mps{22} \\
-		$v_\textnormal{am}$ & Minimum speed of the predator animat & \mps{8.8} \\
-		$v_\textnormal{pM}$ & Maximum speed of prey animats & \mps{18} \\
-		$v_\textnormal{pm}$ & Minimum speed of prey animats & \mps{7.2} \\
-		$\varphi$ & Animat field of view & \ang{300} \\
-		$n$ & Number of influential nearest neighbours & 7 \\
-		$w_\textnormal{c}$ & Weight for cohesion drive & 5 \\
-		$w_\textnormal{s}$ & Weight for separation drive & 5 \\
-		$w_\textnormal{a}$ & Weight for alignment drive & 3 \\
-		$w_\textnormal{e}$ & Weight for hide drive & 4 \\
-		$w_\textnormal{rs}$ & Weight for regulate speed drive & 1 \\
-		$w_\textnormal{h}$ & Weight for seek drive & 1 \\
-		$l$ & Body length & \SI{0.2}{\metre} \\
-		\midrule 
-		& Fuzzification & singleton \\
-		& Fuzzy conjunction & product \\
-		& Fuzzy disjunction & probabilistic sum \\
-		& Fuzzy implication & product \\
-		& Fuzzy aggregation & probabilistic sum \\
-		& Defuzzification & centrer of gravity \\
-		\bottomrule 
-	\end{tabular}
+  \caption{Default parameter values.}
+  \label{table:parameters}
+  \begin{tabular}{l l l}
+    \toprule
+    Parameter & Description & Default value \\ [0.5ex]
+    \midrule
+    $\Delta t$ & Time step & 1 frame (\vfrac{1}{30}\,\si{\second}) \\
+    $T$ & Maximum length of one simulation & 900 frames (\SI{30}{\second}) \\
+    $v_\textnormal{aM}$ & Maximum speed of the predator animat & \mps{22} \\
+    $v_\textnormal{am}$ & Minimum speed of the predator animat & \mps{8.8} \\
+    $v_\textnormal{pM}$ & Maximum speed of prey animats & \mps{18} \\
+    $v_\textnormal{pm}$ & Minimum speed of prey animats & \mps{7.2} \\
+    $\varphi$ & Animat field of view & \ang{300} \\
+    $n$ & Number of influential nearest neighbours & 7 \\
+    $w_\textnormal{c}$ & Weight for cohesion drive & 5 \\
+    $w_\textnormal{s}$ & Weight for separation drive & 5 \\
+    $w_\textnormal{a}$ & Weight for alignment drive & 3 \\
+    $w_\textnormal{e}$ & Weight for hide drive & 4 \\
+    $w_\textnormal{rs}$ & Weight for regulate speed drive & 1 \\
+    $w_\textnormal{h}$ & Weight for seek drive & 1 \\
+    $l$ & Body length & \SI{0.2}{\metre} \\
+    \midrule
+    & Fuzzification & singleton \\
+    & Fuzzy conjunction & product \\
+    & Fuzzy disjunction & probabilistic sum \\
+    & Fuzzy implication & product \\
+    & Fuzzy aggregation & probabilistic sum \\
+    & Defuzzification & centrer of gravity \\
+    \bottomrule
+  \end{tabular}
 \end{table}
 
 \end{subappendices}

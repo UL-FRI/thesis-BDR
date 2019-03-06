@@ -1,7 +1,7 @@
-% load FRI thesis document class with options: 
+% load FRI thesis document class with options:
 % - language=english for writing in english as main language [default]
 % - language=slovene for writing in slovene as main language
-% - funding=logo.pdf for a funded doctoral thesis - doktorska disertacija MR iz gospodarstva, 
+% - funding=logo.pdf for a funded doctoral thesis - doktorska disertacija MR iz gospodarstva,
 % - stage=pre-alpha for early drafts - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
 % - stage=alpha for first review by advisor - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
 % - stage=beta for seminar 5 - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
@@ -29,43 +29,43 @@
 \approvedBy[affiliation={University of Abroad}, title={Professor Emeritus of Thesis Topic}, role={external examiner}]{dr. Examiner Three}
 
 \previousPublication{%
-	Author D, Mentor M (2003) 
-	Main thesis results manuscript, in
-	\emph{High-impact conference}, 
-	Lecture Notes in Doctoral Topic, Vol. 13,
-	eds. Editor O, Editor T
-	(Demo Publisher, Berlin), 
-	doi:\,\doi{10.nnnn/n-nnn-nnnnn}.
+  Author D, Mentor M (2003)
+  Main thesis results manuscript, in
+  \emph{High-impact conference},
+  Lecture Notes in Doctoral Topic, Vol. 13,
+  eds. Editor O, Editor T
+  (Demo Publisher, Berlin),
+  doi:\,\doi{10.nnnn/n-nnn-nnnnn}.
 }
 \previousPublication{%
-	Author D (15/04/2005)
-	\emph{Main topic of doctoral disertation}. 
-	Invited lecture, University of Abroad, Department of Research, City.
+  Author D (15/04/2005)
+  \emph{Main topic of doctoral disertation}.
+  Invited lecture, University of Abroad, Department of Research, City.
 }
 \previousPublication{%
-	Author D, Mentor M (2005) 
-	Main thesis results manuscript.
-	\emph{Journal of High-Impact}
-	doi:\,\doi{10.nnnnn/n.nnnn.nnnn.nn.nnn}.
+  Author D, Mentor M (2005)
+  Main thesis results manuscript.
+  \emph{Journal of High-Impact}
+  doi:\,\doi{10.nnnnn/n.nnnn.nnnn.nn.nnn}.
 }
 
 % force correct date display, ignored if stage not gold or press
 \forceDate{1}{2019}
 
-% define cover 
+% define cover
 % \cover[title=<title to appear on cover page>, loc=<location of the title>, colour=<colour of the title>]{coverImage}
 % defaults: title=\title{#}, loc=NE, colour=P1797
 % notes:
-%  title - use title to insert prefered line breaking with '\\' 
+%  title - use title to insert prefered line breaking with '\\'
 %  loc - options NE, SE, NW, SW
 %  colour - options P1797, white, black
-\cover[loc={NE}, colour={P1797}]{coverImage.jpg} 
+\cover[loc={NE}, colour={P1797}]{coverImage.jpg}
 % define spine
 % \spine[title=<title to appear on spine>, pages=<number of pages in book>]{thesisId in decimal}
 % defaults: title=\title[A={#}], pages=\ztotpages-2
 % notes:
-%  title - use title to provide a shortended title for the spine 
-%  pages - provide the total number of pages in book, excluding cover and jobinfo (number of pages in pdf - 2) 
+%  title - use title to provide a shortended title for the spine
+%  pages - provide the total number of pages in book, excluding cover and jobinfo (number of pages in pdf - 2)
 \spine{4017}
 
 \usepackage{xspace} % helper package for automatic spaces after replacement macros, to be used with caution
@@ -80,20 +80,20 @@
 \newcommand{\figs}{Figs.} % reference multiple figures
 \newcommand{\tab}{Tab.} % reference a table
 
-%% define macros for frequently used commands 
+%% define macros for frequently used commands
 \newcommand{\eng}[1]{angl. #1} % english original
 
 %% notation
 \newcommand{\R}{\Rset} \newcommand{\Rset}{\ensuremath{\mathbb{R}}} % real numbers symbol
 \newcommand{\N}{\Nset} \newcommand{\Nset}{\ensuremath{\mathbb{N}}} % natural numbers symbol
 \newcommand{\E}{\Eset} \newcommand{\Eset}{\ensuremath{\mathbb{E}}} % euclidean vector space symbol
-\newcommand{\set}[1]{{\ensuremath{\symbfup{#1}}}} % set; introduction + 
-\newcommand{\powset}[1]{\ensuremath{\mathcal{P}(#1)}} % power set; introduction +  
-\newcommand{\vect}[1]{\ensuremath{\symbfup{#1}}} % vector; introduction + 
+\newcommand{\set}[1]{{\ensuremath{\symbfup{#1}}}} % set; introduction +
+\newcommand{\powset}[1]{\ensuremath{\mathcal{P}(#1)}} % power set; introduction +
+\newcommand{\vect}[1]{\ensuremath{\symbfup{#1}}} % vector; introduction +
 \newcommand{\autom}[1]{{\ensuremath{\symrm{#1}}}} % automaton; animat
 %
-\newcommand{\fset}[1]{{\ensuremath{\tilde{\set{#1}}}}} % fuzzy set; introduction +  
-\newcommand{\fpowset}[1]{\ensuremath{\symcal{F}(#1)}} % fuzzy power set; introduction +  
+\newcommand{\fset}[1]{{\ensuremath{\tilde{\set{#1}}}}} % fuzzy set; introduction +
+\newcommand{\fpowset}[1]{\ensuremath{\symcal{F}(#1)}} % fuzzy power set; introduction +
 \newcommand{\fautom}[1]{\ensuremath\tilde{\symup{#1}}} % fuzzy automaton; fuzzyanimat
 \newcommand{\ffunc}[1]{\ensuremath\tilde{#1}} % fuzzy function; fuzzyanimat
 %
@@ -125,27 +125,27 @@
 \makecoverpage
 
 \frontmatter
-	\maketitle
-	\makeapprovedby
-	\makepreviouspublication
-	\input{thesis-dedication}
-	\input{thesis-abstract}
-	\input{thesis-acknowledgements}
-	\tableofcontents 
+  \maketitle
+  \makeapprovedby
+  \makepreviouspublication
+  \input{thesis-dedication}
+  \input{thesis-abstract}
+  \input{thesis-acknowledgements}
+  \tableofcontents
 
 \mainmatter
-	\input{thesis-ch1_introduction}
-	\input{thesis-ch2_topic1}
-	\input{thesis-ch3_topic2}
-	\input{thesis-ch4_topic3}
-	\input{thesis-ch5_topic4}
-	\input{thesis-ch6_conclusion}
-	\begin{appendices}
-		% insert appendix chapters if any
-	\end{appendices}
+  \input{thesis-ch1_introduction}
+  \input{thesis-ch2_topic1}
+  \input{thesis-ch3_topic2}
+  \input{thesis-ch4_topic3}
+  \input{thesis-ch5_topic4}
+  \input{thesis-ch6_conclusion}
+  \begin{appendices}
+    % insert appendix chapters if any
+  \end{appendices}
 
 \backmatter
-	\input{thesis-bibliography}
-	\input{thesis-slo}
+  \input{thesis-bibliography}
+  \input{thesis-slo}
 
 \end{document}

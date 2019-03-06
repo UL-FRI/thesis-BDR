@@ -14,17 +14,17 @@
 %% merlin.mbs  (with options: `tail,babel,ay,nat,lang,seq-no,nm-rvx,jnrlst,keyxyr,dt-beg,yr-par,yrp-x,note-yr,jxper,num-xser,jnm-x,pub-par,agu-doi,doi,edby,in-it,pp,ed,abr,mth-bare,ord,amper,and-xcom,etal-xc,revdata,eprint,url,url-blk,bibinfo,nfss,,{}')
 %% ----------------------------------------
 %%
-%% major modifications include: 
+%% major modifications include:
 %% - support for the arxiv field
 %% - preference of doi & arxiv fields to make bibliography less verbose
 %% - support for Slovene language via \bbletal, etc.
 %% - support for title and booktitle language via language field
 %% - @book, @proceedings, @conference require ether title or booktitle, to solve issue with crossref inheritance
-%% 
- % This bibliography style file is intended to be used in conjunction with 
- %   FRIteza.cls and natbib. It requires predefined definitions of word commands 
- %   like \bbletal, etc. 
- % 
+%%
+ % This bibliography style file is intended to be used in conjunction with
+ %   FRIteza.cls and natbib. It requires predefined definitions of word commands
+ %   like \bbletal, etc.
+ %
  % With FRIteza.cls the \cite command functions as follows:
  %   \cite{key} ==>>                 [1]
  %   \citet{key} ==>>                Jones et al [1]
@@ -37,7 +37,7 @@
  %   \citeauthor{key} ==>>           Jones et al
  %   \citeauthor*{key} ==>>          Jones, Baker & Smith
  %   \citeyear{key} ==>>             1990
- % note that in the last three cases the entire output will be a hyperlink, 
+ % note that in the last three cases the entire output will be a hyperlink,
  % in all others only the key index '1'.
  %---------------------------------------------------------------------
 
@@ -250,7 +250,7 @@ FUNCTION {space.word}
 % ----------------
 % Here are the language-specific definitions for explicit words.
 % Each function has a name bbl.xxx where xxx is the English word.
-% The BABEL language selection is made here; definitions in 
+% The BABEL language selection is made here; definitions in
 % FRIteza.cls or bblbst.tex.
 FUNCTION {bbl.and} { "\bbland{}" }
 FUNCTION {bbl.etal} { "\bbletal{}" }
@@ -593,7 +593,7 @@ MACRO {tcs} {"Theoretical Computer Science"}
 % currently not used as the bogus bibinfo functions defined here output the
 % entry values directly without the \bibinfo wrapper. The bibinfo functions
 % themselves (and the calls to them) are retained for possible future use.
-% 
+%
 % bibinfo.check avoids acting on missing fields while bibinfo.warn will
 % issue a warning message if a missing field is detected. Prior to calling
 % the bibinfo functions, the user should push the field value and then its
@@ -816,9 +816,9 @@ FUNCTION {select.language}
     'pop$
     { language empty$
         'skip$
-        { "\foreignlanguage{" language "l" change.case$ * "}{" * 
-         swap$ * 
-         "}" * 
+        { "\foreignlanguage{" language "l" change.case$ * "}{" *
+         swap$ *
+         "}" *
         }
       if$
     }
@@ -991,7 +991,7 @@ FUNCTION {n.dashify}
 FUNCTION {word.in}
 { bbl.in capitalize
   smallcaps
-   " " * 
+   " " *
 }
 
 FUNCTION {format.date}

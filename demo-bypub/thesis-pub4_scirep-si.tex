@@ -20,9 +20,9 @@ The behaviour of the artificial animals -- predators and prey -- in our individu
   \begin{tabular}{l l}
     \toprule
     Description & Default value \\ [0.5ex]
-    \midrule 
+    \midrule
     Fuzzification & Singleton \\
-	Fuzzy conjunction & Product \\
+    Fuzzy conjunction & Product \\
     Fuzzy disjunction & Probabilistic sum \\
     Fuzzy implication & Product \\
     Fuzzy aggregation & Probabilistic sum \\
@@ -41,13 +41,13 @@ The predators in our model were hand-tuned and their behaviour was not subject t
   \includegraphics[width=\figurewidth]{scirep/si-predator_db}\\
   \scriptsize
   \vspace*{3mm}
-	\begin{minipage}{\figurewidth}
-		\textsc{r}1:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{right}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{right})\\
-		\textsc{r}2:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{left}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{left}) \\
-		\textsc{r}3:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{in front}) \textbf{and} (\textsc{target heading} is \emph{right}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{right})\\
-		\textsc{r}4:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{in front}) \textbf{and} (\textsc{target heading} \textbf{is} \emph{left}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{left})\\
-		\textsc{r}5:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{in front}) \textbf{and} (\textsc{target heading} \textbf{is} \emph{same}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{same})
-	\end{minipage}
+  \begin{minipage}{\figurewidth}
+    \textsc{r}1:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{right}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{right})\\
+    \textsc{r}2:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{left}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{left}) \\
+    \textsc{r}3:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{in front}) \textbf{and} (\textsc{target heading} is \emph{right}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{right})\\
+    \textsc{r}4:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{in front}) \textbf{and} (\textsc{target heading} \textbf{is} \emph{left}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{left})\\
+    \textsc{r}5:\quad \textbf{if} (\textsc{target position} \textbf{is} \emph{in front}) \textbf{and} (\textsc{target heading} \textbf{is} \emph{same}) \textbf{then} (\textsc{desired heading} \textbf{is} \emph{same})
+  \end{minipage}
   \caption{The hand-tuned fuzzy knowledge base of the predator fuzzy-rule-based system.}
   \label{figure:predator}
 \end{figure}
@@ -76,9 +76,9 @@ Let $\set{N}^{(i)}_t=\{j \in \set{I}|\ j \neq i, d^{(i,j)}_t \leq r^{(i)}_\textn
 
 Note that in the case of a high density area attacking predator (\HDAA predator) the targeted prey individual constantly changed, so that the \HDAA predator effectively detected and pursued the highest density area. Following Olson\etal \cite{olson2013predator} the \HDAA predators moved at a slower speed than prey and were also less manoeuvrable. If the \HDAA predator was close enough to any of the prey individuals (\ie $d^{(h,i)}_t\leq r^{(h)}_\textnormal{c},\ i \in \set{I}$) they were marked as captured. Note also that the \HDAA predator could consume any prey individual and not only the targeted prey individual, therefore mimicking predators capable of attacking and capturing several prey individuals in a single predation event \cite{goldbogen2011mechanics,nottestad1999herring,nottestad2002whales,mori2006first}.
 
-Predators that attack the nearest, the most peripheral or the most central prey individual detect, pursue, attack and capture a single prey individual \cite{demsar2014simulated}. In this study we label them with the common name single-target attack or \ST predators. Note that in contrast to \HDAA predators, in the case of an \ST predator the target prey individual was detected only on special occasions and then pursued until captured or until the predator's hunt duration expired. The detection of the target prey individual occurred at the time instant when the \ST predator appeared or the currently targeted prey individual died during pursuit. 
+Predators that attack the nearest, the most peripheral or the most central prey individual detect, pursue, attack and capture a single prey individual \cite{demsar2014simulated}. In this study we label them with the common name single-target attack or \ST predators. Note that in contrast to \HDAA predators, in the case of an \ST predator the target prey individual was detected only on special occasions and then pursued until captured or until the predator's hunt duration expired. The detection of the target prey individual occurred at the time instant when the \ST predator appeared or the currently targeted prey individual died during pursuit.
 
-Following previous research \cite{demsar2014simulated,hemelrijk2000towards,hemelrijk2005construction,hildenbrandt2010selforganized} 
+Following previous research \cite{demsar2014simulated,hemelrijk2000towards,hemelrijk2005construction,hildenbrandt2010selforganized}
 %
 \begin{equation}
 P^{(i)}_t = \frac{1}{\left|\set{N}^{(i)}_t\right|}\left\| \sum_{j \in \set{N}^{(i)}_t} \uvec{d}^{(i,j)}_t \right\|
@@ -104,27 +104,27 @@ where $\sigma$ is the time instant of target prey individual detection. In view 
 %-----
 \subsection{Prey}
 
-Every prey individual's behaviour was governed by its own fuzzy-rule-based system that, by the application of fuzzy reasoning over an evolving set of if-then rules, determined the individual's desired heading in the next time step. Only the fuzzy rule base was evolved; the fuzzy data base was kept constant (see \figurename~\ref{figure:prey}). The input variables can be decomposed into three parts: a) information regarding the living area, b) information regarding the nearest predator, and c) information regarding the interacting neighbour. 
- 
+Every prey individual's behaviour was governed by its own fuzzy-rule-based system that, by the application of fuzzy reasoning over an evolving set of if-then rules, determined the individual's desired heading in the next time step. Only the fuzzy rule base was evolved; the fuzzy data base was kept constant (see \figurename~\ref{figure:prey}). The input variables can be decomposed into three parts: a) information regarding the living area, b) information regarding the nearest predator, and c) information regarding the interacting neighbour.
+
 \begin{figure}
   \includegraphics[width=\figurewidth]{scirep/si-prey_db}
   \caption{The data base for prey individuals. The rule base for prey individuals was generated using genetic fuzzy systems.}
   \label{figure:prey}
 \end{figure}
 
-At all times prey individuals were aware of the distance and angular position of the nearest point on the border of the living area (\figurename~\ref{figure:preyInput}a), so the input variables \textsc{living area distance} and \textsc{living area position} of prey individual $i$ were set to 
+At all times prey individuals were aware of the distance and angular position of the nearest point on the border of the living area (\figurename~\ref{figure:preyInput}a), so the input variables \textsc{living area distance} and \textsc{living area position} of prey individual $i$ were set to
 %
 \begin{equation}
 d^{(i)}_t=\min(0,\ \max(r_\textnormal{LA}-\|\vec{r}^{(i)}_t\|),\ r^{(i)}_\textnormal{v})
-\end{equation} 
+\end{equation}
 %
-and 
+and
 %
 \begin{equation}
 \theta^{(i)}_t=\arccos\left(\uvec{v}^{(i)}_t \cdot \uvec{r}^{(i)}_t\right),
 \end{equation}
 %
-respectively. 
+respectively.
 
 \begin{figure}
   \includegraphics[width=\figurewidth]{scirep/si-interaction}
@@ -136,7 +136,7 @@ respectively.
 As empirical data suggests that animals in groups usually react to predator attacks\cite{partridge1982structure,pitcher1983predator}, it is safe to assume that in most cases prey individuals can detect the incoming predator attack at some point in time. For this reason, in our model, prey individuals were aware of the nearest visible predator. From the prey individual's point of view this is the predator that poses the highest threat \cite{rieucau2014experimental}. The input variables \textsc{predator distance}, \textsc{predator position}, and \textsc{predator heading} were set to $d^{(i,\kappa)}_t$, $\theta^{(i,\kappa)}_t$, and $\phi^{(i,\kappa)}_t$, respectively (\figurename~\ref{figure:preyInput}b). Here $\kappa$ denotes the nearest currently visible predator of prey individual $i$, computed as
 %
 \begin{equation}
-\kappa = \argmin_{k \in \set{K}} d^{(i,k)}_t,\ \set{K}=\{k \in \set{S} \cup \set{H}|\ d^{(i,k)}_t \leq r^{(i)}_\textnormal{v}\}, 
+\kappa = \argmin_{k \in \set{K}} d^{(i,k)}_t,\ \set{K}=\{k \in \set{S} \cup \set{H}|\ d^{(i,k)}_t \leq r^{(i)}_\textnormal{v}\},
 \end{equation}
 %
 where $\set{K}$ is the set of predators (\ST or \HDAA) currently visible by prey individual $i$. If the prey individual did not see any predators the input variables were marked as \textsc{undefined}. If-then rules with any of their input variables marked as \textsc{undefined} were excluded from fuzzy reasoning.
@@ -144,11 +144,11 @@ where $\set{K}$ is the set of predators (\ST or \HDAA) currently visible by prey
 A large-scale empirical study conducted in Rome \cite{ballerini2008interaction} discovered an anisotropic nature of interactions in starling flocks. This type of interaction became known as topological interaction, where an individual interacts with $\approx$\num{6.5} of its nearest neighbours. Bode\etal \cite{bode2010perceived} proposed a much simpler interaction model capable of replicating the anisotropic nature of the interactions observed in the empirical study. In their model interaction is stochastic in nature and the probability of prey individual $i$ interacting with prey individual $j$ depends on visibility of individual $j$ and is inversely proportional to its distance,
 %
 \begin{equation}
-p(i,j) = 
-	\begin{cases}
-		\frac{1}{d^{(i,j)}_t}, &\text{iff }j \in \set{N}^{(i)}_t\\
-		0, &\text{otherwise}.
-    \end{cases}
+p(i,j) =
+\begin{cases}
+  \frac{1}{d^{(i,j)}_t}, &\text{iff }j \in \set{N}^{(i)}_t\\
+  0, &\text{otherwise}.
+\end{cases}
 \label{equation:neigbour}
 \end{equation}
 
@@ -165,15 +165,15 @@ Evolution was achieved by the application of genetic algorithms over the fuzzy-r
     \midrule
     Number of if-then rules per individual & 2--30 (2--50) \\
     Number of antecedents per rule & 1--2 (1--3) \\
-    Mutation rate & 2\% \\ 
+    Mutation rate & 2\% \\
     Mutation intensity & 3 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-The initial population of prey individuals had a randomly generated rule base. The only constraints were the number of if-then rules per individual and the number of antecedents per rule (see \tablename~\ref{table:ga}). The constraints were selected to keep an individual's reasoning as simple as possible. Preliminary tests of the influence of these two constraints on the resulting behaviour by performing evolutions with a higher maximal number of rules (50) and/or antecedents (3) showed results similar to those reported in the main article. 
+The initial population of prey individuals had a randomly generated rule base. The only constraints were the number of if-then rules per individual and the number of antecedents per rule (see \tablename~\ref{table:ga}). The constraints were selected to keep an individual's reasoning as simple as possible. Preliminary tests of the influence of these two constraints on the resulting behaviour by performing evolutions with a higher maximal number of rules (50) and/or antecedents (3) showed results similar to those reported in the main article.
 
-When a prey individual died a new prey individual (child) was created by merging the rule bases of two prey individuals (parents) that were still alive. Selection of parents was fitness proportionate, where the fitness was based on the prey individual's energy level. The number of rules in the rule base of the child prey individual was a uniformly distributed random number between the number of rules in the parent's rule base, whose rule base had the lowest number of rules, and the number of rules in the other parent's rule base. For example, if the rule base of one parent had 15 rules and the other 18 the child could have anywhere between 15 and 18 rules. 
+When a prey individual died a new prey individual (child) was created by merging the rule bases of two prey individuals (parents) that were still alive. Selection of parents was fitness proportionate, where the fitness was based on the prey individual's energy level. The number of rules in the rule base of the child prey individual was a uniformly distributed random number between the number of rules in the parent's rule base, whose rule base had the lowest number of rules, and the number of rules in the other parent's rule base. For example, if the rule base of one parent had 15 rules and the other 18 the child could have anywhere between 15 and 18 rules.
 
 Rules in the rule bases of the two parents that had the same antecedent part and the same consequent part of the if-then rule were treated as equal. First equal rules were copied to the child's rule base. Following that the remaining slots were filled with random rules from the set of non-equal rules. Once the child's rule base had the required number of rules there was a 2\% chance a mutation could trigger (mutation rate). There were two kinds of mutations in our genetic fuzzy system; the first type inserted new random rules into the child's rule base, the other removed existing rules. The amount of rules inserted or removed was a uniformly distributed random number between 1 and 3 (mutation intensity). Note that each mutation type could trigger independently so every time a new child prey individual was created each mutation type (insert rules, remove rules) had a 2\% chance of triggering.
 
@@ -191,12 +191,12 @@ An example of a single-target attack predator that attacks schools of Pacific Bl
   \begin{tabular}{l l l}
     \toprule
     Parameter & Description & Default value \\
-    \midrule 
+    \midrule
     $\tau$ & Update step & \SI{1}{\second} \\
     $\si{\bodylength}$ & Body length & \SI{3}{\cm} \\
     $r_\textnormal{LA}$ & Living area radius & \BL{350} \\
-    \midrule 
-	$\set{I}$ & Set of prey individuals (size) & 100 \\
+    \midrule
+    $\set{I}$ & Set of prey individuals (size) & 100 \\
     $b^{(i)}$ & Prey appearance area radius & \BL{325} \\
     $s^{(i)}$ & Prey size & \BL{1} \\
     $v^{(i)}$ & Prey speed & \BLps{4} \\
@@ -209,8 +209,8 @@ An example of a single-target attack predator that attacks schools of Pacific Bl
     \midrule
     $t_\textnormal{r}$ & Predator re-appearance time & \SIrange{600}{1200}{\second} \\
     $t_\textnormal{h}$ & Predator hunt duration & \SI{600}{\second} \\
-	\hdashline
-	$\set{S}$ & Set of \ST predators (size) & 0--8 \\
+    \hdashline
+    $\set{S}$ & Set of \ST predators (size) & 0--8 \\
     $b^{(s)}$ & \ST predator appearance distance & \BL{400} \\
     $s^{(s)}$ & \ST predator size & \BL{3} \\
     $v^{(s)}$ & \ST predator speed & \BLps{5.6} \\
@@ -231,58 +231,58 @@ An example of a single-target attack predator that attacks schools of Pacific Bl
 \end{table}
 
 \begin{largefigure} % float too large for page by 16pt [with largefigure environment the max is 37pt]
-	\includegraphics[width=\figurewidth]{scirep/si-tern}
-	\infigurecaption{P -- attack prey individuals located at the periphery of the prey groups, N -- attack the nearest prey individual, C -- attack the most central prey individual in a prey group, and H -- high density area attacks. The predator pressure combinations and mixtures were ordered so that the top row and left column, represent the highest pressure towards grouping, the right column and bottom row the highest pressure towards dispersing. The middle section represents antagonistic predation pressures. The scales of the ternary plot were arranged so that the top corner indicates low density, the bottom left corner indicates high density and angular momentum, and the bottom right corner indicates high density and polarization. Note that the ternary plot shows the relationship between the three variables (\ie which one dominates, in relative terms). Since the same point can represent completely different behaviours the sum of the three dimensions is used for colour coding.}
-	\caption{Normalized prey density (d), polarization (p) and angular momentum (m) for all predation pressure mixtures, N=\num{5400}.}
-	\label{figure:antagonistic:SM}
+  \includegraphics[width=\figurewidth]{scirep/si-tern}
+  \infigurecaption{P -- attack prey individuals located at the periphery of the prey groups, N -- attack the nearest prey individual, C -- attack the most central prey individual in a prey group, and H -- high density area attacks. The predator pressure combinations and mixtures were ordered so that the top row and left column, represent the highest pressure towards grouping, the right column and bottom row the highest pressure towards dispersing. The middle section represents antagonistic predation pressures. The scales of the ternary plot were arranged so that the top corner indicates low density, the bottom left corner indicates high density and angular momentum, and the bottom right corner indicates high density and polarization. Note that the ternary plot shows the relationship between the three variables (\ie which one dominates, in relative terms). Since the same point can represent completely different behaviours the sum of the three dimensions is used for colour coding.}
+  \caption{Normalized prey density (d), polarization (p) and angular momentum (m) for all predation pressure mixtures, N=\num{5400}.}
+  \label{figure:antagonistic:SM}
 \end{largefigure}
 
 \begin{video}
-	\includegraphics[width=\figurewidth]{scirep/si-V1_1350}
-	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most central prey individual (C), or b) use high density area attacks (H). The specific predation pressure mixture was C:H, 6:2. The conformity in predation pressures leads prey individuals to evolve individual behaviours that result in low density, high momentum, and low polarization, which could be interpreted as milling.}
-	\caption{Conformity in predation pressures.} 
-	\label{video:V1}
+  \includegraphics[width=\figurewidth]{scirep/si-V1_1350}
+  \infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most central prey individual (C), or b) use high density area attacks (H). The specific predation pressure mixture was C:H, 6:2. The conformity in predation pressures leads prey individuals to evolve individual behaviours that result in low density, high momentum, and low polarization, which could be interpreted as milling.}
+  \caption{Conformity in predation pressures.}
+  \label{video:V1}
 \end{video}
 
 \begin{video}
-	\includegraphics[width=\figurewidth]{scirep/si-V2_1350}
-	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most central prey individual (C), or b) use high density area attacks (H). The specific predation pressure mixture was C:H, 1:7. The conformity in predation pressures leads prey individuals to evolve individual behaviours that result in low density, low momentum, and low polarization, which could be interpreted as swarming.}
-	\caption{Conformity in predation pressures.}
-	\label{video:V2}
+  \includegraphics[width=\figurewidth]{scirep/si-V2_1350}
+  \infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most central prey individual (C), or b) use high density area attacks (H). The specific predation pressure mixture was C:H, 1:7. The conformity in predation pressures leads prey individuals to evolve individual behaviours that result in low density, low momentum, and low polarization, which could be interpreted as swarming.}
+  \caption{Conformity in predation pressures.}
+  \label{video:V2}
 \end{video}
 
 \begin{video}
-	\includegraphics[width=\figurewidth]{scirep/si-V3_1350}
-	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most peripheral prey individual (P), or b) use high density area attacks (H). The specific predation pressure mixture was P:H, 7:1. A low degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in high density, high momentum, and low polarization, which are typically associated with milling.}
-	\caption{Low degree of antagonism in predation pressures.}
-	\label{video:V3}
+  \includegraphics[width=\figurewidth]{scirep/si-V3_1350}
+  \infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most peripheral prey individual (P), or b) use high density area attacks (H). The specific predation pressure mixture was P:H, 7:1. A low degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in high density, high momentum, and low polarization, which are typically associated with milling.}
+  \caption{Low degree of antagonism in predation pressures.}
+  \label{video:V3}
 \end{video}
 
 \begin{video}
-	\includegraphics[width=\figurewidth]{scirep/si-V4_1350}
-	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most peripheral prey individual (P), or b) use high density area attacks (H). The specific predation pressure mixture was P:H, 7:1. A low degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in high density, low momentum, and low polarization, which are typically associated with swarming.}
-	\caption{Low degree of antagonism in predation pressures.}
-	\label{video:V4}
+  \includegraphics[width=\figurewidth]{scirep/si-V4_1350}
+  \infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most peripheral prey individual (P), or b) use high density area attacks (H). The specific predation pressure mixture was P:H, 7:1. A low degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in high density, low momentum, and low polarization, which are typically associated with swarming.}
+  \caption{Low degree of antagonism in predation pressures.}
+  \label{video:V4}
 \end{video}
 
 \begin{video}
-	\includegraphics[width=\figurewidth]{scirep/si-V5_1350}
-	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most peripheral prey individual (P), or b) attack the most central prey individual (C). The specific predation pressure mixture was P:C, 5:3. A high degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in medium density, low momentum, and high polarization, which are typically associated with dynamic polarized motion.}
-	\caption{High degree of antagonism in predation pressures.}
-	\label{video:V5}
+  \includegraphics[width=\figurewidth]{scirep/si-V5_1350}
+  \infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most peripheral prey individual (P), or b) attack the most central prey individual (C). The specific predation pressure mixture was P:C, 5:3. A high degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in medium density, low momentum, and high polarization, which are typically associated with dynamic polarized motion.}
+  \caption{High degree of antagonism in predation pressures.}
+  \label{video:V5}
 \end{video}
 
 \begin{video}
-	\includegraphics[width=\figurewidth]{scirep/si-V6_1350}
-	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most peripheral prey individual (P), or b) use high density area attacks (H). The specific predation pressure mixture was P:H, 4:4. A high degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in medium density, low momentum, and high polarization, which are typically associated with dynamic polarized motion.}
-	\caption{High degree of antagonism in predation pressures.}
-	\label{video:V6}
+  \includegraphics[width=\figurewidth]{scirep/si-V6_1350}
+  \infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the most peripheral prey individual (P), or b) use high density area attacks (H). The specific predation pressure mixture was P:H, 4:4. A high degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in medium density, low momentum, and high polarization, which are typically associated with dynamic polarized motion.}
+  \caption{High degree of antagonism in predation pressures.}
+  \label{video:V6}
 \end{video}
 
 \begin{video}
-	\includegraphics[width=\figurewidth]{scirep/si-V7_1350}
-	\infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the nearest prey individual (N), or b) use high density area attacks (H). The specific predation pressure mixture was N:H, 5:3. A high degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in high density, low momentum, and high polarization, which are typically associated with highly polarized motion.}
-	\caption{High degree of antagonism in predation pressures.}
-	\label{video:V7}
+  \includegraphics[width=\figurewidth]{scirep/si-V7_1350}
+  \infigurecaption{The behaviour of prey individuals in this video is the result of evolution while under predation pressure from predators that either a) attack the nearest prey individual (N), or b) use high density area attacks (H). The specific predation pressure mixture was N:H, 5:3. A high degree of antagonism in predation pressures leads prey individuals to evolve individual behaviours that result in high density, low momentum, and high polarization, which are typically associated with highly polarized motion.}
+  \caption{High degree of antagonism in predation pressures.}
+  \label{video:V7}
 \end{video}
 
