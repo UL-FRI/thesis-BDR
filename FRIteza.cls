@@ -539,10 +539,18 @@
 
 \AtBeginDocument{ % these patch needs to be called last, after preamble finishes, i.e. at begin document 
 	\ClassInfo{FRIteza}{Patching\space siunitx\space package\space for\space correct\space printing\space of\space minus\space sign}
+	\@ifpackagelater{siunitx}{2018/05/18}{
+		\ClassWarning{FRIteza}{Applying\space patch\space developed\space for\space siunitx\space 2018/05/17\space v2.7s,\space 
+		detected\space siunitx\space \csname ver@siunitx.sty \endcsname}
+	}{}
 	% patch for siunitx package so than the minus sign gets printed in math and text mode
 	\tl_gset:Nn \c__siunitx_minus_tl { \ensuremath{ - } }
 	
 	\ClassInfo{FRIteza}{Patching\space realscript\space package\space for\space correct\space subscript\space font\space feature\space +sinf}{}
+	\@ifpackagelater{realscript}{2016/02/14}{
+		\ClassWarning{FRIteza}{Applying\space patch\space developed\space for\space realscript\space 2016/02/13\space v0.3d,\space 
+		detected\space realscript\space \csname ver@realscript.sty \endcsname}
+	}{}
 	% patch for realscript package so that proper subscripts get printed with EBGaramond
 	% EBGaramond (+subs) are closer to (+dnom) than typical subscripts, see also https://glyphsapp.com/tutorials/superscript-and-subscript-figures
 	\DeclareDocumentCommand \realsubscript {m} {
@@ -1418,17 +1426,27 @@
 			\fi
 			
 			\vspace*{\baselineskip}
-			{\footnotesize\RaggedRight
-				\begin{enumerate}[label={[}\arabic*{]}]
-					\newcounter{pid}
-					\setcounter{pid}{0}
-					\whiledo {\value{pid} < \value{previousPublicationId}}
-					{
-						\stepcounter{pid}			
-						\item \csname @previousPublication@\Alph{pid}\endcsname
-					}			
-				\end{enumerate}
-			 \normalsize}
+			{%
+				\renewcommand{\bibsection}{}
+				\renewcommand{\bibpreamble}{
+					\begingroup
+						\footnotesize\RaggedRight
+				}
+				\renewcommand{\bibpostamble}{
+						\normalsize
+					\endgroup
+				}
+				
+				\newcounter{pid}
+				\setcounter{pid}{0}
+				\whiledo {\value{pid} < \value{previousPublicationId}}
+				{
+					\stepcounter{pid}			
+					\expandafter\nociteself\expandafter{\csname @previousPublication@\Alph{pid}\endcsname}
+				}			
+			 \bibliographystyleself{FRIteza}
+			 \bibliographyself{ilb_PhD}
+			}
 			
 			\vspace*{\baselineskip}
 			\if@slovene
@@ -1980,6 +1998,10 @@
 % Patch floatrow package so that it works properly even with pagenumbering style changes
 % patch assumes zref-abspage package is loaded and theabspage is defined 
 \ClassInfo{FRIteza}{Patching floatrow package to support pagenumbering style changes}
+\@ifpackagelater{floatrow}{2008/08/03}{
+	\ClassWarning{FRIteza}{Applying\space patch\space developed\space for\space floatrow\space 2008/08/02\space v0.3b,\space 
+	detected\space floatrow\space \csname ver@floatrow.sty \endcsname}
+}{}
 \patchcmd{\flrow@FB}{\thepage}{\theabspage}{\ClassInfo{FRIteza}{\string\flrow@FB\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\flrow@FB}}
 \patchcmd{\flrow@FC}{\thepage}{\theabspage}{\ClassInfo{FRIteza}{\string\flrow@FC\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\flrow@FC}}
 \patchcmd{\@@@floatbox}{\thepage}{\theabspage}{\ClassInfo{FRIteza}{\string\@@@floatbox\space successfully patched}}{\ClassInfo{FRIteza}{failed to patch \string\@@@floatbox}}
@@ -2247,8 +2269,8 @@
 \newcommand{\previousPublication}[1]{
 	\begingroup
 		\stepcounter{previousPublicationId}
-		\expandafter\gdef\csname @previousPublication@\Alph{previousPublicationId}\endcsname{
-			#1\par
+		\expandafter\gdef\csname @previousPublication@\Alph{previousPublicationId}\endcsname{%
+			#1%
 		}
 	\endgroup
 }
@@ -2568,10 +2590,6 @@
 
 \RequirePackage[numbers,sort&compress]{natbib}
 \RequirePackage{multicol}
-%\renewcommand{\bibpreamble}{
-%	\chaptermark{\bibname}
-%	\addcontentsline{toc}{chapter}{\protect\numberline{}\bibname}
-%}
 \renewcommand{\bibsection}{
 	\chapter*{\bibname}
 	\chaptermark{\bibname}
@@ -2596,12 +2614,163 @@
 % Patch natbib thebibliography environment, to take into account variable width font, which causes issues with item identation (based on cmr10)
 % https://tex.stackexchange.com/questions/304010/how-does-bibtex-know-the-widest-label 
 \ClassInfo{FRIteza}{Patching natbib package to support variable width font in bibitem labels}
-\patchcmd{\thebibliography}{#1}{\arabic{longestlabel}}{\ClassInfo{FRIteza}{\string\thebibliography\space successfully patched, step 1}}{\ClassInfo{FRIteza}{failed to patch \string\thebibliography, step 1}}
-\patchcmd{\thebibliography}{\bibsection}{%
-	\newcounter{longestlabel}
-	\expandafter\setcounter{longestlabel}{#1*10}
-	\bibsection
-}{\ClassInfo{FRIteza}{\string\thebibliography\space successfully patched, step 2}}{\ClassInfo{FRIteza}{failed to patch \string\thebibliography, step 2}}
+\newcounter{NAT@bibcount}
+\patchcmd{\thebibliography}
+	{#1}
+	{\arabic{NAT@bibcount}}
+	{\ClassInfo{FRIteza}{\string\thebibliography\space successfully patched, step 1}}
+	{\ClassInfo{FRIteza}{failed to patch \string\thebibliography, step 1}}
+\patchcmd{\thebibliography}
+	{\bibsection}
+	{%
+		\expandafter\setcounter{NAT@bibcount}{#1*10}
+		\bibsection
+	}
+	{\ClassInfo{FRIteza}{\string\thebibliography\space successfully patched, step 2}}
+	{\ClassInfo{FRIteza}{failed to patch \string\thebibliography, step 2}}
+%\renewcommand\@biblabel[1]{\begingroup\normalsize\addfontfeature{Numbers=Monospaced}[#1]\endgroup} % force monospaced numbers in bibitem, but not avail in scriptsize
+
+% patch natbib warnings with extra info to support multibib disjoint bibs
+\patchcmd{\NAT@citexnum}
+	{Citation `\@citeb'}
+	{Citation\@extra@b@citeb\space `\@citeb'}
+	{\ClassInfo{FRIteza}{\string\NAT@citexnum\space successfully patched}}
+	{\ClassInfo{FRIteza}{failed to patch \string\NAT@citexnum}}
+\patchcmd{\NAT@citex}
+	{Citation `\@citeb'}{Citation\@extra@b@citeb\space `\@citeb'}
+	{\ClassInfo{FRIteza}{\string\NAT@citex\space successfully patched}}
+	{\ClassInfo{FRIteza}{failed to patch \string\NAT@citex}}
+\patchcmd{\NAT@test}
+	{Author undefined for citation`\@citeb'}
+	{Author undefined for citation\@extra@b@citeb\space `\@citeb'}
+	{\ClassInfo{FRIteza}{\string\NAT@test\space successfully patched, step 1}}
+	{\ClassInfo{FRIteza}{failed to patch \string\NAT@test, step 1}}
+\patchcmd{\NAT@test}
+	{Year undefined for citation`\@citeb'}
+	{Year undefined for citation\@extra@b@citeb\space `\@citeb'}
+	{\ClassInfo{FRIteza}{\string\NAT@test\space successfully patched, step 2}}
+	{\ClassInfo{FRIteza}{failed to patch \string\NAT@test, step 2}}
+\patchcmd{\NAT@alias}
+	{citation `\@citeb'}{citation\@extra@b@citeb\space `\@citeb'}
+	{\ClassInfo{FRIteza}{\string\NAT@alias\space successfully patched}}
+	{\ClassInfo{FRIteza}{failed to patch \string\NAT@alias}}
+\patchcmd{\nocite}
+	{Citation `\@citeb'}{Citation\@extra@b@citeb\space `\@citeb'}
+	{\ClassInfo{FRIteza}{\string\nocite\space successfully patched}}
+	{\ClassInfo{FRIteza}{failed to patch \string\nocite}}
+\patchcmd{\bibcite}
+	{Citation `#1'}
+	{Citation\@extra@binfo\space `#1'}
+	{\ClassInfo{FRIteza}{\string\bibcite\space successfully patched}}
+	{\ClassInfo{FRIteza}{failed to patch \string\bibcite}}
+\patchcmd{\endthebibliography}
+	{Empty `thebibliography'}
+	{Empty `thebibliography\@extra@b@citeb'}
+	{\ClassInfo{FRIteza}{\string\endthebibliography\space successfully patched}}
+	{\ClassInfo{FRIteza}{failed to patch \string\endthebibliography}}
+
+% memorize natbib \thebibiliography environment, redefined by multibib AtBeginDocument, 
+% done AtBeginDocument to keep any changes that occur from here on
+\AtBeginDocument{
+	\let\natbib@thebibliography\thebibliography
+	\let\natbib@endthebibliography\endthebibliography
+}
+
+% load multibib for previousPublication bibliography list
+\RequirePackage[resetlabels]{multibib}
+
+% patch multibib for resetlabels and disjointbib support
+\ClassInfo{FRIteza}{Patching multibib package to support resetlabels and disjointbibs}
+\@ifpackagelater{multibib}{2008/12/11}{
+	\ClassWarning{FRIteza}{Applying\space patch\space developed\space for\space multibib\space 2008/12/10\space v1.4,\space 
+	detected\space multibib\space \csname ver@multibib.sty \endcsname}
+}{}
+
+\RequirePackage{regexpatch}
+
+% patch \newcites command
+\xpatchcmd{\newcites}
+	{\noexpand\csname\@citename\endcsname}
+	{%
+		\noexpand\gdef\noexpand\@extra@b@citeb{@\@suffix}
+		\noexpand\csname\@citename\endcsname%
+	}
+	{\ClassInfo{FRIteza}{\string\newcites\space successfully patched, step 1}}
+	{\ClassInfo{FRIteza}{failed to patch \string\newcites, step 1}}
+\xpatchcmd{\newcites}
+	{\noexpand\nocite{##1}}
+	{%
+		\noexpand\gdef\noexpand\@extra@b@citeb{@\@suffix}
+		\noexpand\nocite{##1}
+		\noexpand\gdef\noexpand\@extra@b@citeb{}
+	}
+	{\ClassInfo{FRIteza}{\string\newcites\space successfully patched, step 2}}
+	{\ClassInfo{FRIteza}{failed to patch \string\newcites, step 2}}
+\xpatchcmd{\newcites}
+	{\noexpand\bibliography{##1}}
+	{%
+		\noexpand\gdef\noexpand\@extra@b@citeb{@\@suffix}
+		\noexpand\if@filesw \noexpand\immediate\noexpand\write\noexpand\@auxout
+			{\noexpand\string\noexpand\gdef\noexpand\string\noexpand\@extra@binfo{@\@suffix}}
+		\noexpand\fi
+		\noexpand\bibliography{##1}
+		\noexpand\if@filesw \noexpand\immediate\noexpand\write\noexpand\@auxout
+			{\noexpand\string\noexpand\gdef\noexpand\string\noexpand\@extra@binfo{}}      
+		\noexpand\fi
+		\noexpand\gdef\noexpand\@extra@b@citeb{}
+	}
+	{\ClassInfo{FRIteza}{\string\newcites\space successfully patched, step 3}}
+	{\ClassInfo{FRIteza}{failed to patch \string\newcites, step 3}}
+
+% declare cite*self for use in previous publication
+\newcites{self}{Previous publication}
+	
+\AtBeginDocument{
+	% patch mb@@citex to reset suffix, must be done AtBeginDocument
+	\makeatletter
+	\xpatchcmd{\mb@@citex}
+		{\let\@citex\std@@citex}
+		{%
+			\let\@citex\std@@citex 
+			\gdef\@extra@b@citeb{}%
+		}
+		{\ClassInfo{FRIteza}{\string\mb@@citex\space successfully patched}}
+		{\ClassInfo{FRIteza}{failed to patch \string\mb@@citex}}
+	\makeatother
+
+	% Patch multibib \std@thebibliography, \thebibliography, and \bibliography environments, must perform AtBeginDocument as multibib does so
+	\let\std@thebibliography\natbib@thebibliography
+	\let\thebibliography\natbib@thebibliography
+	\let\endthebibliography\natbib@endthebibliography
+	\makeatletter
+	\xpatchcmd{\std@thebibliography}
+		{\global\c@NAT@ctr\z@} % search for first occurance of
+		{\usecounter{NAT@ctr}} % swap for
+		{\ClassInfo{FRIteza}{\string\std@thebibliography\space successfully patched}}
+		{\ClassInfo{FRIteza}{failed to patch \string\std@thebibliography}}
+	\makeatother
+
+	\def\thebibliography#1{%
+		\@isnumber{#1}{
+			\ifnum\mb@biblabelwidth=0
+				\@tempcnta\c@NAT@ctr %% changed here to c@NAT@ctr
+				\ifcontinuouslabels
+					\advance\@tempcnta#1%
+					\std@thebibliography{\@arabic\@tempcnta}%
+				\else % if not continuous restart from 0 and run thebibliography as normal
+					\setcounter{NAT@ctr}{0}
+					\std@thebibliography{#1}%
+				\fi
+			\else
+				\std@thebibliography{\@arabic\mb@biblabelwidth}%
+				\global\mb@biblabelwidth 0
+			\fi
+		}{
+			\std@thebibliography{#1}
+		}%
+	}
+	\ClassInfo{FRIteza}{\string\thebibliography\space successfully patched}
+}
 
 \newcounter{savedchapter}
 \newcounter{appendices}
@@ -2679,7 +2848,7 @@
 	\fi
 	\@insubappendicestrue
 
-    % continuous numbering of subappendices regardless of chapter
+	% continuous numbering of subappendices regardless of chapter
 	\setcounter{section}{\c@subappendices}
 	% disable numbering for section, but change numbering for subsection
 	\renewcommand{\thesection}{\alph{section}} % remove numbering force to star version
