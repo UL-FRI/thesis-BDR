@@ -1,3 +1,5 @@
+[![Release](https://img.shields.io/github/release/UL-FRI/thesis-BDR.svg?style=flat-square)](https://img.shields.io/github/release/UL-FRI/thesis-BDR)
+
 # FRIteza - doctoral dissertation XeLaTeX template
 
 ## University of Ljubljana, Faculty of Computer and Information Science
