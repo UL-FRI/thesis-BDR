@@ -432,6 +432,7 @@
 	\def\bbltechrep{Tech Rep}
 	\def\bblmthesis{Master's thesis}
 	\def\bblphdthesis{Doctoral dissertation}
+	\def\bbllecture{Lecture}
 	\def\bbleidpp{eid}
 	\def\bblfirsto{\MakeUppercase{1}\textsuperscript{st}}
 	\def\bblsecondo{\MakeUppercase{2}\textsuperscript{nd}}
@@ -474,9 +475,10 @@
 	\def\bblpp{str.}
 	\def\bblp{s.}
 	\def\bblchap{ch.}
-	\def\bbltechrep{Tech Rep}
+	\def\bbltechrep{Poročilo}
 	\def\bblmthesis{Magistrsko delo}
 	\def\bblphdthesis{Doktorska disertacija}
+	\def\bbllecture{Predavanje}
 	\def\bbleidpp{eid}
 	\def\bblfirsto{\MakeUppercase{1}.}
 	\def\bblsecondo{\MakeUppercase{2}.}
@@ -1407,7 +1409,7 @@
 	\endgroup
 }
 
-\newcommand{\makepreviouspublication}{
+\newcommand{\makepreviouspublication}[1]{
 	\ifnumgreater {\value{previousPublicationId}}{0}{
 		\begingroup
 			\if@slovene
@@ -1444,8 +1446,8 @@
 					\stepcounter{pid}			
 					\expandafter\nociteself\expandafter{\csname @previousPublication@\Alph{pid}\endcsname}
 				}			
-			 \bibliographystyleself{FRIteza}
-			 \bibliographyself{ilb_PhD}
+				\bibliographystyleself{FRIteza}
+				\bibliographyself{#1}
 			}
 			
 			\vspace*{\baselineskip}
@@ -2266,7 +2268,7 @@
 }
 
 \newcounter{previousPublicationId}
-\newcommand{\previousPublication}[1]{
+\newcommand{\citePreviousPublication}[1]{
 	\begingroup
 		\stepcounter{previousPublicationId}
 		\expandafter\gdef\csname @previousPublication@\Alph{previousPublicationId}\endcsname{%

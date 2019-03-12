@@ -14,30 +14,34 @@
 %% merlin.mbs  (with options: `tail,babel,ay,nat,lang,seq-no,nm-rvx,jnrlst,keyxyr,dt-beg,yr-par,yrp-x,note-yr,jxper,num-xser,jnm-x,pub-par,agu-doi,doi,edby,in-it,pp,ed,abr,mth-bare,ord,amper,and-xcom,etal-xc,revdata,eprint,url,url-blk,bibinfo,nfss,,{}')
 %% ----------------------------------------
 %%
-%% major modifications include: 
+%% major modifications include:
 %% - support for the arxiv field
 %% - preference of doi & arxiv fields to make bibliography less verbose
+%% - preference of doi & arxiv over eprint and url
 %% - support for Slovene language via \bbletal, etc.
 %% - support for title and booktitle language via language field
 %% - @book, @proceedings, @conference require ether title or booktitle, to solve issue with crossref inheritance
-%% 
- % This bibliography style file is intended to be used in conjunction with 
- %   FRIteza.cls and natbib. It requires predefined definitions of word commands 
- %   like \bbletal, etc. 
- % 
+%% - custom entry type @lecture with required fields: author, title, school or institution, year, month, day, and
+%%   optional fields: address, type, doi, note, url, eprint
+%%
+%%
+ % This bibliography style file is intended to be used in conjunction with
+ %   FRIteza.cls and natbib. It requires predefined definitions of word commands
+ %   like \bbletal, etc.
+ %
  % With FRIteza.cls the \cite command functions as follows:
  %   \cite{key} ==>>                 [1]
  %   \citet{key} ==>>                Jones et al [1]
  %   \citet*{key} ==>>               Jones, Baker & Smith [1]
  %   \citep{key} ==>>                [1]
  %   \citep*{key} ==>>               [1]
- %   \citep[chap. 2 in ]{key} ==>>       [chap. 2 in 1]
+ %   \citep[chap. 2 in ]{key} ==>>   [chap. 2 in 1]
  %   \citep[e.g.][]{key} ==>>        [e.g. 1]
  %   \citep[e.g.][p. 32]{key} ==>>   [e.g. 1, p. 32)
  %   \citeauthor{key} ==>>           Jones et al
  %   \citeauthor*{key} ==>>          Jones, Baker & Smith
  %   \citeyear{key} ==>>             1990
- % note that in the last three cases the entire output will be a hyperlink, 
+ % note that in the last three cases the entire output will be a hyperlink,
  % in all others only the key index '1'.
  %---------------------------------------------------------------------
 
@@ -48,6 +52,7 @@ ENTRY
     booktitle
     chapter
     collaboration
+    day
     doi
     arxiv
     edition
@@ -250,7 +255,7 @@ FUNCTION {space.word}
 % ----------------
 % Here are the language-specific definitions for explicit words.
 % Each function has a name bbl.xxx where xxx is the English word.
-% The BABEL language selection is made here; definitions in 
+% The BABEL language selection is made here; definitions in
 % FRIteza.cls or bblbst.tex.
 FUNCTION {bbl.and} { "\bbland{}" }
 FUNCTION {bbl.etal} { "\bbletal{}" }
@@ -270,6 +275,7 @@ FUNCTION {bbl.chapter} { "\bblchap{}" }
 FUNCTION {bbl.techrep} { "\bbltechrep{}" }
 FUNCTION {bbl.mthesis} { "\bblmthesis{}" }
 FUNCTION {bbl.phdthesis} { "\bblphdthesis{}" }
+FUNCTION {bbl.lecture} { "\bbllecture{}" }
 FUNCTION {bbl.first} { "\bblfirsto{}" }
 FUNCTION {bbl.second} { "\bblsecondo{}" }
 FUNCTION {bbl.third} { "\bblthirdo{}" }
@@ -593,7 +599,7 @@ MACRO {tcs} {"Theoretical Computer Science"}
 % currently not used as the bogus bibinfo functions defined here output the
 % entry values directly without the \bibinfo wrapper. The bibinfo functions
 % themselves (and the calls to them) are retained for possible future use.
-% 
+%
 % bibinfo.check avoids acting on missing fields while bibinfo.warn will
 % issue a warning message if a missing field is detected. Prior to calling
 % the bibinfo functions, the user should push the field value and then its
@@ -622,24 +628,32 @@ FUNCTION {bibinfo.warn}
 }
 
 FUNCTION {format.eprint}
-{ eprint duplicate$ empty$
-    'skip$
-    { "\eprint"
-      archive empty$
+{ doi empty$
+    { eprint
+      duplicate$ empty$
         'skip$
-        { "[" * archive * "]" * }
+        { "\eprint"
+          archive empty$
+            'skip$
+            { "[" * archive * "]" * }
+          if$
+          "{" * swap$ * "}" *
+        }
       if$
-      "{" * swap$ * "}" *
     }
+    { "" }
   if$
 }
 
 FUNCTION {format.url}
-{
-  url
-  duplicate$ empty$
-    { pop$ "" }
-    { "\urlprefix\url{" swap$ * "}" * }
+{ doi empty$
+    { url
+      duplicate$ empty$
+        { pop$ "" }
+        { "\urlprefix\url{" swap$ * "}" * }
+      if$
+    }
+    { "" }
   if$
 }
 
@@ -816,9 +830,9 @@ FUNCTION {select.language}
     'pop$
     { language empty$
         'skip$
-        { "\foreignlanguage{" language "l" change.case$ * "}{" * 
-         swap$ * 
-         "}" * 
+        { "\foreignlanguage{" language "l" change.case$ * "}{" *
+          swap$ *
+          "}" *
         }
       if$
     }
@@ -991,7 +1005,7 @@ FUNCTION {n.dashify}
 FUNCTION {word.in}
 { bbl.in capitalize
   smallcaps
-   " " * 
+  " " *
 }
 
 FUNCTION {format.date}
@@ -999,6 +1013,32 @@ FUNCTION {format.date}
     {
       "empty year in " cite$ * "; set to ????" * warning$
        pop$ "????"
+    }
+    'skip$
+  if$
+  extra.label *
+  before.all 'output.state :=
+  " (" swap$ * ")" *
+}
+
+FUNCTION {format.lecture.date}
+{
+% todo: \bbldate{Y}{M}{D} for language support
+  year
+  month duplicate$ empty$
+    'pop$
+    {
+      ", " swap$ * *
+      day duplicate$ empty$
+        'pop$
+        { " " swap$ * * }
+      if$
+    }
+  if$
+  "lecture date (year, month and day)" bibinfo.warn duplicate$ empty$
+    {
+        "empty year in " cite$ * "; set to ????" * warning$
+        pop$ "????"
     }
     'skip$
   if$
@@ -1277,7 +1317,7 @@ FUNCTION {format.in.ed.booktitle}
   if$
 }
 
-FUNCTION {format.thesis.type}
+FUNCTION {format.type}
 { type duplicate$ empty$
     'pop$
     { swap$ pop$
@@ -1344,6 +1384,10 @@ FUNCTION {format.org.or.pub}
       ")" *
     }
   if$
+}
+
+FUNCTION {format.institution.address}
+{ institution "institution" bibinfo.warn format.org.or.pub
 }
 
 FUNCTION {format.publisher.address}
@@ -1591,7 +1635,7 @@ FUNCTION {mastersthesis}
   date.block
   format.btitle "title and booktitle" output.check
   new.block
-  bbl.mthesis format.thesis.type smallcaps output.nonnull
+  bbl.mthesis format.type smallcaps output.nonnull
   format.school.address output
   format.doi output
   new.block
@@ -1609,7 +1653,7 @@ FUNCTION {phdthesis}
   date.block
   format.btitle "title and booktitle" output.check
   new.block
-  bbl.phdthesis format.thesis.type smallcaps output.nonnull
+  bbl.phdthesis format.type smallcaps output.nonnull
   format.school.address output
   format.doi output
   new.block
@@ -1652,8 +1696,7 @@ FUNCTION {techreport}
   format.title "title" output.check
   new.block
   format.tr.number output.nonnull
-  institution "institution" bibinfo.warn output
-  address "address" bibinfo.check output
+  format.institution.address output
   format.doi output
   new.block
   format.note output
@@ -1689,6 +1732,28 @@ FUNCTION {unpublished}
   format.doi output
   new.block
   format.note "note" output.check
+  format.eprint output
+  format.url output
+  fin.entry
+}
+
+FUNCTION {lecture}
+{ output.bibitem
+  format.authors "author" output.check
+  author format.key output
+  format.lecture.date "year" output.check
+  date.block
+  format.title "title" output.check
+  new.block
+  bbl.lecture format.type smallcaps output.nonnull
+  institution empty$
+    { school "institution or school" bibinfo.warn format.org.or.pub output }
+    { institution format.org.or.pub output
+      "institution and school" school either.or.check }
+  if$
+  format.doi output
+  new.block
+  format.note output
   format.eprint output
   format.url output
   fin.entry
@@ -1794,7 +1859,17 @@ FUNCTION {calc.label}
   short.list
   "("
   *
-  year duplicate$ empty$
+  year
+%  month duplicate$ empty$
+%    'pop$
+%    { ", " swap$ * *
+%      day duplicate$ empty$
+%        'pop$
+%        { " " swap$ * * }
+%      if$
+%    }
+%  if$
+  duplicate$ empty$
   short.list key field.or.null = or
      { pop$ "" }
      'skip$
