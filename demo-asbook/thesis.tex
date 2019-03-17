@@ -26,6 +26,7 @@
 \approvedBy[title={Associate Professor of Computer and Information Science}, role={examiner}]{dr. Blaž Zupan}
 \approvedBy[affiliation={University of Rhode Island}, title={Professor Emeritus of Biological Sciences}, role={external examiner}]{dr. Frank H. Heppner}
 
+% list references that demonstrate the scientific contribution of the doctoral dissertation has been previously published/presented by you as fist author
 \citePreviousPublication{lebar_bajec:2003a,lebar_bajec:2003b,lebar_bajec:2005c,lebar_bajec:2005a}
 
 % force correct date display, ignored if stage not gold or press
@@ -35,7 +36,7 @@
 % \cover[title=<title to appear on cover page>, loc=<location of the title>, colour=<colour of the title>]{coverImage}
 % defaults: title=\title{#}, loc=NE, colour=P1797
 % notes:
-%  title - use title to insert prefered line breaking with '\\' 
+%  title - use title to insert preferred line breaking with '\\' 
 %  loc - options NE, SE, NW, SW
 %  colour - options P1797, white, black
 \cover[loc={NE}, colour={P1797}]{coverImage.jpg} 
@@ -43,7 +44,7 @@
 % \spine[title=<title to appear on spine>, pages=<number of pages in book>]{thesisId in decimal}
 % defaults: title=\title[A={#}], pages=\ztotpages-2
 % notes:
-%  title - use title to provide a shortended title for the spine 
+%  title - use title to provide a shortened title for the spine 
 %  pages - provide the total number of pages in book, excluding cover and jobinfo (number of pages in pdf - 2) 
 \spine{80}
 
@@ -96,13 +97,6 @@
 
 \begin{document}
 
-% \makeatletter
-% \show\std@thebibliography
-% \show\thebibliography
-% \show\endthebibliography
-% \show\std@bibliography
-% \show\bibliography
-% \makeatother
 % TODO: show as an example of subfigure use
 %\begin{figure}
 %	\begin{subfigure}[b]{.5\figurewidth-3.5pt}
@@ -125,7 +119,7 @@
 \frontmatter
  	\maketitle
  	\makeapprovedby
-	\makepreviouspublication{ilb_PhD}
+	\makepreviouspublication{ilb}
  	\input{thesis-dedication}
  	\input{thesis-abstract}
  	\input{thesis-acknowledgements}
@@ -138,7 +132,7 @@
  	\input{thesis-ch4_fuzzymodelling}
 	\input{thesis-ch5_fuzzyanimat}
  	\input{thesis-ch6_analysis}
- 	\input{thesis-conclusion}
+ 	\input{thesis-ch7_conclusion}
  	\begin{appendices}
 	\end{appendices}
 

@@ -23,6 +23,7 @@
 %% - @book, @proceedings, @conference require ether title or booktitle, to solve issue with crossref inheritance
 %% - custom entry type @lecture with required fields: author, title, school or institution, year, month, day, and
 %%   optional fields: address, type, doi, note, url, eprint
+%% - support for cobiss field
 %%
 %%
  % This bibliography style file is intended to be used in conjunction with
@@ -52,6 +53,7 @@ ENTRY
     booktitle
     chapter
     collaboration
+    cobiss
     day
     doi
     arxiv
@@ -83,6 +85,10 @@ ENTRY
   { label extra.label sort.label short.list }
 
 INTEGERS { output.state before.all mid.sentence after.sentence after.block }
+
+% #0 turns off output of cobiss field
+% #1 enables
+FUNCTION {enabled.output.cobiss} { #0 }
 
 FUNCTION {init.state.consts}
 { #0 'before.all :=
@@ -651,6 +657,18 @@ FUNCTION {format.url}
       duplicate$ empty$
         { pop$ "" }
         { "\urlprefix\url{" swap$ * "}" * }
+      if$
+    }
+    { "" }
+  if$
+}
+
+FUNCTION {format.cobiss}
+{ enabled.output.cobiss
+    { cobiss
+      duplicate$ empty$
+        { pop$ "" }
+        { "\cobissprefix\cobiss{" swap$ * "}" * }
       if$
     }
     { "" }
@@ -1434,6 +1452,7 @@ FUNCTION {article}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1471,6 +1490,7 @@ FUNCTION {book}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1489,6 +1509,7 @@ FUNCTION {booklet}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1529,6 +1550,7 @@ FUNCTION {inbook}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1564,6 +1586,7 @@ FUNCTION {incollection}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1603,6 +1626,7 @@ FUNCTION {inproceedings}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1624,6 +1648,7 @@ FUNCTION {manual}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1642,6 +1667,7 @@ FUNCTION {mastersthesis}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1660,6 +1686,7 @@ FUNCTION {phdthesis}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1684,6 +1711,7 @@ FUNCTION {proceedings}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1702,6 +1730,7 @@ FUNCTION {techreport}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1719,6 +1748,7 @@ FUNCTION {misc}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1734,6 +1764,7 @@ FUNCTION {unpublished}
   format.note "note" output.check
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -1756,6 +1787,7 @@ FUNCTION {lecture}
   format.note output
   format.eprint output
   format.url output
+  format.cobiss output
   fin.entry
 }
 
@@ -2088,12 +2120,24 @@ FUNCTION {begin.bib} % most of thse commands are predefined in FRIteza.cls, here
   write$ newline$
   "  \providecommand{\arxiv}[1]{\discretionary{}{}{}#1}"
   write$ newline$
+  enabled.output.cobiss
+    { "  \providecommand{\cobiss}[1]{\discretionary{}{}{}#1}"
+      write$ newline$ 
+    }
+    'skip$
+  if$
   "\else"
   write$ newline$
   "  \providecommand{\doi}{\discretionary{}{}{}\begingroup \urlstyle{rm}\Url}"
   write$ newline$
   "  \providecommand{\arxiv}{\discretionary{}{}{}\begingroup \urlstyle{rm}\Url}"
   write$ newline$
+  enabled.output.cobiss
+    { "  \providecommand{\cobiss}{\discretionary{}{}{}\begingroup \urlstyle{rm}\Url}"
+      write$ newline$
+    }
+    'skip$
+  if$
   "\fi"
   write$ newline$
   "\providecommand{\urlprefix}{\textsc{url:}\,}"
@@ -2102,6 +2146,12 @@ FUNCTION {begin.bib} % most of thse commands are predefined in FRIteza.cls, here
   write$ newline$
   "\providecommand{\arxivprefix}{\textsc{arXiv:}\,}"
   write$ newline$
+  enabled.output.cobiss
+    { "\providecommand{\cobissprefix}{\textsc{cobiss:}\,}"
+      write$ newline$
+    }
+    'skip$
+  if$
   "\providecommand{\foreignlanguage}[1]{\relax}"
   write$ newline$
   "\makeatletter\@ifundefined{bbletal}{\input{bblbst.tex}}{}\makeatother" write$ newline$

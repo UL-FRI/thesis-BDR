@@ -1447,6 +1447,8 @@
 					\expandafter\nociteself\expandafter{\csname @previousPublication@\Alph{pid}\endcsname}
 				}			
 				\bibliographystyleself{FRIteza}
+				%\filename@parse{#1}
+				%\typeout{\filename@area, \filename@base, \filename@ext}
 				\bibliographyself{#1}
 			}
 			
@@ -2928,8 +2930,17 @@
 % format hyperlinks
 \urlstyle{same}
 \providecommand{\url}[1]{\href{#1}{\urlstyle{same}\nolinkurl{#1}}}
+\providecommand{\urlprefix}{\textsc{url:}\,}
 \providecommand{\doi}[1]{\href{https://doi.org/#1}{\urlstyle{same}\nolinkurl{#1}}}
-\providecommand{\arXiv}[1]{\href{https://arxiv.org/abs/#1}{\urlstyle{same}\nolinkurl{#1}}}
+\providecommand{\doiprefix}{\textsc{doi:}\,}
+\providecommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{\urlstyle{same}\nolinkurl{#1}}}
+\providecommand{\arxivprefix}{\textsc{arXiv:}\,}
+% show cobbiss fields
+%\providecommand{\cobiss}[1]{\href{https://plus.si.cobiss.net/opac7/bib/#1}{\urlstyle{same}\nolinkurl{#1}}}
+%\providecommand{\cobissprefix}{\textsc{cobiss:}\,}
+% gobble cobiss fields
+\providecommand{\cobissprefix}{}
+\providecommand{\cobiss}[1]{\@gobble}
 
 % declare pdf transforms for unsupported commands
 % i.e. commands that issue hyperref warning "Token not allowed in a PDF string (Unicode)"
