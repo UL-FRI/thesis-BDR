@@ -147,7 +147,7 @@ Unpack overleaf _TODO_??
 
 ***
 
-<a id="note1" href="#note1ref"><sup>1</sup></a>Note that there is a minor bug in `latexmk.pl` specific to our use case. The script's author has already been contacted, but until a new version is released you should override the current version (v4.61) with the modified version (v4.61+) that is provided in `editor-cfg/`. Depending on your OS you should copy `latexmk.pl` into `C:\Program Files\MiKTeX 2.9\scripts\latexmk\` (Windows), `~/.miktex/texmfs/install/scripts/latexmk/` (Linux), or `~/Library/Application Support/MiKTeX/texmfs/install/scripts/latexmk/` (macOS). 
+<a id="note1" href="#note1ref"><sup>1</sup></a>Note that there is a minor bug in `latexmk.pl` specific to our use case. John Collins, the script's author, has upon our request already fixed the issue. Until the new version is released in [CTAN](http://ctan.org/) you should override the current version (v4.61) with version [v4.63](http://personal.psu.edu/~jcc8/software/latexmk/versions.html) that is provided in `editor-cfg/`. Depending on your OS you should copy `latexmk.pl` into `C:\Program Files\MiKTeX 2.9\scripts\latexmk\` (Windows), `~/.miktex/texmfs/install/scripts/latexmk/` (Linux), or `~/Library/Application Support/MiKTeX/texmfs/install/scripts/latexmk/` (macOS). 
 
 <a id="note2" href="#note2ref"><sup>2</sup></a>Both are available for Windows, Linux and macOS.
 
