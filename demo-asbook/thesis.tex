@@ -1,84 +1,80 @@
-% load FRI thesis document class with options: 
+%%% FRIteza prerequisites
+%
+% load FRIteza document class with options:
+%
 % - language=english for writing in english as main language [default]
 % - language=slovene for writing in slovene as main language
-% - funding=logo.pdf for a funded doctoral thesis - doktorska disertacija MR iz gospodarstva, 
+%
+% - funding=logo.pdf for a funded doctoral thesis - doktorska disertacija MR iz gospodarstva,
+%
 % - stage=pre-alpha for early drafts - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
 % - stage=alpha for first review by advisor - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
 % - stage=beta for seminar 5 - no chapter thumbs, smaller page size, which leads to increased font sizes when printed on A4 fit to page [seeks for images in directories /img_LQ, /img]
 % - stage=gamma for senate approval - no chapter thumbs, TODO: includes notes showing reviewer comments (and author response) [seeks for images in directories /img_LQ, /img]
 % - stage=gold for final approved version - notes not displayed, chapter pages in colour, chapter thumbs [seeks for images in directories /img_LQ, /img]
 % - stage=press for print version - gold with trim marks, includes also coverpage [seeks for images in directories /img_HQ, /img]
+%
 \documentclass[language=english,stage=gold]{FRIteza}
 
+%%% metadata section
+%
+
+% provide author full name and abreviated name for running heads
 \author[A={I Lebar Bajec}]{Iztok Lebar Bajec}
 
+% privde doctoral dissertation title
+% \title[language=<lang>, A=<alternate title for running heads>]{<title>}
 \title[language=english]{Fuzzy model for a computer simulation of bird flocking}
 \title[language=slovene]{Mehki model za računalniško simulacijo letenja ptic v jati}
 
+% provide list of keywords
+% \keywords[language=<lang>]{<keywords list>}
 \keywords[language=english]{bird, flock, boid, animat, fuzzy logic, fuzzy modelling, fuzzy animat, artificial life, behavioural animation}
 \keywords[language=slovene]{ptica, jata, boid, animat, mehka logika, mehko modeliranje, mehki animat, umetno življenje, vedenjska animacija}
 
-% primer v slovenskem jeziku
-%\approvedBy[title={izredni profesor za računalništvo in informatiko}, role={mentor in član ocenjevalne komisije}]{dr. Nikolaj Zimic}
-%\approvedBy[title={izredni profesor za računalništvo in informatiko}, role={predsednik ocenjevalne komisije}]{dr. Blaž Zupan}
-%\approvedBy[affiliation={University of Rhode Island}, title={Professor Emeritus of Biological Sciences}, role={zunanji član ocenjevalne komisije}]{dr. Frank H. Heppner}
+% provide committee details
+% \approvedBy[title=<professional title>, role=<role in committee>, affiliation=<affiliation for external>]{<keywords list>}
 \approvedBy[title={Associate Professor of Computer and Information Science}, role={advisor and examiner}]{dr. Nikolaj Zimic}
 \approvedBy[title={Associate Professor of Computer and Information Science}, role={examiner}]{dr. Blaž Zupan}
 \approvedBy[affiliation={University of Rhode Island}, title={Professor Emeritus of Biological Sciences}, role={external examiner}]{dr. Frank H. Heppner}
 
-\previousPublication{%
-	Lebar~Bajec I, Zimic N, Mraz M (2003) 
-	Fuzzifying the thoughts of animats in
-	\emph{Fuzzy Sets and Systems: Proceedings of the 10th International Fuzzy Systems Association World Congress (IFSA 2003)}, 
-	Lecture Notes in Artificial Intelligence, Vol. 2715,
-	eds. Bilgiç T, De~Baets B, Kaynak O. 
-	(Springer-Verlag, Berlin), 
-	doi:\,\doi{10.1007/3-540-44967-1_23}.
-}
-\previousPublication{%
-	Lebar~Bajec I, Zimic N, Mraz M (2003) 
-	Boids with a fuzzy way of thinking, in
-	\emph{Proceedings of Artificial Intelligence and Soft Computing (ASC 2003)},
-	ed. Leung H.
-	(ACTA Press, Anaheim), pp. 58--62.
-}
-\previousPublication{%
-	Lebar~Bajec I (15/04/2005) 
-	\emph{Fuzzy logic and bird flock simulations}. 
-	Invited lecture, University of Rhode Island, Department of Biological Sciences, Kingston, RI.
-}
-\previousPublication{%
-	Lebar~Bajec I, Zimic N, Mraz M (2005) 
-	Simulating flocks on the wing: the fuzzy approach.
-	\emph{Journal of Theoretical Biology}
-	doi:\,\doi{10.1016/j.jtbi.2004.10.003}.
-}
+% list references that demonstrate that the scientific contribution of the doctoral dissertation has been previously published/presented by the author as fist author
+\citePreviousPublication{lebar_bajec:2003a,lebar_bajec:2003b,lebar_bajec:2005c,lebar_bajec:2005a}
 
 % force correct date display, ignored if stage not gold or press
 \forceDate{6}{2005}
 
-% define cover 
+% define cover
 % \cover[title=<title to appear on cover page>, loc=<location of the title>, colour=<colour of the title>]{coverImage}
 % defaults: title=\title{#}, loc=NE, colour=P1797
 % notes:
-%  title - use title to insert prefered line breaking with '\\' 
+%  title - use title to insert preferred line breaking with '\\'
 %  loc - options NE, SE, NW, SW
 %  colour - options P1797, white, black
-\cover[loc={NE}, colour={P1797}]{coverImage.jpg} 
+\cover[loc={NE}, colour={P1797}]{coverImage.jpg}
 % define spine
 % \spine[title=<title to appear on spine>, pages=<number of pages in book>]{thesisId in decimal}
 % defaults: title=\title[A={#}], pages=\ztotpages-2
 % notes:
-%  title - use title to provide a shortended title for the spine 
-%  pages - provide the total number of pages in book, excluding cover and jobinfo (number of pages in pdf - 2) 
+%  title - use title to provide a shortened title for the spine
+%  pages - provide the total number of pages in book, excluding cover and jobinfo (number of pages in pdf - 2)
 \spine{80}
 
-% load path for graphics files
-%\graphicspath{{img/}}
-%\DeclareGraphicsExtensions{.pdf,.png,.jpg} % search order for graphics files
+
+%%% Packages section
+%
+
+% load path for graphics files, predefined by FRIteza.cls depending on the stage parameter
+% \graphicspath{{img/}}
+% \DeclareGraphicsExtensions{.pdf,.png,.jpg} % default search order for graphics files
 
 \usepackage{xspace} % helper package for automatic spaces after replacement macros, to be used with caution
-%% define common abbreviations
+
+
+%%% User defined macros
+%
+
+% define common abbreviations
 \newcommand{\ie}{i.e.\xspace} % id est ~ that is
 \newcommand{\eg}{e.g.\xspace} % exempli gratia ~ for example
 \newcommand{\etc}{etc.\xspace} % et cetera ~ and so on
@@ -87,20 +83,20 @@
 \newcommand{\figs}{Figs.} % reference multiple figures
 \newcommand{\tab}{Tab.} % reference a table
 
-%% define macros for frequently used commands 
+% define macros for frequently used commands
 \newcommand{\eng}[1]{angl. #1} % english original
 
-%% notation
+% notation
 \newcommand{\R}{\Rset} \newcommand{\Rset}{\ensuremath{\mathbb{R}}} % real numbers symbol
 \newcommand{\N}{\Nset} \newcommand{\Nset}{\ensuremath{\mathbb{N}}} % natural numbers symbol
 \newcommand{\E}{\Eset} \newcommand{\Eset}{\ensuremath{\mathbb{E}}} % euclidean vector space symbol
-\newcommand{\set}[1]{{\ensuremath{\symbfup{#1}}}} % set; introduction + 
-\newcommand{\powset}[1]{\ensuremath{\mathcal{P}(#1)}} % power set; introduction +  
-\newcommand{\vect}[1]{\ensuremath{\symbfup{#1}}} % vector; introduction + 
+\newcommand{\set}[1]{{\ensuremath{\symbfup{#1}}}} % set; introduction +
+\newcommand{\powset}[1]{\ensuremath{\mathcal{P}(#1)}} % power set; introduction +
+\newcommand{\vect}[1]{\ensuremath{\symbfup{#1}}} % vector; introduction +
 \newcommand{\autom}[1]{{\ensuremath{\symrm{#1}}}} % automaton; animat
 %
-\newcommand{\fset}[1]{{\ensuremath{\tilde{\set{#1}}}}} % fuzzy set; introduction +  
-\newcommand{\fpowset}[1]{\ensuremath{\symcal{F}(#1)}} % fuzzy power set; introduction +  
+\newcommand{\fset}[1]{{\ensuremath{\tilde{\set{#1}}}}} % fuzzy set; introduction +
+\newcommand{\fpowset}[1]{\ensuremath{\symcal{F}(#1)}} % fuzzy power set; introduction +
 \newcommand{\fautom}[1]{\ensuremath\tilde{\symup{#1}}} % fuzzy automaton; fuzzyanimat
 \newcommand{\ffunc}[1]{\ensuremath\tilde{#1}} % fuzzy function; fuzzyanimat
 %
@@ -117,53 +113,41 @@
 %
 \newcommand{\fov}{\ensuremath\mathit{fov}} % field of view; \mathit ensures proper kerning between f and o, a common issue for multichar variables
 
-% define additional hyphenation patterns
+
+%%% Define additional hyphenation patterns to prevent overfull boxes
+%
 \sethyphenation{english}{pri-mar-i-ly} % https://www.hyphenation24.com/
 
 
-\begin{document}
+%%% Document body
+%
 
-% TODO: show as an example of subfigure use
-%\begin{figure}
-%	\begin{subfigure}[b]{.5\figurewidth-3.5pt}
-%		\noindent\hrulefill\par
-%		\includegraphics{fig_fuzzySet_a}
-%		\caption{sub A}\label{labA}
-%	\end{subfigure}
-%	\hfill
-%	\begin{subfigure}[b]{.5\figurewidth-3.5pt}
-%		\noindent\hrulefill\par
-%		\includegraphics{fig_fuzzySet_b}
-%		\caption{sub B}\label{labB}
-%	\end{subfigure}
-%	\caption{Membership functions of a crisp set of real numbers `from 3 to 5' \subref{labA} and a fuzzy set of real numbers `close to 4' \subref{labB}.}
-%	\label{fig:fuzzy:set0}
-%\end{figure}
+\begin{document}
 
 \makecoverpage
 
 \frontmatter
- 	\maketitle
- 	\makeapprovedby
-	\makepreviouspublication
- 	\input{thesis-dedication}
- 	\input{thesis-abstract}
- 	\input{thesis-acknowledgements}
- 	\tableofcontents
+  \maketitle
+  \makeapprovedby
+  \makepreviouspublication{ilb}
+  \input{thesis-dedication}
+  \input{thesis-abstract}
+  \input{thesis-acknowledgements}
+  \tableofcontents
 
 \mainmatter
- 	\input{thesis-ch1_introduction}
- 	\input{thesis-ch2_birdflocks}
- 	\input{thesis-ch3_animat}
- 	\input{thesis-ch4_fuzzymodelling}
-	\input{thesis-ch5_fuzzyanimat}
- 	\input{thesis-ch6_analysis}
- 	\input{thesis-conclusion}
- 	\begin{appendices}
-	\end{appendices}
+  \input{thesis-ch1_introduction}
+  \input{thesis-ch2_birdflocks}
+  \input{thesis-ch3_animat}
+  \input{thesis-ch4_fuzzymodelling}
+  \input{thesis-ch5_fuzzyanimat}
+  \input{thesis-ch6_analysis}
+  \input{thesis-ch7_conclusion}
+  \begin{appendices}
+  \end{appendices}
 
 \backmatter
- 	\input{thesis-bibliography}
-	\input{thesis-slo}
+  \input{thesis-bibliography}
+  \input{thesis-slo}
 
 \end{document}

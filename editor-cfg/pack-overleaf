@@ -3,41 +3,41 @@
 # usage
 function usage
 {
-	printf "\n" 
-	printf "Usage: pack-overleaf <directory>\n"
-	printf "\n"
-	printf "      <directory>    Pack directory for overleaf.\n"
-    printf "                     All necessary files will be included.\n"
-	printf "\n"
-    exit 1
+  printf "\n"
+  printf "Usage: pack-overleaf <directory>\n"
+  printf "\n"
+  printf "      <directory>    Pack directory for overleaf.\n"
+  printf "                     All necessary files will be included.\n"
+  printf "\n"
+  exit 1
 }
 
 # usage-arg
 function usage_arg
 {
-    printf "Argument missing, specify directory to pack\n"
-    usage
+  printf "Argument missing, specify directory to pack\n"
+  usage
 }
 
 # check arguments
 if [ $# -lt 1 ]; then usage_arg; fi
 if [ $# -gt 1 ]; then usage; fi
 
-# set name of package, remove trailing slash if necessary 
+# set name of package, remove trailing slash if necessary
 p=${1%/} # package
 
 # check <directory> exists
-if ! [ -d "$1" ]; then 
-    printf "No directory named '$1' exists. Nothing to pack.\n"
-    printf "\n"
-    exit 2
+if ! [ -d "$1" ]; then
+  printf "No directory named '$1' exists. Nothing to pack.\n"
+  printf "\n"
+  exit 2
 fi
 
 # pack
-if ! [ -d "overleaf/" ]; then 
-    mkdir overleaf/
+if ! [ -d "overleaf/" ]; then
+  mkdir overleaf/
 else
-    rm -f overleaf/$p.zip
+  rm -f overleaf/$p.zip
 fi
 
 zip -r overleaf/$p.zip ./README.md
