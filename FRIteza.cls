@@ -135,7 +135,7 @@
 % TODO test with just two font sizes 12 & 8 as optical size, compute best font size based on width of body text; see vaignelli cannon & memoire.pdf
 % https://pearsonified.com/2011/12/golden-ratio-typography.php
 % http://ftp.math.purdue.edu/mirrors/ctan.org/info/memdesign/memdesign.pdf pg 48
-\input{bk9.clo} % TODO: font sizes, convert to bp [check use of all fontsizes and declare appropriately, headers, footnotes, captions, etc.]
+\input{FRIteza.clo} % TODO: font sizes, convert to bp [check use of all fontsizes and declare appropriately, headers, footnotes, captions, etc.]
 
 %\RequirePackage{ebgaramond}
 %\RequirePackage{ebgaramond-maths} % should this be included for proper microtype?
