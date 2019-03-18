@@ -3,27 +3,27 @@
 # usage
 function usage
 {
-    printf "\n"
-    printf "Usage: build [<stage>]\n"
-    printf "\n"
-    printf "      <stage>        Build pdf in stage:\n"
-    printf "                     pre-alpha, alpha, beta, gamma, gold, press.\n"
-    printf "\n"
-    exit 1
+  printf "\n"
+  printf "Usage: build [<stage>]\n"
+  printf "\n"
+  printf "      <stage>        Build pdf in stage:\n"
+  printf "                     pre-alpha, alpha, beta, gamma, gold, press.\n"
+  printf "\n"
+  exit 1
 }
 
 # usage-arg
 function usage_arg
 {
-    printf "Argument missing, specify stage: pre-alpha, alpha, beta, gamma, gold, press\n"
-    usage
+  printf "Argument missing, specify stage: pre-alpha, alpha, beta, gamma, gold, press\n"
+  usage
 }
 
 # check arguments
 if [ $# -lt 1 ]; then
-    # build no parameter
-    latexmk -synctex=1 -file-line-error
-    exit $?
+  # build no parameter
+  latexmk -synctex=1 -file-line-error
+  exit $?
 fi
 if [ $# -gt 1 ]; then usage; fi
 
@@ -35,4 +35,4 @@ j="thesis-$s" # jobname
 c="\newcommand{\stage}{$s}" # pretex
 
 # build
-latexmk -synctex=1 -file-line-error -pretex="$c" -jobname="$j"  
+latexmk -synctex=1 -file-line-error -pretex="$c" -jobname="$j"

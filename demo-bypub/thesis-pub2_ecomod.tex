@@ -40,38 +40,38 @@ Scientists that use computational approaches to study collective behaviour usual
 Since several studies \cite{huth1992simulation,kunz2012simulations} showed that the dimensionality of the model minimally affects the results of the simulations of schooling systems without a predator, our model is for computational simplicity also two-dimensional. It consists of two types of agents -- a solitary predator and a group of prey. The behaviour of an individual depends on its nearby neighbours. The goal of prey individuals is to survive, while the predator tries to catch as many prey individuals as possible. In our model the behaviour of prey is not a part of the evolutionary process, it is pre-set so that the group of prey moves in a polarized cohesive manner; only the behaviour of the predator evolves.
 
 \begin{table}
-	\caption{Values for zone radii, weights and other parameters of our model.}
-	\label{tab:parameters}
-	\begin{tabular}{llll}
-		\toprule
-		Parameter & Description & Default value & Tested value\\
-		\midrule
-		Prey\\
-		\quad$v_\textnormal{m}$ & Maximum speed of prey & \BLps{4} & \\
-		\quad$v_\textnormal{c}$ & Cruising speed of prey & \BLps{2} & \\ 
-		\quad$\phi$ & Prey's field of view & \ang{300} & \\
-		\quad$r_\textnormal{s}$ & Zone radius for the separation drive & \BL{5} & \\
-		\quad$r_\textnormal{a}$ & Zone radius for the alignment drive & \BL{25} & \\
-		\quad$r_\textnormal{c}$ & Zone radius for the cohesion drive & \BL{100} & \\
-		\quad$r_\textnormal{e}$ & Zone radius for the escape drive & \BL{100} & \BL{50} \\
-		\quad$w_\textnormal{s}$ & Weight for the separation drive & \SI{5}{\per\second\squared} & \\
-		\quad$w_\textnormal{a}$ & Weight for the alignment drive & \SI{0.3}{\per\second} & \\
-		\quad$w_\textnormal{c}$ & Weight for the cohesion drive & \SI{0.01}{\per\second\squared} & \\
-		\quad$w_\textnormal{e}$ & Weight for the escape drive & \SI{5}{\per\second\squared} & \SI{12}{\per\second\squared} \\
-		\quad$a_\textnormal{m}$ & Prey's maximum acceleration & \BLpss{2} & \\
-		\quad$L$ & Body length (\si{\bodylength}) & \SI{0.2}{\metre} & \\
-		Predator\\
-		\quad$L_\textnormal{p}$ & Predator body length (\si{\predatorbodylength}) & \BL{6} & \\
-		\quad$v_\textnormal{mp}$ & Maximum speed of the predator & \BLps{6} & \\
-		\quad$v_\textnormal{cp}$ & Cruising speed of the predator & \BLps{3} & \\
-		\quad$r_\textnormal{h}$ & Zone radius for the hunt drive & \BL{400} & \\
-		\quad$r_\textnormal{co}$ & Confusability radius & \BL{25} & \BL{0}\ \\
-		\quad$a_\textnormal{h}$ & Hunting acceleration & \BLpss{2.5} & \\
-		\quad$d_\textnormal{c}$ & Catch distance & \PBL{1} (\BL{6}) & \\
-		\quad$t_\textnormal{h}$ & Handling time & \SI{30}{\second} & \\
-		\quad$t_\textnormal{r}$ & Refocus time & \SI{30}{\second} & \\
-		\bottomrule
-	\end{tabular}
+  \caption{Values for zone radii, weights and other parameters of our model.}
+  \label{tab:parameters}
+  \begin{tabular}{llll}
+    \toprule
+    Parameter & Description & Default value & Tested value\\
+    \midrule
+    Prey\\
+    \quad$v_\textnormal{m}$ & Maximum speed of prey & \BLps{4} & \\
+    \quad$v_\textnormal{c}$ & Cruising speed of prey & \BLps{2} & \\
+    \quad$\phi$ & Prey's field of view & \ang{300} & \\
+    \quad$r_\textnormal{s}$ & Zone radius for the separation drive & \BL{5} & \\
+    \quad$r_\textnormal{a}$ & Zone radius for the alignment drive & \BL{25} & \\
+    \quad$r_\textnormal{c}$ & Zone radius for the cohesion drive & \BL{100} & \\
+    \quad$r_\textnormal{e}$ & Zone radius for the escape drive & \BL{100} & \BL{50} \\
+    \quad$w_\textnormal{s}$ & Weight for the separation drive & \SI{5}{\per\second\squared} & \\
+    \quad$w_\textnormal{a}$ & Weight for the alignment drive & \SI{0.3}{\per\second} & \\
+    \quad$w_\textnormal{c}$ & Weight for the cohesion drive & \SI{0.01}{\per\second\squared} & \\
+    \quad$w_\textnormal{e}$ & Weight for the escape drive & \SI{5}{\per\second\squared} & \SI{12}{\per\second\squared} \\
+    \quad$a_\textnormal{m}$ & Prey's maximum acceleration & \BLpss{2} & \\
+    \quad$L$ & Body length (\si{\bodylength}) & \SI{0.2}{\metre} & \\
+    Predator\\
+    \quad$L_\textnormal{p}$ & Predator body length (\si{\predatorbodylength}) & \BL{6} & \\
+    \quad$v_\textnormal{mp}$ & Maximum speed of the predator & \BLps{6} & \\
+    \quad$v_\textnormal{cp}$ & Cruising speed of the predator & \BLps{3} & \\
+    \quad$r_\textnormal{h}$ & Zone radius for the hunt drive & \BL{400} & \\
+    \quad$r_\textnormal{co}$ & Confusability radius & \BL{25} & \BL{0}\ \\
+    \quad$a_\textnormal{h}$ & Hunting acceleration & \BLpss{2.5} & \\
+    \quad$d_\textnormal{c}$ & Catch distance & \PBL{1} (\BL{6}) & \\
+    \quad$t_\textnormal{h}$ & Handling time & \SI{30}{\second} & \\
+    \quad$t_\textnormal{r}$ & Refocus time & \SI{30}{\second} & \\
+    \bottomrule
+  \end{tabular}
 \end{table}
 
 Our prey and predator models are zone-based \cite{aoki1982simulation,couzin2002collective}, meaning that in the process of calculating the acceleration that represents a particular drive only the individuals that are located within the boundaries of that particular drive's zone are taken into account. The final acceleration that represents the individual's action is a weighted sum of the drives. Parameters of the prey agent were set as in an earlier model \cite{hemelrijk2010emergence} based on empirical research of mullets (\emph{Chelon labrosus}) \cite{videler1993fish}. Following Inada \& Kawachi \cite{inada2002order}, the parameters of the predator agent were set so that it was \num{1.5} times faster than the prey, but we also made it less manoeuvrable \cite{domenici2001scaling}. Preliminary simulations where the predator's speed was equal to that of the prey showed that in this case the predator almost never catches the targeted prey. The only exception is when it approaches an isolated prey directly from behind. In this case the prey is unable to see the predator approaching (as the predator is in its blind spot) and therefore it is not even trying to escape. A short descriptions of all of the model's parameters and their default values can be seen in \tablename~\ref{tab:parameters}.
@@ -82,8 +82,8 @@ Our prey and predator models are zone-based \cite{aoki1982simulation,couzin2002c
 In our model the principal mechanism of neighbourhood perception is vision; the prey's field of view is \ang{300} wide with a blind angle of \ang{60} behind it \cite{fernandezjuricic2004visual,reuter2005selforganization}. The field of view limited neighbourhood is the set of agents that consists of agents that are a) not the observed individual itself, and b) within the \ang{300} degree visual range of the observed individual:
 %
 \begin{equation}
-\set{N} = \{j \in \set{A}|\ j \neq i, \uvec{v}\cdot\uvec{d}_j \geq \vartheta\},
-\label{eq:neighbourhood}
+  \set{N} = \{j \in \set{A}|\ j \neq i, \uvec{v}\cdot\uvec{d}_j \geq \vartheta\},
+  \label{eq:neighbourhood}
 \end{equation}
 %
 where $\set{A}$ is a set consisting of the predator agent and prey agents, $i$ is the observed prey agent, $\vec{v}$ its current velocity and $\uvec{v}=\vec{v}/\|\vec{v}\|$ its current heading, $\uvec{d}_j=(\vec{p}_j-\vec{p})/\|\vec{p}_j-\vec{p}\|$ is the unit direction vector pointing from the current position of the observed prey agent to the current position of agent $j$ and $\vartheta$ is the cosine of the prey's field of view. The field of view limited neighbourhood $\set{N}$ is used for computing the observed individual's drives.
@@ -93,25 +93,25 @@ A prey agent has four drives and thus four zones -- \emph{separation}, \emph{ali
 Each of the four drives returns an acceleration vector that represents the prey's action according to the specific drive. The actual acceleration that is used to update the prey's velocity, is calculated as a weighted sum of all four drives:
 %
 \begin{equation}
-\vec{a}=w_\textnormal{s}\vec{a}_\textnormal{s}+w_\textnormal{a}\vec{a}_\textnormal{a}+w_c\vec{a}_\textnormal{c}+w_e\vec{a}_\textnormal{e},
+  \vec{a}=w_\textnormal{s}\vec{a}_\textnormal{s}+w_\textnormal{a}\vec{a}_\textnormal{a}+w_c\vec{a}_\textnormal{c}+w_e\vec{a}_\textnormal{e},
 \end{equation}
 %
 where $w_\textnormal{s}$, $w_\textnormal{a}$, $w_\textnormal{c}$, $w_\textnormal{e}$ are the weights and $\vec{a}_\textnormal{s}$, $\vec{a}_\textnormal{a}$, $\vec{a}_\textnormal{c}$, $\vec{a}_\textnormal{e}$ the corresponding accelerations for the separation, alignment, cohesion and escape drive respectively. The weights were pre-set to \SI{5}{\per\second\squared}, \SI{0.3}{\per\second}, \SI{0.01}{\per\second\squared} and \SI{5}{\per\second\squared} respectively, so that the prey moved in a cohesive polarised manner. If the length of the acceleration vector exceeds the prey's maximum acceleration (\BLpss{2}) the acceleration vector is shortened so that its length equals the prey's maximum acceleration and the length of the updated velocity vector is kept within the prey's cruising and maximum speed:
 %
 \begin{eqnarray}
-\vec{v}'=[\vec{v}+[\vec{a}]_{[0,a_m]}\Delta t]_{[v_\textnormal{c},v_\textnormal{m}]},\\
-\label{eq:v}
-\vec{p}'= \vec{p} + \vec{v}'\Delta t,
+  \vec{v}'=[\vec{v}+[\vec{a}]_{[0,a_m]}\Delta t]_{[v_\textnormal{c},v_\textnormal{m}]},\\
+  \label{eq:v}
+  \vec{p}'= \vec{p} + \vec{v}'\Delta t,
 \end{eqnarray}
 %
 where $\vec{v}$ is the current velocity of the observed prey agent, $\vec{p}$ its current position, $a_\textnormal{m}$ and $v_\textnormal{m}$ the prey's maximum acceleration and maximum speed, $v_\textnormal{c}$ the prey's cruising speed, $\Delta t$ the simulation time step, $\vec{v}'$ and $\vec{p}'$ the velocity and position of the observed prey agent in the next simulation time step respectively, and
 %
 \begin{equation}
-[\vec{x}]_{[a,b]}=\begin{cases}
-a\uvec{x} & \textnormal{iff}\ \|\vec{x}\| < a \\
-b\uvec{x} & \textnormal{iff}\ \|\vec{x}\| > b \\
-\vec{x} & \textnormal{otherwise,}
-\end{cases}
+  [\vec{x}]_{[a,b]} = \begin{cases}
+    a\uvec{x} & \textnormal{iff}\ \|\vec{x}\| < a \\
+    b\uvec{x} & \textnormal{iff}\ \|\vec{x}\| > b \\
+    \vec{x} & \textnormal{otherwise,}
+  \end{cases}
 \end{equation}
 %
 where $\vec{x}$ is a vector and $a$ and $b$ are the lower and upper length bounds.
@@ -119,8 +119,8 @@ where $\vec{x}$ is a vector and $a$ and $b$ are the lower and upper length bound
 The three drives, separation, alignment, and cohesion, are the drives that are most commonly used in computer models of collective behaviour \cite{reynolds1987flocks}. The separation drive helps prey avoid collisions. The acceleration that represents the prey's action (change in speed and heading) according to this drive is defined as:
 %
 \begin{equation}
-\vec{a}_\textnormal{s}=\frac{1}{|\set{N}_\textnormal{s}|} \sum_{j \in \set{N}_\textnormal{s}}\left(-\uvec{d}_j\left(1-\frac{\|\vec{d}_j\|}{r_\textnormal{s}}\right)\right),\quad 
-\set{N}_\textnormal{s} = \{j \in \set{N}|\ j \neq p,\ \|\vec{d}_j\| \leq r_\textnormal{s} \},
+  \vec{a}_\textnormal{s}=\frac{1}{|\set{N}_\textnormal{s}|} \sum_{j \in \set{N}_\textnormal{s}}\left(-\uvec{d}_j\left(1-\frac{\|\vec{d}_j\|}{r_\textnormal{s}}\right)\right),\quad
+  \set{N}_\textnormal{s} = \{j \in \set{N}|\ j \neq p,\ \|\vec{d}_j\| \leq r_\textnormal{s} \},
 \end{equation}
 %
 where $j$ is an influencing neighbour, $p$ the predator, $\vec{d}_j=\vec{p}_j-\vec{p}$ is the offset vector pointing from the current position of the observed prey agent to the current position of agent $j$, $r_\textnormal{s}$ is the separation zone radius and $\set{N}$ the field of view limited neighbourhood as defined in \eq~\eqref{eq:neighbourhood}.
@@ -128,8 +128,8 @@ where $j$ is an influencing neighbour, $p$ the predator, $\vec{d}_j=\vec{p}_j-\v
 With the alignment drive, prey synchronize their velocities. The acceleration that represents the prey's action is defined as:
 %
 \begin{equation}
-\vec{a}_\textnormal{a}=\left(\frac{1}{|\set{N}_\textnormal{a}|} \sum_{j \in \set{N}_\textnormal{a}} \vec{v}_j\right)-\vec{v},\quad 
-\set{N}_\textnormal{a}=\{j \in \set{N}|\ j \neq p,\ r_\textnormal{s} \leq \|\vec{d}_j\| \leq r_\textnormal{a} \},
+  \vec{a}_\textnormal{a}=\left(\frac{1}{|\set{N}_\textnormal{a}|} \sum_{j \in \set{N}_\textnormal{a}} \vec{v}_j\right)-\vec{v},\quad
+  \set{N}_\textnormal{a}=\{j \in \set{N}|\ j \neq p,\ r_\textnormal{s} \leq \|\vec{d}_j\| \leq r_\textnormal{a} \},
 \end{equation}
 %
 where $\vec{v}$ is the velocity of the observed prey agent, $\vec{v}_j$ is the velocity of agent $j$ and $r_\textnormal{a}$ is the alignment zone radius.
@@ -137,7 +137,7 @@ where $\vec{v}$ is the velocity of the observed prey agent, $\vec{v}_j$ is the v
 The cohesion drive simulates attraction toward distant prey and the acceleration that represents the prey's action is defined as:
 %
 \begin{equation}
-\vec{a}_\textnormal{c}=\frac{1}{|\set{N}_\textnormal{c}|} \sum_{j \in \set{N}_\textnormal{c}} \vec{d}_j,\quad \set{N}_\textnormal{c}=\{j \in \set{N}|\ j \neq p,\ r_\textnormal{a} \leq \|\vec{d}_j\| \leq r_\textnormal{c} \},
+  \vec{a}_\textnormal{c}=\frac{1}{|\set{N}_\textnormal{c}|} \sum_{j \in \set{N}_\textnormal{c}} \vec{d}_j,\quad \set{N}_\textnormal{c}=\{j \in \set{N}|\ j \neq p,\ r_\textnormal{a} \leq \|\vec{d}_j\| \leq r_\textnormal{c} \},
 \end{equation}
 %
 where $r_\textnormal{s}$ is the separation zone radius.
@@ -145,10 +145,10 @@ where $r_\textnormal{s}$ is the separation zone radius.
 The escape drive represents the prey's tendency to escape from the predator. It is represented as the acceleration away from the predator's current position, and calculated as
 %
 \begin{equation}
-\vec{a}_\textnormal{e}=\begin{cases}
--\uvec{d}_p\left(1-\frac{\|\vec{d}_p\|}{r_\textnormal{e}}\right) & \textnormal{iff}\ p \in \set{N} \wedge \|\vec{d}_p\| \leq r_\textnormal{e}\\
-\vec{0} & \textnormal{otherwise,}
-\end{cases}
+  \vec{a}_\textnormal{e} = \begin{cases}
+    -\uvec{d}_p\left(1-\frac{\|\vec{d}_p\|}{r_\textnormal{e}}\right) & \textnormal{iff}\ p \in \set{N} \wedge \|\vec{d}_p\| \leq r_\textnormal{e}\\
+    \vec{0} & \textnormal{otherwise,}
+  \end{cases}
 \end{equation}
 %
 where $p$ is the predator and $r_\textnormal{e}$ is the escape zone radius.
@@ -157,26 +157,26 @@ The maximum speed of prey was set to \BLps{4}, and the cruising speed was set to
 
 %-----
 \subsection{The predator}
- 
+
 During foraging in nature some avian visual sit-and-wait predators \cite{gall2010visual,orourke2010hawkeyes2} scan the neighbourhood by turning their head, while some aquatic predators reduce travel speed and increase turning rate in areas where resources are relatively more abundant, a behaviour termed ``area-restricted search'' \cite{thums2011insitu}. Some avian visual predatory species in nature have a higher visual acuity than prey and detect prey at far distances \cite{andersson2009predator}, while some aquatic predators, \eg swordfish (\emph{Xiphias gladius}), warm their retina to significantly improve temporal resolution, and hence the detection of rapid motion \cite{fritsches2005warm}. Since the goal of this research is not the investigation of the relationship between the predator foraging strategy and prey encounter/foraging success, but rather the target selection tactics and hunting success the predator field of view in our model is \ang{360} wide -- there is no blind angle. Additionally, in order to diminish the occurrences when the predator ``did not see a potential prey'' our predator agent can perceive prey in a radius of \BL{400}.
 
 Like in other studies \cite{demsar2014simulated,kunz2006prey,nishimura2002predator,olson2013predator} our study focuses on the target selection phase of the predator attack. Once the target is selected, the predator uses classical pursuit \cite{nahin2012chases} to chase the prey, \ie it heads directly toward the evading prey, so that the image of the prey is centred on its visual field. Thus the behaviour of the predator is governed only by the hunt drive; the \emph{hunt} drive is defined as an acceleration that points towards the position of the current target:
 %
 \begin{equation}
-\vec{a}_h=\begin{cases}
-a_\textnormal{h} \uvec{d}_t & \textnormal{iff}\ \|\vec{d}_t\| \leq r_\textnormal{h} \\
-\vec{0} & \textnormal{otherwise,}
-\end{cases}
+  \vec{a}_h = \begin{cases}
+    a_\textnormal{h} \uvec{d}_t & \textnormal{iff}\ \|\vec{d}_t\| \leq r_\textnormal{h} \\
+    \vec{0} & \textnormal{otherwise,}
+  \end{cases}
 \end{equation}
 %
-where $t$ is the target prey agent, $a_\textnormal{h}$ is the hunting acceleration, and $r_\textnormal{h}$ the hunt zone radius. Which prey is targeted depends on the predator's tactic -- see sections \ref{sec:mix} (\nameref{sec:mix}) and \ref{sec:dispersing} (\nameref{sec:dispersing}). 
+where $t$ is the target prey agent, $a_\textnormal{h}$ is the hunting acceleration, and $r_\textnormal{h}$ the hunt zone radius. Which prey is targeted depends on the predator's tactic -- see sections \ref{sec:mix} (\nameref{sec:mix}) and \ref{sec:dispersing} (\nameref{sec:dispersing}).
 
 The predator moving forward at its current velocity with no change in heading when it does not see any prey, might appear an unrealistic foraging pattern for predators. However, as our study did not concentrate on foraging patterns when there is no potential prey nearby but rather on target selection and hunting tactics when multiple potential prey are visible, the handling time, refocus time and perception radius of the predator were set to be such that the occasions when the predator ``did not see a potential prey'' were extremely rare.
 
 Since the predator uses only the hunt drive, \eq~\eqref{eq:v} in the case of the predator becomes
 %
 \begin{equation}
-\vec{v}'=[\vec{v}+\vec{a}_\textnormal{h}\Delta t]_{[v_\textnormal{cp},v_\textnormal{mp}]},
+  \vec{v}'=[\vec{v}+\vec{a}_\textnormal{h}\Delta t]_{[v_\textnormal{cp},v_\textnormal{mp}]},
 \end{equation}
 %
 where $\vec{v}$ is the current velocity of the predator agent, $v_\textnormal{cp}$ and $v_\textnormal{mp}$ are the predator's cruising and maximum speed respectively, and $\vec{v}'$ is the predator's velocity in the next simulation time step. Other than that the process of updating the velocity and position of the predator agent is the same as in the case of the prey agent.
@@ -191,39 +191,39 @@ Our experiments can be described as a two-phase cycle composed of 1) the evaluat
 Each experiment lasted 500 such cycles (500 generations) and was repeated 20 times. Default values for the mutation rate, mutation factor and other genetic algorithm parameters are given in \tablename~\ref{tab:parameters:ga}. Our preliminary simulations using various mutation rates ranging from 1\% to 5\% matched with the general knowledge about genetic algorithms. In general the final result was very similar for all of the tested mutation rates. A lower mutation rate resulted in less noise in the evolved parameters but the algorithm needed more time (more generations) to produce the near optimal solution. Since in our case we are more interested in the general resulting behaviour rather than the exact parameter values we can afford some noise in the parameter values. The preliminary tests revealed that the mutation rate of 2\% gives good results while keeping the time complexity of the algorithm in reasonable limits.
 
 \begin{table}
-	\caption{Values for the parameters used in our experiments.}
-	\label{tab:parameters:ga}
-	\begin{tabular}{lp{.55\textwidth}l}
-		\toprule
-		Parameter & Description & Default value \\
-		\midrule
-		$\Delta t$  & Time step & \SI{1}{\second} \\
-		$T$ & Duration of the evaluation phase per predator & 600 time steps \\
-		$N_\textnormal{a}$ & Number of groups attacked by predators of one generation & 5 \\
-		$N_\textnormal{g}$ & Number of generations & 500 \\
-		$m_\textnormal{r}$ & Mutation rate & 2\% \\
-		$m_\textnormal{f}$ & Mutation factor (``intensity of mutations'') & 20\% \\
-		$n_\textnormal{a}$ & Number of prey individuals in the group & 100 \\
-		$n_\textnormal{p}$ & Predator population size & 100 \\
-		$D$ & Initial predator's distance from the centre of the prey group & \BL{200} \\
-		$S$ & Initial area of the prey group & \SI{100}{\bodylength\squared} \\
-		\bottomrule
-	\end{tabular}
+  \caption{Values for the parameters used in our experiments.}
+  \label{tab:parameters:ga}
+  \begin{tabular}{lp{.55\textwidth}l}
+    \toprule
+    Parameter & Description & Default value \\
+    \midrule
+    $\Delta t$  & Time step & \SI{1}{\second} \\
+    $T$ & Duration of the evaluation phase per predator & 600 time steps \\
+    $N_\textnormal{a}$ & Number of groups attacked by predators of one generation & 5 \\
+    $N_\textnormal{g}$ & Number of generations & 500 \\
+    $m_\textnormal{r}$ & Mutation rate & 2\% \\
+    $m_\textnormal{f}$ & Mutation factor (``intensity of mutations'') & 20\% \\
+    $n_\textnormal{a}$ & Number of prey individuals in the group & 100 \\
+    $n_\textnormal{p}$ & Predator population size & 100 \\
+    $D$ & Initial predator's distance from the centre of the prey group & \BL{200} \\
+    $S$ & Initial area of the prey group & \SI{100}{\bodylength\squared} \\
+    \bottomrule
+  \end{tabular}
 \end{table}
 
 The five groups of prey, that a predator was released to attack in the evaluation phase, were the same for the whole population of predators in one repetition of the evaluation phase, but were different for each repetition of the two-phase cycle. Each of the five groups consisted of 100 prey randomly distributed within a square area of \SI{100}{\bodylength\squared} (\figurename~\ref{fig:setup}). The velocity vector, which determines the heading and speed of prey, was generated so that the headings of prey had already been approximately aligned before the first attack of the predator. To achieve this, the preys' speeds were set to a uniformly distributed random number between the prey cruising and maximum speed (2 and \BLps{4}) and the preys' headings were set to north rotated by a uniformly distributed random number between \SI{\pm0.05}{\radian}. The predator's first attack was from behind \cite{demsar2014simulated,handegard2012dynamics} (\ie from the south), its starting position was located \BL{200} south from the centre of the prey group and its heading was north towards the centre of the group. The predator's speed was set to a uniformly distributed random number between its cruising and maximum speed (3 and \BLps{6}).
 
 \begin{figure}
-	\includegraphics[width=.5\textwidth]{ecomod/fig1}
-	\caption{An example of a starting configuration, where the black triangle represents the predator; its bearing is north. The shaded area is the area in which the prey group is generated. Grey dots are the prey, and the grey arrow is their average bearing.}
-	\label{fig:setup}
+  \includegraphics[width=.5\textwidth]{ecomod/fig1}
+  \caption{An example of a starting configuration, where the black triangle represents the predator; its bearing is north. The shaded area is the area in which the prey group is generated. Grey dots are the prey, and the grey arrow is their average bearing.}
+  \label{fig:setup}
 \end{figure}
 
 When the predator selected a target it started hunting it. Which target was selected depended on the predator's tactic -- see sections \ref{sec:mix} (\nameref{sec:mix}) and \ref{sec:dispersing} (\nameref{sec:dispersing}). The predator kept hunting the same target until the target was caught, the predator got confused, the target escaped from the predator's hunting zone radius, or the simulation time (600 steps) ran out. When the predator came close to the target, \ie within a distance that was less than the catch distance it made an attempt to catch the prey. The probability that this attempt was successful was inversely proportional to the number of individuals within the predator's confusability zone \cite{olson2013critical,olson2013predator}:
 %
 \begin{equation}
-P_\textnormal{success}=\frac{1}{|\set{N}_\textnormal{co}|},\quad \set{N}_\textnormal{co}=\{j \in \set{A}|\ j \neq p,\ \|\vec{d}_j\| \leq r_\textnormal{co} \},
-\label{eq:confusability}
+  P_\textnormal{success}=\frac{1}{|\set{N}_\textnormal{co}|},\quad \set{N}_\textnormal{co}=\{j \in \set{A}|\ j \neq p,\ \|\vec{d}_j\| \leq r_\textnormal{co} \},
+  \label{eq:confusability}
 \end{equation}
 %
 where \set{A} is the set consisting of the predator agent and prey agents, $j$ is a prey agent, $\vec{d}_j=\vec{p}_j-\vec{p}$ is the offset vector pointing from the current position of the observed agent (the predator) to the current position of agent $j$, and $r_\textnormal{co}$ is the predator's confusability zone radius.
@@ -239,61 +239,61 @@ In nature there are many types of prey behaving in many different ways and presu
 In the first part of our research, the predator that used a mixture of simple tactics was based on similar tactics as predators presented in previous research \cite{demsar2014simulated,nishimura2002predator}: attack nearest prey, attack the most peripheral prey, and attack the most central prey. The nearest prey was simply the one that was the closest to the predator. To determine which prey was most peripheral or central we used the measure of peripherality. In previous research \cite{hemelrijk2000towards,hemelrijk2005individual,hildenbrandt2010selforganized} this measure was called centrality, but since a lower degree of centrality means that the individual is more central and less peripheral, the term peripherality is more appropriate. Peripherality of prey agent $i$ is calculated as the length of $\vec{P}_i$, \ie the average vector of direction towards the group of potentially influencing neighbours:
 %
 \begin{equation}
-\vec{P}_i=\frac{1}{|\set{G}|} \sum_{j \in \set{G}} \uvec{d}_j,\quad \set{G}=\{j \in \set{A}|\ j \neq i,\ j \neq p,\ \|\vec{d}_j\| \leq r_\textnormal{c}\},
-\label{eq:peripherality}
+  \vec{P}_i=\frac{1}{|\set{G}|} \sum_{j \in \set{G}} \uvec{d}_j,\quad \set{G}=\{j \in \set{A}|\ j \neq i,\ j \neq p,\ \|\vec{d}_j\| \leq r_\textnormal{c}\},
+  \label{eq:peripherality}
 \end{equation}
 %
 where $i$ is the observed prey agent, $j$ is an agent, $p$ is the predator agent, $\uvec{d}_j=\vec{d}_j/\|\vec{d}_j\|$ the unit vector pointing from the current position of the observed agent (prey agent $i$) to the current position of agent $j$, $r_\textnormal{c}$ the prey's cohesion zone radius and $\set{G}$ the set of potentially influencing neighbours of the observed prey agent. If a prey agent was isolated (\ie the set of potentially influencing neighbours was empty) its peripherality was set to $+\infty$, meaning that the predator that targeted peripheral targets preferred to attack isolated targets \cite{ioannou2012predatory,demsar2014simulated}.
 
-The prey that is the nearest is simply the one whose distance from the predator is the smallest: 
+The prey that is the nearest is simply the one whose distance from the predator is the smallest:
 %
 \begin{equation}
-t_\textnormal{n}=t:\ \|\vec{d}_t\|=\min_{j \in \set{T}}\|\vec{d}_j\|,\ \set{T}=\{j \in \set{A}|\ j \neq p,\ \|\vec{d}_j\| \leq r_\textnormal{h}\}.
+  t_\textnormal{n}=t:\ \|\vec{d}_t\|=\min_{j \in \set{T}}\|\vec{d}_j\|,\ \set{T}=\{j \in \set{A}|\ j \neq p,\ \|\vec{d}_j\| \leq r_\textnormal{h}\}.
 \end{equation}
 
 The prey that is the most central is the one with the lowest measure of peripherality:
 %
 \begin{equation}
-t_\textnormal{m}=t:\ \|\vec{P}_t\|=\min_{j \in \set{T}}\|\vec{P}_j\|,\ \set{T}=\{j \in \set{A}|\ j \neq p,\ \|\vec{d}_j\| \leq r_\textnormal{h}\}.
+  t_\textnormal{m}=t:\ \|\vec{P}_t\|=\min_{j \in \set{T}}\|\vec{P}_j\|,\ \set{T}=\{j \in \set{A}|\ j \neq p,\ \|\vec{d}_j\| \leq r_\textnormal{h}\}.
 \end{equation}
 
 By definition the prey that is the most peripheral is the one with the highest measure of peripherality. However, as the measure of peripherality is defined via the prey's cohesion zone radius (\ie the set of potentially influencing neighbours) and does not consider the predator's angle of approach an additional constraint was taken into account. Only prey whose peripherality vector was pointing in the same direction (\ang{\pm90}) as the unit vector pointing from the current position of the predator to the current position of the prey agent were regarded as possible targets:
 %
 \begin{equation}
-t_\textnormal{p}=t:\ \|\vec{P}_t\|=\max_{j \in \set{T}}\|\vec{P}_j\|,\ \set{T}=\{j \in \set{A}|\ j \neq p,\ \|\vec{d}_j\| \leq r_\textnormal{h},\ \uvec{d}_j\cdot\uvec{P}_j>0\}.
+  t_\textnormal{p}=t:\ \|\vec{P}_t\|=\max_{j \in \set{T}}\|\vec{P}_j\|,\ \set{T}=\{j \in \set{A}|\ j \neq p,\ \|\vec{d}_j\| \leq r_\textnormal{h},\ \uvec{d}_j\cdot\uvec{P}_j>0\}.
 \end{equation}
 
 With this constraint we prevented the predator agent from targeting prey that were on the opposite side of the group (as viewed from the predator's point of view), because in nature they would probably not be visible to the predator.
 
 \begin{table}
-	\caption{Parameters that evolve during the evolution of a simple predator.}
-	\label{tab:mix}
-	\begin{tabular}{llll}
-		\toprule
-		Parameter & Description & Interval & Initial value \\
-		\midrule
-		$p_\textnormal{n}$ & Target the nearest prey probability & $[0, 1]$ & Random \\
-		$p_\textnormal{m}$ & Target the most central prey probability & $[0, 1]$ & Random \\
-		$p_\textnormal{p}$ & Target the most peripheral probability & $[0, 1]$ & Random \\
-		\bottomrule
-	\end{tabular}
+  \caption{Parameters that evolve during the evolution of a simple predator.}
+  \label{tab:mix}
+  \begin{tabular}{llll}
+    \toprule
+    Parameter & Description & Interval & Initial value \\
+    \midrule
+    $p_\textnormal{n}$ & Target the nearest prey probability & $[0, 1]$ & Random \\
+    $p_\textnormal{m}$ & Target the most central prey probability & $[0, 1]$ & Random \\
+    $p_\textnormal{p}$ & Target the most peripheral probability & $[0, 1]$ & Random \\
+    \bottomrule
+  \end{tabular}
 \end{table}
 
 The chromosome of the predator, which was used to construct a generation of predators, consisted of probabilities that determined the likelihood that the predator will use a particular tactic (\ie the probabilities represent genes in the chromosome). Every predator had three probabilities -- one for each of the three tactics, see \tablename~\ref{tab:mix}. For the initial generation of predators the probabilities were assigned normalized uniformly distributed random values between 0 and 1 (see \tablename~\ref{tab:mix}) so that the sum of all probabilities was equal to 1:
 %
 \begin{equation}
-p_\textnormal{n}=\frac{\xi_\textnormal{n}}{\xi_\textnormal{n}+\xi_\textnormal{p}+\xi_\textnormal{m}},\quad p_\textnormal{m}=\frac{\xi_\textnormal{m}}{\xi_\textnormal{n}+\xi_\textnormal{p}+\xi_\textnormal{m}},\quad p_\textnormal{p}=\frac{\xi_\textnormal{p}}{\xi_\textnormal{n}+\xi_\textnormal{p}+\xi_\textnormal{m}},
+  p_\textnormal{n}=\frac{\xi_\textnormal{n}}{\xi_\textnormal{n}+\xi_\textnormal{p}+\xi_\textnormal{m}},\quad p_\textnormal{m}=\frac{\xi_\textnormal{m}}{\xi_\textnormal{n}+\xi_\textnormal{p}+\xi_\textnormal{m}},\quad p_\textnormal{p}=\frac{\xi_\textnormal{p}}{\xi_\textnormal{n}+\xi_\textnormal{p}+\xi_\textnormal{m}},
 \end{equation}
 %
 where $\xi_\textnormal{n}$, $\xi_\textnormal{m}$, $\xi_\textnormal{p}$ are uniformly distributed random values between 0 and 1, and $p_\textnormal{n}$, $p_\textnormal{m}$, $p_\textnormal{p}$ are the probabilities that the predator will attack the nearest, the most peripheral, and the most central target respectively. As already stated, at the start of an evaluation phase, the predators had no target. In the initial step of the evaluation phase the predator selected a target as:
 %
 \begin{equation}
-t=\begin{cases}
-t_\textnormal{n} & \textnormal{iff}\  \xi \in (0,p_\textnormal{n}]\\
-t_\textnormal{m} & \textnormal{iff}\  \xi \in (p_\textnormal{n},p_\textnormal{n}+p_\textnormal{m}]\\
-t_\textnormal{p} & \textnormal{iff}\  \xi \in (p_\textnormal{n}+p_\textnormal{m},1],
-\end{cases}
-\label{eq:target}
+  t = \begin{cases}
+    t_\textnormal{n} & \textnormal{iff}\  \xi \in (0,p_\textnormal{n}]\\
+    t_\textnormal{m} & \textnormal{iff}\  \xi \in (p_\textnormal{n},p_\textnormal{n}+p_\textnormal{m}]\\
+    t_\textnormal{p} & \textnormal{iff}\  \xi \in (p_\textnormal{n}+p_\textnormal{m},1],
+  \end{cases}
+  \label{eq:target}
 \end{equation}
 %
 where $\xi$ is a uniformly distributed random value in the interval $(0, 1]$, $t_\textnormal{n}$, $t_\textnormal{m}$, $t_\textnormal{p}$ are the nearest, the most central, and the most peripheral prey respectively. The target selection process, \eq~\eqref{eq:target}, was repeated every time a) the predator's attempt to catch the targeted prey was unsuccessful and the refocus time passed, or b) the predator caught the targeted prey and the handling time passed. That means that the predator could use different simple tactics on successive attacks during one simulation run (600 time steps).
@@ -307,24 +307,24 @@ In the evolution phase the chromosome of a new predator (offspring) was generate
 In the second part of our study the predator's tactic was as follows. Initially (\figurename~\ref{fig:dispersing}) the predator chased the centre of the nearby group. The nearest prey (with respect to the predator) and all prey within this prey's set of potentially influencing neighbours, $\set{G}$ in \eq~\eqref{eq:peripherality}, were interpreted as the nearby group. The prey within this group that had the lowest measure of peripherality, \eq~\eqref{eq:peripherality}, \ie was the most central, was interpreted as the group's centre. The nearby group and its centre were determined once per attack and remained unchanged for the duration of the attack. Once the distance of the nearby group's centre was less than the \emph{lock-on distance} the predator locked on the most peripheral prey within its \emph{lock-on radius} (\tablename~\ref{tab:dispersing}). The locked-on individual was then hunted until captured, or the attempt failed due to confusion.
 
 \begin{table}
-	\caption{Parameters that evolve during the evolution of the dispersing predator.}
-	\label{tab:dispersing}
-	\begin{tabular}{llll}
-		\toprule
-		Parameter & Description & Interval (\si{\bodylength}) & Initial value\\
-		\midrule
-		$d_\textnormal{l}$ & Lock-on distance & $[0, 400]$ & Random\\
-		$r_\textnormal{l}$ & Lock-on radius & $[0, 400]$ & Random\\
-		\bottomrule
-	\end{tabular}
+  \caption{Parameters that evolve during the evolution of the dispersing predator.}
+  \label{tab:dispersing}
+  \begin{tabular}{llll}
+    \toprule
+    Parameter & Description & Interval (\si{\bodylength}) & Initial value\\
+    \midrule
+    $d_\textnormal{l}$ & Lock-on distance & $[0, 400]$ & Random\\
+    $r_\textnormal{l}$ & Lock-on radius & $[0, 400]$ & Random\\
+    \bottomrule
+  \end{tabular}
 \end{table}
 
 \begin{figure}
-	\vskip.4in % add top and bottom whitespace so that the caption does not overflow the figure box 
-	\includegraphics[width=.95\figurewidth]{ecomod/fig2}
-	\vskip.4in
-	\caption{The dispersing tactic; a predator (black triangle) that uses this tactic initially (a) chases the most central prey (light grey dot) in the nearby group of prey, grey dots, (\ie prey that are within the cohesion zone radius, shaded area, of the nearest prey, black dot). When the predator comes close enough (b), \ie within lock-on distance, dotted circle, it selects as its target prey the most peripheral prey within its lock-on zone radius, shaded area.}
-	\label{fig:dispersing}
+  \vskip.4in % add top and bottom whitespace so that the caption does not overflow the figure box
+  \includegraphics[width=.95\figurewidth]{ecomod/fig2}
+  \vskip.4in
+  \caption{The dispersing tactic; a predator (black triangle) that uses this tactic initially (a) chases the most central prey (light grey dot) in the nearby group of prey, grey dots, (\ie prey that are within the cohesion zone radius, shaded area, of the nearest prey, black dot). When the predator comes close enough (b), \ie within lock-on distance, dotted circle, it selects as its target prey the most peripheral prey within its lock-on zone radius, shaded area.}
+  \label{fig:dispersing}
 \end{figure}
 
 During the evolution phase the predators that caught more prey in the evaluation phase had a higher chance of being selected as parents. The offspring predator inherited the value of the lock-on distance from the first parent and the value of the lock-on radius from the second parent. Once in a while the parameters would mutate; the probability of mutation was governed by the mutation rate (2\% per parameter). The mutation was in the form of either an increase or decrease (chosen at random) and the amount was governed by the mutation factor (20\%). The parameters that evolved during our experiments and their initial values can be seen in Table \ref{tab:dispersing}.
@@ -332,13 +332,13 @@ During the evolution phase the predators that caught more prey in the evaluation
 %-----
 \section{Results and Discussion}
 
-\paragraph{Mixture of simple tactics} In the first part of our research we investigated which of the simple tactics an evolved solitary predator will resort to use the most. This was measured by observing the probabilities that determined the likelihood that a particular tactic would be employed. \figurename~\ref{fig:mix:evo} shows the averages and bootstrapped 95\% confidence interval of the 20 runs for the cases of default prey, prey with delayed response and non-confusing prey. 
+\paragraph{Mixture of simple tactics} In the first part of our research we investigated which of the simple tactics an evolved solitary predator will resort to use the most. This was measured by observing the probabilities that determined the likelihood that a particular tactic would be employed. \figurename~\ref{fig:mix:evo} shows the averages and bootstrapped 95\% confidence interval of the 20 runs for the cases of default prey, prey with delayed response and non-confusing prey.
 
 \begin{figure}
-	\includegraphics[width=\figurewidth]{ecomod/fig3}
-	\infigurecaption{Averages and the bootstrapped 95\% confidence intervals based on 20 replicates of our experiments in three different settings -- predators facing a group of prey with default parameters as in Table \ref{tab:parameters} (default prey), predators facing a group of prey with a delayed response, and predators with confusability radius set to 0 (non-confusing prey).}
-	\caption{Evolution of the probabilities that determine the likelihood that the predator will use a particular simple tactic when choosing its next target.}
-	\label{fig:mix:evo}
+  \includegraphics[width=\figurewidth]{ecomod/fig3}
+  \infigurecaption{Averages and the bootstrapped 95\% confidence intervals based on 20 replicates of our experiments in three different settings -- predators facing a group of prey with default parameters as in Table \ref{tab:parameters} (default prey), predators facing a group of prey with a delayed response, and predators with confusability radius set to 0 (non-confusing prey).}
+  \caption{Evolution of the probabilities that determine the likelihood that the predator will use a particular simple tactic when choosing its next target.}
+  \label{fig:mix:evo}
 \end{figure}
 
 As it can be seen, in the case of default prey, an evolved predator (predator of the last, 500th, generation) attacked almost exclusively the most peripheral prey, 96\% \ci{95.6}{96.9}, meaning that during the course of the evolution predators that attacked the most peripheral targets were more successful than those whose ratio of attacking the nearest or most central prey was higher. For this reason the probability of using these two tactics was very low, 2\% \ci{1.9}{3} and \num{1.3}\% \ci{1}{1.7}, respectively.
@@ -350,10 +350,10 @@ In the case of non-confusing prey, however, the evolved predator adapted to atta
 \paragraph{Dispersing tactic} In the second part of our research we investigated how an evol\-ving solitary predator that uses the dispersing tactic will adapt the distance at which it will stop chasing the centre of the nearest group and select its actual target prey individual, as well as the radius within which it will search for it. In \figurename~\ref{fig:dispersing:evo}, which shows the means and bootstrapped 95\% confidence interval of the 20 runs for the cases of default prey, prey with delayed response and non-confusing prey, it can be seen that in the case of default prey the evolved predator (predator of the last, 500th, generation) stopped chasing the centre of the nearest group when \BL{19} \ci{18.5}{20.2} from it. Then it locked-on the most peripheral prey in a radius of \BL{129} \ci{112.4}{147}.
 
 \begin{figure}
-	\includegraphics[width=\figurewidth]{ecomod/fig4}
-	\infigurecaption{Averages and the bootstrapped 95\% confidence intervals based on 20 replicates of our experiments in three different settings -- predators facing a group of prey with default parameters as in Table \ref{tab:parameters} (default prey), predators facing a group of prey with a delayed response, and predators with confusability radius set to 0 (non-confusing prey).}
-	\caption{Evolution of the lock-on distance and lock-on radius in the case of the dispersing predator.}
-	\label{fig:dispersing:evo}
+  \includegraphics[width=\figurewidth]{ecomod/fig4}
+  \infigurecaption{Averages and the bootstrapped 95\% confidence intervals based on 20 replicates of our experiments in three different settings -- predators facing a group of prey with default parameters as in Table \ref{tab:parameters} (default prey), predators facing a group of prey with a delayed response, and predators with confusability radius set to 0 (non-confusing prey).}
+  \caption{Evolution of the lock-on distance and lock-on radius in the case of the dispersing predator.}
+  \label{fig:dispersing:evo}
 \end{figure}
 
 In the case of prey with delayed response the chasing stopped when \BL{12.8} \ci{11}{14.4} away from the centre of the nearest group and the final target was searched within \BL{103} \ci{77.8}{129.4}. Interestingly, in the case of prey with delayed response, the predator adapted to dive significantly deeper \BLpss{2.5} (\ttest{-6.7227}{29.757}{9.832e-8}) but there was no significant difference between the radii within which the final targets were chosen (\ttest{-1.6589}{33.869}{0.1064}).
@@ -365,9 +365,9 @@ In the case of non-confusing prey, however, the chasing stopped when \BL{153} \c
 \paragraph{Comparison between tactics via direct competition} In the third part of our research we used direct competition in order to assess the quality of the evolved tactics from the predator's point of view. Each individual predator that emerged from the 20 replicates of an experiment (mixture of simple tactics, and dispersing tactic) was released to independently attack the same \num{1000} distinct groups of prey, each for 600 time steps and the number of caught prey recorded. This was repeated 3 times, a) with 1000 distinct groups of default prey, b) with 1000 distinct groups of prey with delayed response, and c) with 1000 distinct groups of non-confusing prey. As a control group we also observed the number of caught prey for predators that a) attacked random prey, b) always attacked the most peripheral prey, c) always attacked the nearest prey, and d) always attacked the most central prey. In total \num{600000} simulations were performed and \figurename~\ref{fig:mvsd} presents the distributions, boxplots and averages of the distributions of the number of caught prey per tactic per specific setting.
 
 \begin{figure}
-	\includegraphics[width=\figurewidth]{ecomod/fig5}
-	\caption{Results of a direct competition between the individual predators that emerged from the 20 replicates of each of our experiments and a control group consisting of predators that attack exclusively the most peripheral prey, exclusively the nearest prey, exclusively the most central prey, or a random individual. Presented are the distributions, boxplots and averages of the distributions of the number of caught prey per tactic per specific setting.}
-	\label{fig:mvsd}
+  \includegraphics[width=\figurewidth]{ecomod/fig5}
+  \caption{Results of a direct competition between the individual predators that emerged from the 20 replicates of each of our experiments and a control group consisting of predators that attack exclusively the most peripheral prey, exclusively the nearest prey, exclusively the most central prey, or a random individual. Presented are the distributions, boxplots and averages of the distributions of the number of caught prey per tactic per specific setting.}
+  \label{fig:mvsd}
 \end{figure}
 
 The number of caught prey in general ranged from 0 to 9 in a single 600 time steps long run. In the cases of default prey and prey with delayed response the number of caught prey ranged only from 0 to 6 and 0 to 7, respectively, and the averages were \num{1.522} \ci{1.517}{1.527} and \num{1.327} \ci{1.322}{1.332}, respectively. In the case of non-confusing prey the average was substantially higher, \ie \num{5.357} \ci{5.35}{5.363}. The lowest average number of caught prey was thus in the case of prey with delayed response and the highest in the case of non-confusing prey. This suggests that a delayed response might be a successful advanced defence tactic against predation, a response to predator attacks that is not uncommon in nature \cite{partridge1982structure}.
@@ -395,21 +395,21 @@ Most of the existing research on the evolution of collective behaviour concentra
 \section{Supplementary material}
 
 \begin{video}[!h] % force figure to appear after section heading
-	\includegraphics[width=\figurewidth]{ecomod/video_Default}
-	\caption{Solitary predator attacking a group of one hundred prey moving in a polarised cohesive manner. Comparison between predator attack tactics: attacking a random prey, attacking the most central prey, attacking the nearest prey, attacking the most peripheral prey, mixture of simple tactics, dispersing tactic. Available online at \href{https://vimeo.com/119847644}{vimeo.com/119847644}.}
-	\label{video:V1:ecomod}
+  \includegraphics[width=\figurewidth]{ecomod/video_Default}
+  \caption{Solitary predator attacking a group of one hundred prey moving in a polarised cohesive manner. Comparison between predator attack tactics: attacking a random prey, attacking the most central prey, attacking the nearest prey, attacking the most peripheral prey, mixture of simple tactics, dispersing tactic. Available online at \href{https://vimeo.com/119847644}{vimeo.com/119847644}.}
+  \label{video:V1:ecomod}
 \end{video}
 
 \begin{video}[!hb] % force figure to appear on same page
-	\includegraphics[width=\figurewidth]{ecomod/video_Delayed}
-	\caption{Solitary predator attacking a group of one hundred prey moving in a polarised cohesive manner. Comparison between predator attack tactics for the case of prey with a delayed response: attacking a random prey, attacking the most central prey, attacking the nearest prey, attacking the most peripheral prey, mixture of simple tactics, dispersing tactic. Available online at \href{https://vimeo.com/119847316}{vimeo.com/119847316}.}
-	\label{video:V2:ecomod}
+  \includegraphics[width=\figurewidth]{ecomod/video_Delayed}
+  \caption{Solitary predator attacking a group of one hundred prey moving in a polarised cohesive manner. Comparison between predator attack tactics for the case of prey with a delayed response: attacking a random prey, attacking the most central prey, attacking the nearest prey, attacking the most peripheral prey, mixture of simple tactics, dispersing tactic. Available online at \href{https://vimeo.com/119847316}{vimeo.com/119847316}.}
+  \label{video:V2:ecomod}
 \end{video}
 
 \begin{video}[p]
-	\includegraphics[width=\figurewidth]{ecomod/video_NC}
-	\caption{Solitary predator attacking a group of one hundred prey moving in a polarised cohesive manner. Comparison between predator attack tactics for the case of non-confusing prey: attacking a random prey, attacking the most central prey, attacking the nearest prey, attacking the most peripheral prey, mixture of simple tactics, dispersing tactic. Available online at \href{https://vimeo.com/119846051}{vimeo.com/119846051}.}
-	\label{video:V3:ecomod}
+  \includegraphics[width=\figurewidth]{ecomod/video_NC}
+  \caption{Solitary predator attacking a group of one hundred prey moving in a polarised cohesive manner. Comparison between predator attack tactics for the case of non-confusing prey: attacking a random prey, attacking the most central prey, attacking the nearest prey, attacking the most peripheral prey, mixture of simple tactics, dispersing tactic. Available online at \href{https://vimeo.com/119846051}{vimeo.com/119846051}.}
+  \label{video:V3:ecomod}
 \end{video}
 
 \end{subappendices}

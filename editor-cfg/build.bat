@@ -5,9 +5,9 @@ set argC=0
 for %%x in (%*) do Set /A argC+=1
 
 if %argC% LSS 1 (
-	:: build no param
-	latexmk -synctex=1 -file-line-error
-	exit /b %errorlevel%
+  :: build no param
+  latexmk -synctex=1 -file-line-error
+  exit /b %errorlevel%
 )
 if %argC% GTR 1 goto usage
 
@@ -17,12 +17,12 @@ SET c=\newcommand{\stage}{%s%}
 
 :: check stage
 goto :switch-case-%s% 2>nul || (
-	echo.
-	echo Usage: build [^<stage^>]
-	echo.
-	echo       ^<stage^>        Build pdf in stage: 
-	echo                      pre-alpha, alpha, beta, gamma, gold, press.
-	echo.
+  echo.
+  echo Usage: build [^<stage^>]
+  echo.
+  echo       ^<stage^>        Build pdf in stage:
+  echo                      pre-alpha, alpha, beta, gamma, gold, press.
+  echo.
 )
 :switch-case-pre-alpha
 :switch-case-alpha
@@ -41,7 +41,7 @@ echo Argument missing, specify stage: pre-alpha, alpha, beta, gamma, gold, press
 echo.
 echo Usage: build [^<stage^>]
 echo.
-echo       ^<stage^>        Build pdf in stage: 
+echo       ^<stage^>        Build pdf in stage:
 echo                      pre-alpha, alpha, beta, gamma, gold, press.
 echo.
 exit /b 1

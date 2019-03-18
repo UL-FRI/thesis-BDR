@@ -7,22 +7,22 @@ for %%x in (%*) do Set /A argC+=1
 if %argC% LSS 1 goto usage-arg
 if %argC% GTR 1 goto usage
 
-:: set name of package, remove trailing slash if necessary 
+:: set name of package, remove trailing slash if necessary
 SET p=%1
 if %p:~-1%==\ SET p=%p:~0,-1%
 
 :: check <directory> exists
-if NOT exist %p%\* { 
-    echo No directory named '%p%' exists. Nothing to pack.
-    echo.
-    exit 2
+if NOT exist %p%\* {
+  echo No directory named '%p%' exists. Nothing to pack.
+  echo.
+  exit 2
 }
 
 :: pack
 if NOT exist overleaf\* {
-    mkdir overleaf/
+  mkdir overleaf/
 } else {
-    rm -f overleaf/%p%.zip
+  rm -f overleaf/%p%.zip
 }
 
 zip -r overleaf/%p%.zip ./README.md
@@ -41,11 +41,11 @@ exit /b
 :usage-arg
 echo Argument is missing, specify directory to pack
 :usage
-echo. 
+echo.
 echo Usage: pack-overleaf ^<directory^>
 echo.
-echo       ^<directory^>    Pack directory for overleaf. 
+echo       ^<directory^>    Pack directory for overleaf.
 echo                      All necessary files will be included.
 echo.
-exit /b 1 
+exit /b 1
 

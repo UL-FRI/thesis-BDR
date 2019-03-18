@@ -190,21 +190,21 @@ STRINGS {z}
 
 FUNCTION {remove.dots}
 { 'z :=
-   ""
-   { z empty$ not }
-   { z #1 #2 substring$
-     duplicate$ "\." =
-       { z #3 global.max$ substring$ 'z :=  * }
-       { pop$
-         z #1 #1 substring$
-         z #2 global.max$ substring$ 'z :=
-         duplicate$ "." = 'pop$
-           { * }
-         if$
-       }
-     if$
-   }
-   while$
+  ""
+  { z empty$ not }
+  { z #1 #2 substring$
+    duplicate$ "\." =
+      { z #3 global.max$ substring$ 'z :=  * }
+      { pop$
+        z #1 #1 substring$
+        z #2 global.max$ substring$ 'z :=
+        duplicate$ "." = 'pop$
+          { * }
+        if$
+      }
+    if$
+  }
+  while$
 }
 
 FUNCTION {new.block.checkb}
@@ -308,22 +308,22 @@ MACRO {dec} {"\bbldec{}"}
 FUNCTION {eng.ord}
 { duplicate$ "1" swap$ *
   #-2 #1 substring$ "1" =
-     { bbl.th * }
-     { duplicate$ #-1 #1 substring$
-       duplicate$ "1" =
-         { pop$ bbl.st * }
-         { duplicate$ "2" =
-             { pop$ bbl.nd * }
-             { "3" =
-                 { bbl.rd * }
-                 { bbl.th * }
-               if$
-             }
-           if$
-          }
-       if$
-     }
-   if$
+    { bbl.th * }
+    { duplicate$ #-1 #1 substring$
+      duplicate$ "1" =
+        { pop$ bbl.st * }
+        { duplicate$ "2" =
+            { pop$ bbl.nd * }
+            { "3" =
+                { bbl.rd * }
+                { bbl.th * }
+              if$
+            }
+          if$
+        }
+      if$
+    }
+  if$
 }
 
 %-------------------------------------------------------------------
@@ -946,8 +946,8 @@ FUNCTION {author.editor.key.full}
 FUNCTION {author.key.full}
 { author empty$
     { key empty$
-         { cite$ #1 #3 substring$ }
-          'key
+        { cite$ #1 #3 substring$ }
+        'key
       if$
     }
     { author format.full.names }
@@ -957,8 +957,8 @@ FUNCTION {author.key.full}
 FUNCTION {editor.key.full}
 { editor empty$
     { key empty$
-         { cite$ #1 #3 substring$ }
-          'key
+        { cite$ #1 #3 substring$ }
+        'key
       if$
     }
     { editor format.full.names }
@@ -983,9 +983,9 @@ FUNCTION {output.bibitem}
   "\bibitem[{" write$
   label write$
   ")" make.full.names duplicate$ short.list =
-     { pop$ }
-     { * }
-   if$
+    { pop$ }
+    { * }
+  if$
   "}]{" * write$
   cite$ write$
   "}" write$
@@ -1030,7 +1030,7 @@ FUNCTION {format.date}
 { year "year" bibinfo.check duplicate$ empty$
     {
       "empty year in " cite$ * "; set to ????" * warning$
-       pop$ "????"
+      pop$ "????"
     }
     'skip$
   if$
@@ -1903,8 +1903,8 @@ FUNCTION {calc.label}
 %  if$
   duplicate$ empty$
   short.list key field.or.null = or
-     { pop$ "" }
-     'skip$
+    { pop$ "" }
+    'skip$
   if$
   *
   'label :=
@@ -2043,10 +2043,10 @@ FUNCTION {forward.pass}
 { last.label label =
     { last.extra.num #1 + 'last.extra.num :=
       last.extra.num "z" chr.to.int$ >
-       { "a" chr.to.int$ 'last.extra.num :=
-         last.extra.num.extended #1 + 'last.extra.num.extended :=
-       }
-       'skip$
+      { "a" chr.to.int$ 'last.extra.num :=
+        last.extra.num.extended #1 + 'last.extra.num.extended :=
+      }
+      'skip$
       if$
       last.extra.num.extended last.extra.num.blank >
         { last.extra.num.extended int.to.chr$
@@ -2122,7 +2122,7 @@ FUNCTION {begin.bib} % most of thse commands are predefined in FRIteza.cls, here
   write$ newline$
   enabled.output.cobiss
     { "  \providecommand{\cobiss}[1]{\discretionary{}{}{}#1}"
-      write$ newline$ 
+      write$ newline$
     }
     'skip$
   if$
