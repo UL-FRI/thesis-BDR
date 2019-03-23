@@ -1360,19 +1360,25 @@
         %\includegraphics*{cc/by}
         %\includegraphics*{cc/sa}
         %\end{center} 
-        {\footnotesize
+        {\footnotesize\RaggedRight
         %\noindent\includegraphics[height=\baselineskip]{cc/by-sa-min}\par
         %\noindent\includegraphics[height=\baselineskip]{cc/cc}\includegraphics[height=\baselineskip]{cc/by}\includegraphics[height=\baselineskip]{cc/sa}\par
         %\noindent{Doktorksa disertacija je ponujena pod licenco \href{https://creativecommons.org/licenses/by-sa/4.0/deed.sl}{CC BY-SA 4.0}, \emph{Priznanje avtorstva-Deljenje pod enakimi pogoji}.}\par
         %\noindent\includegraphics[height=\baselineskip]{cc/cc}\includegraphics[height=\baselineskip]{cc/by}\includegraphics[height=\baselineskip]{cc/nc}\includegraphics[height=\baselineskip]{cc/nd}\par
-        \ifundef{\@copyright@content}
-          {\typeout{aaaaaaa}}
-          {\@copyright@content}
+%        \ifdef{\cmdKV@copyright@content}
+ %         {\noindent\includegraphics[height=1.5\baselineskip]{cc/cc-zero}\par}
+ %         {}
+        \ifdef{\@copyright@content}
+          {\noindent\@copyright@content\par}{}
+        \ifdef{\@copyright@software}
+          {\noindent\@copyright@software\par}{}
+        \ifdef{\@copyright@data}
+          {\noindent\@copyright@data}{}
 
-        \noindent\includegraphics[height=1.5\baselineskip]{cc/by-nc-nd}\par
-        \noindent{Doktorksa disertacija je ponujena pod licenco \href{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.sl}{CC BY-NC-ND 4.0}, \emph{Priznanje avtorstva-Nekomercialno-Brez predelav}.}\par
-        \noindent{Izvorna koda je ponujena pod licenco \href{https://opensource.org/licenses/mit-license.html}{MIT} in dosegljiva na \textsc{github}:\,\href{https://github.com/UL-FRI/thesis-BDR}{UL-FRI/thesis-BDR}.}\par
-        \noindent{Podatkovna zbirka je ponujena pod licenco \href{https://opensource.org/licenses/mit-license.html}{GNU GPLv3} in dosegljiva na \doiprefix\doi{10.6084/m9.figshare.4220130.v1}.}\par
+        % \noindent\includegraphics[height=1.5\baselineskip]{cc/by-nc-nd}\par
+        % \noindent{Doktorksa disertacija je ponujena pod licenco \href{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.sl}{CC BY-NC-ND 4.0}, \emph{Priznanje avtorstva-Nekomercialno-Brez predelav}.}\par
+        % \noindent{Izvorna koda je ponujena pod licenco \href{https://opensource.org/licenses/mit-license.html}{MIT} in dosegljiva na \textsc{github}:\,\href{https://github.com/UL-FRI/thesis-BDR}{UL-FRI/thesis-BDR}.}\par
+        % \noindent{Podatkovna zbirka je ponujena pod licenco \href{https://opensource.org/licenses/mit-license.html}{GNU GPLv3} in dosegljiva na \doiprefix\doi{10.6084/m9.figshare.4220130.v1}.}\par
         \vskip.5\baselineskip
         \noindent{\href{https://fri.uni-lj.si}{fri.uni-lj.si}}\par
         }
@@ -2147,27 +2153,48 @@
   \fi
 }
 
-\newcommand{\github}[1]{#1}
+\newcommand{\githubprefix}{\textsc{github:}\,}
+\newcommand{\github}[1]{\githubprefix\href{https://github.com/#1}{#1}}
+
+% \copyright[]{\custom}
+% \copyright[]{holder?}
 % https://choosealicense.com/licenses/
 % MIT, AGPLv3, GPLv3, LGPLv3, CC0, CC-BY, CC-BY-SA, CC-BY-ND, CC-BY-NC, CC-BY-NC-SA, CC-BY-NC-ND
+
+\newcommand{\license}[1]{%
+  \switchcase{#1}
+  {
+    {CC0} {\noexpand\href{https://creativecommons.org/publicdomain/zero/1.0/deed.\if@slovene sl\else en_GB\fi}{\addfontfeature{Numbers={Lining,SlashedZero}}CC0}\if@slovene\else\space license\fi.}
+    {CC-BY} {\noexpand\href{https://creativecommons.org/licenses/by/4.0/deed.\if@slovene sl\else en_GB\fi}{CC BY 4.0}\if@slovene\else\space license\fi.}
+    {CC-BY-SA} {\noexpand\href{https://creativecommons.org/licenses/by-sa/4.0/deed.\if@slovene sl\else en_GB\fi}{CC BY-SA 4.0}\if@slovene\else\space license\fi.}
+    {CC-BY-ND} {\noexpand\href{https://creativecommons.org/licenses/by-nd/4.0/deed.\if@slovene sl\else en_GB\fi}{CC BY-ND 4.0}\if@slovene\else\space license\fi.}
+    {CC-BY-NC} {\noexpand\href{https://creativecommons.org/licenses/by-nc/4.0/deed.\if@slovene sl\else en_GB\fi}{CC BY-NC 4.0}\if@slovene\else\space license\fi.}
+    {CC-BY-NC-SA} {\noexpand\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.\if@slovene sl\else en_GB\fi}{CC BY-NC-SA 4.0}\if@slovene\else\space license\fi.}
+    {CC-BY-NC-ND} {\noexpand\href{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.\if@slovene sl\else en_GB\fi}{CC BY-NC-ND 4.0}\if@slovene\else\space license\fi.}
+    {MIT} {\noexpand\href{https://choosealicense.com/licenses/mit/}{MIT}\if@slovene\else\space license\fi.}
+    {AGPLv3} {\noexpand\href{https://choosealicense.com/licenses/agpl-3.0/}{GNU AGPL v3.0}.}
+    {GPLv3} {\noexpand\href{https://choosealicense.com/licenses/gpl-3.0/}{GNU GPL v3.0}.}
+    {LGPLv3} {\noexpand\href{https://choosealicense.com/licenses/lgpl-3.0/}{GNU LGPL v3.0}.}
+  }{#1.}%
+}
+
 \define@cmdkey{copyright}{content}[]{}
 \define@cmdkey{copyright}{software}[]{}
 \define@cmdkey{copyright}{data}[]{}
 \renewcommand{\copyright}[1][]{
   \begingroup
     \setkeys{copyright}{#1}
-    %\ifundef{}
-    %\ifundef{}
-
     \switchcase{\cmdKV@copyright@content}
     {
       {CC0} {%
         \global\long\def\@copyright@content{
           \noindent\includegraphics[height=1.5\baselineskip]{cc/cc-zero}\par
           \if@slovene
-            \noindent{Doktorska disertacija je ponujena pod licenco \href{https://creativecommons.org/publicdomain/zero/1.0/deed.sl}{CC0}, \emph{Posvečena javni domeni}.}\par
+            \noindent{%Razen v primerih, kjer je to izpostavljeno, je vsebina doktorske disertacije ponujena pod licenco 
+            Vsebina doktorske disertacije je ponujena pod licenco \href{https://creativecommons.org/publicdomain/zero/1.0/deed.sl}{\addfontfeature{Numbers={Lining,SlashedZero}}CC0} {(posvečena javni domeni)}.}
           \else
-            \noindent{This doctoral disertation is licensed under a \href{https://creativecommons.org/publicdomain/zero/1.0/deed.en_GB}{CC0}, \emph{Public Domain Dedication} License.}\par
+            \noindent{%Except where otherwise noted, this doctoral disertation is available under the 
+            This doctoral disertation is available under the \href{https://creativecommons.org/publicdomain/zero/1.0/deed.en_GB}{CC0} {(Public Domain Dedication)} license.}
           \fi
         }
       }
@@ -2175,65 +2202,148 @@
         \global\long\def\@copyright@content{
           \noindent\includegraphics[height=1.5\baselineskip]{cc/cc-by}\par
           \if@slovene
-            \noindent{Doktorska disertacija je ponujena pod licenco \href{https://creativecommons.org/licenses/by/4.0/deed.sl}{CC BY 4.0}, \emph{Priznanje avtorstva}.}\par
+            \noindent{Razen v primerih, kjer je to izpostavljeno, je vsebina doktorske disertacije ponujena pod licenco \href{https://creativecommons.org/licenses/by/4.0/deed.sl}{CC BY 4.0} {(priznanje avtorstva)}.}
           \else
-            \noindent{This doctoral disertation is licensed under a \href{https://creativecommons.org/licenses/by/4.0/deed.en_GB}{CC BY 4.0}, \emph{Attribution} License.}\par
+            \noindent{Except where otherwise noted, this doctoral disertation is available under the \href{https://creativecommons.org/licenses/by/4.0/deed.en_GB}{CC BY 4.0} {(Attribution)} license.}
           \fi
         }
       }
-      % {CC-BY-SA} {%
-      %   \renewcommand{\cmdKV@copyright@content}{
-      %     \noindent\includegraphics[height=1.5\baselineskip]{cc/cc-by-sa}\par
-      %     \if@slovene
-      %       \noindent{Doktorska disertacija je ponujena pod licenco \href{https://creativecommons.org/licenses/by-sa/4.0/deed.sl}{CC BY-SA 4.0}, \emph{Priznanje avtorstva-Deljenje pod enakimi pogoji}.}\par
-      %     \else
-      %       \noindent{This doctoral disertation is licensed under a \href{https://creativecommons.org/licenses/by-sa/4.0/deed.en_GB}{CC BY-SA 4.0}, \emph{Attribution-ShareAlike} License.}\par
-      %     \fi
-      %   }
-      % }
-      % {CC-BY-ND} {%
-      %   \renewcommand{\cmdKV@copyright@content}{
-      %     \noindent\includegraphics[height=1.5\baselineskip]{cc/cc-by-nd}\par
-      %     \if@slovene
-      %       \noindent{Doktorska disertacija je ponujena pod licenco \href{https://creativecommons.org/licenses/by-nd/4.0/deed.sl}{CC BY-ND 4.0}, \emph{Priznanje avtorstva-Brez predelav}.}\par
-      %     \else
-      %       \noindent{This doctoral disertation is licensed under a \href{https://creativecommons.org/licenses/by-nd/4.0/deed.en_GB}{CC BY-ND 4.0}, \emph{Attribution-NoDerivatives} License.}\par
-      %     \fi
-      %   }
-      % }
-      % {CC-BY-NC} {%
-      %   \renewcommand{\cmdKV@copyright@content}{
-      %     \noindent\includegraphics[height=1.5\baselineskip]{cc/cc-by-nc}\par
-      %     \if@slovene
-      %       \noindent{Doktorska disertacija je ponujena pod licenco \href{https://creativecommons.org/licenses/by-nc/4.0/deed.sl}{CC BY-NC 4.0}, \emph{Priznanje avtorstva-Nekomercialno}.}\par
-      %     \else
-      %       \noindent{This doctoral disertation is licensed under a \href{https://creativecommons.org/licenses/by-nc/4.0/deed.en_GB}{CC BY-NC 4.0}, \emph{Attribution-NonCommercial} License.}\par
-      %     \fi
-      %   }
-      % }
-      % {CC-BY-NC-SA} {%
-      %   \renewcommand{\cmdKV@copyright@content}{
-      %     \noindent\includegraphics[height=1.5\baselineskip]{cc/cc-by-nc-sa}\par
-      %     \if@slovene
-      %       \noindent{Doktorska disertacija je ponujena pod licenco \href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.sl}{CC BY-NC-SA 4.0}, \emph{Priznanje avtorstva-Nekomercialno-Deljenje pod enakimi pogoji}.}\par
-      %     \else
-      %       \noindent{This doctoral disertation is licensed under a \href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_GB}{CC BY-NC-SA 4.0}, \emph{Attribution-NonCommercial-ShareAlike} License.}\par
-      %     \fi
-      %   }
-      % }
-      % {CC-BY-NC-ND} {%
-      %   \renewcommand{\cmdKV@copyright@content}{
-      %     \noindent\includegraphics[height=1.5\baselineskip]{cc/cc-by-nc-nd}\par
-      %     \if@slovene
-      %       \noindent{Doktorska disertacija je ponujena pod licenco \href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.sl}{CC BY-NC-ND 4.0}, \emph{Priznanje avtorstva-Nekomercialno-Brez predelav}.}\par
-      %     \else
-      %       \noindent{This doctoral disertation is licensed under a \href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_GB}{CC BY-NC-ND 4.0}, \emph{Attribution-NonCommercial-NoDerivatives} License.}\par
-      %     \fi
-      %   }
-      % }
+      {CC-BY-SA} {%
+        \global\long\def\@copyright@content{
+          \noindent\includegraphics[height=1.5\baselineskip]{cc/cc-by-sa}\par
+          \if@slovene
+            \noindent{Razen v primerih, kjer je to izpostavljeno, je vsebina doktorske disertacije ponujena pod licenco \href{https://creativecommons.org/licenses/by-sa/4.0/deed.sl}{CC BY-SA 4.0} {(priznanje avtorstva, deljenje pod enakimi pogoji)}.}
+          \else
+            \noindent{Except where otherwise noted, this doctoral disertation is available under the \href{https://creativecommons.org/licenses/by-sa/4.0/deed.en_GB}{CC BY-SA 4.0} {(Attribution, ShareAlike)} license.}
+          \fi
+        }
+      }
+      {CC-BY-ND} {%
+        \global\long\def\@copyright@content{
+          \noindent\includegraphics[height=1.5\baselineskip]{cc/cc-by-nd}\par
+          \if@slovene
+            \noindent{Razen v primerih, kjer je to izpostavljeno, je vsebina doktorske disertacije ponujena pod licenco \href{https://creativecommons.org/licenses/by-nd/4.0/deed.sl}{CC BY-ND 4.0} {(priznanje avtorstva, brez predelav)}.}
+          \else
+            \noindent{Except where otherwise noted, this doctoral disertation is available under the \href{https://creativecommons.org/licenses/by-nd/4.0/deed.en_GB}{CC BY-ND 4.0} {(Attribution, NoDerivatives)} license.}
+          \fi
+        }
+      }
+      {CC-BY-NC} {%
+        \global\long\def\@copyright@content{
+          \noindent\includegraphics[height=1.5\baselineskip]{cc/cc-by-nc}\par
+          \if@slovene
+            \noindent{Razen v primerih, kjer je to izpostavljeno, je vsebina doktorske disertacije ponujena pod licenco \href{https://creativecommons.org/licenses/by-nc/4.0/deed.sl}{CC BY-NC 4.0} {(priznanje avtorstva, nekomercialno)}.}
+          \else
+            \noindent{Except where otherwise noted, this doctoral disertation is available under the \href{https://creativecommons.org/licenses/by-nc/4.0/deed.en_GB}{CC BY-NC 4.0} {(Attribution, NonCommercial)} license.}
+          \fi
+        }
+      }
+      {CC-BY-NC-SA} {%
+        \global\long\def\@copyright@content{
+          \noindent\includegraphics[height=1.5\baselineskip]{cc/cc-by-nc-sa}\par
+          \if@slovene
+            \noindent{Razen v primerih, kjer je to izpostavljeno, je vsebina doktorske disertacije ponujena pod licenco \href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.sl}{CC BY-NC-SA 4.0} {(priznanje avtorstva, nekomercialno, deljenje pod enakimi pogoji)}.}
+          \else
+            \noindent{Except where otherwise noted, this doctoral disertation is available under the \href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_GB}{CC BY-NC-SA 4.0} {(Attribution, NonCommercial, ShareAlike)} license.}
+          \fi
+        }
+      }
+      {CC-BY-NC-ND} {%
+        \global\long\def\@copyright@content{
+          \noindent\includegraphics[height=1.5\baselineskip]{cc/cc-by-nc-nd}\par
+          \if@slovene
+            \noindent{Razen v primerih, kjer je to izpostavljeno, je vsebina doktorske disertacije ponujena pod licenco \href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.sl}{CC BY-NC-ND 4.0} {(priznanje avtorstva, nekomercialno, brez predelav)}.}
+          \else
+            \noindent{This doctoral disertation is released under the \href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_GB}{CC BY-NC-ND 4.0} %{(Attribution, NonCommercial, NoDerivatives)} 
+            license.}
+          \fi
+        }
+      }
     }{%
       \ClassError{FRIteza}{The FRIteza class supports Creative Commons licenses\MessageBreak CC-BY-NC-ND, CC-BY-NC-SA, CC-BY-NC, CC-BY-ND, CC-BY-SA, CC-BY, CC0\MessageBreak supplied "\cmdKV@copyright@content"}{}
     }
+
+    % assume a list {license, repositorylink}
+    \ifdef{\cmdKV@copyright@software}
+      { \@tempcnta=0
+        \renewcommand*\do[1]{
+          \advance\@tempcnta1
+          \ifnum\@tempcnta=1
+            \def\cmdKV@copyright@software@lic{##1}
+          \else
+            \def\cmdKV@copyright@software@lnk{##1}
+          \fi
+        }
+        \expandafter\docsvlist\expandafter{\cmdKV@copyright@software}
+        \ifnum\@tempcnta<3
+          \global\long\edef\@copyright@software{%
+            \noexpand\noindent\if@slovene
+              Pripadajoča izvorna koda je na voljo%
+            \else
+              The associated source code is available%
+            \fi
+            \ifnum\@tempcnta=2
+              \ifstrequal{\expandonce\cmdKV@copyright@software@lnk}{-}%
+                {}
+                { \if@slovene na\else at\fi
+                  \space\expandonce\cmdKV@copyright@software@lnk
+                }%
+            \fi
+            \ifstrequal{\expandonce\cmdKV@copyright@software@lic}{-}
+              {.}
+              { \if@slovene pod licenco\else under the\fi
+                \space\license{\cmdKV@copyright@software@lic}%
+              }
+          }
+        \else
+          \global\long\edef\@copyright@software{\expandonce\cmdKV@copyright@software}
+        \fi
+      }
+      {}
+    
+    % assume a list {license, repositorylink}
+    \ifdef{\cmdKV@copyright@data}
+      { \@tempcnta=0
+        \renewcommand*\do[1]{
+          \advance\@tempcnta1
+          \ifnum\@tempcnta=1
+            \def\cmdKV@copyright@data@lic{##1}
+          \else
+            \def\cmdKV@copyright@data@lnk{##1}
+          \fi
+        }
+        \expandafter\docsvlist\expandafter{\cmdKV@copyright@data}
+        \ifnum\@tempcnta<3
+          \global\long\edef\@copyright@data{%
+            \noexpand\noindent\if@slovene
+              Pripadajoča podatkovna zbirka je na voljo%
+            \else
+              The associated data is available%
+            \fi
+            \ifnum\@tempcnta=2
+              \ifstrequal{\expandonce\cmdKV@copyright@data@lnk}{-}%
+                {}
+                { \if@slovene na\else at\fi
+                  \space\expandonce\cmdKV@copyright@data@lnk
+                }%
+            \fi
+            \ifstrequal{\expandonce\cmdKV@copyright@data@lic}{-}
+              {.}
+              { \if@slovene pod licenco\else under the\fi
+                \space\license{\cmdKV@copyright@data@lic}%
+              }
+          }
+        \else
+          \global\long\edef\@copyright@data{\expandonce\cmdKV@copyright@data}
+        \fi
+      }
+      {}
+
+        % \noindent{Izvorna koda je ponujena pod licenco \href{https://opensource.org/licenses/mit-license.html}{MIT} in dosegljiva na \textsc{github}:\,\href{https://github.com/UL-FRI/thesis-BDR}{UL-FRI/thesis-BDR}.}\par
+        % \noindent{Podatkovna zbirka je ponujena pod licenco \href{https://opensource.org/licenses/mit-license.html}{GNU GPLv3} in dosegljiva na \doiprefix\doi{10.6084/m9.figshare.4220130.v1}.
+
+    % \ifundef{\cmdKV@copyright@content}
+
     % \hypersetup{
     %   pdfcopyright={Copyright (c) \number\year, \@author, Univerza v Ljubljani, Fakulteta za računalništvo in informatiko\if@RM, Fakulteta za matematiko in fiziko\fi.},
     %   pdflicenseurl={http://www.fri.uni-lj.si/licenses}
