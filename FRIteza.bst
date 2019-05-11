@@ -832,7 +832,7 @@ FUNCTION {format.doi}
         { "" }
         {
           new.block
-          "\arxivprefix\arXiv{" arxiv * "}" *
+          "\arxivprefix\arxiv{" arxiv * "}" *
         }
       if$
     }
@@ -1436,13 +1436,13 @@ FUNCTION {article}
       emphasize
       "journal" output.check
       add.blank
-      doi missing$
+      doi missing$ arxiv missing$ =
         { format.vol.num.pages output }
         { format.doi output }
       if$
     }
     { format.article.crossref output.nonnull
-      doi missing$
+      doi missing$ arxiv missing$ =
         { format.pages output }
         { format.doi output }
       if$
@@ -1564,7 +1564,7 @@ FUNCTION {incollection}
   new.block
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.check
-      doi missing$
+      doi missing$ arxiv missing$ =
         { format.bvolume output
           format.number.series output
           new.sentence
@@ -1576,7 +1576,7 @@ FUNCTION {incollection}
       if$
     }
     { format.incoll.inproc.crossref output.nonnull
-      doi missing$
+      doi missing$ arxiv missing$ =
         { format.chapter.pages output }
         { format.doi output }
       if$
@@ -1600,7 +1600,7 @@ FUNCTION {inproceedings}
   new.block
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.check
-      doi missing$
+      doi missing$ arxiv missing$ =
         { format.bvolume output
           format.number.series output
           new.sentence
@@ -1616,7 +1616,7 @@ FUNCTION {inproceedings}
       if$
     }
     { format.incoll.inproc.crossref output.nonnull
-      doi missing$
+      doi missing$ arxiv missing$ =
         { format.pages output }
         { format.doi output }
       if$
