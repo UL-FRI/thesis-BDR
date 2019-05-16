@@ -1382,7 +1382,7 @@
           acknowledgement has been made in the text.}
       \fi
 
-      --- \@author{} ---\\
+      --- \@author{} ---\par
       \if@slovene
         \ifcase\@month\or januar\or februar\or marec\or april\or maj\or junij\or julij\or avgust\or september\or oktober\or november\or december\fi
       \else
@@ -1392,21 +1392,67 @@
       \vspace*{\baselineskip}
 
       \if@slovene
-        \textsc{Oddajo so odobrili}
+        \textsc{Oddajo so odobrili}\par
       \else
-        \textsc{The submission has been approved by}
+        \textsc{The submission has been approved by}\par
       \fi
       \vspace*{.5\baselineskip}
 
-      % TODO: check count and make two column if page overflow
       \newcounter{aid}
       \setcounter{aid}{0}
-      \whiledo {\value{aid} < \value{approvedById}}
-      {
-        \stepcounter{aid}
-        \csname @approvedBy@\Alph{aid}\endcsname
-        \vspace*{.5\baselineskip}
-      }
+      \ifthenelse{\value{approvedById} > 4}
+        { \ifthenelse{\isodd{\value{approvedById}}}
+            { \noindent\begin{minipage}[t]{\columnwidth}%
+                \centering\@approvedBy@A
+                \vspace{\baselineskip}
+              \end{minipage}
+              \setcounter{aid}{1}
+            }
+            { \setcounter{aid}{0} }
+          \setlength\multicolsep{0pt}
+          \raggedcolumns
+          \setcounter{unbalance}{0}
+          \begin{multicols}{2}
+            \newcounter{aids}
+            \newcounter{aidO}
+            \newlength{\@ht}
+            \newlength{\@htO}
+            \whiledo {\value{aid} < \value{approvedById}}
+            { \stepcounter{aid}
+              \ifthenelse{\value{aid} > \value{approvedById}/2 + (\value{approvedById} - \value{approvedById}/2) }
+                { \setcounter{aidO}{\value{aid}-\value{approvedById}/2} }
+                { \setcounter{aidO}{\value{aid}+\value{approvedById}/2} }
+              \settototalheight{\@ht}{%
+                \noindent\begin{minipage}[t]{\columnwidth}%
+                  \centering\csname @approvedBy@\Alph{aid}\endcsname
+                  \vspace{\baselineskip}
+                \end{minipage}          
+              }
+              \settototalheight{\@htO}{%
+                \noindent\begin{minipage}[t]{\columnwidth}%
+                  \centering\csname @approvedBy@\Alph{aidO}\endcsname
+                  \vspace{\baselineskip}
+                \end{minipage}          
+              }
+              \ifthenelse{\lengthtest{\@htO > \@ht}}
+                { \setlength{\@ht}{\@htO} }
+                {}        
+              \noindent\begin{minipage}[t][\@ht]{\columnwidth}%
+                \centering\csname @approvedBy@\Alph{aid}\endcsname
+                \vspace{\baselineskip}
+              \end{minipage}
+            }%
+          \end{multicols}
+        }
+        { \par\setcounter{aid}{0}
+          \whiledo {\value{aid} < \value{approvedById}}
+          { \stepcounter{aid}
+            \noindent\begin{minipage}[t]{\columnwidth}%
+              \centering\csname @approvedBy@\Alph{aid}\endcsname
+              \vspace{\baselineskip}
+            \end{minipage}\par
+          }
+        }
     \end{centering}
   \endgroup
 }
@@ -2225,19 +2271,19 @@
   \begingroup
     \setkeys{approvedBy}{#1}
     \stepcounter{approvedById}
-    % if more than 6 issue error
+    % TODO: if more than 6 issue error
     \expandafter\xdef\csname @approvedBy@\Alph{approvedById}\endcsname{
-      #2\par
+      #2\noexpand\par
       \begingroup
         \ifundef{\cmdKV@approvedBy@title}
           {\relax}
-          {\noexpand\small\noexpand\emph{\cmdKV@approvedBy@title}\par}
+          {\noexpand\small\noexpand\emph{\cmdKV@approvedBy@title}\noexpand\par}
         \ifundef{\cmdKV@approvedBy@role}
           {\relax}
-          {\noexpand\textsc{\cmdKV@approvedBy@role}\par}
+          {\noexpand\textsc{\cmdKV@approvedBy@role}\noexpand\par}
         \ifundef{\cmdKV@approvedBy@affiliation}
           {\relax}
-          {{\cmdKV@approvedBy@affiliation}\par}
+          {{\cmdKV@approvedBy@affiliation}\noexpand\par}
       \endgroup
     }
   \endgroup
