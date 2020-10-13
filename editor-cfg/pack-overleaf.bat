@@ -12,18 +12,18 @@ SET p=%1
 if %p:~-1%==\ SET p=%p:~0,-1%
 
 :: check <directory> exists
-if NOT exist %p%\* {
+if NOT exist %p%\* (
   echo No directory named '%p%' exists. Nothing to pack.
   echo.
   exit 2
-}
+)
 
 :: pack
-if NOT exist overleaf\* {
+if NOT exist overleaf\* (
   mkdir overleaf/
-} else {
+) else (
   rm -f overleaf/%p%.zip
-}
+)
 
 zip -r overleaf/%p%.zip ./README.md
 zip -r overleaf/%p%.zip ./fonts/*
@@ -31,7 +31,7 @@ zip -r overleaf/%p%.zip ./mt-*.cfg
 zip -r overleaf/%p%.zip ./cc/*
 zip -r overleaf/%p%.zip ./FRIteza.bst
 zip -r overleaf/%p%.zip ./FRIteza.cls
-zip -r overleaf/%p%.zip ./bk9.clo
+zip -r overleaf/%p%.zip ./FRIteza.clo
 
 cd %1
 zip -r ../overleaf/%p%.zip ./* -x ./int/* -x ./out/* -x ./.*
