@@ -46,7 +46,7 @@ zip -r overleaf/$p.zip ./mt-*.cfg
 zip -r overleaf/$p.zip ./cc/*
 zip -r overleaf/$p.zip ./FRIteza.bst
 zip -r overleaf/$p.zip ./FRIteza.cls
-zip -r overleaf/$p.zip ./bk9.clo
+zip -r overleaf/$p.zip ./FRIteza.clo
 
 cd $1
 zip -r ../overleaf/$p.zip ./* -x ./int/* -x ./out/* -x ./.*
