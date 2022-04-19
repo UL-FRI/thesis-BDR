@@ -6,6 +6,10 @@
 
 For further information please read the supplied [`FRIteza.pdf`](https://github.com/UL-FRI/thesis-BDR/blob/master/FRIteza.pdf) or [`FRIteza.md`](https://github.com/UL-FRI/thesis-BDR/blob/master/FRIteza.md).
 
+### Known issues
+
+Due to changes in LaTeX core the template has compatibility issues with the latest versions of LaTeX. The best workoround at the moment is to use Overleaf, where you need to select `TeX Live version 2018`. (the issue is tracked under https://github.com/UL-FRI/thesis-BDR/issues/20).
+
 ### Quick-start
 
 Make sure to have MiKTeX installed. Follow [the tutorial](https://miktex.org/) for your platform.
