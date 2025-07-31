@@ -391,7 +391,7 @@
   \StrRemoveBraces{#1}[\str]
   \StrSplit{\str}{1}{\first}{\rest}
   \renewcommand{\LettrineFontHook}{\EBLettrineBackFont}%
-  \lettrine[lines=4,loversize=-.2,lraise=.25,findent=2pt,nindent=0pt]{%
+  \lettrine[lines=4,loversize=0.13,lraise=-.08,findent=2pt,nindent=0pt]{%
     \rlap{\color{\EBLettrineBackColor} \first}%
     {\EBLettrineFrontFont\color{\EBLettrineFrontColor} \first}%
   }%
