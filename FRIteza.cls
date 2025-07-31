@@ -1035,7 +1035,7 @@
     \fi
 
     \vfill\vfill
-    \includegraphics{cc/uni-lj-min}
+    \hspace*{1.2mm}\includegraphics{cc/ul-fri-micro}
 
     {\@place,~\number\@year}\par
   \end{centering}
@@ -1171,8 +1171,8 @@
     rectangle
     ([shift={(\trimMark,\trimMark)}]current page.south west);
     \node at
-    ([shift={(\ULc,\trimMark)}]current page.west)
-    {\includegraphics{cc/uni-lj-max-gold}};
+    ([shift={(\ULc,0)}]current page.west)
+    {\includegraphics{cc/ul-max-slo}};
 
     % spine
     \path[fill=grey65]
@@ -2500,12 +2500,12 @@
   \if@dev
     \newcommand{\rp@colorA}{P1797}
     \newcommand{\rp@color}{black}
-    \newcommand{\rp@logo}{cc/uni-lj-min}
+    \newcommand{\rp@logo}{cc/ul-fri-micro}
   \else
     \pagecolor{grey65}
     \newcommand{\rp@colorA}{white}
     \newcommand{\rp@color}{white}
-    \newcommand{\rp@logo}{cc/uni-lj-min-g65}
+    \newcommand{\rp@logo}{cc/ul-fri-micro-white}
   \fi
   \@stepChapterThumb
   \global\@showChapterThumbfalse
@@ -2541,7 +2541,7 @@
     }
 
     \vfill\vfill
-    \includegraphics{\rp@logo}
+    \hspace*{1.2mm}\includegraphics{\rp@logo}
 
     {\color{\rp@color}\@place,~\number\@year}\par
   \end{centering}
