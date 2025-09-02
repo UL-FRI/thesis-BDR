@@ -1025,8 +1025,8 @@
       { \normalsize\scshape\addfontfeature{Ligatures=Historic}{%
         to\\
         The Faculty of Computer and Information Science\\
-        in partial fulfilment of the requirements for the degree of\\
-        Doctor of Science\\
+        in partial fulfilment of the requirements for the\\
+        doctoral degree\\
         in\\
         Computer and Information Science%
         }\par
